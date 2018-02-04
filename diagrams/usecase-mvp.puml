@@ -1,0 +1,32 @@
+@startuml
+
+left to right direction
+:HS Member: as HS
+:Group Leader: as Leader
+:Board Member: as BoardMember
+:Member: as Member
+:User: as User
+:Developer: as Developer
+
+Leader <|-- HS
+BoardMember <|-- Leader
+Member <|-- BoardMember
+User <|-- Member
+
+rectangle core {
+    HS --> (See number of users in system)
+    HS --> (See all users and roles)
+}
+
+rectangle groups {
+    Leader --> (Set group open / closed)
+    BoardMember --> (Invite / kick member)
+    BoardMember -> (See group members)
+    Member --> (See what groups you belong to)
+    User --> (See open groups)
+    Developer --> (Create group)
+    Developer --> (Delete group)
+}
+
+
+@enduml

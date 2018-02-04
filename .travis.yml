@@ -1,0 +1,27 @@
+sudo: required
+
+language: python
+
+cache:
+  directories:
+    - $HOME/.cache/pip
+    
+before_cache:
+  - rm -f $HOME/.cache/pip/log/debug.log
+
+services:
+  - docker
+
+install:
+  - docker-compose --version
+
+before_script:
+  - docker-compose up --build -d
+
+script:
+  - make style
+  - make test
+  - make browser-tests
+
+after_script:
+  - docker-compose down
