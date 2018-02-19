@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'css/booking.css' %}">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+{% endblock %}
+
+{% block content %}
+<h1>Booking</h1>
+<ul>
+    {% for booking in object_list %}
+    <li>{{ booking.name }} - {{ booking.contact_date }} - {{ booking.location }}   :
+    <a href="{% url "booking_edit" booking.id %}">edit</a>
+    <a href="{% url "booking_delete" booking.id %}">delete</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url "booking_new" %}">New</a>
+
+{% endblock content %}
+
+{% block script %}
+  <script type="text/javascript" src="{% static 'js/expand_group_card.js' %}"></script>
+  <script
+  src="http://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+{% endblock script %}

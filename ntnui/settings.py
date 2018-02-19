@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django_nose',
     'hs',
     'forms',
+    'booking',
     'rules.apps.AutodiscoverRulesConfig',
 ]
 
