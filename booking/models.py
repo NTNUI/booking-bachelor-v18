@@ -13,10 +13,12 @@ class Location(models.Model):
 
 #Booking model
 class Booking(models.Model):
+    person = models.ForeignKey('accounts.User', on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     contact_date = models.DateField(_(u"Date"), blank=True)
     contact_time = models.TimeField(_(u"Time"), blank=True)
+    description = models.CharField(max_length=400, default="")
 
     def __str__(self):
         return self.name

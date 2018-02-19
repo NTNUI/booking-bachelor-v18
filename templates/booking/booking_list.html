@@ -11,11 +11,16 @@
 {% block content %}
 <h1>Booking</h1>
 <ul>
+   <p> hello {{user.get_username}}</p>
+    <p> this is your calendar</p>
     {% for booking in object_list %}
-    <li>{{ booking.name }} - {{ booking.contact_date }} - {{ booking.location }}   :
+    {% if user.get_username == booking.person.get_username %}
+
+    <li>{{ booking.name }} - {{ booking.person.get_username}} - {{ booking.contact_date }} - {{ booking.location }}   :
     <a href="{% url "booking_edit" booking.id %}">edit</a>
     <a href="{% url "booking_delete" booking.id %}">delete</a>
     </li>
+    {% endif %}
     {% endfor %}
 </ul>
 
