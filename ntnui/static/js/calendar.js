@@ -115,9 +115,9 @@ function getCurrentDay() {
 }
 
 $(document).on('click',jQuery(this).attr("id"),function(){
-  console.log(jQuery(this).attr("id"));
-  var i = jQuery(this).attr("id")
-  alert("hello" + i)
+  alert("hello")
+  console.log("hello")
 
 });
+
 

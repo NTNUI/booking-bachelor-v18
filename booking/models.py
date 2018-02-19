@@ -1,33 +1,17 @@
 from django.db import models
-from django.core.mail import send_mail
-from django.contrib.auth.models import PermissionsMixin
-from django.contrib.auth.base_user import AbstractBaseUser
-from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
-import datetime
 
-# Create your models here.
-
+#Booking model
 class Booking(models.Model):
-    date_issued = models.DateField(auto_now_add=True)
-    booking_id = models.AutoField(primary_key=True)
-    customer_number = models.ForeignKey(
-        'accounts.User',
-        on_delete=models.CASCADE,
-    )
-    location_id = models.ForeignKey(
-        'Location',
-        on_delete=models.CASCADE,
-    )
+    name = models.CharField(max_length=200)
+    location = models.CharField(max_length=200)
+    contact_date = models.DateField(_(u"Date"), blank=True)
+    contact_time = models.TimeField(_(u"Time"), blank=True)
 
-class Location(models.Model):
-    booking_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50)
-    slug = models.CharField(max_length=12)
-    description = models.TextField(max_length=200)
+    def __unicode__(self):
+        return self.name
 
-
-
-
-
+    def get_absolute_url(self):
+        return reverse('booking_edit', kwargs={'pk': self.pk})
 
