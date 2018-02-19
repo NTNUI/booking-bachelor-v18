@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponse
 from booking.models import Booking
@@ -10,7 +11,7 @@ from django.core.urlresolvers import reverse_lazy
 # Create your views here.
 
 
-
+@login_required
 def index(request):
 
     return render(request, 'booking/booking.html')
