@@ -7,5 +7,5 @@ urlpatterns = [
     url(r'^new$', views.BookingCreate.as_view(), name='booking_new'),
     url(r'^edit/(?P<pk>\d+)$', views.BookingUpdate.as_view(), name='booking_edit'),
     url(r'^delete/(?P<pk>\d+)$', views.BookingDelete.as_view(), name='booking_delete'),
-    url(r'^booking/create?$', views.booking_create, name='booking_create')
+
 ]
