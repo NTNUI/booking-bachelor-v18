@@ -34,7 +34,7 @@ class BookingCreate(CreateView):
     fields = ['person', 'name', 'location', 'contact_date', 'contact_time', 'description']
     def get_initial(self):
 
-        return {"name": ""}
+        return {'name': ''}
 
 class BookingUpdate(UpdateView):
     model = Booking

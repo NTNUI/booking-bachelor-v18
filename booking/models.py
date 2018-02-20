@@ -1,3 +1,5 @@
+from datetime import date, datetime
+
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -16,9 +18,9 @@ class Booking(models.Model):
     person = models.ForeignKey('accounts.User', on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
-    contact_date = models.DateField(_(u"Date"), blank=True)
-    contact_time = models.TimeField(_(u"Time"), blank=True)
-    description = models.CharField(max_length=400, default="")
+    contact_date = models.DateField(_(u'Date'), blank=True, default=date.today().strftime('%m/%d/%Y'))
+    contact_time = models.TimeField(_(u'Time'), blank=True, default=datetime.now())
+    description = models.CharField(max_length=400, default='')
 
     def __str__(self):
         return self.name
