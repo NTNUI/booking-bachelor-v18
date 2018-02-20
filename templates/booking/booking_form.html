@@ -2,11 +2,11 @@
   {% csrf_token %}
     {{ form.file_name }}
     <table>
-        {{form.name}}
+       name: {{form.name}}
         {{form.person.as_hidden}}
-        {{form.location}}
-        {{form.contact_date}}
-        {{form.contact_time}}
+       location {{form.location}}
+       date {{form.contact_date}}
+       time {{form.contact_time}}
     </table>
     <input type="submit" value="Submit">
 </form>
