@@ -29,26 +29,124 @@ function monthsAsString(monthIndex) {
     return ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][monthIndex];
 }
 
+function daySchedule(){
+    //var scheduleTable = document.getElementById("scheduleTable");
+    var scheduleTable = document.createElement("table");
+    scheduleTable.id = "scheduleTable";
+    var titlerow = scheduleTable.insertRow(0);
+    var times = titlerow.insertCell(0);
+    var bookings = titlerow.insertCell(1);
+    times.innerHTML = "Tider";
+    bookings.innerHTML = "Aktiviter";
+    for(i=0;i<5;i++){
+        var rows = scheduleTable.insertRow(i+1);
+        var time = rows.insertCell(0);
+        time.id = 8+i;
+        time.innerHTML = Math.floor((8+(i/2)))+':'+((i%2/2)*60);
+        var booking = rows.insertCell(1);
+        booking.innerHTML = "Trening";
+    }
+    return scheduleTable;
+}
+
+function createBookingForm(){
+    var bookingForm = document.createElement("form");
+    var bookingFormTable = document.createElement("table");
+    var bookingFormInput = document.createElement("input");
+    bookingFormInput.type = "submit";
+    bookingFormInput.value = "submit";
+    bookingForm.action = "";
+    bookingForm.method = "post";
+    bookingForm.enctype = "multipart/form-data";
+    bookingForm.innerHTML = "{% csrf_token %} {{ form.file_name }}"
+    bookingFormTable.innerHTML = "name: {{form.name}}{{form.person.as_hidden}}location {{form.location}}date {{form.contact_date}}time {{form.contact_time}}"
+    bookingForm.appendChild(bookingFormTable);
+    bookingForm.appendChild(bookingFormInput);
+
+    return bookingForm;
+}
+
 // Creates a day element
-function createCalendarDay(num, day, mon, year) {
+function createCalendarDay(num, day, mon, year, abailable) {
     var currentCalendar = document.getElementById("calendar");
 
     var newDay = document.createElement("div");
     var date = document.createElement("p");
     var dayElement = document.createElement("p");
+    var availability = document.createElement("h1");
+    //popup elements
+    var popupTag = document.createElement("div");
+    var popupContent = document.createElement("div");
+    var popupSpan = document.createElement("span");
+    var popupInfo = document.createElement("h1")
+    popupTag.className = "modal-large";
+    popupContent.className = "modal-content";
+    popupSpan.className = "close";
+    popupSpan.style.width = "2%"
+    popupInfo.className = "dayInfo";
+    popupSpan.innerHTML = "&times;"
+    popupInfo.innerHTML = day + " den " + num + ". " + mon + ' ' + year +  '. Dette er en test.';
+    popupContent.appendChild(popupSpan);
+    popupContent.appendChild(popupInfo);
+    popupTag.appendChild(popupContent);
 
+    
+
+    available = true;
     date.innerHTML = num;
-    dayElement.innerHTML = day;
+    dayElement.innerHTML = ' ' + day;
+    if(available == true){
+        availability.innerHTML = "LEDIG";
+        availability.style.color = "green";
+
+    } else {
+        availability.innerHTML = "FULLT";
+        availability.style.color = "red";
+    }
 
     newDay.className = "calendar-day ";
 
     // Set ID of element as date formatted "8-January" etc
     newDay.id = num + "-" + mon + "-" +year;
-
-    newDay.appendChild(date);
+    popupTag.id = "popup"+newDay.id;
+    currentCalendar.style.width = "100%;"
+    popupSpan.id = "span"+newDay.id;
+    newDay.appendChild(date)
     newDay.appendChild(dayElement);
+    newDay.appendChild(availability);
     currentCalendar.appendChild(newDay);
-}
+    document.body.appendChild(popupTag);
+
+    // popup
+
+    var modal = document.getElementById(popupTag.id);
+    var btn = document.getElementById(newDay.id);
+    var span = document.getElementById(popupSpan.id);
+    //popupContent.appendChild(popupInfo);
+    btn.onclick = function() {
+        modal.style.display = "block";
+        console.log("open");
+    }
+    span.onclick = function() {
+        modal.style.display = "none";
+        console.log("close");
+    }
+    popupTag.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+    }
+    }
+
+    // apply info to popup
+    popupInfo.appendChild(daySchedule());
+    popupInfo.appendChild(createBookingForm());
+
+
+};
+
+
+
+
 
 // Clears all days from the calendar
 function clearCalendar() {
@@ -115,9 +213,9 @@ function getCurrentDay() {
 }
 
 $(document).on('click',jQuery(this).attr("id"),function(){
-  alert("hello")
   console.log("hello")
 
 });
+
 
 

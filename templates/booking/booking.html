@@ -9,23 +9,42 @@
 {% endblock %}
 
 {% block content %}
-   <div class="container">
+    <div id="filtering">
+    <form>
+    <div class="form-inline">
+      <select class="form-control" id="sel1">
+        <option disabled selected value>Sted</option>
+        <option>Gløshaugen</option>
+        <option>Dødens Dal</option>
+        <option>Lade</option>
+      </select>
+      <select class="form-control" id="sel1">
+        <option disabled selected value>Type</option>
+        <option>Gymsal</option>
+        <option>Squash</option>
+        <option>Fotballbane</option>
+      </select>
+              <select class="form-control" id="sel1">
+        <option disabled selected value>Lengde</option>
+        <option value="30">30 min</option>
+        <option value="60">60 min</option>
+        <option value="90">90 min</option>
+        <option value="120">120 min</option>
+        <option value="150">150 min</option>
+        <option value="180">180 min</option>
+      </select>
+        <button class="btn btn-success">Search</button>
+    </div>
+    </form>
+   </div>
+        <div class="container">
         <div class="controls">
             <p class="next label" onclick="nextMonth()"><i class="fa fa-arrow-right"></i></p>
             <p class="previous label" onclick="previousMonth()"><i class="fa fa-arrow-left"></i></p>
             <p id="current-month" class="label bold">January</p>
         </div>
-
         <div class="calendar" id="calendar">
-<div id="myModal" class="modal">
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p>Some text in the Modal..</p>
-  </div>
-
-</div>
         </div>
     </div>
 
