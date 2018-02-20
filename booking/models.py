@@ -11,6 +11,7 @@ class Booking(models.Model):
     contact_date = models.DateField(_(u"Date"), blank=True)
     contact_time = models.TimeField(_(u"Time"), blank=True)
 
+
     def __unicode__(self):
         return self.name
 
