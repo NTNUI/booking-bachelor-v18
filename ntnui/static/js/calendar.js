@@ -30,36 +30,12 @@ function monthsAsString(monthIndex) {
 }
 
 function daySchedule(){
-    //var scheduleTable = document.getElementById("scheduleTable");
-    var scheduleTable = document.createElement("table");
-    scheduleTable.id = "scheduleTable";
-    var titlerow = scheduleTable.insertRow(0);
-    var times = titlerow.insertCell(0);
-    var bookings = titlerow.insertCell(1);
-    times.innerHTML = "Tider";
-    bookings.innerHTML = "Aktiviter";
-    for(i=0;i<5;i++){
-        var rows = scheduleTable.insertRow(i+1);
-        var time = rows.insertCell(0);
-        time.id = 8+i;
-        time.innerHTML = Math.floor((8+(i/2)))+':'+((i%2/2)*60);
-        var booking = rows.insertCell(1);
-        booking.innerHTML = "Trening";
-    }
+
     return scheduleTable;
 }
 
 function createBookingForm(){
-    var bookingForm = document.createElement("form");
-    var bookingFormTable = document.createElement("table");
-    var bookingFormInput = document.createElement("input");
-    bookingFormInput.type = "submit";
-    bookingFormInput.value = "submit";
-    bookingForm.action = "";
-    bookingForm.method = "post";
-    bookingForm.enctype = "multipart/form-data";
-    bookingForm.appendChild(bookingFormTable);
-    bookingForm.appendChild(bookingFormInput);
+
 
     return bookingForm;
 }
@@ -79,11 +55,6 @@ function createCalendarDay(num, day, mon, year, abailable) {
     var popupInfo = document.createElement("h1")
     popupTag.className = "modal-large";
     popupContent.className = "modal-content";
-    popupSpan.className = "close";
-    popupSpan.style.width = "2%"
-    popupInfo.className = "dayInfo";
-    popupSpan.innerHTML = "&times;"
-    popupInfo.innerHTML = day + " den " + num + ". " + mon + ' ' + year +  '. Dette er en test.';
     popupContent.appendChild(popupSpan);
     popupContent.appendChild(popupInfo);
     popupTag.appendChild(popupContent);
@@ -124,6 +95,7 @@ function createCalendarDay(num, day, mon, year, abailable) {
     btn.onclick = function() {
         modal.style.display = "block";
         $(".modal-content").load("new");
+
         console.log("open");
     }
     span.onclick = function() {
@@ -137,8 +109,7 @@ function createCalendarDay(num, day, mon, year, abailable) {
     }
 
     // apply info to popup
-    popupInfo.appendChild(daySchedule());
-    popupInfo.appendChild(createBookingForm());
+
 
 
 };

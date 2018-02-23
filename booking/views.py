@@ -17,14 +17,14 @@ class BookingList(ListView):
 class BookingCreate(CreateView):
     model = Booking
     success_url = reverse_lazy('booking')
-    fields = ['person', 'name', 'location', 'contact_date', 'contact_time', 'description']
+    fields = ['person', 'location', 'start', 'end', 'description']
     def get_initial(self):
         return {'person': self.request.user}
 
 class BookingUpdate(UpdateView):
     model = Booking
     success_url = reverse_lazy('booking_list')
-    fields = ['name', 'location', 'contact_date', 'contact_time', 'description']
+    fields = ['location', 'start', 'end', 'description']
 
 class BookingDelete(DeleteView):
     model = Booking

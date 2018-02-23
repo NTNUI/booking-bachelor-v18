@@ -17,10 +17,9 @@ class Location(models.Model):
 #Booking model
 class Booking(models.Model):
     person = models.ForeignKey('accounts.User', on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=200)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
-    contact_date = models.DateField(_(u'Date'), blank=True, default=date.today().strftime('%m/%d/%Y'))
-    contact_time = models.TimeField(_(u'Time'), blank=True, default=datetime.now())
+    start = models.DateTimeField(_(u'Start'), blank=True)
+    end = models.DateTimeField(_(u'End'), blank=True)
     description = models.CharField(max_length=400, default='')
 
     def __unicode__(self):
