@@ -12,6 +12,7 @@
     <div id="filtering">
     <form>
     <div class="form-inline">
+
       <select class="form-control" id="sel1">
         <option disabled selected value>Sted</option>
         <option>Gløshaugen</option>
@@ -51,6 +52,7 @@
 {% endblock content %}
 
 {% block script %}
+  <script src="http://malsup.github.com/jquery.form.js"></script>
   <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/expand_group_card.js' %}"></script>
   <script

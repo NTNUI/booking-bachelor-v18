@@ -58,8 +58,6 @@ function createBookingForm(){
     bookingForm.action = "";
     bookingForm.method = "post";
     bookingForm.enctype = "multipart/form-data";
-    bookingForm.innerHTML = "{% csrf_token %} {{ form.file_name }}"
-    bookingFormTable.innerHTML = "name: {{form.name}}{{form.person.as_hidden}}location {{form.location}}date {{form.contact_date}}time {{form.contact_time}}"
     bookingForm.appendChild(bookingFormTable);
     bookingForm.appendChild(bookingFormInput);
 
@@ -125,6 +123,7 @@ function createCalendarDay(num, day, mon, year, abailable) {
     //popupContent.appendChild(popupInfo);
     btn.onclick = function() {
         modal.style.display = "block";
+        $(".modal-content").load("new");
         console.log("open");
     }
     span.onclick = function() {

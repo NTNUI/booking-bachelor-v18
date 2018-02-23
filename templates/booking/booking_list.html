@@ -2,6 +2,15 @@
 
 {% load static %}
 
+{% block extra_js%}
+    <script
+  src="http://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+{% endblock %}
+
+
 {% block stylesheet %}
   <link rel="stylesheet" href="{% static 'css/booking.css' %}">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -11,6 +20,19 @@
 {% block content %}
 <h1>Booking</h1>
 <ul>
+    <p>Click <a data-toggle="modal" data-target="#modal" href="{% url 'news-create' %}">here</a> to show the modal</p>
+    <div class="modal fade" id="modal"></div>
+    <script>
+        $('#modal').on('show.bs.modal', function (event) {
+            var modal = $(this)
+            $.ajax({
+                url: "{% url 'news-create' %}",
+                context: document.body
+            }).done(function(response) {
+                modal.html(response);
+            });
+        })
+    </script>
    <p> hello {{user.get_username}}</p>
     <p> this is your calendar</p>
     {% for booking in object_list %}
@@ -30,8 +52,5 @@
 
 {% block script %}
   <script type="text/javascript" src="{% static 'js/expand_group_card.js' %}"></script>
-  <script
-  src="http://code.jquery.com/jquery-3.3.1.js"
-  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-  crossorigin="anonymous"></script>
+
 {% endblock script %}
