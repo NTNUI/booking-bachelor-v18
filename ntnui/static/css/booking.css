@@ -122,6 +122,20 @@
     flex-wrap:
 }
 
+
 form {
     display: grid;
+}
+
+#scheduleTable {
+    font-size:50%;
+    width:25%;
+    display: flex;
+    justify-content: left;
+    margin-top:2%;
+}
+
+.borderless td {
+    border:none;
+    width:50%;
 }
