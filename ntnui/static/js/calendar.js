@@ -29,27 +29,46 @@ function monthsAsString(monthIndex) {
     return ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][monthIndex];
 }
 
-function daySchedule(){
+function daySchedule(bookingTime, bookingLengths){
     //var scheduleTable = document.getElementById("scheduleTable");
+    bookingTime = 15;
+    bookingLengths = 5;
     var scheduleTable = document.createElement("table");
+    scheduleTable.className = "table borderless";
     scheduleTable.id = "scheduleTable";
     var titlerow = scheduleTable.insertRow(0);
     var times = titlerow.insertCell(0);
+    titlerow.style.fontWeight =  'bold';
     var bookings = titlerow.insertCell(1);
     times.innerHTML = "Tider";
     bookings.innerHTML = "Aktiviter";
-    for(i=0;i<5;i++){
+    var bookingStart = "kødder";
+    var bookingEnd = "slapper av";
+    for(i=0;i<31;i++){
         var rows = scheduleTable.insertRow(i+1);
         var time = rows.insertCell(0);
-        time.id = 8+i;
-        time.innerHTML = Math.floor((8+(i/2)))+':'+((i%2/2)*60);
+        rows.id = 8+i/2;
+        var extravariable = ''
+        if(Math.floor((8+(i/2)))<10){extravariable= '0'};
+        time.innerHTML = extravariable + Math.floor((8+(i/2)))+':'+(((i%2/2)*60) + '0')[0] + (((i%2/2)*60) + '0')[1];
         var booking = rows.insertCell(1);
-        booking.innerHTML = "Trening";
+        booking.innerHTML = ' ';
+        booking.id = "booking"+(8+i/2);
+        console.log(+bookingLengths+ +bookingTime);
+        if(rows.id == bookingTime){
+            booking.innerHTML = bookingStart;
+
+        } if(rows.id == bookingTime+(bookingLengths-0.5)){
+            booking.innerHTML = bookingEnd;
+        }if(rows.id>=bookingTime && rows.id<=bookingTime+(bookingLengths-0.5)){
+            booking.style.backgroundColor = "green";
+        }
     }
+
     return scheduleTable;
 }
 
-function createBookingForm(){
+/*function createBookingForm(){
     var bookingForm = document.createElement("form");
     var bookingFormTable = document.createElement("table");
     var bookingFormInput = document.createElement("input");
@@ -58,13 +77,16 @@ function createBookingForm(){
     bookingForm.action = "";
     bookingForm.method = "post";
     bookingForm.enctype = "multipart/form-data";
-    bookingForm.innerHTML = "{% csrf_token %} {{ form.file_name }}"
-    bookingFormTable.innerHTML = "name: {{form.name}}{{form.person.as_hidden}}location {{form.location}}date {{form.contact_date}}time {{form.contact_time}}"
+    bookingForm.innerHTML = '{% csrf_token %}{{ form.file_name }}'
+    bookingFormTable.innerHTML = 'name: {{form.name}}{{form.person.as_hidden}}location {{form.location}}date {{form.contact_date}}time {{form.contact_time}}'
     bookingForm.appendChild(bookingFormTable);
     bookingForm.appendChild(bookingFormInput);
 
     return bookingForm;
-}
+} */
+
+
+
 
 // Creates a day element
 function createCalendarDay(num, day, mon, year, abailable) {
@@ -137,15 +159,14 @@ function createCalendarDay(num, day, mon, year, abailable) {
     }
     }
 
+
     // apply info to popup
     popupInfo.appendChild(daySchedule());
-    popupInfo.appendChild(createBookingForm());
+    //popupInfo.appendChild(createBookingForm());
+
 
 
 };
-
-
-
 
 
 // Clears all days from the calendar
@@ -216,6 +237,7 @@ $(document).on('click',jQuery(this).attr("id"),function(){
   console.log("hello")
 
 });
+// Create activity for table
 
 
 
