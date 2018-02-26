@@ -18,9 +18,15 @@
 {% endblock %}
 
 {% block content %}
-<h1>Booking</h1>
-<ul>
-    <p>Click <a data-toggle="modal" data-target="#modal" href="{% url 'news-create' %}">here</a> to show the modal</p>
+<div class="my_bookings">
+    <h1 class="my_bookings_header">
+        My bookings
+    </h1>
+
+<div class="my_bookings_box">
+<ul class="list-group">
+
+<!--    <p>Click <a data-toggle="modal" data-target="#modal" href="{% url 'news-create' %}">here</a> to show the modal</p>
     <div class="modal fade" id="modal"></div>
     <script>
         $('#modal').on('show.bs.modal', function (event) {
@@ -33,21 +39,31 @@
             });
         })
     </script>
-   <p> hello {{user.get_username}}</p>
-    <p> this is your calendar</p>
+
+-->
+
+ <p> Hello {{user.get_username}}<button class="btn btn-outline-primary btn-sm"><a href="{% url "booking_new" %}">New booking</a></button></p>
+    <p> This is your calendar</p>
+
+
     {% for booking in object_list %}
     {% if user.get_username == booking.person.get_username %}
 
-    <li>{{ booking.name }} - {{ booking.person.get_username}} - {{ booking.contact_date }} - {{ booking.location }}   :
-    <a href="{% url "booking_edit" booking.id %}">edit</a>
-    <a href="{% url "booking_delete" booking.id %}">delete</a>
+    <li class="list-group-item ">
+        Booking: {{ booking.name }}
+        </br> Username: {{ booking.person.get_username}}
+        </br> Time: {{ booking.contact_date }}
+        </br> Location: {{ booking.location }}
+        </br>
+   <button class="btn btn-outline-primary btn-sm"><a href="{% url "booking_edit" booking.id %}">Edit</a></button>
+    <button class="btn btn-outline-primary btn-sm"><a href="{% url "booking_delete" booking.id %}">Delete</a></button>
     </li>
     {% endif %}
     {% endfor %}
+
 </ul>
-
-<a href="{% url "booking_new" %}">New</a>
-
+</div>
+</div>
 {% endblock content %}
 
 {% block script %}
