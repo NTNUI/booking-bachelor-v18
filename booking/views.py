@@ -15,6 +15,18 @@ def index(request):
 class BookingList(ListView):
     model = Booking
 
+    def all(request):
+        locations = []
+        bookings = []
+        for location in list(Location.objects.filter()):
+            locations.append(location.name)
+        for booking in list(Booking.objects.filter()):
+            bookings.append(booking)
+        return render(request, 'booking/booking_list.html', {
+            'locations': locations,
+            'bookings': bookings, })
+
+@login_required
 def BookingAll(request):
         locations = []
         bookings = []
@@ -25,6 +37,7 @@ def BookingAll(request):
         return render(request, 'booking/booking_all_list.html', {
             'locations': locations,
             'bookings': bookings, })
+
 
 class BookingCreate(CreateView):
     model = Booking
