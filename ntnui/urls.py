@@ -10,8 +10,11 @@ from django.contrib.auth import views as auth_views
 
 from accounts import views as accounts_views
 from groups import views as groups_views
+from booking import views
+
 
 urlpatterns = [
+    url(r'^booking/', include('booking.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^ajax/', include('forms.ajax')),
     url(r'^$', groups_views.list_groups, name='home'),

@@ -1,0 +1,12 @@
+<form action="new" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+    {{ form.file_name }}
+    <table>
+        {{form.person.as_hidden}}
+       location {{form.location}}
+       Start {{form.start}}
+       End {{form.end}}
+        description {{form.description}}
+    </table>
+    <input type="submit" value="Submit">
+</form>

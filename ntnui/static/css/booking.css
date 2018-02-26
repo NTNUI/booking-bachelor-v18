@@ -1,0 +1,141 @@
+.calendar {
+    display: block;
+    width:100%;
+
+}
+.calendar-day {
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 2px 8px;
+    width: 12%;
+    margin: 1%;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    border: solid 1px #fff;
+}
+.calendar-day p {
+    display: inline;
+}
+.calendar-day h1{
+    font-size: 100%;
+    margin-top:10%;
+    padding-bottom: 40%;
+}
+
+.calendar-day:hover {
+    background: #eee;
+}
+.controls {
+    display: block;
+    width: 98%;
+    text-align: center;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.today {
+    font-weight: bold;
+    color: #333;
+    border: solid 1px #333;
+}
+.label {
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 20px;
+    line-height: 2px;
+    margin: 1%;
+    font-weight: bold;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    border: solid 1px #fff;
+}
+.previous {
+    float: left;
+}
+.next {
+    float: right;
+}
+/* Quick Fix */
+
+.label i {
+    line-height: 0;
+}
+.github {
+    font-size: 3em;
+    color: #aaa;
+    text-decoration: none;
+    text-align: center;
+}
+
+/* The Modal (background) */
+.modal-large {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    margin: 15% auto;
+    margin-top: 0;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.container {
+    width:100%;
+}
+
+#filtering {
+    margin-right:1.5%;
+    margin-top:1%;
+}
+
+.form-control {
+    display:flex;
+    flex-wrap:
+}
+
+
+form {
+    display: grid;
+}
+
+#scheduleTable {
+    font-size:50%;
+    width:25%;
+    display: flex;
+    justify-content: left;
+    margin-top:2%;
+}
+
+.borderless td {
+    border:none;
+    width:50%;
+}
