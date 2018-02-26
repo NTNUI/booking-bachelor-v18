@@ -18,18 +18,14 @@
 {% endblock %}
 
 {% block content %}
-<h1>Booking</h1>
+<h1>All bookings</h1>
 <ul>
-   <p> hello {{user.get_username}}</p>
-    <p>These are your bookings</p>
-    {% for booking in object_list %}
-    {% if user.get_username == booking.person.get_username %}
-
-    <li>{{ booking.name }} - {{ booking.person.get_username}} - {{ booking.contact_date }} - {{ booking.location }} - {{ booking.description }}   :
-    <a href="{% url "booking_edit" booking.id %}">edit</a>
-    <a href="{% url "booking_delete" booking.id %}">delete</a>
+    <p>Welcome {{user.first_name}} {{ user.last_name }}</p>
+    <p>These are all the bookings registered to date</p>
+    {% for booking in bookings %}
+    <li>{{ booking.name }} - {{ booking.person.get_username}} - {{ booking.contact_date }} - {{ booking.location }} -
+        {{ booking.description }}  :
     </li>
-    {% endif %}
     {% endfor %}
 </ul>
 
