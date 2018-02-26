@@ -37,3 +37,4 @@ class NewsCreateView(CreateView):
     def form_valid(self, form):
         self.object = form.save()
         return render(self.request, reverse_lazy('booking_list'), {'news': self.object})
+

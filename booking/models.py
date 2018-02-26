@@ -28,6 +28,3 @@ class Booking(models.Model):
     def get_absolute_url(self):
         return reverse('booking_edit', kwargs={'pk': self.pk})
 
-
-
-
