@@ -18,9 +18,16 @@
 {% endblock %}
 
 {% block content %}
-<h1>Booking</h1>
-<ul>
-    <p>Click <a data-toggle="modal" data-target="#modal" href="{% url 'news-create' %}">here</a> to show the modal</p>
+<div class="myBookings">
+    <h1 class="myBookingsHeader">
+        My bookings
+    </h1>
+
+<div class="myBookingsBox">
+<ul class="list-group">
+
+
+<!--<p>Click <a data-toggle="modal" data-target="#modal" href="{% url 'news-create' %}">here</a> to show the modal</p>
     <div class="modal fade" id="modal"></div>
     <script>
         $('#modal').on('show.bs.modal', function (event) {
@@ -32,25 +39,38 @@
                 modal.html(response);
             });
         })
+
     </script>
-   <p> hello {{user.get_username}}</p>
-    <p> this is your calendar</p>
+-->
+
+ <p> Hello, {{user.get_username}}<a href = "{% url "booking_new" %}">
+     <button class="btn btn-outline-primary btn-sm" id = "newBookingButton">New booking</button></a></p>
+
+<!-- Get all bookings for your user -->
     {% for booking in object_list %}
     {% if user.get_username == booking.person.get_username %}
 
-    <li>{{ booking.name }} - {{ booking.person.get_username}} - {{ booking.contact_date }} - {{ booking.location }}   :
-    <a href="{% url "booking_edit" booking.id %}">edit</a>
-    <a href="{% url "booking_delete" booking.id %}">delete</a>
+    <br class="list-group-item ">
+        <h5 class = "title-description">{{ booking.description}}</h5>
+        Username: {{ booking.person.get_username}}
+        </br> Start time: {{ booking.start}}
+        </br> End time: {{ booking.end }}
+        </br> Location: {{ booking.location }}
+        <p>
+        <button class="btn btn-outline-primary btn-sm" id = "editButton">Edit</button>
+        <button class="btn btn-outline-primary btn-sm" id = "deleteButton">Delete</button>
+        </p>
     </li>
     {% endif %}
     {% endfor %}
+
+
 </ul>
-
-<a href="{% url "booking_new" %}">New</a>
-
+</div>
+</div>
 {% endblock content %}
 
 {% block script %}
   <script type="text/javascript" src="{% static 'js/expand_group_card.js' %}"></script>
-
+  <script type="text/javascript" src="{% static 'js/myBookings.js' %}"></script>
 {% endblock script %}
