@@ -110,7 +110,6 @@
 
 .form-control {
     display:flex;
-    flex-wrap:
 }
 
 
@@ -145,14 +144,20 @@ form {
     background: white;
 }
 
-.dropdown-divider {
-    color: black;
+.filter-header{
+    font-weight: bold;
+    font-size: 17px;
+    margin-bottom: 10px;
 }
 
-/* Container widths for different screens*/
-$container-max-widths: (
-  sm: 540px,
-  md: 720px,
-  lg: 960px,
-  xl: 1140px
-)
+.large-checkbox {
+    width: 15px;
+    height: 15px;
+}
+.checkboxtext
+{
+  /* Checkbox text */
+  font-size: 110%;
+  display: inline;
+}
+
