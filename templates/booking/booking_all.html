@@ -18,31 +18,29 @@
 {% endblock %}
 
 {% block content %}
-<h1>All bookings</h1>
-<ul>
-    <p>Welcome {{user.first_name}} {{ user.last_name }}</p>
-    <p>These are all the bookings registered to date</p>
-  <form method="get">
-    {{ filter.form.as_p }}
-    <button id="filterButton" type="submit">Filter</button>
-  </form>
-  <ul>
-
-  </ul>
+    <h1>All bookings</h1>
+    <ul>
+        <p>Welcome {{user.first_name}} {{ user.last_name }}</p>
+        <h3>These are all the bookings registered by all users</h3>
+        <p>Filter the results:</p>
+        <form method='get'>
+            {{ filter.form.as_p }}
+            <button id='filterButton' type='submit'>Filter</button>
+        </form>
+    </ul>
+    <ul>
     {% for booking in filter.qs %}
-        {% if booking.person.first_name != 'Hgenrik'  %}
             <li>{{ booking.person }} - {{ booking.start }} - {{ booking.location }} -
                 {{ booking.description }}  :
             </li>
-        {% endif %}
-{% endfor %}
-</ul>
+    {% endfor %}
+    </ul>
 
-<a href="{% url "booking_new" %}">New</a>
+    <a href='{% url 'booking_new' %}'>New</a>
 
 {% endblock content %}
 
 {% block script %}
-  <script type="text/javascript" src="{% static 'js/expand_group_card.js' %}"></script>
+  <script type='text/javascript' src='{% static 'js/expand_group_card.js' %}'></script>
 
 {% endblock script %}
