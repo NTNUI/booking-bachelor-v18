@@ -23,11 +23,9 @@
     <p>Welcome {{user.first_name}} {{ user.last_name }}</p>
     <p>These are all the bookings registered to date</p>
     {% for booking in bookings %}
-        {% if booking.person.first_name == 'Henrik' %}
             <li>{{ booking.person }} - {{ booking.start }} - {{ booking.location }} -
                 {{ booking.description }}  :
             </li>
-        {% endif %}
     {% endfor %}
 </ul>
 
