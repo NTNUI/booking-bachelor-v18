@@ -1,10 +1,13 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from .models import Booking
+from requests import request
 
+from accounts.models import User
+from booking.filters import LocationFilter, UserFilter
+from .models import Booking, Location
 
 
 @login_required
@@ -13,6 +16,32 @@ def index(request):
 
 class BookingList(ListView):
     model = Booking
+
+    def all(request):
+        locations = []
+        bookings = []
+        for location in list(Location.objects.filter()):
+            locations.append(location.name)
+        for booking in list(Booking.objects.filter()):
+            bookings.append(booking)
+        return render(request, 'booking/booking_list.html', {
+            'locations': locations,
+            'bookings': bookings, })
+
+@login_required
+def BookingAll(request):
+        locations = []
+        bookings = []
+        location_list = Booking.objects.all()
+        location_filter = LocationFilter(request.GET, queryset=location_list)
+        for location in list(Location.objects.filter()):
+            locations.append(location.name)
+        for booking in list(Booking.objects.filter()):
+            bookings.append(booking)
+        return render(request, 'booking/booking_all.html', {
+            'locations': locations,
+            'bookings': bookings,
+            'filter': location_filter, })
 
 class BookingCreate(CreateView):
     model = Booking
@@ -37,4 +66,3 @@ class NewsCreateView(CreateView):
     def form_valid(self, form):
         self.object = form.save()
         return render(self.request, reverse_lazy('booking_list'), {'news': self.object})
-
