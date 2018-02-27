@@ -164,8 +164,24 @@ form {
     position: relative;
     align-items: center;
 }
+
+.list-group{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 .my_bookings {
     display: flex;
     flex-direction: column;
     width: 60%;
+}
+
+.btn {
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+#newBookingButton {
+    float: right;
 }

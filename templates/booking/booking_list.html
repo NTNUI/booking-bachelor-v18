@@ -42,21 +42,22 @@
 
 -->
 
- <p> Hello {{user.get_username}}<button class="btn btn-outline-primary btn-sm"><a href="{% url "booking_new" %}">New booking</a></button></p>
-    <p> This is your calendar</p>
+ <p> Hello, {{user.get_username}}<a href = "{% url "booking_new" %}">
+     <button class="btn btn-outline-primary btn-sm" id = "newBookingButton">New booking</button></a></p>
 
 
     {% for booking in object_list %}
     {% if user.get_username == booking.person.get_username %}
 
     <li class="list-group-item ">
-        Booking: {{ booking.name }}
-        </br> Username: {{ booking.person.get_username}}
-        </br> Time: {{ booking.contact_date }}
+        <h5 class = "title-description">{{ booking.description}}</h5>
+        Username: {{ booking.person.get_username}}
+        </br> Time start: {{ booking.start}}
+        </br> Time end: {{ booking.end }}
         </br> Location: {{ booking.location }}
         </br>
-   <button class="btn btn-outline-primary btn-sm"><a href="{% url "booking_edit" booking.id %}">Edit</a></button>
-    <button class="btn btn-outline-primary btn-sm"><a href="{% url "booking_delete" booking.id %}">Delete</a></button>
+    <a href="{% url "booking_edit" booking.id %}"><button class="btn btn-outline-primary btn-sm">Edit</button></a>
+    <a href="{% url "booking_delete" booking.id %}"><button class="btn btn-outline-primary btn-sm">Delete</button></a>
     </li>
     {% endif %}
     {% endfor %}
