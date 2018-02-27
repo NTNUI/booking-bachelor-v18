@@ -18,26 +18,27 @@
 {% endblock %}
 
 {% block content %}
-    <h1>All bookings</h1>
-    <ul>
-        <p>Welcome {{user.first_name}} {{ user.last_name }}</p>
-        <h3>These are all the bookings registered by all users</h3>
+    <div class="myBookings">
+        <h1 class="myBookingsHeader">All bookings</h1>
         <p>Filter the results:</p>
         <form method='get'>
             {{ filter.form.as_p }}
             <button id='filterButton' type='submit'>Filter</button>
         </form>
-    </ul>
-    <ul>
-    {% for booking in filter.qs %}
-            <li>{{ booking.person }} - {{ booking.start }} - {{ booking.location }} -
-                {{ booking.description }}  :
-            </li>
+    <div class="myBookingsBox">
+    <ul class="list-group">
+        {% for booking in filter.qs %}
+            <br class="list-group-item ">
+            <h5 class = "title-description">{{ booking.description}}</h5>
+            Username: {{ booking.person.get_username}}
+            </br> Start time: {{ booking.start}}
+            </br> End time: {{ booking.end }}
+            </br> Location: {{ booking.location }}
+            <p></p>
     {% endfor %}
     </ul>
-
-    <a href='{% url 'booking_new' %}'>New</a>
-
+    </div>
+    </div>
 {% endblock content %}
 
 {% block script %}
