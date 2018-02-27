@@ -20,13 +20,46 @@ document.onkeydown = function(evt) {
     }
 };
 
+// Gets bookings from the booking API. Will run once the page DOM is ready (the calendar is loaded)
+    $(document).ready(function () {
+    $.ajax({
+        type: "GET",
+        url: "/booking/api",
+        success: function (text) {
+            // pass down variable temp to the next jQuery function
+            var temp = text;
+            // Executes when the 'success' event is triggered.
+            $(window).bind('load', function(text) {
+                    // pass down variable to the next jQuery function
+                    var temp2 = temp;
+                    // iterate through calendar-day div classes
+                    $('.calendar-day ').each(function(i, obj, text) {
+                        var temp3 = temp2;
+                        // iterate through bookings
+                        for(i=0;i<temp3.length;i++){
+                           console.log(temp3[i].start.slice(0, 10));
+                           // change booking date format to yyyy-mm-dd
+                           var date_format = temp3[i].start.slice(0, 10);
+                           // check to see if booking start date matches the calendar-day id.
+                           if(obj.id == date_format) {
+                                // change h1 in matches
+                                $("#"+obj.id+" h1").text("Delvis opptatt");
+                           }
+                        }
+                    });
+                });
+        }
+    });
+});
+
+
 // Converts day ids to the relevant string
 function dayOfWeekAsString(dayIndex) {
         return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][dayIndex];
     }
     // Converts month ids to the relevant string
 function monthsAsString(monthIndex) {
-    return ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][monthIndex];
+    return ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"][monthIndex];
 }
 
 
@@ -69,11 +102,13 @@ function daySchedule(bookingTime, bookingLengths){
     return scheduleTable;
 }
 
-
+function minTwoDigits(n) {
+  return (n < 10 ? '0' : '') + n;
+}
 
 
 // Creates a day element
-function createCalendarDay(num, day, mon, year, abailable) {
+function createCalendarDay(num, day, mon, year, available) {
     var currentCalendar = document.getElementById("calendar");
 
     var newDay = document.createElement("div");
@@ -91,7 +126,7 @@ function createCalendarDay(num, day, mon, year, abailable) {
     popupContent.appendChild(popupInfo);
     popupTag.appendChild(popupContent);
 
-    
+
 
     available = true;
     date.innerHTML = num;
@@ -108,7 +143,8 @@ function createCalendarDay(num, day, mon, year, abailable) {
     newDay.className = "calendar-day ";
 
     // Set ID of element as date formatted "8-January" etc
-    newDay.id = num + "-" + mon + "-" +year;
+    num = minTwoDigits(num);
+    newDay.id = year + "-" + mon + "-" + num;
     popupTag.id = "popup"+newDay.id;
     currentCalendar.style.width = "100%;"
     popupSpan.id = "span"+newDay.id;
@@ -142,6 +178,7 @@ function createCalendarDay(num, day, mon, year, abailable) {
     // apply info to popup
     popupInfo.appendChild(daySchedule());
     //popupInfo.appendChild(createBookingForm());
+    return availability;
 };
 
 
@@ -209,11 +246,6 @@ function getCurrentDay() {
     currentDay.className = "calendar-day today";
 }
 
-$(document).on('click',jQuery(this).attr("id"),function(){
-  console.log("hello")
-
-});
 // Create activity for table
-
 
 
