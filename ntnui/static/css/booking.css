@@ -141,7 +141,7 @@ form {
 }
 
 
-.my_bookings_header {
+.myBookingsHeader {
     margin-top: 2rem;
     margin-left: 1rem;
     text-transform: uppercase;
@@ -151,7 +151,7 @@ form {
     display: inline-block;
 }
 
-.my_bookings_box {
+.myBookingsBox {
     padding: 1rem 2rem;
     box-sizing: border-box;
     background-color: white;
@@ -171,7 +171,7 @@ form {
     width: 100%;
 }
 
-.my_bookings {
+.myBookings {
     display: flex;
     flex-direction: column;
     width: 60%;
@@ -179,7 +179,6 @@ form {
 
 .btn {
     margin-top: 5px;
-    margin-left: 5px;
 }
 
 #newBookingButton {
