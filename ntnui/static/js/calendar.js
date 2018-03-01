@@ -272,15 +272,17 @@ function createMonth(updateMonth) {
 
 function getCurrentDay() {
 
-    // Create a new date that will set as default time
     var todaysDate = new Date();
     var today = todaysDate.getDate();
+    // add 0 to single digit days
+    var today_formatted = minTwoDigits(today);
     var currentMonth = todaysDate.getMonth();
     var currentYear = todaysDate.getFullYear();
     var thisMonth = monthsAsString(currentMonth);
-    // Find element with the ID for today
-    currentDay = document.getElementById(today + "-" + thisMonth + "-" + currentYear);
-    currentDay.className = "calendar-day today";
+    var current_day = (currentYear + "-" + thisMonth + "-" + today_formatted).toString();
+    var get_currentDay = document.getElementById(current_day);
+    console.log(get_currentDay)
+    document.getElementById(current_day).className = "calendar-day today";
 }
 
 // Create activity for table
