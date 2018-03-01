@@ -1,9 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponse, render_to_response, HttpResponseRedirect
 from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from requests import request
+from .models import Booking
+from django.http import JsonResponse, request
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
 
 from accounts.models import User
 from booking.filters import LocationFilter, UserFilter
@@ -13,6 +18,12 @@ from .models import Booking, Location
 @login_required
 def index(request):
     return render(request, 'booking/booking.html')
+
+def api(request, **kwargs):
+    model = Booking
+    bookings = model.objects.all().values('description', 'start', 'end', 'location__name')
+    booking_list = list(bookings)
+    return JsonResponse(booking_list, safe=False)
 
 class BookingList(ListView):
     model = Booking

@@ -3,7 +3,7 @@
 }
 .calendar {
     display: block;
-    width:100%;
+    width: 100%;
 
 }
 .calendar-day {
@@ -22,7 +22,7 @@
 }
 .calendar-day h1{
     font-size: 100%;
-    margin-top:10%;
+    margin-top: 10%;
     padding-bottom: 40%;
 }
 
@@ -111,18 +111,8 @@
     cursor: pointer;
 }
 
-.container {
-    width:100%;
-}
-
-#filtering {
-    margin-right:1.5%;
-    margin-top:1%;
-}
-
 .form-control {
     display:flex;
-    flex-wrap:
 }
 
 
@@ -142,7 +132,6 @@ form {
     border:none;
     width:50%;
 }
-
 
 .myBookingsHeader {
     margin-top: 2rem;
@@ -187,3 +176,35 @@ form {
 #newBookingButton {
     float: right;
 }
+
+/* Container for the booking page */
+#booking-container {
+    position: absolute;
+    top: 78px;
+    bottom: 0px;
+}
+
+/* Styling for filter-box*/
+#filtering{
+    margin: 10px;
+    padding: 15px;
+    background: white;
+}
+
+.filter-header{
+    font-weight: bold;
+    font-size: 17px;
+    margin-bottom: 10px;
+}
+
+.large-checkbox {
+    width: 15px;
+    height: 15px;
+}
+.checkboxtext
+{
+  /* Checkbox text */
+  font-size: 110%;
+  display: inline;
+}
+
