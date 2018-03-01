@@ -4,7 +4,13 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from .models import Booking
-from django.http import JsonResponse
+from django.http import JsonResponse, request
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponse, render_to_response, HttpResponseRedirect
+from django.core.urlresolvers import reverse
+from django.views.decorators.csrf import csrf_exempt
+
+
 
 @login_required
 def index(request):
