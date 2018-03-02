@@ -22,8 +22,8 @@ class Booking(models.Model):
     end = models.DateTimeField(_(u'End'), blank=True)
     description = models.CharField(max_length=400, default='')
 
-    def __unicode__(self):
-        return self.name
+    def __str__(self):
+        return self.description
 
     def get_absolute_url(self):
         return reverse('booking_edit', kwargs={'pk': self.pk})
