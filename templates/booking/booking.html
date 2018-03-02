@@ -15,30 +15,75 @@
 
             <div class="col" id="filtering" >
                 <div class="container">
-                    <div class="filter-header">Training grounds</div>
+                    <div class="filter-header">Locations</div>
+                    <ul class="top-level-menu">
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li>
+                            <a href="#">Offices</a>
+                            <ul class="second-level-menu">
+                                <li><a href="#">Chicago</a></li>
+                                <li><a href="#">Los Angeles</a></li>
+                                <li>
+                                    <a href="#">New York</a>
+                                    <ul class="third-level-menu">
+                                        <li><a href="#">Information</a></li>
+                                        <li><a href="#">Book a Meeting</a></li>
+                                        <li><a href="#">Testimonials</a></li>
+                                        <li><a href="#">Jobs</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Seattle</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
                     <div class="form-check">
                         <input type="checkbox" class="large-checkbox" id="check1">
-                        <label for="check1">Fotballbane</label>
+                        <label for="check1">Gløshaugen</label>
                     </div>
                     <div class="form-check">
                         <input type="checkbox" class="large-checkbox" id="check2">
-                        <label for="check2">Dragvoll gymsall 1</label>
+                        <label for="check2">Dragvoll</label>
                     </div>
                     <div class="form-check">
                         <input type="checkbox" class="large-checkbox" id="check3">
-                        <label for="check3">Dragvoll gymsall 2</label>
+                        <label for="check3">Annet</label>
                     </div>
                     <div class="form-check">
                         <input type="checkbox" class="large-checkbox" id="check4">
-                        <label for="check4">Volleyballbane</label>
+                        <label for="check4">Annet</label>
                     </div>
                     <div class="form-check">
                         <input type="checkbox" class="large-checkbox" id="check6">
-                        <label for="check6">Gymsal</label>
+                        <label for="check6">Annet</label>
                     </div>
                     <hr>
-                    <div class="filter-header">Time durations</div>
+
+                    <div class="filter-header">Type</div>
                     <div class="form-check">
+                        <input type="checkbox" class="large-checkbox" id="check7">
+                        <label for="check1">Gymsal</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="large-checkbox" id="check8">
+                        <label for="check1">Fotballbane</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="large-checkbox" id="check9">
+                        <label for="check1">Volleyballbane</label>
+                    </div>
+
+                    <hr>
+                    <div class="filter-header">Time durations</div>
+                    <select class="custom-select custom-select-lg mb-3">
+                        <option selected>30 min</option>
+                        <option value="1">60 min</option>
+                        <option value="2">90 min</option>
+                        <option value="3">120 min</option>
+                        <option value="3">180 min</option>
+                    </select>
+                    <!--<div class="form-check">
                         <input type="checkbox" class="large-checkbox" id="check7">
                         <label for="check7">30 min</label>
                     </div>
@@ -58,7 +103,7 @@
                         <input type="checkbox" class="large-checkbox" id="check11">
                         <label for="check11">180 min</label>
                     </div>
-                    <br>
+                    <br>-->
                     <div class="row">
                         <button class="btn btn-success col">Search</button>
                     </div>
