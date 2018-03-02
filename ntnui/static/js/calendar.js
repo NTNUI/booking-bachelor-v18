@@ -2,16 +2,14 @@
 var date = new Date();
 date.setDate(1);
 date.setMonth(0);
-var list;
-$
+var global_list = [];
 
 window.onload = function() {
     // Add the current month on load
-    createMonth();
-    $(".modal-content").load("new");
+    promise();
 };
 
-document.onkeydown = function(evt) {
+/* document.onkeydown = function(evt) {
     evt = evt || window.event;
     switch (evt.keyCode) {
         case 37:
@@ -21,18 +19,56 @@ document.onkeydown = function(evt) {
             nextMonth();
             break;
     }
-};
+}; */
 
-
-function HandleDOM_Change () {
-    for(j=0;j<list.length;j++){
-        var date_format = list[j].start.slice(0, 10);
-        $("#"+date_format+" h1").text("Opptatt");
-    }
+function promiseTest() {
+    return $.ajax({
+        url: "/booking/api",
+        dataType: "json",
+        type: "GET"
+    })
 }
 
+var promised = promiseTest();
+
+function promise() {
+promised.done(function() {
+
+    promised.then( function() {
+            createMonth();
+            let list = [];
+            list.push(promised.responseJSON);
+            global_list.push(promised.responseJSON)
+            init(list);
+        }
+    )
+});
+}
+
+function init(list) {
+    for (i = 0; i < list[0].length; i++) {
+        var day = list[0][i].start;
+        var date_format = day.slice(0, 10);
+        $("#" + date_format + " h1").text("BUSY");
+        if($("#" + date_format).length == 0) {
+  $("#" + date_format + " h1").text("BUSY");
+}
+    }
+
+}
+
+function HandleDOM_Change (list) {
+    console.log(global_list)
+    for (i = 0; i < global_list[0].length; i++) {
+        var day = global_list[0][i].start;
+        var date_format = day.slice(0, 10);
+        $("#" + date_format + " h1").text("BUSY");
+    }
+    }
+
 //--- Narrow the container down AMAP.
-fireOnDomChange ('.container', HandleDOM_Change, 500);
+fireOnDomChange ('#calendar', HandleDOM_Change, 500);
+
 
 function fireOnDomChange (selector, actionFunction, delay)
 {
@@ -43,7 +79,7 @@ function fireOnDomChange (selector, actionFunction, delay)
             clearTimeout (this.Timer);
         }
         this.Timer  = setTimeout (  function() { fireActionFunction (); },
-                                    delay ? delay : 99999
+                                    delay ? delay : 333
                                  );
     }
 
@@ -54,7 +90,7 @@ function fireOnDomChange (selector, actionFunction, delay)
     }
 }
 
-
+/*
 // Gets bookings from the booking API. Will run once the page DOM is ready (the calendar is loaded)
     $(document).ready(function () {
     $.ajax({
@@ -62,7 +98,7 @@ function fireOnDomChange (selector, actionFunction, delay)
         url: "/booking/api",
         cache: false,
         success: function (text) {
-            console.log("success")
+            console.log("ajax success")
             // pass down variable temp to the next jQuery function
             var temp = text;
             // Executes when the 'success' event is triggered.
@@ -83,12 +119,12 @@ function fireOnDomChange (selector, actionFunction, delay)
                                 $("#"+obj.id+" h1").text("Delvis opptatt");
                            }
                         }
-                    }); */
+                    });
                 });
         }
 
     });
-});
+}); */
 
 
 
@@ -102,7 +138,7 @@ function monthsAsString(monthIndex) {
 }
 
 
-function daySchedule(bookingTime, bookingLengths){
+/* function daySchedule(bookingTime, bookingLengths){
     //var scheduleTable = document.getElementById("scheduleTable");
     bookingTime = 15;
     bookingLengths = 5;
@@ -139,7 +175,7 @@ function daySchedule(bookingTime, bookingLengths){
     }
 
     return scheduleTable;
-}
+} */
 
 function minTwoDigits(n) {
   return (n < 10 ? '0' : '') + n;
@@ -171,7 +207,7 @@ function createCalendarDay(num, day, mon, year, available) {
     date.innerHTML = num;
     dayElement.innerHTML = ' ' + day;
     if(available == true){
-        availability.innerHTML = "LEDIG";
+        availability.innerHTML = "-";
         availability.style.color = "green";
 
     } else {
@@ -201,7 +237,8 @@ function createCalendarDay(num, day, mon, year, available) {
     //popupContent.appendChild($(".modal-content").load("new"););
     btn.onclick = function() {
         modal.style.display = "block";
-
+        //$(".modal-content").load("new");
+        $('.modal-content').load('new',function(){}).hide().fadeIn();
         console.log("open");
     }
     span.onclick = function() {
@@ -267,6 +304,8 @@ function createMonth(updateMonth) {
     currentMonthText.innerHTML = monthsAsString(date.getMonth()) + " " + date.getFullYear();
 
     //getCurrentDay();
+
+
 }
 
 
