@@ -43,8 +43,7 @@
     </script>
 -->
 
-<h3> Hello, {{user.first_name}} {{ user.last_name }}<a href = "{% url "booking_new" %}">
-    <!--<button class="btn btn-outline-primary btn-sm" id = "newBookingButton">New booking</button></a></h3>-->
+    <h3> Hello, {{user.first_name}} {{ user.last_name }}<a href = "{% url "booking_new" %}"></a>
 
 <!-- Get all bookings for your user -->
     {% for booking in object_list %}
