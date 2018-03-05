@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="myBookings">
+<div class="col-9 myBookings">
     <h1 class="myBookingsHeader">
         My bookings
     </h1>
@@ -44,13 +44,13 @@
     </script>
 -->
 
-    <h3> Hello, {{user.first_name}} {{ user.last_name }}<a href = "{% url "booking_new" %}"></a>
+    <h3> Hello, {{user.first_name}} {{ user.last_name }}<a href = "{% url "booking_new" %}"></a></h3>
 
 <!-- Get all bookings for your user -->
     {% for booking in object_list %}
     {% if user.get_username == booking.person.get_username %}
 
-    <br class="list-group-item ">
+    <li class="list-group-item ">
         <h5 class = "title-description">{{ booking.description}}</h5>
         Username: {{ booking.person.get_username}}
         </br> Start time: {{ booking.start}}
