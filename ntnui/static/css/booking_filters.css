@@ -5,13 +5,33 @@
     background: white;
 }
 
-.filter-header{
+.filterHeader{
     font-weight: bold;
     font-size: 17px;
     margin-bottom: 10px;
 }
 
-.large-checkbox {
+.largeCheckbox {
     width: 15px;
     height: 15px;
+}
+
+/* Collapse and expand filters menu */
+.tb {
+    margin:10px 0;
+}
+.aBlock table td {
+     padding-left:15px;
+}
+.tb span+span, .collapsible {
+    display:none;
+}
+.tb input[type="checkbox"]:checked ~ span {
+    display:none;
+}
+.tb input[type="checkbox"]:checked ~ span+span{
+    display:inline;
+}
+.tb input[type="checkbox"]:checked ~ .collapsible {
+    display:table;
 }
