@@ -11,7 +11,7 @@
 
 {% block content %}
 
-    <div class="container" id="booking-container">
+    <div class="container" id="bookingContainer">
         <div class="row">
 
             <div class="col" id="filtering" >
@@ -128,14 +128,18 @@
 
                     <hr>
                     <div class="filterHeader">Time durations</div>
-                    <select class="custom-select custom-select-lg mb-3">
-                        <option selected>30 min</option>
-                        <option value="1">60 min</option>
-                        <option value="2">90 min</option>
-                        <option value="3">120 min</option>
-                        <option value="3">180 min</option>
-                    </select>
-                    <div class="row">
+                    <div id="timeSelect">
+                        <select class="custom-select mb-3">
+                            <option selected>30 min</option>
+                            <option value="1">60 min</option>
+                            <option value="2">90 min</option>
+                            <option value="3">120 min</option>
+                            <option value="3">180 min</option>
+                        </select>
+                    </div>
+
+                    <hr>
+                    <div id="searchButton">
                         <button class="btn btn-success col">Search</button>
                     </div>
                 </div>

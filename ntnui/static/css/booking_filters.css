@@ -35,3 +35,23 @@
 .tb input[type="checkbox"]:checked ~ .collapsible {
     display:table;
 }
+
+/* Dropdown for time select */
+select {
+    width: 100%;
+}
+#timeSelect {
+    width: 100%;
+}
+
+/*Search button */
+#searchButton {
+    bottom: 20px;
+}
+
+/* Removes filters for mobile version */
+@media only screen and (max-width: 992px){
+    #filtering{
+            display:none;
+    }
+}
