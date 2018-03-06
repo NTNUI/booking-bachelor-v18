@@ -1,15 +1,23 @@
-// Globally head date object for the month shown
+// Globally head date object for the month shown.
 var date = new Date();
 date.setDate(1);
 date.setMonth(0);
+// Global list to store bookings. This list will be used to populate the calendar with data.
 var global_list = [];
+// Ajax setting to set caching to false.
+$.ajaxSetup ({
+        cache: false
+    });
+// Global variabel which is used to store the date for each popup.
+var tempDay;
 
+// Load promise object when site is loaded.
 window.onload = function() {
-    // Add the current month on load
     promise();
 };
 
-/* document.onkeydown = function(evt) {
+// Allows us to navigate through months with the arrow keys
+document.onkeydown = function(evt) {
     evt = evt || window.event;
     switch (evt.keyCode) {
         case 37:
@@ -19,54 +27,50 @@ window.onload = function() {
             nextMonth();
             break;
     }
-}; */
+};
 
+// Promise object used to fetch data from our API.
 function promiseTest() {
     return $.ajax({
         url: "/booking/api",
         dataType: "json",
-        type: "GET"
+        type: "GET",
+        cache: false,
+
     })
+
 }
 
+// Function used to resolve promise object. When object is resolved, call createMonth and push data to global_list.
 var promised = promiseTest();
-
 function promise() {
 promised.done(function() {
-
     promised.then( function() {
             createMonth();
-            let list = [];
-            list.push(promised.responseJSON);
             global_list.push(promised.responseJSON)
-            init(list);
         }
     )
 });
 }
 
-function init(list) {
-    for (i = 0; i < list[0].length; i++) {
-        var day = list[0][i].start;
-        var date_format = day.slice(0, 10);
-        $("#" + date_format + " h1").text("BUSY");
-        if($("#" + date_format).length == 0) {
-  $("#" + date_format + " h1").text("BUSY");
-}
-    }
-
-}
-
-function HandleDOM_Change (list) {
-    console.log(global_list)
+// Function used to populate the calendar with bookings from the database.
+function populate() {
+    //promiseTest();
     for (i = 0; i < global_list[0].length; i++) {
         var day = global_list[0][i].start;
         var date_format = day.slice(0, 10);
         $("#" + date_format + " h1").text("BUSY");
+
     }
+}
+
+// Event listener. Fires whenever the calendar changes.
+function HandleDOM_Change (list) {
+        populate();
     }
 
-//--- Narrow the container down AMAP.
+// Event listener logic.
+// TODO: Replace with mutation observer.
 fireOnDomChange ('#calendar', HandleDOM_Change, 500);
 
 
@@ -90,41 +94,6 @@ function fireOnDomChange (selector, actionFunction, delay)
     }
 }
 
-/*
-// Gets bookings from the booking API. Will run once the page DOM is ready (the calendar is loaded)
-    $(document).ready(function () {
-    $.ajax({
-        type: "GET",
-        url: "/booking/api",
-        cache: false,
-        success: function (text) {
-            console.log("ajax success")
-            // pass down variable temp to the next jQuery function
-            var temp = text;
-            // Executes when the 'success' event is triggered.
-            $(window).bind('load', function(text) {
-                    // pass down variable to the next jQuery function
-                    var temp2 = temp;
-                    this.list = temp2;
-                    // iterate through calendar-day div classes
-                   /* $('.calendar-day ').each(function(i, obj, text) {
-                        var temp3 = temp2;
-                        // iterate through bookings
-                        for(i=0;i<temp3.length;i++){
-                           // change booking date format to yyyy-mm-dd
-                           var date_format = temp3[i].start.slice(0, 10);
-                           // check to see if booking start date matches the calendar-day id.
-                           if(obj.id == date_format) {
-                                // change h1 in matches
-                                $("#"+obj.id+" h1").text("Delvis opptatt");
-                           }
-                        }
-                    });
-                });
-        }
-
-    });
-}); */
 
 
 
@@ -137,50 +106,26 @@ function monthsAsString(monthIndex) {
     return ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"][monthIndex];
 }
 
-
-/* function daySchedule(bookingTime, bookingLengths){
-    //var scheduleTable = document.getElementById("scheduleTable");
-    bookingTime = 15;
-    bookingLengths = 5;
-    var scheduleTable = document.createElement("table");
-    scheduleTable.className = "table borderless";
-    scheduleTable.id = "scheduleTable";
-    var titlerow = scheduleTable.insertRow(0);
-    var times = titlerow.insertCell(0);
-    titlerow.style.fontWeight =  'bold';
-    var bookings = titlerow.insertCell(1);
-    times.innerHTML = "Tider";
-    bookings.innerHTML = "Aktiviter";
-    var bookingStart = "kødder";
-    var bookingEnd = "slapper av";
-    for(i=0;i<31;i++){
-        var rows = scheduleTable.insertRow(i+1);
-        var time = rows.insertCell(0);
-        rows.id = 8+i/2;
-        var extravariable = ''
-        if(Math.floor((8+(i/2)))<10){extravariable= '0'};
-        time.innerHTML = extravariable + Math.floor((8+(i/2)))+':'+(((i%2/2)*60) + '0')[0] + (((i%2/2)*60) + '0')[1];
-        var booking = rows.insertCell(1);
-        booking.innerHTML = ' ';
-        booking.id = "booking"+(8+i/2);
-        console.log(+bookingLengths+ +bookingTime);
-        if(rows.id == bookingTime){
-            booking.innerHTML = bookingStart;
-
-        } if(rows.id == bookingTime+(bookingLengths-0.5)){
-            booking.innerHTML = bookingEnd;
-        }if(rows.id>=bookingTime && rows.id<=bookingTime+(bookingLengths-0.5)){
-            booking.style.backgroundColor = "green";
-        }
-    }
-
-    return scheduleTable;
-} */
-
+// Add 0 to single digit numbers.
 function minTwoDigits(n) {
   return (n < 10 ? '0' : '') + n;
 }
 
+// Legacy popup.
+function createPopup() {
+    var popupTag = document.createElement("div");
+    var popupContent = document.createElement("div");
+    var popupSpan = document.createElement("span");
+    popupTag.className = "modal-large";
+    popupContent.className = "modal-content";
+    popupContent.appendChild(popupSpan);
+    popupTag.appendChild(popupContent);
+    var modal = document.getElementsByClassName(popupTag.className);
+    var span = document.getElementById(popupSpan.id);
+    modal.style.display = "block";
+    $('.modal-content').load('new',function(){}).hide().fadeIn();
+
+}
 
 // Creates a day element
 function createCalendarDay(num, day, mon, year, available) {
@@ -191,17 +136,6 @@ function createCalendarDay(num, day, mon, year, available) {
     var dayElement = document.createElement("p");
     var availability = document.createElement("h1");
     //popup elements
-    var popupTag = document.createElement("div");
-    var popupContent = document.createElement("div");
-    var popupSpan = document.createElement("span");
-    var popupInfo = document.createElement("h1")
-    popupTag.className = "modal-large";
-    popupContent.className = "modal-content";
-    popupContent.appendChild(popupSpan);
-    popupContent.appendChild(popupInfo);
-    popupTag.appendChild(popupContent);
-
-
 
     available = true;
     date.innerHTML = num;
@@ -214,53 +148,28 @@ function createCalendarDay(num, day, mon, year, available) {
         availability.innerHTML = "FULLT";
         availability.style.color = "red";
     }
-
     newDay.className = "calendar-day ";
 
     // Set ID of element as date formatted "8-January" etc
     num = minTwoDigits(num);
     newDay.id = year + "-" + mon + "-" + num;
-    popupTag.id = "popup"+newDay.id;
     currentCalendar.style.width = "100%;"
-    popupSpan.id = "span"+newDay.id;
     newDay.appendChild(date)
     newDay.appendChild(dayElement);
     newDay.appendChild(availability);
     currentCalendar.appendChild(newDay);
-    document.body.appendChild(popupTag);
-
-    // popup
-
-    var modal = document.getElementById(popupTag.id);
     var btn = document.getElementById(newDay.id);
-    var span = document.getElementById(popupSpan.id);
-    //popupContent.appendChild($(".modal-content").load("new"););
-    btn.onclick = function() {
-        modal.style.display = "block";
-        //$(".modal-content").load("new");
-        $('.modal-content').load('new',function(){}).hide().fadeIn();
-        console.log("open");
+    // call popup function and pass event.target.
+    btn.onclick = function(e) {
+        popup(this, e);
     }
-    span.onclick = function() {
-        modal.style.display = "none";
-        console.log("close");
-    }
-    popupTag.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-    }
-    }
-    // apply info to popup
-    // popupInfo.appendChild(daySchedule());
-    //popupInfo.appendChild(createBookingForm());
-    return availability;
+
 };
 
 
 // Clears all days from the calendar
 function clearCalendar() {
     var currentCalendar = document.getElementById("calendar");
-
     currentCalendar.innerHTML = "";
 
 }
@@ -269,7 +178,6 @@ function clearCalendar() {
 function nextMonth() {
     clearCalendar();
     date.setMonth(date.getMonth() + 1);
-
     createMonth(date.getMonth());
 }
 
@@ -310,7 +218,6 @@ function createMonth(updateMonth) {
 
 
 function getCurrentDay() {
-
     var todaysDate = new Date();
     var today = todaysDate.getDate();
     // add 0 to single digit days
@@ -326,4 +233,50 @@ function getCurrentDay() {
 
 // Create activity for table
 
+function popup(e) {
+$('.booking-modal-contents').load('new');
+    this.tempDay = e;
+    var modal = document.getElementById('booking-modal');
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    modal.style.display = "block";
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+
+// Functions used to create secure POST requests.
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
 
