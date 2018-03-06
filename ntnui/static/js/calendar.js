@@ -7,14 +7,14 @@ var global_list = [];
 // Ajax setting to set caching to false.
 $.ajaxSetup ({
         cache: false
-    });
+});
 // Global variabel which is used to store the date for each popup.
 var tempDay;
 
 // Load promise object when site is loaded.
 window.onload = function() {
     promise();
-};
+}
 
 // Allows us to navigate through months with the arrow keys
 document.onkeydown = function(evt) {
@@ -27,7 +27,7 @@ document.onkeydown = function(evt) {
             nextMonth();
             break;
     }
-};
+}
 
 // Promise object used to fetch data from our API.
 function promiseTest() {
@@ -36,9 +36,7 @@ function promiseTest() {
         dataType: "json",
         type: "GET",
         cache: false,
-
     })
-
 }
 
 // Function used to resolve promise object. When object is resolved, call createMonth and push data to global_list.
@@ -48,9 +46,9 @@ promised.done(function() {
     promised.then( function() {
             createMonth();
             global_list.push(promised.responseJSON)
-        }
-    )
-});
+            }
+        )
+    })
 }
 
 // Function used to populate the calendar with bookings from the database.
@@ -60,22 +58,20 @@ function populate() {
         var day = global_list[0][i].start;
         var date_format = day.slice(0, 10);
         $("#" + date_format + " h1").text("BUSY");
-
     }
 }
 
 // Event listener. Fires whenever the calendar changes.
-function HandleDOM_Change (list) {
-        populate();
-    }
+function HandleDOM_Change () {
+    populate();
+}
 
 // Event listener logic.
 // TODO: Replace with mutation observer.
 fireOnDomChange ('#calendar', HandleDOM_Change, 500);
 
 
-function fireOnDomChange (selector, actionFunction, delay)
-{
+function fireOnDomChange (selector, actionFunction, delay) {
     $(selector).bind ('DOMSubtreeModified', fireOnDelay);
 
     function fireOnDelay () {
@@ -94,13 +90,10 @@ function fireOnDomChange (selector, actionFunction, delay)
     }
 }
 
-
-
-
 // Converts day ids to the relevant string
 function dayOfWeekAsString(dayIndex) {
-        return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][dayIndex];
-    }
+    return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][dayIndex];
+}
     // Converts month ids to the relevant string
 function monthsAsString(monthIndex) {
     return ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"][monthIndex];
@@ -108,7 +101,7 @@ function monthsAsString(monthIndex) {
 
 // Add 0 to single digit numbers.
 function minTwoDigits(n) {
-  return (n < 10 ? '0' : '') + n;
+    return (n < 10 ? '0' : '') + n;
 }
 
 // Legacy popup.
@@ -124,7 +117,6 @@ function createPopup() {
     var span = document.getElementById(popupSpan.id);
     modal.style.display = "block";
     $('.modal-content').load('new',function(){}).hide().fadeIn();
-
 }
 
 // Creates a day element
@@ -163,8 +155,7 @@ function createCalendarDay(num, day, mon, year, available) {
     btn.onclick = function(e) {
         popup(this, e);
     }
-
-};
+}
 
 
 // Clears all days from the calendar
@@ -210,10 +201,7 @@ function createMonth(updateMonth) {
     // Set the text to the correct month
     var currentMonthText = document.getElementById("current-month");
     currentMonthText.innerHTML = monthsAsString(date.getMonth()) + " " + date.getFullYear();
-
     //getCurrentDay();
-
-
 }
 
 
@@ -231,10 +219,10 @@ function getCurrentDay() {
     document.getElementById(current_day).className = "calendar-day today";
 }
 
-// Create activity for table
 
 function popup(e) {
 $('.booking-modal-contents').load('new');
+    //Set global tempDay variable to event that triggers the popup, ie the date.
     this.tempDay = e;
     var modal = document.getElementById('booking-modal');
     // Get the <span> element that closes the modal
