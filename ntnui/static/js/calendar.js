@@ -68,7 +68,6 @@ function populate() {
 // Event listener. Fires whenever the calendar changes.
 function HandleDOM_Change () {
     populate();
-    console.log("new change")
 }
 
 // Event listener logic.
@@ -99,10 +98,16 @@ function fireOnDomChange (selector, actionFunction, delay) {
 function dayOfWeekAsString(dayIndex) {
     return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][dayIndex];
 }
-    // Converts month ids to the relevant string
+
+// Converts month ids to the relevant string
 function monthsAsString(monthIndex) {
     return ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"][monthIndex];
 }
+
+// Month names varibles
+var monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 
 // Add 0 to single digit numbers.
 function minTwoDigits(n) {
@@ -127,25 +132,20 @@ function createPopup() {
 // Creates a day element
 function createCalendarDay(num, day, mon, year, available) {
     var currentCalendar = document.getElementById("calendar");
-
     var newDay = document.createElement("div");
     var date = document.createElement("p");
     var dayElement = document.createElement("p");
     var availability = document.createElement("h1");
-    //popup elements
 
+    // Fills out empty days
     available = true;
     date.innerHTML = num;
     dayElement.innerHTML = ' ' + day;
     if(available == true){
         availability.innerHTML = "-";
         availability.style.color = "green";
-
-    } else {
-        availability.innerHTML = "FULLT";
-        availability.style.color = "red";
     }
-    newDay.className = "calendar-day ";
+    newDay.className = "calendar-day";
 
     // Set ID of element as date formatted "8-January" etc
     num = minTwoDigits(num);
@@ -159,6 +159,11 @@ function createCalendarDay(num, day, mon, year, available) {
     // call popup function and pass event.target.
     btn.onclick = function(e) {
         popup(this, e);
+    }
+
+    // Restricts days that cant be booked
+    if (newDay.id < getCurrentDay()){
+        newDay.className = "calendar-day restricted";
     }
 }
 
@@ -186,27 +191,34 @@ function previousMonth() {
 }
 
 // Creates and populates all of the days to make up the month
-function createMonth(updateMonth) {
-    var currentCalendar = document.getElementById("calendar");
-
+function createMonth() {
     var dateObject = new Date();
     dateObject.setDate(date.getDate());
     dateObject.setMonth(date.getMonth());
     dateObject.setYear(date.getFullYear());
 
-    createCalendarDay(dateObject.getDate(), dayOfWeekAsString(dateObject.getDay()), monthsAsString(dateObject.getMonth()), dateObject.getFullYear());
+    createCalendarDay(dateObject.getDate(),
+        dayOfWeekAsString(dateObject.getDay()),
+        monthsAsString(dateObject.getMonth()),
+        dateObject.getFullYear());
 
     dateObject.setDate(dateObject.getDate() + 1);
 
     while (dateObject.getDate() != 1) {
-        createCalendarDay(dateObject.getDate(), dayOfWeekAsString(dateObject.getDay()), monthsAsString(dateObject.getMonth()), dateObject.getFullYear());
+        createCalendarDay(dateObject.getDate(),
+            dayOfWeekAsString(dateObject.getDay()),
+            monthsAsString(dateObject.getMonth()),
+            dateObject.getFullYear());
         dateObject.setDate(dateObject.getDate() + 1);
     }
 
     // Set the text to the correct month
     var currentMonthText = document.getElementById("current-month");
-    currentMonthText.innerHTML = monthsAsString(date.getMonth()) + " " + date.getFullYear();
-    getCurrentDay();
+    currentMonthText.innerHTML = monthNames[date.getMonth()] + " " + date.getFullYear();
+
+    // Gives the current date a highligth
+    var current_day = getCurrentDay();
+    document.getElementById(current_day).className = "calendar-day today";
 }
 
 
@@ -217,11 +229,9 @@ function getCurrentDay() {
     var today_formatted = minTwoDigits(today);
     var currentMonth = todaysDate.getMonth();
     var currentYear = todaysDate.getFullYear();
-    var thisMonth = monthsAsString(currentMonth);
-    var current_day = (currentYear + "-" + thisMonth + "-" + today_formatted).toString();
-    var get_currentDay = document.getElementById(current_day);
-    console.log(get_currentDay)
-    document.getElementById(current_day).className = "calendar-day today";
+    var currentMonthString = monthsAsString(currentMonth);
+    var current_day = (currentYear + "-" + currentMonthString + "-" + today_formatted).toString();
+    return current_day
 }
 
 
