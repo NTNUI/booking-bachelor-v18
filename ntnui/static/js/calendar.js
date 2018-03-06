@@ -1,7 +1,7 @@
 // Globally head date object for the month shown.
 var date = new Date();
+console.log(date)
 date.setDate(1);
-date.setMonth(0);
 // Global list to store bookings. This list will be used to populate the calendar with data.
 var global_list = [];
 // Ajax setting to set caching to false.
@@ -36,6 +36,9 @@ function promiseTest() {
         dataType: "json",
         type: "GET",
         cache: false,
+        success: function() {
+            console.log("refresh")
+        }
     })
 }
 
@@ -64,6 +67,7 @@ function populate() {
 // Event listener. Fires whenever the calendar changes.
 function HandleDOM_Change () {
     populate();
+    console.log("new change")
 }
 
 // Event listener logic.
@@ -201,7 +205,7 @@ function createMonth(updateMonth) {
     // Set the text to the correct month
     var currentMonthText = document.getElementById("current-month");
     currentMonthText.innerHTML = monthsAsString(date.getMonth()) + " " + date.getFullYear();
-    //getCurrentDay();
+    getCurrentDay();
 }
 
 
