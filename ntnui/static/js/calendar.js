@@ -2,6 +2,7 @@
 var date = new Date();
 console.log(date)
 date.setDate(1);
+
 // Global list to store bookings. This list will be used to populate the calendar with data.
 var global_list = [];
 // Ajax setting to set caching to false.
