@@ -11,9 +11,23 @@
 
 {% block content %}
 
-    <div class="container" id="bookingContainer">
-        <div class="row">
 
+
+    <div class="container" id="bookingContainer">
+
+        <!-- The modal -->
+        <div id="booking-modal" class="modal-big">
+
+        <!-- Modal content -->
+        <div class="booking-modal-contents">
+            <span class="close">&times;</span>
+            </div>
+        </div>
+        
+        <!-- Main container -->
+        <div class="row">
+            
+            <!-- Filter content -->
             <div class="col" id="filtering" >
                 <div class="container">
                     <div class="filterHeader">Locations</div>
@@ -144,7 +158,8 @@
                     </div>
                 </div>
             </div>
-
+            
+            <!-- Calendar content -->
             <div class="col-9" class="container">
                 <div class="controls">
                     <p class="next label" onclick="nextMonth()"><i class="fa fa-arrow-right"></i></p>

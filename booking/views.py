@@ -8,8 +8,6 @@ from .models import Booking
 from django.http import JsonResponse, request
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-
-
 from accounts.models import User
 from booking.filters import LocationFilter, UserFilter
 from .models import Booking, Location
