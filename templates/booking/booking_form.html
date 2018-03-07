@@ -1,12 +1,33 @@
-<form action="new" method="post" enctype="multipart/form-data">
+<form action="new" id="my-ajax-form" method="post" enctype="multipart/form-data">
   {% csrf_token %}
     {{ form.file_name }}
     <table>
         {{form.person.as_hidden}}
        location {{form.location}}
-       Start {{form.start}}
        End {{form.end}}
         description {{form.description}}
     </table>
     <input type="submit" value="Submit">
 </form>
+
+{#jQuery script which prevents a page refresh when creating a booking and auto-fills the start date field#}
+<script>
+$(document).ready(function(){
+    var $myForm = $('#my-ajax-form')
+    $myForm.submit(function(event){
+        event.preventDefault()
+        // append start date to post request
+        var $formData = $(this).serialize()+"&start="+tempDay.id.toString()
+        $.ajax({
+            method: "POST",
+            url: 'new',
+            data: $formData,
+            // close popup on success
+            success: function() {
+                  var modal = document.getElementById('booking-modal');
+                  modal.style.display = "none";
+           }
+        })
+    })
+})
+</script>
