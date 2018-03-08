@@ -24,11 +24,6 @@
             My bookings
         </h1>
 
-         <!-- The modal -->
-        <div class="modal-big">
-
-        </div>
-
         <div class="myBookingsBox">
             <h3> Hello, Fride Skarseth{{user.first_name}} {{ user.last_name }}</h3>
             These are your bookings!
@@ -44,15 +39,15 @@
                     <div class = "title-description">Location</div>
                     {{ booking.location }}
                     <p>
-                        <button class="btn btn-outline-primary btn-sm" id = "editButton">Edit</button>
-                        <button class="btn btn-outline-primary btn-sm" id = "deleteButton">Delete</button>
+                        <button class="btn btn-outline-primary btn-sm" id="editButton">Edit</button>
+                        <button class="btn btn-outline-primary btn-sm" id="deleteButton">Delete</button>
                     </p>
                 </div>
                 {% endif %}
                 {% endfor %}
             </div>
         </div>
-    </divcontainer>
+    </div>
 {% endblock content %}
 
 {% block script %}
