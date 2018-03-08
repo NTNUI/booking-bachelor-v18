@@ -1,4 +1,9 @@
 /*CSS for my bookings page*/
+
+.booking-container {
+    width: 60%;
+}
+
 .myBookingsHeader {
     margin-top: 2rem;
     margin-left: 1rem;
@@ -10,31 +15,30 @@
 }
 
 .myBookingsBox {
-    padding: 1rem 2rem;
-    box-sizing: border-box;
+    padding: 2rem 4rem;
     background-color: white;
     box-shadow: 0 2px 4px rgba(50, 50, 93, 0.1);
-    display: flex;
-    flex-direction: row;
     border: solid 1px #dfdfdf;
     width: 100%;
     margin-top: 1rem;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
 }
 
-.list-group{
+.booking-item {
+    width: 100%;
+    border-bottom: solid 1px #dfdfdf;
+    margin-top: 1rem;
+    padding: 18px;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    align-items: flex-start;
 }
 
-
-.myBookings {
-    display: flex;
-    flex-direction: column;
-    width: 60%;
-    word-wrap: break-word;
+.title-description {
+    font-weight: 500;
 }
 
 .btn {
@@ -43,24 +47,6 @@
 
 #newBookingButton {
     float: right;
-}
-
-/* Styling for filter-box*/
-#filtering{
-    margin: 10px;
-    padding: 15px;
-    background: white;
-}
-
-.filter-header{
-    font-weight: bold;
-    font-size: 17px;
-    margin-bottom: 10px;
-}
-
-.large-checkbox {
-    width: 15px;
-    height: 15px;
 }
 
 /* The Modal (background) */

@@ -1,4 +1,15 @@
-<form method="post">{% csrf_token %}
-    Are you sure you want to delete "{{ object }}" ?
-    <input type="submit" value="Submit" />
-</form>
+{% block content %}
+
+<!-- Modal content -->
+    <!-- Close button -->
+    <div class="booking-modal-contents">
+        <span class="close">&times;</span>
+    </div>
+
+    <!-- Content -->
+    <form method="post">{% csrf_token %}
+        Are you sure you want to delete "{{ object }}" ?
+        <input type="submit" value="Submit" />
+    </form>
+
+{% endblock content %}

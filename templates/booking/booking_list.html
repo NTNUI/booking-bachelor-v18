@@ -19,55 +19,35 @@
 {% endblock %}
 
 {% block content %}
-<div class="col-9 myBookings">
-    <h1 class="myBookingsHeader">
-        My bookings
-    </h1>
+    <div class="booking-container">
+        <h1 class="myBookingsHeader">
+            My bookings
+        </h1>
 
-<div class="myBookingsBox">
-<ul class="list-group">
+        <div class="myBookingsBox">
+            <h3> Hello, Fride Skarseth{{user.first_name}} {{ user.last_name }}</h3>
+            These are your bookings!
 
-
-<!--<p>Click <a data-toggle="modal" data-target="#modal" href="{% url 'news-create' %}">here</a> to show the modal</p>
-    <div class="modal fade" id="modal"></div>
-    <script>
-        $('#modal').on('show.bs.modal', function (event) {
-            var modal = $(this)
-            $.ajax({
-                url: "{% url 'news-create' %}",
-                context: document.body
-            }).done(function(response) {
-                modal.html(response);
-            });
-        })
-
-    </script>
--->
-
-<h3> Hello, {{user.first_name}} {{ user.last_name }}<a href = "{% url "booking_new" %}"></a>
-
-
-<!-- Get all bookings for your user -->
-    {% for booking in object_list %}
-    {% if user.get_username == booking.person.get_username %}
-
-    <li class="list-group-item ">
-        <h5 class = "title-description">{{ booking.description}}</h5>
-        Username: {{ booking.person.get_username}}
-        </br> Start time: {{ booking.start}}
-        </br> End time: {{ booking.end }}
-        </br> Location: {{ booking.location }}
-        <p>
-        <button class="btn btn-outline-primary btn-sm" id = "editButton">Edit</button>
-        <button class="btn btn-outline-primary btn-sm" id = "deleteButton">Delete</button>
-        </p>
-    {% endif %}
-    {% endfor %}
-
-
-</ul>
-</div>
-</div>
+            <div class="container">
+                <!-- Get all bookings for your user -->
+                {% for booking in object_list %}
+                {% if user.get_username == booking.person.get_username %}
+                <div class="booking-item">
+                    <h4>{{ booking.description}}</h4>
+                    <div class = "title-description">Time</div>
+                    {{ booking.start}} - {{ booking.end }}
+                    <div class = "title-description">Location</div>
+                    {{ booking.location }}
+                    <p>
+                        <button class="btn btn-outline-primary btn-sm" id="editButton">Edit</button>
+                        <button class="btn btn-outline-primary btn-sm" id="deleteButton">Delete</button>
+                    </p>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock content %}
 
 {% block script %}
