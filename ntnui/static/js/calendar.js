@@ -236,7 +236,7 @@ function getCurrentDay() {
 
 
 function popup(e) {
-$('.booking-modal-contents').load('new');
+    $('.booking-modal-contents').load('new');
     //Set global tempDay variable to event that triggers the popup, ie the date.
     this.tempDay = e;
     var modal = document.getElementById('booking-modal');

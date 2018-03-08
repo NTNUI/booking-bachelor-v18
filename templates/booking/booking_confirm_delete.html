@@ -1,15 +1,32 @@
-{% block content %}
 
-<!-- Modal content -->
-    <!-- Close button -->
+{% block content %}
+    <!-- Modal content -->
     <div class="booking-modal-contents">
+        <!-- Close button -->
         <span class="close">&times;</span>
+
+        <!-- Content -->
+        <form id="{{ booking.id }}" class="deleteModal" method="post">{% csrf_token %}
+            Are you sure you want to delete "{{ object }}" ?
+            <input class="btn btn-outline-primary btn-sm" type="submit" value="Delete" />
+        </form>
     </div>
 
-    <!-- Content -->
-    <form method="post">{% csrf_token %}
-        Are you sure you want to delete "{{ object }}" ?
-        <input type="submit" value="Submit" />
-    </form>
-
 {% endblock content %}
+
+<script>
+    $('.deleteModal').submit(function(e) {
+        // do NOT submit the form as a regular POST request
+        e.preventDefault();
+        var object = e.target.id;
+        $.ajax({
+            type: 'POST',
+            url: 'delete/'+ object,
+            success: function() {
+                var modal = document.getElementById('booking-modal');
+                modal.style.display = "none";
+            },
+            headers: { 'X_METHODOVERRIDE': 'DELETE' }
+        });
+    });
+</script>
