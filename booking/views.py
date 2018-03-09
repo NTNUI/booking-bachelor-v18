@@ -61,8 +61,9 @@ class BookingCreate(CreateView):
 
 class BookingUpdate(UpdateView):
     model = Booking
+    template_name = "booking/booking_confirm_edit.html"
     success_url = reverse_lazy('booking_list')
-    fields = ['location', 'start', 'end', 'description']
+    fields = ['location', 'end', 'description']
 
 class BookingDelete(DeleteView):
     model = Booking
