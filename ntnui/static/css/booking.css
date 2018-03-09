@@ -24,8 +24,11 @@
     font-weight: 500;
 }
 .calendar-day p {
+    /*
     display: inline;
+    */
 }
+
 .calendar-day h1{
     font-size: 100%;
     margin-top: 10%;
