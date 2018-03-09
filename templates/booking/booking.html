@@ -4,67 +4,161 @@
 
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/booking.css' %}">
+    <link rel="stylesheet" href="{% static 'css/booking_filters.css' %}">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-
 {% endblock %}
 
 {% block content %}
 
-    <div class="container" id="booking-container">
-        <div class="row">
 
+
+    <div class="container" id="bookingContainer">
+
+        <!-- The modal -->
+        <div id="booking-modal" class="modal-big">
+
+            <!-- Modal content -->
+            <div class="booking-modal-contents">
+                <span class="close">&times;</span>
+                </div>
+            </div>
+        
+        <!-- Main container -->
+        <div class="row">
+            
+            <!-- Filter content -->
             <div class="col" id="filtering" >
                 <div class="container">
-                    <div class="filter-header">Training grounds</div>
-                    <div class="form-check">
-                        <input type="checkbox" class="large-checkbox" id="check1">
-                        <label for="check1">Fotballbane</label>
+                    <div class="filterHeader">Locations</div>
+                    <div class="tb aBlock">
+                        <input type="checkbox" class="largeCheckbox" id="check1"/>
+                        <label for="check1">Gløshaugen</label>
+                        <table class="collapsible" id="collapsible1">
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="check5"/>
+                                    <label for="check5">Gløshaugen hall 1</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="check6"/>
+                                    <label for="check6">Gløshaugen hall 2</label>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="large-checkbox" id="check2">
-                        <label for="check2">Dragvoll gymsall 1</label>
+                    <div class="tb aBlock">
+                        <input type="checkbox" class="largeCheckbox" id="check2"/>
+                        <label for="check2">Dragvoll</label>
+                        <table class="collapsible" id="collapsible1">
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="check7"/>
+                                    <label for="check7">Dragvoll hall 1</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="check8"/>
+                                    <label for="check8">Dragvoll hall 2</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="check18"/>
+                                    <label for="check18">Dragvoll hall 3</label>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="large-checkbox" id="check3">
-                        <label for="check3">Dragvoll gymsall 2</label>
+                    <div class="tb aBlock">
+                        <input type="checkbox" class="largeCheckbox" id="check3"/>
+                        <label for="check3">Solsiden</label>
+                        <table class="collapsible" id="collapsible1">
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="check9"/>
+                                    <label for="check9">Solsiden hall 1</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="check10"/>
+                                    <label for="check10">Solsiden hall 2</label>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="large-checkbox" id="check4">
-                        <label for="check4">Volleyballbane</label>
+                    <div class="tb aBlock">
+                        <input type="checkbox" class="largeCheckbox" id="check4"/>
+                        <label for="check4">Sted</label>
+                        <table class="collapsible" id="collapsible1">
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="check11"/>
+                                    <label for="check11">Sted hall 4</label>
+                                    <table class="collapsible" id="collapsible1">
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" id="check31"/>
+                                                <label for="check31">Sted hall 5</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" id="check32"/>
+                                                <label for="check32">Sted kjempelangt</label>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="check12"/>
+                                    <label for="check12">Gløshaugen</label>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="large-checkbox" id="check6">
-                        <label for="check6">Gymsal</label>
-                    </div>
+
                     <hr>
-                    <div class="filter-header">Time durations</div>
+
+                    <div class="filterHeader">Type</div>
                     <div class="form-check">
-                        <input type="checkbox" class="large-checkbox" id="check7">
-                        <label for="check7">30 min</label>
+                        <input type="checkbox" class="largeCheckbox" id="check13">
+                        <label for="check13">Gymsal</label>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="large-checkbox" id="check8">
-                        <label for="check8">60 min</label>
+                        <input type="checkbox" class="largeCheckbox" id="check14">
+                        <label for="check14">Fotballbane</label>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="large-checkbox" id="check9">
-                        <label for="check9">90 min</label>
+                        <input type="checkbox" class="largeCheckbox" id="check15">
+                        <label for="check15">Volleyballbane</label>
                     </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="large-checkbox" id="check10">
-                        <label for="check10">120 min</label>
+
+                    <hr>
+                    <div class="filterHeader">Time durations</div>
+                    <div id="timeSelect">
+                        <select class="custom-select mb-3">
+                            <option selected>30 min</option>
+                            <option value="1">60 min</option>
+                            <option value="2">90 min</option>
+                            <option value="3">120 min</option>
+                            <option value="3">180 min</option>
+                        </select>
                     </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="large-checkbox" id="check11">
-                        <label for="check11">180 min</label>
-                    </div>
-                    <br>
-                    <div class="row">
+
+                    <hr>
+                    <div id="searchButton">
                         <button class="btn btn-success col">Search</button>
                     </div>
                 </div>
             </div>
-
+            
+            <!-- Calendar content -->
             <div class="col-9" class="container">
                 <div class="controls">
                     <p class="next label" onclick="nextMonth()"><i class="fa fa-arrow-right"></i></p>
@@ -85,7 +179,6 @@
   <script src="http://malsup.github.com/jquery.form.js"></script>
   <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/expand_group_card.js' %}"></script>
-
   <script
   src="http://code.jquery.com/jquery-3.3.1.js"
   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
