@@ -1,22 +1,5 @@
 $(function () {
 
-  // $(".js-create-booking").click(function () {
-  //   var btn = $(this);  // <-- HERE
-  //   $.ajax({
-  //     url: btn.attr("data-url"),  // <-- AND HERE
-  //     //url: '/booking/bookings/create/',
-  //     type: 'get',
-  //     dataType: 'json',
-  //     beforeSend: function () {
-  //       //$("#booking-modal").
-  //       $("#booking-modal").css("display", "inline-block");
-  //     },
-  //     success: function (data) {
-  //       $("#booking-modal .booking-modal-contents").html(data.html_form);
-  //     }
-  //   });
-  // });
-
   var loadForm = function () {
     var btn = $(this);
     $.ajax({

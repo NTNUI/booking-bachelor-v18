@@ -97,3 +97,7 @@
     clear: both;
     display: table;
 }
+
+h4.modal-title  {
+    margin: 0 auto;
+}
