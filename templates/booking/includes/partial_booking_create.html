@@ -10,7 +10,11 @@
         {% include 'booking/includes/partial_booking_form.html' %}
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="close" class="btn btn-outline-primary btn-sm" data-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary">Create book</button>
     </div>
 </form>
+
+<script>
+    var close = document.getElementById('close');
+</script>

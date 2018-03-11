@@ -10,7 +10,11 @@
         <p class="lead">Are you sure you want to delete the book <strong>{{ book.title }}</strong>?</p>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="close" class="btn btn-outline-primary btn-sm">Close</button>
         <button type="submit" class="btn btn-danger">Delete book</button>
     </div>
 </form>
+
+<script>
+    var close = document.getElementById('close');
+</script>
