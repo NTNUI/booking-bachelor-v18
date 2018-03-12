@@ -1,6 +1,11 @@
 {% block content %}
 
     <div class="container">
+     <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        </button>
+        <h4 class="modal-title">Create a new booking</h4>
+    </div>
         <div class="row">
             <div class="col-8">
                <div id="bookings">
@@ -20,10 +25,14 @@
                         <h5>Description</h5>
                         {{form.description}}
                     </table>
-                    <input type="submit" value="Submit">
+                    <button type="submit" class="btn btn-primary">Update booking</button>
                 </form>
             </div>
         </div>
+    <div class="modal-footer">
+        <button type="button" id="close" class="btn btn-outline-primary btn-sm">Close</button>
+
+    </div>
     </div>
     
 {% endblock content %}
@@ -43,6 +52,8 @@
                 // close popup on success
                 success: function() {
                       var modal = document.getElementById('booking-modal');
+                      var date_format = tempDay.id.slice(0, 10);
+                      $("#" + date_format + " h1").text("2/12");
                       modal.style.display = "none";
                }
             })
@@ -67,4 +78,8 @@
             document.getElementById("bookings").innerHTML = text;
         }
     });
+
+    var close = document.getElementById('close');
+
+
 </script>
