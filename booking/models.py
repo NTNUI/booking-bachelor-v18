@@ -21,6 +21,7 @@ class Booking(models.Model):
     start = models.DateTimeField(_(u'Start'), blank=True)
     end = models.DateTimeField(_(u'End'), blank=True)
     description = models.CharField(max_length=400, default='')
+    queueNO = models.IntegerField(default=0)
 
     def __str__(self):
         return self.description
@@ -28,3 +29,14 @@ class Booking(models.Model):
     def get_absolute_url(self):
         return reverse('booking_edit', kwargs={'pk': self.pk})
 
+    def save(self, *args, **kwargs):
+        print(self.start)
+        print(self.location)
+        model = Booking
+        bookings = model.objects.filter(location=self.location, start=self.start, end=self.end)
+        bookings = list(bookings)
+        if not bookings:
+            self.queueNo = max(bookings, lambda x: x.queueNo)+1
+            print(self.queueNo)
+        print(bookings)
+        return super(Booking, self).save(*args, **kwargs)
