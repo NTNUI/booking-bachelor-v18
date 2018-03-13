@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from accounts.models import User
 from booking.filters import LocationFilter, UserFilter
 from .models import Booking, Location
+from booking.decorators import is_super_user
 
 
 @login_required
@@ -75,3 +76,7 @@ class NewsCreateView(CreateView):
     def form_valid(self, form):
         self.object = form.save()
         return render(self.request, reverse_lazy('booking_list'), {'news': self.object})
+
+@is_super_user
+def restr_site(request):
+    return HttpResponse("<h1>FYFY!!!</h1>")

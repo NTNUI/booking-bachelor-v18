@@ -11,6 +11,7 @@ class test_create_booking(TestCase):
         mail = "goodboy@mail.com"
         passwrd = "pass123"
         User.objects.create_user(email=mail, password=passwrd)
+        # User.objects.create_user
         self.c = Client()
         self.c.login(email=mail, password=passwrd)
     
@@ -54,7 +55,17 @@ class test_delete(TestCase):
 
     # get request for popup "GET /booking/new HTTP/1.1" 200 732
     
+
+
     def test_delete_booking(self):
-        self.c.get("/booking/create/")
+
+        #create booking
+        response = self.c.post("/booking/create/", {'location': 'Idrettshallen', 'Start': '05.03.2018', 
+                        'End': '06.03.2018', 'Description': 'Paryoga'})
+        self.assertTemplateUsed(response, "booking/booking_form.html")
+        self.assertEquals(response.status_code, 200)
+        #delete booking
+        response = self.c.post("booking/delete")
+
     #c.post
     pass
