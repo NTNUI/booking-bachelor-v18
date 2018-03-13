@@ -60,6 +60,20 @@ a:hover {
     cursor: default;
 }
 
+
+.closeButton {
+    float: right;
+    color: #aaa;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.closeButton:hover,
+.closeButton:focus {
+    color: black;
+    cursor: pointer;
+}
+
 /*
  * Responsive design CSS
 */

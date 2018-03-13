@@ -15,7 +15,7 @@
 }
 
 .myBookingsBox {
-    padding: 2rem 4rem;
+    padding: 2rem 2rem;
     background-color: white;
     box-shadow: 0 2px 4px rgba(50, 50, 93, 0.1);
     border: solid 1px #dfdfdf;
@@ -43,14 +43,12 @@
 
 .btn {
     margin-top: 5px;
+    cursor: pointer;
 }
 
-#newBookingButton {
-    float: right;
-}
-
+/* Delete and edit modal*/
 /* The Modal (background) */
-.modal-large {
+.modal-big {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -61,32 +59,17 @@
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    margin: 15% auto;
-    margin-top: 0;
+    /* overflow: hidden; */
 }
 
 /* Modal Content/Box */
-.modal-content {
+.booking-modal-contents {
     background-color: #fefefe;
-    margin: 10% auto; /* 15% from the top and centered */
+    margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
-    border: 1px solid #888;
     width: 60%; /* Could be more or less, depending on screen size */
 }
 
-/* The Close Button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
 
 /* Responsive design */
 * {
@@ -113,4 +96,8 @@
     content: "";
     clear: both;
     display: table;
+}
+
+h4.modal-title  {
+    margin: 0 auto;
 }

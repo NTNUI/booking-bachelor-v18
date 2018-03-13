@@ -61,7 +61,7 @@ function populate() {
     for (i = 0; i < global_list[0].length; i++) {
         var day = global_list[0][i].start;
         var date_format = day.slice(0, 10);
-        $("#" + date_format + " h1").text("BUSY");
+        $("#" + date_format + " h1").text("2/12");
     }
 }
 
@@ -142,7 +142,7 @@ function createCalendarDay(num, day, mon, year, available) {
     date.innerHTML = num;
     dayElement.innerHTML = ' ' + day;
     if(available == true){
-        availability.innerHTML = "-";
+        availability.innerHTML = "0/12";
         availability.style.color = "green";
     }
     newDay.className = "calendar-day";
@@ -236,7 +236,22 @@ function getCurrentDay() {
 
 
 function popup(e) {
-$('.booking-modal-contents').load('new');
+    $('.booking-modal-contents').load('new');
+    // $.ajax({
+    //   url: '/booking/bookings_list/create/',
+    //   type: 'get',
+    //   dataType: 'json',
+    //   beforeSend: function () {
+    //     $("#booking-modal .booking-modal-contents").html("");
+    //     $('#booking-modal').fadeTo(100, 0.5, function() {
+    //       $(this).css("display", "inline-block");
+    //     }).fadeTo(300, 1);
+    //   },
+    //   success: function (data) {
+    //     $("#booking-modal .booking-modal-contents").html(data.html_form);
+    //   }
+    // });
+
     //Set global tempDay variable to event that triggers the popup, ie the date.
     this.tempDay = e;
     var modal = document.getElementById('booking-modal');
@@ -245,7 +260,7 @@ $('.booking-modal-contents').load('new');
     modal.style.display = "block";
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
-        if (event.target == modal) {
+        if (event.target == modal || event.target == close) {
             modal.style.display = "none";
         }
     }
