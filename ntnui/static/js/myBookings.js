@@ -1,79 +1,44 @@
 
-//Popup for editing a booking
+/* Call delete modal when clicked */
+$(document).on('click', '.deleteModal', function(e){
+    deleteModal(e);
+});
 
-function myBookingEdit() {
-    //popup elements
-    var popupTag = document.createElement("div");
-    var popupContent = document.createElement("div");
-    var popupSpan = document.createElement("span");
-    var popupInfo = document.createElement("h1");
-    popupTag.className = "modal-large";
-    popupContent.className = "modal-content";
-    popupContent.appendChild(popupSpan);
-    popupContent.appendChild(popupInfo);
-    popupTag.appendChild(popupContent);
-    popupTag.id = "popupTest";
-    popupSpan.id = "popupSpan";
+/* Open modal with correct content */
+function deleteModal(e) {
+    $('.booking-modal-contents').load('delete/'+(e.target.id));
 
-    document.body.appendChild(popupTag);
-    var modal = document.getElementById(popupTag.id);
-    var btn = document.getElementById("editButton");
-    var span = document.getElementById(popupSpan.id);
-    //popupContent.appendChild(popupInfo);
-    btn.onclick = function() {
-        modal.style.display = "block";
-        $(".modal-content").load("delete/3");
+    //Set global tempDay variable to event that triggers the popup, ie the date.
+    var modal = document.getElementById('booking-modal');
+    modal.style.display = "block";
 
-        console.log("open");
-    }
-    span.onclick = function() {
-        modal.style.display = "none";
-        console.log("close");
-    }
-    popupTag.onclick = function(event) {
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
+        }
     }
-    }}
+}
 
+/* Call delete modal when clicked */
+$(document).on('click', '.editModal', function(e){
+    editModal(e);
+});
 
-//Popup for deleting a booking
-function myBookingDelete() {
-    //popup elements
-    var popupTag = document.createElement("div");
-    var popupContent = document.createElement("div");
-    var popupSpan = document.createElement("span");
-    var popupInfo = document.createElement("h1");
-    popupTag.className = "modal-large";
-    popupContent.className = "modal-content";
-    popupContent.appendChild(popupSpan);
-    popupContent.appendChild(popupInfo);
-    popupTag.appendChild(popupContent);
-    popupTag.id = "popupTest";
-    popupSpan.id = "popupSpan";
+/* Open modal with correct content */
+function editModal(e) {
+    $('.booking-modal-contents').load('edit/'+(e.target.id));
 
-    document.body.appendChild(popupTag);
-    var modal = document.getElementById(popupTag.id);
-    var btn = document.getElementById("deleteButton");
-    var span = document.getElementById(popupSpan.id);
-    //popupContent.appendChild(popupInfo);
-    btn.onclick = function() {
-        modal.style.display = "block";
-        $(".modal-content").load("delete/3");
+    //Set global tempDay variable to event that triggers the popup, ie the date.
+    var modal = document.getElementById('booking-modal');
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    modal.style.display = "block";
 
-        console.log("open");
-    }
-    span.onclick = function() {
-        modal.style.display = "none";
-        console.log("close");
-    }
-    popupTag.onclick = function(event) {
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
+        }
     }
-    }}
-
-
-
-myBookingEdit();
-myBookingDelete();
+}

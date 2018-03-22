@@ -1,17 +1,14 @@
-from django.shortcuts import render, get_object_or_404, redirect, HttpResponse, render_to_response, HttpResponseRedirect
-from django.views.generic import ListView, TemplateView
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
-from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from .models import Booking
-from django.http import JsonResponse, request
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from accounts.models import User
 from booking.filters import LocationFilter, UserFilter
 from .models import Booking, Location
 from booking.decorators import is_super_user
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+from .forms import BookingForm
 
 
 @login_required
@@ -62,21 +59,71 @@ class BookingCreate(CreateView):
 
 class BookingUpdate(UpdateView):
     model = Booking
+    template_name = "booking/booking_confirm_edit.html"
     success_url = reverse_lazy('booking_list')
-    fields = ['location', 'start', 'end', 'description']
+    fields = ['location', 'end', 'description']
 
 class BookingDelete(DeleteView):
     model = Booking
     success_url = reverse_lazy('booking_list')
 
-class NewsCreateView(CreateView):
+
+def booking_list(request):
     model = Booking
-    fields = '__all__'
+    bookings = model.objects.all()
+    return render(request, 'booking/bookings_list.html', {
+        'bookings': bookings})
+
+def save_booking_form(request, form, template_name):
+    data = dict()
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            data['form_is_valid'] = True
+            bookings = Booking.objects.all()
+            data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
+                'bookings': bookings
+            })
+        else:
+            data['form_is_valid'] = False
+    context = {'form': form}
+    data['html_form'] = render_to_string(template_name, context, request=request)
+    return JsonResponse(data)
+
+def booking_create(request):
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+    else:
+        form = BookingForm(initial={'person': request.user})
+    return save_booking_form(request, form, 'booking/includes/partial_booking_create.html')
+
+def booking_update(request, pk):
+    book = get_object_or_404(Booking, pk=pk)
+    if request.method == 'POST':
+        form = BookingForm(request.POST, instance=book)
+    else:
+        form = BookingForm(instance=book)
+    return save_booking_form(request, form, 'booking/includes/partial_booking_update.html')
 
     def form_valid(self, form):
         self.object = form.save()
         return render(self.request, reverse_lazy('booking_list'), {'news': self.object})
 
-@is_super_user
-def restr_site(request):
-    return HttpResponse("<h1>FYFY!!!</h1>")
+
+def booking_delete(request, pk):
+    book = get_object_or_404(Booking, pk=pk)
+    data = dict()
+    if request.method == 'POST':
+        book.delete()
+        data['form_is_valid'] = True  # This is just to play along with the existing code
+        bookings = Booking.objects.all()
+        data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
+            'bookings': bookings
+        })
+    else:
+        context = {'book': book}
+        data['html_form'] = render_to_string('booking/includes/partial_booking_delete.html',
+            context,
+            request=request,
+        )
+    return JsonResponse(data)

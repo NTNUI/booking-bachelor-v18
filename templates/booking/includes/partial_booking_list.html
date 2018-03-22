@@ -1,0 +1,23 @@
+{#list displaying all bookings#}
+
+{% for book in bookings %}
+    <tr>
+        <td>{{ book.description }}</td>
+        <td>{{ book.location }}</td>
+        <td>{{ book.start }}</td>
+        <td>{{ book.end }}</td>
+        <td>
+            <button type="button" class="btn btn-outline-primary btn-sm js-update-booking" data-url="{% url 'booking_update' book.id %}">
+                <span class="glyphicon glyphicon-pencil"></span> Edit
+            </button>
+            <button type="button" class="btn btn-outline-primary btn-sm js-delete-booking" data-url="{% url 'booking_delete' book.id %}">
+                <span class="glyphicon glyphicon-trash"></span> Delete
+            </button>
+        </td>
+    </tr>
+
+{% empty %}
+    <tr>
+        <td><p>Yay! You have no bookings. Stay in and enjoy your day!</p></td>
+    </tr>
+{% endfor %}
