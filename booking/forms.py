@@ -5,6 +5,6 @@ from .models import Booking
 class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
-        fields = ['person', 'location', 'start', 'end', 'description']
+        fields = ['person', 'location', 'start', 'end', 'title', 'description']
         # Hide person field because it will be automatically added.
         widgets = {'person': forms.HiddenInput()}

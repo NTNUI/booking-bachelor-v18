@@ -3,6 +3,9 @@
 .booking-container {
     width: 60%;
 }
+.borderless td {
+    border:none;
+}
 
 .myBookingsHeader {
     margin-top: 2rem;

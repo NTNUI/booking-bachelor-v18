@@ -17,13 +17,15 @@ class Location(models.Model):
 #Booking model
 class Booking(models.Model):
     person = models.ForeignKey('accounts.User', on_delete=models.CASCADE, null=True)
+    title = models.CharField(max_length=400, default='')
+    description = models.CharField(max_length=400, default='')
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     start = models.DateTimeField(_(u'Start'), blank=True)
     end = models.DateTimeField(_(u'End'), blank=True)
-    description = models.CharField(max_length=400, default='')
+
 
     def __str__(self):
-        return self.description
+        return self.title
 
     def get_absolute_url(self):
         return reverse('booking_edit', kwargs={'pk': self.pk})
