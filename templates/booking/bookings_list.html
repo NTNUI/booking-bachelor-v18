@@ -9,32 +9,36 @@
 
 {% block content %}
 <div class="booking-container">
-    <h1 class="myBookingsHeader">
+    <h1 id="myBookingsHeader">
         My bookings
     </h1>
     <div class="myBookingsBox">
         <h3> Hello, {{user.first_name}} {{ user.last_name }}</h3>
-        <p>These are your bookings!</p>
+
+        <p class="myHeaders">These are your bookings</p>
+        <div class="replace">
+            <table class="table" id="booking-table">
+
+            <tbody>
+                {% include 'booking/includes/partial_booking_list.html' %}
+            </table>
+        </div>
+
+        <p class="myHeaders">These are your groups bookings</p>
+        <div class="replace">
+            <table class="table" id="booking-table">
+
+            <tbody>
+                {% include 'booking/includes/partial_booking_list.html' %}
+            </table>
+        </div>
+
         <p>
             <button type="button" class="btn btn-primary js-create-booking" data-url="{% url 'booking_create' %}">
                 <span class="glyphicon glyphicon-plus"></span>
                 Create a new booking
             </button>
         </p>
-        <div class="replace">
-            <table class="table" id="booking-table">
-                <thead>
-                    <tr>
-                        <th>Description</th>
-                        <th>Location</th>
-                        <th>Start date</th>
-                        <th>End date</th>
-                    </tr>
-                </thead>
-            <tbody>
-                {% include 'booking/includes/partial_booking_list.html' %}
-            </table>
-        </div>
     </div>
 </div>
 
