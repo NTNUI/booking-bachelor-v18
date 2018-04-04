@@ -34,7 +34,8 @@ class Booking(models.Model):
         print(self.start)
         print(self.location)
         model = Booking
-        bookings = model.objects.filter(location=self.location, start=self.start, end=self.end)
+        bookings = model.objects.filter(location=self.location, start__lt=self.end, end__gt=self.start)
+        print(bookings)
         # bookings = list(bookings)
         if list(bookings) != []:
             # self.queueNo = max(bookings, (item.queueNo for item in bookings))
@@ -45,3 +46,5 @@ class Booking(models.Model):
             print(self.queueNo)
         print(bookings)
         return super(Booking, self).save(*args, **kwargs)
+    
+    
