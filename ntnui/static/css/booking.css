@@ -5,8 +5,8 @@
     height:92vh;
 }
 
-.row{
-    width:100%;
+.row {
+    width: 100%;
     margin: 15px;
 }
 
@@ -186,7 +186,7 @@ form {
 /* Responsive design */
 /* Makes text smaller and removes "busy" sign on smaller devices */
 
-@media only screen and (max-width: 992px){
+@media only screen and (max-width: 480px){
     .container {
             font-size: 80%;
     }

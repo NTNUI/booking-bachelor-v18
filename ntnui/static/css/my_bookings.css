@@ -89,6 +89,15 @@
 }
 
 /* Responsive design */
+@media only screen and (max-width: 480px){
+    .myBookingsBox {
+        padding: 1rem 0.5rem;
+    }
+    .booking-container {
+    width: 80%;
+}
+}
+
 * {
     box-sizing: border-box;
 }
@@ -114,3 +123,4 @@
     clear: both;
     display: table;
 }
+
