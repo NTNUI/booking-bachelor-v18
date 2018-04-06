@@ -1,6 +1,6 @@
 {#list displaying all bookings#}
 
-{% for book in bookings %}
+{% if bookings %}
     <thead>
         <tr>
             <th>Description</th>
@@ -9,6 +9,9 @@
             <th>End date</th>
         </tr>
     </thead>
+{% endif %}
+
+{% for book in bookings %}
     <tr>
         <td>{{ book.title }}</td>
         <td>{{ book.location }}</td>

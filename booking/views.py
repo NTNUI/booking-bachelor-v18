@@ -73,6 +73,11 @@ def booking_list(request):
     return render(request, 'booking/bookings_list.html', {
         'bookings': bookings})
 
+def confirmation_mail(request):
+    name = request.user.first_name
+    body = "Hey " + name + ", you have created a new booking!"
+    print(body)
+
 def save_booking_form(request, form, template_name):
     data = dict()
     if request.method == 'POST':
@@ -83,6 +88,7 @@ def save_booking_form(request, form, template_name):
             data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
                 'bookings': bookings
             })
+            confirmation_mail(request)
         else:
             data['form_is_valid'] = False
     context = {'form': form}
