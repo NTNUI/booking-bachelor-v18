@@ -1,3 +1,7 @@
+html, body {
+    height:100%;
+}
+
 body {
     background-color: #f1f1f1;
 }
@@ -54,6 +58,20 @@ a:hover {
 
 .btn:disabled {
     cursor: default;
+}
+
+
+.closeButton {
+    float: right;
+    color: #aaa;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.closeButton:hover,
+.closeButton:focus {
+    color: black;
+    cursor: pointer;
 }
 
 /*

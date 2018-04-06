@@ -107,3 +107,6 @@ mydatabase
 geckodriver.log
 .coverage
 .env
+
+
+.DS_Store
