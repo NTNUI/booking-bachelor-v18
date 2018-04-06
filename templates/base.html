@@ -34,6 +34,12 @@
       <div class="collapse navbar-collapse" id="mainMenu">
         {% if user.is_authenticated %}
         <ul class="navbar-nav ml-auto">
+          <li>
+            <a class="link-with-icon" href="/booking">
+                <img src="{% static 'img/calendar.png' %}" alt="calendar icon" />
+                <p>Booking</p>
+            </a>
+          </li>
           {% user_in_hs user as user_in_hs %}
           {% if user_in_hs %}
             <li>
@@ -63,6 +69,8 @@
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
               <!--<a class="dropdown-item" href="#">My account</a>-->
               <a class="dropdown-item" href="{% url 'forms_list_submitted' %}">My forms</a>
+              <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'booking_list' %}">My bookings</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
               <div class="dropdown-divider"></div>

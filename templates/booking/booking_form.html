@@ -1,0 +1,86 @@
+{% block content %}
+
+    <div class="container">
+     <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        </button>
+        <h4 class="modal-title">Create a new booking</h4>
+    </div>
+        <div class="row">
+            <div class="col-8">
+               <div id="bookings">
+
+               </div>
+            </div>
+            <div class="col">
+                <form action="new" id="my-ajax-form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.file_name }}
+                    <table>
+                        {{form.person.as_hidden}}
+                        <h5>Location </h5>
+                        {{form.location}}
+                        <h5>End</h5>
+                        {{form.end}}
+                        <h5>Description</h5>
+                        {{form.description}}
+                    </table>
+                    <button type="submit" class="btn btn-primary">Update booking</button>
+                </form>
+            </div>
+        </div>
+    <div class="modal-footer">
+        <button type="button" id="close" class="btn btn-outline-primary btn-sm">Close</button>
+
+    </div>
+    </div>
+    
+{% endblock content %}
+
+<script>
+    //jQuery script which prevents a page refresh when creating a booking and auto-fills the start date field
+    $(document).ready(function(){
+        var $myForm = $('#my-ajax-form')
+        $myForm.submit(function(event){
+            event.preventDefault()
+            // append start date to post request
+            var $formData = $(this).serialize()+"&start="+tempDay.id.toString()
+            $.ajax({
+                method: "POST",
+                url: 'new',
+                data: $formData,
+                // close popup on success
+                success: function() {
+                      var modal = document.getElementById('booking-modal');
+                      var date_format = tempDay.id.slice(0, 10);
+                      $("#" + date_format + " h1").text("BUSY");
+
+                      modal.style.display = "none";
+               }
+            })
+        })
+    });
+
+    // Get booking-data from API for the clicked date.
+    $.ajax({
+        method: "GET",
+        url: '/booking/api',
+        success: function(data) {
+            var day_list = [];
+            $.each(data, function(i, item) {
+                var day = data[i].start;
+                var date_format = day.slice(0, 10);
+                if(tempDay.id == date_format){
+                    day_list.push(date_format, data[i].description, data[i].location__name, data[i].person__first_name);
+                }
+            })
+
+            var text = day_list.toString();
+            document.getElementById("bookings").innerHTML = text;
+        }
+    });
+
+    var close = document.getElementById('close');
+
+
+</script>

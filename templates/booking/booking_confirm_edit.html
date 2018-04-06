@@ -1,0 +1,44 @@
+{% block content %}
+ 
+    <div class="booking-modal-contents">
+        <span class="closeButton">x</span>
+        <form id="{{ booking.id }}" class="editModal" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.file_name }}
+            <table>
+                {{form.person.as_hidden}}
+                <h5>Location </h5>
+                {{form.location}}
+                <h5>End</h5>
+                {{form.end}}
+                <h5>Description</h5>
+                {{form.description}}
+            </table>
+            <input type="submit" value="Edit">
+        </form>
+    </div>
+ 
+{% endblock content %}
+
+<script>
+    $('.editModal').submit(function(e) {
+        // do NOT submit the form as a regular POST request
+        e.preventDefault();
+        var object = e.target.id;
+        console.log(object);
+        $.ajax({
+            type: 'POST',
+            url: 'edit/'+ object,
+            success: function() {
+                var modal = document.getElementById('booking-modal');
+                modal.style.display = "none";
+            },
+            headers: { 'X_METHODOVERRIDE': 'DELETE' }
+        });
+    });
+
+    var modal = document.getElementById('booking-modal');
+    $(document).on("click", ".closeButton", function(){
+        modal.style.display = "none";
+    });
+</script>
