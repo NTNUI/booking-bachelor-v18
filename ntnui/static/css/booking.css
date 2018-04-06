@@ -67,9 +67,8 @@
 
 /*Highlights today*/
 .today {
-    background: #ffffff;
-    border-bottom: solid 2px #4686f2;
-    color: #0d60e8;
+    border-bottom: solid 2px #EC1E24;
+    color: #EC1E24;
 }
 
 /* Restrictions for booking */

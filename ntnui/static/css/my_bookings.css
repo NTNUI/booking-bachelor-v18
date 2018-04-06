@@ -7,7 +7,7 @@
     border:none;
 }
 
-.myBookingsHeader {
+#myBookingsHeader {
     margin-top: 2rem;
     margin-left: 1rem;
     text-transform: uppercase;
@@ -15,6 +15,11 @@
     font-size: 1.5rem;
     max-width: 50%;
     display: inline-block;
+}
+
+.myHeaders {
+    margin: 1rem;
+    font-size: 1.2rem;
 }
 
 .myBookingsBox {
