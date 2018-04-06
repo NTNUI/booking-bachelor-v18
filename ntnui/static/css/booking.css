@@ -163,3 +163,7 @@ form {
     cursor: pointer;
 }
 
+.calendar-booking {
+    float: right;
+}
+
