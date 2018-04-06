@@ -19,7 +19,7 @@
 .calendar-day {
     box-shadow: 0 2px 4px rgba(50, 50, 93, 0.2);
     background-color: #fff;
-    padding: 2px 8px;
+    padding: 5px;
     width: 12%;
     margin: 1%;
     text-align: center;
@@ -29,9 +29,7 @@
     font-weight: 500;
 }
 .calendar-day p {
-    /*
-    display: inline;
-    */
+    font-size: 100%;
 }
 
 .calendar-day h1{
@@ -185,3 +183,14 @@ form {
     cursor: pointer;
 }
 
+/* Responsive design */
+/* Makes text smaller and removes "busy" sign on smaller devices */
+
+@media only screen and (max-width: 992px){
+    .container {
+            font-size: 80%;
+    }
+    .calendar-day h1{
+        display: none;
+    }
+}
