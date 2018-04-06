@@ -5,11 +5,18 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
+LOCATION_TYPES = (
+    ('gym ','GYM'),
+    ('football field', 'FOOTBALL FIELD'),
+    ('volleyball grounds','VOLLEYBALL GROUNDS')
+)
+
 #Location model
 class Location(models.Model):
     name = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
     description = models.CharField(max_length=400)
+    type = models.CharField(max_length=200, choices=LOCATION_TYPES, default='gym')
 
     def __str__(self):
         return self.name
