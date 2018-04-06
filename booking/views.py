@@ -106,7 +106,6 @@ def booking_update(request, pk):
     book = get_object_or_404(Booking, pk=pk)
     if request.method == 'POST':
         form = BookingForm(request.POST, instance=book)
-        confirmation_mail(request)
     else:
         form = BookingForm(instance=book)
     return save_booking_form(request, form, 'booking/includes/partial_booking_update.html')
