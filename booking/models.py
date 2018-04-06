@@ -11,6 +11,14 @@ LOCATION_TYPES = (
     ('volleyball grounds','VOLLEYBALL GROUNDS')
 )
 
+YOUR_GROUPS = (
+    ('none ','NONE'),
+    ('friidrett', 'NTNUI FRIIDRETT'),
+    ('koiene','NTNUI KOIENE'),
+    ('vollyball', 'NTNUI VOLLEYBALL'),
+    ('calisthenics', 'NTNUI CALISTHENICS')
+)
+
 #Location model
 class Location(models.Model):
     name = models.CharField(max_length=200)
@@ -29,6 +37,7 @@ class Booking(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     start = models.DateTimeField(_(u'Start'), blank=True)
     end = models.DateTimeField(_(u'End'), blank=True)
+    group = models.CharField(max_length=200, choices=YOUR_GROUPS, default='none')
 
 
     def __str__(self):
