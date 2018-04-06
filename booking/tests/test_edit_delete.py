@@ -9,7 +9,8 @@ class test_enqueue(TestCase):
         pswrd = "TestyTest123"
         User.objects.create_superuser(email=mail, password=pswrd)
         self.login_response = self.client.login(email=mail, password=pswrd)
-        
+        Location.objects.create(name="Idrettshallen")
+
     def test_g(self):
         self.assertGreater(2, 1)
 
@@ -17,16 +18,18 @@ class test_enqueue(TestCase):
         loc = "Idrettshallen"
         start = "2018-04-15 10:00:00"
         end = "2018-04-15 13:00:00"
-        response = self.client.post("booking_list/create", {"location": loc,
+        location = Location.objects.get(name=loc)
+        response = self.client.post("/booking_list/create", {"location": location,
                                                 "Start": start,
                                                 "End": end,
                                                 "Description": "Dollyball"})
-        self.client.post("booking_list/create", {"location": loc,
+        self.client.post("/booking_list/create", {"location": location,
                                                 "Start": start,
                                                 "End": end,
                                         "Description": "Dollyball2"})                                        
-        location = Location.objects.get(name=loc)
+        
         qNo1 = Booking.objects.filter(location=location.id, start=start, end=end, description="Dollyball")
         qNo2 = Booking.objects.filter(location=location.id, start=start, end=end, description="Dollyball2")
-        self.assertGreater(qNo2, qNo1)
+        print(qNo1)
+        self.assertGreater(qNo1[:1].get(), qNo2[:1].get())
         

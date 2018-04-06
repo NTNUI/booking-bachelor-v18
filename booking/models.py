@@ -30,18 +30,37 @@ class Booking(models.Model):
     def get_absolute_url(self):
         return reverse('booking_edit', kwargs={'pk': self.pk})
 
+    # def save(self, *args, **kwargs):
+    #     model = Booking
+    #     bookings = model.objects.filter(location=self.location, start__lt=self.end, end__gt=self.start)
+    #     # bookings = list(bookings)
+    #     if list(bookings) != []:
+    #         maxVal =  bookings.aggregate(models.Max('queueNo'))
+    #         temp = [maxVal [i] for i in sorted(maxVal.keys())]
+    #         self.queueNo = int(temp[0])+1
+    #     return super(Booking, self).save(*args, **kwargs)
+    
     def save(self, *args, **kwargs):
-        print(self.start)
-        print(self.location)
-        model = Booking
-        bookings = model.objects.filter(location=self.location, start=self.start, end=self.end)
-        # bookings = list(bookings)
-        if list(bookings) != []:
-            # self.queueNo = max(bookings, (item.queueNo for item in bookings))
-            maxVal =  bookings.aggregate(models.Max('queueNo'))
-            temp = [maxVal [i] for i in sorted(maxVal.keys())]
+        # TODO: retrieve all overlapping bookings
+        # compare to all with qNo=0
+        # a|----| b|----|
+        #    c|-----| d|---|
+        #               e|----|
+        # c overlaps with a and b, put c.qNo = 1
+        # d overlaps with b, put d.qNo = 1
+        # e overlaps with d, put eqNo = 0
+        bookings = Booking.objects.filter(location=self.location, start__lt=self.end, end__gt=self.start)
+        first = bookings.filter(queueNo=0)
+        if list(first) != []:
+            print(bookings)
+            maxval = bookings.aggregate(models.Max('queueNo'))
+            temp = [maxval [i] for i in sorted(maxval.keys())]
             self.queueNo = int(temp[0])+1
-            # self.queueNo += 1
-            print(self.queueNo)
-        print(bookings)
         return super(Booking, self).save(*args, **kwargs)
+
+
+    
+    
+    # def delete(self, *args, **kwargs):
+    #     qNo = self.queueNo
+    #     bookings = Booking.objects.filter(location=self.location, start__lt=self.end, end__gt=self.start)
