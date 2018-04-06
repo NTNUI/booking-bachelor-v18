@@ -49,24 +49,6 @@ def BookingAll(request):
             'bookings': bookings,
             'filter': location_filter, })
 
-class BookingCreate(CreateView):
-    model = Booking
-    success_url = reverse_lazy('booking')
-    fields = ['person', 'location', 'start', 'end', 'title', 'description']
-    def get_initial(self):
-        return {'person': self.request.user}
-
-class BookingUpdate(UpdateView):
-    model = Booking
-    template_name = "booking/booking_confirm_edit.html"
-    success_url = reverse_lazy('booking_list')
-    fields = ['location', 'end', 'title', 'description']
-
-class BookingDelete(DeleteView):
-    model = Booking
-    success_url = reverse_lazy('booking_list')
-
-
 def booking_list(request):
     model = Booking
     bookings = model.objects.all()
@@ -101,6 +83,14 @@ def booking_create(request):
     else:
         form = BookingForm(initial={'person': request.user})
     return save_booking_form(request, form, 'booking/includes/partial_booking_create.html')
+
+def booking_create_from_calendar(request):
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+    else:
+        form = BookingForm(initial={'person': request.user})
+    return save_booking_form(request, form, 'booking/includes/partial_booking_create_calendar.html')
+
 
 def booking_update(request, pk):
     book = get_object_or_404(Booking, pk=pk)
