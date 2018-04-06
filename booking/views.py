@@ -16,7 +16,7 @@ def index(request):
 
 def api(request, **kwargs):
     model = Booking
-    bookings = model.objects.all().values('description', 'start', 'end', 'location__name', 'person__first_name')
+    bookings = model.objects.all().values('title', 'description', 'start', 'end', 'location__name', 'person__first_name')
     booking_list = list(bookings)
     return JsonResponse(booking_list, safe=False)
 
@@ -52,7 +52,7 @@ def BookingAll(request):
 class BookingCreate(CreateView):
     model = Booking
     success_url = reverse_lazy('booking')
-    fields = ['person', 'location', 'start', 'end', 'description']
+    fields = ['person', 'location', 'start', 'end', 'title', 'description']
     def get_initial(self):
         return {'person': self.request.user}
 
@@ -60,7 +60,7 @@ class BookingUpdate(UpdateView):
     model = Booking
     template_name = "booking/booking_confirm_edit.html"
     success_url = reverse_lazy('booking_list')
-    fields = ['location', 'end', 'description']
+    fields = ['location', 'end', 'title', 'description']
 
 class BookingDelete(DeleteView):
     model = Booking

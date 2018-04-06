@@ -43,7 +43,7 @@
                 {% for booking in object_list %}
                 {% if user.get_username == booking.person.get_username %}
                 <div class="booking-item">
-                    <h4>{{ booking.description}}</h4>
+                    <h4>{{ booking.title}}</h4>
                     <div class = "title-description">Time</div>
                     {{ booking.start}} - {{ booking.end }}
                     <div class = "title-description">Location</div>
@@ -52,6 +52,7 @@
                         <a id="{{ booking.id }}" class="editModal btn btn-outline-primary btn-sm">Edit</a>
                         <a id="{{ booking.id }}" class="deleteModal btn btn-outline-primary btn-sm">Delete</a>
                     </p>
+
                 </div>
                 {% endif %}
                 {% endfor %}

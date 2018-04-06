@@ -10,7 +10,7 @@
         </tr>
     </thead>
     <tr>
-        <td>{{ book.description }}</td>
+        <td>{{ book.title }}</td>
         <td>{{ book.location }}</td>
         <td>{{ book.start }}</td>
         <td>{{ book.end }}</td>
@@ -22,10 +22,17 @@
                 <span class="glyphicon glyphicon-trash"></span> Delete
             </button>
         </td>
+
+    </tr>
+    <tr class="borderless">
+        <td id="desc">Description: {{ book.description }}</td>
     </tr>
 
-{% empty %}
-    <tr>
-        <td><p>Yay! You have no bookings. Stay in and enjoy your day!</p></td>
-    </tr>
+
+
+
+    {% empty %}
+        <tr>
+            <td><p>Yay! You have no bookings. Stay in and enjoy your day!</p></td>
+        </tr>
 {% endfor %}
