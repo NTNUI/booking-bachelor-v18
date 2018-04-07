@@ -153,16 +153,20 @@
 
                     <hr>
                     <div id="searchButton">
-                        <button class="btn btn-success col">Search</button>
+                        <button class="btn btn-success col" title="Click to search">Search</button>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Calendar content -->
             <div class="col-9" class="container">
                 <div class="controls">
-                    <p class="next label" onclick="nextMonth()"><i class="fa fa-arrow-right"></i></p>
-                    <p class="previous label" onclick="previousMonth()"><i class="fa fa-arrow-left"></i></p>
+                    <p class="next label" onclick="nextMonth()">
+                        <i class="fa fa-arrow-right" title="Next month"></i>
+                    </p>
+                    <p class="previous label" onclick="previousMonth()">
+                        <i class="fa fa-arrow-left" title="Previous month"></i>
+                    </p>
                     <p id="current-month" class="label bold"></p>
                 </div>
 
