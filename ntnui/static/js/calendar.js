@@ -61,7 +61,27 @@ function populate() {
     for (i = 0; i < global_list[0].length; i++) {
         var day = global_list[0][i].start;
         var date_format = day.slice(0, 10);
-        $("#" + date_format + " h1").text("2/12");
+        var location = global_list[0][i].location__name;
+        //$("#" + date_format + " h1").text("2/12");
+    }
+}
+
+function checkFilter() {
+    check = document.getElementById("filter");
+    console.log(check.value);
+    for (i = 0; i < global_list[0].length; i++) {
+        var day = global_list[0][i].start;
+        var date_format = day.slice(0, 10);
+        var location = global_list[0][i].location__name;
+        if (check.value == location) {
+            $("#" + date_format + " h1").text(check.value);
+            console.log(check.value)
+            console.log(document.getElementById("filter").checked)
+        }
+        else if (document.getElementById("filter").checked == false) {
+            $("#" + date_format + " h1").text("Not hall 2");
+        }
+
     }
 }
 

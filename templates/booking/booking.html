@@ -31,7 +31,7 @@
                 <div class="container">
                     <div class="filterHeader">Locations</div>
                     <div class="tb aBlock">
-                        <input type="checkbox" class="largeCheckbox" id="check1"/>
+                        <!--<input type="checkbox" class="largeCheckbox" id="check1"/>
                         <label for="check1">Gløshaugen</label>
                         <table class="collapsible" id="collapsible1">
                             <tr>
@@ -48,31 +48,19 @@
                             </tr>
                         </table>
                     </div>
+                    -->
                     <div class="tb aBlock">
-                        <input type="checkbox" class="largeCheckbox" id="check2"/>
-                        <label for="check2">Dragvoll</label>
-                        <table class="collapsible" id="collapsible1">
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check7"/>
-                                    <label for="check7">Dragvoll hall 1</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check8"/>
-                                    <label for="check8">Dragvoll hall 2</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check18"/>
-                                    <label for="check18">Dragvoll hall 3</label>
-                                </td>
-                            </tr>
-                        </table>
+                        <!--<input type="checkbox" class="largeCheckbox" value="Dragvoll" id="hall1" onclick="checkFilter()"/>
+                        <label for="check2">Dragvoll</label>!-->
+                        {% for location in locations %}
+                            <form>
+                                <input type="checkbox" class="largeCheckbox" value="{{ location.name }}" id="filter">
+                                <label for="filter">{{ location.name }}</label>
+                                {% endfor %}
+                                <input type="button" onclick="checkFilter()">
+                            </form>
                     </div>
-                    <div class="tb aBlock">
+                    <!--<div class="tb aBlock">
                         <input type="checkbox" class="largeCheckbox" id="check3"/>
                         <label for="check3">Solsiden</label>
                         <table class="collapsible" id="collapsible1">
@@ -157,7 +145,7 @@
                     </div>
                 </div>
             </div>
-            
+            -->
             <!-- Calendar content -->
             <div class="col-9" class="container">
                 <div class="controls">

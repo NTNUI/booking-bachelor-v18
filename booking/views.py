@@ -12,7 +12,10 @@ from .forms import BookingForm
 
 @login_required
 def index(request):
-    return render(request, 'booking/booking.html')
+    model = Location
+    locations = model.objects.all()
+    return render(request, 'booking/booking.html', {
+        'locations': locations})
 
 def api(request, **kwargs):
     model = Booking
