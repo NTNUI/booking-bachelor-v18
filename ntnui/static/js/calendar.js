@@ -146,7 +146,7 @@ function createCalendarDay(num, day, mon, year, available) {
         availability.style.color = "green";
     }
     newDay.className = "calendar-day";
-
+    newDay.title = "Click to book";
     // Set ID of element as date formatted "8-January" etc
     num = minTwoDigits(num);
     newDay.id = year + "-" + mon + "-" + num;
