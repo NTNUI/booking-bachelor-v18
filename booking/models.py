@@ -4,19 +4,13 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from groups.models import SportsGroup
+from django.contrib.auth.models import User
 
 LOCATION_TYPES = (
     ('gym ','GYM'),
     ('football field', 'FOOTBALL FIELD'),
     ('volleyball grounds','VOLLEYBALL GROUNDS')
-)
-
-YOUR_GROUPS = (
-    ('none ','NONE'),
-    ('friidrett', 'NTNUI FRIIDRETT'),
-    ('koiene','NTNUI KOIENE'),
-    ('vollyball', 'NTNUI VOLLEYBALL'),
-    ('calisthenics', 'NTNUI CALISTHENICS')
 )
 
 #Location model
@@ -37,7 +31,10 @@ class Booking(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     start = models.DateTimeField(_(u'Start'), blank=True)
     end = models.DateTimeField(_(u'End'), blank=True)
-    group = models.CharField(max_length=200, choices=YOUR_GROUPS, default='none')
+
+    tu = tuple(SportsGroup.objects.all().values_list('name', 'name'))
+    print(tu)
+    group = models.CharField(max_length=200, choices=tu, blank=True)
 
 
     def __str__(self):

@@ -12,7 +12,7 @@
 {% endif %}
 
 {% for book in bookings %}
-    {% if user.get_username != book.person.get_username {# & in you groups #} %}
+    {% if user.get_username != book.person.get_username %} {# & in you groups #}
         <tr>
             <td>{{ book.title }}</td>
             <td>{{ book.location }}</td>
