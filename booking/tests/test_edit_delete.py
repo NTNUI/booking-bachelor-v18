@@ -36,7 +36,7 @@ class test_enqueue(TestCase):
         for i in range(len(qNo1)):
             print(qNo1[i])
         self.assertGreater(qNo2[0].queueNo, qNo1[0].queueNo)
-        self.assertTrue(False)
+        # self.assertTrue(False)
     
     def test_multi_enq(self):   
         #create bookings in database                                  
@@ -94,7 +94,8 @@ class test_enqueue(TestCase):
         # print(Booking.objects.all())
         print(b2.queueNo)
         print(b3.queueNo)
-        self.assertTrue(False)
+        self.assertEqual(b2.queueNo, b3.queueNo)
+        # self.assertTrue(False)
 
     def test_edit(self):
         b1 = Booking(location=self.location, start=self.s1, end=self.e1, description=self.d1)
@@ -109,7 +110,8 @@ class test_enqueue(TestCase):
         qNo2 = b2.queueNo
         print("before ", qNo1)
         print("after", qNo2)
-        self.assertTrue(False)
+        self.assertGreater(qNo1, qNo2)
+        # self.assertTrue(False)
     
     def test_edit_inplace(self):
         s1 = "2018-05-15 12:00:00"
@@ -123,8 +125,9 @@ class test_enqueue(TestCase):
         b2 = Booking(location=self.location, start=s2, end=e2, description="second")
         b2.save()
         b3 = Booking(location=self.location, start=s3, end=e3)
-        print(b2.start.date)
-        self.assertTrue(False)
+        print(b2.start)
+        self.assertGreater(b3.queueNo, b2.queueNo)
+        # self.assertTrue(False)
 
 
         
