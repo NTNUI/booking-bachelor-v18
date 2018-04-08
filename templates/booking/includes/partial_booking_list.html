@@ -20,10 +20,10 @@
         <td>{{ book.start }}</td>
         <td>{{ book.end }}</td>
         <td>
-            <button type="button" class="btn js-update-booking" data-url="{% url 'booking_update' book.id %}">
+            <button type="button" class="btn col js-update-booking" data-url="{% url 'booking_update' book.id %}">
                 <span class="glyphicon glyphicon-pencil"></span> Edit
             </button>
-            <button type="button" class="btn btn-danger  js-delete-booking" data-url="{% url 'booking_delete' book.id %}">
+            <button type="button" class="btn btn-danger col js-delete-booking" data-url="{% url 'booking_delete' book.id %}">
                 <span class="glyphicon glyphicon-trash"></span> Delete
             </button>
         </td>

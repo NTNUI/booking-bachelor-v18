@@ -78,7 +78,7 @@ function checkFilter() {
             $("#" + date_format + " h1").text(location);
         }
         else if (loc.checked === false){
-            $("#" + date_format + " h1").text("0/12");
+            $("#" + date_format + " h1").text("12 hours free");
         }
     }
 }
@@ -160,7 +160,7 @@ function createCalendarDay(num, day, mon, year, available) {
     date.innerHTML = num;
     dayElement.innerHTML = ' ' + day;
     if(available == true){
-        availability.innerHTML = "0/12";
+        availability.innerHTML = "12 hours free";
         availability.style.color = "green";
     }
     newDay.className = "calendar-day";
