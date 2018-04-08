@@ -49,11 +49,6 @@
     font-weight: 500;
 }
 
-.btn {
-    margin-top: 5px;
-    cursor: pointer;
-}
-
 /* Delete and edit modal*/
 /* The Modal (background) */
 .modal-big {
@@ -104,8 +99,4 @@
     content: "";
     clear: both;
     display: table;
-}
-
-h4.modal-title  {
-    margin: 0 auto;
 }
