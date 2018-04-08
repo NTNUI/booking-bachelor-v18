@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from groups.models import SportsGroup
+from groups.models import Membership
 from django.contrib.auth.models import User
 from django.db.utils import OperationalError
 
@@ -54,3 +55,5 @@ class Booking(models.Model):
     def get_absolute_url(self):
         return reverse('booking_edit', kwargs={'pk': self.pk})
 
+    def get_group(self):
+        return Membership.objects.filter(person=self.person)[0].group
