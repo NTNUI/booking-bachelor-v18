@@ -7,9 +7,9 @@
 {% load static %}
      <div class="container">
      <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          </button>
-          <h4 class="modal-title">Create a new booking</h4>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+        </button>
+        <h4 class="modal-title">Create a new booking</h4>
     </div>
         <div class="row">
             <div class="col-8">
@@ -46,15 +46,13 @@
                             </span>
                         </div>
                     </table>
-                    <button type="submit" class="btn btn-primary" onclick="checkTime()">Update booking</button>
-                    <p id="timeErrorMsg" style="display:none;"></p>
+                    <button type="submit" class="btn btn-success">Update booking</button>
                 </form>
             </div>
         </div>
-    <div class="modal-footer">
-        <button type="button" id="close" class="btn btn-outline-primary btn-sm">Close</button>
-
-    </div>
+        <div class="modal-footer">
+            <button type="button" id="close" class="btn btn-outline-primary btn-sm">Close</button>
+        </div>
     </div>
     
 {% endblock content %}
