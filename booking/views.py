@@ -17,8 +17,11 @@ def index(request):
 def api(request, **kwargs):
     model = Booking
     bookings = model.objects.all().values('description', 'start', 'end', 'location__name', 'person__first_name')
+    hours = Booking.objects.raw('SELECT SUM(end - start) AS s, start, queueNo FROM Booking WHERE queueNo = 0 GROUP BY SUBSTRING(start, 1, 10) HAVING s>0')
+    hours_list = list(hours)
+
     booking_list = list(bookings)
-    return JsonResponse(booking_list, safe=False)
+    return JsonResponse(booking_list+hours_list, safe=False)
 
 class BookingList(ListView):
     model = Booking
