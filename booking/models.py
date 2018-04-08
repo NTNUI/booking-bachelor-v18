@@ -56,4 +56,9 @@ class Booking(models.Model):
         return reverse('booking_edit', kwargs={'pk': self.pk})
 
     def get_group(self):
-        return Membership.objects.filter(person=self.person)[0].group
+        thelist = Membership.objects.filter(person=self.person).values('group')
+        print(thelist)
+        my_groups = []
+        for x in thelist:
+            my_groups.append(x)
+        return my_groups
