@@ -15,7 +15,7 @@
     <div class="myBookingsBox">
         <h3> Hello, {{user.first_name}} {{ user.last_name }}</h3>
 
-        <p class="myHeaders">These are your bookings</p>
+        <p class="myHeaders">My bookings</p>
         <div class="replace">
             <table class="table" id="booking-table">
 
@@ -24,12 +24,12 @@
             </table>
         </div>
 
-        <p class="myHeaders">These are your groups bookings</p>
+        <p class="myHeaders">Group bookings</p>
         <div class="replace">
             <table class="table" id="booking-table">
 
             <tbody>
-                {% include 'booking/includes/partial_booking_list.html' %}
+                {% include 'booking/includes/partial_groupbooking_list.html' %}
             </table>
         </div>
 

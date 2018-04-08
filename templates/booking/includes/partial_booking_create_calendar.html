@@ -1,13 +1,13 @@
 {#form used for creating new bookings#}
 
-<form method="post" action="{% url 'booking_create' %}" id="createform" class="js-booking-create-form">
+<form method="post" id="createform" class="js-booking-create-form">
     {% csrf_token %}
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
         <h4 class="modal-title">Create a new booking</h4>
     </div>
     <div class="modal-body">
-        {% include 'booking/includes/partial_booking_form.html' %}
+        {% include 'booking/includes/partial_booking_form_calendar.html' %}
     </div>
     <div class="modal-footer">
         <button type="button" id="close" class="btn btn-outline-primary btn-sm" data-dismiss="modal">Close</button>

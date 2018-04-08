@@ -164,7 +164,7 @@ function createCalendarDay(num, day, mon, year, available) {
         availability.style.color = "green";
     }
     newDay.className = "calendar-day";
-
+    newDay.title = "Click to book";
     // Set ID of element as date formatted "8-January" etc
     num = minTwoDigits(num);
     newDay.id = year + "-" + mon + "-" + num;
@@ -254,21 +254,20 @@ function getCurrentDay() {
 
 
 function popup(e) {
-    $('.booking-modal-contents').load('new');
-    // $.ajax({
-    //   url: '/booking/bookings_list/create/',
-    //   type: 'get',
-    //   dataType: 'json',
-    //   beforeSend: function () {
-    //     $("#booking-modal .booking-modal-contents").html("");
-    //     $('#booking-modal').fadeTo(100, 0.5, function() {
-    //       $(this).css("display", "inline-block");
-    //     }).fadeTo(300, 1);
-    //   },
-    //   success: function (data) {
-    //     $("#booking-modal .booking-modal-contents").html(data.html_form);
-    //   }
-    // });
+    $.ajax({
+      url: '/booking/bookings_list/create_calendar/',
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+        $("#booking-modal .booking-modal-contents").html("");
+        $('#booking-modal').fadeTo(100, 0.5, function() {
+          $(this).css("display", "inline-block");
+        }).fadeTo(300, 1);
+      },
+      success: function (data) {
+        $("#booking-modal .booking-modal-contents").html(data.html_form);
+      }
+    });
 
     //Set global tempDay variable to event that triggers the popup, ie the date.
     this.tempDay = e;
