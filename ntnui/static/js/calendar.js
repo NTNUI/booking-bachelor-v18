@@ -42,6 +42,17 @@ function promiseTest() {
         }
     })
 }
+// function promiseTest2() {
+//     return $.ajax({
+//         url: "/booking/api2",
+//         dataType: "json",
+//         type: "GET",
+//         cache: false,
+//         success: function() {
+//             console.log("fresh")
+//         }
+//     })
+// }
 
 // Function used to resolve promise object. When object is resolved, call createMonth and push data to global_list.
 var promised = promiseTest();
@@ -54,6 +65,16 @@ promised.done(function() {
         )
     })
 }
+// var promised2 = promiseTest2();
+// function promise2() {
+// promised2.done(function() {
+//     promised2.then( function() {
+//             // createMonth();
+//             global_list.push(promised.responseJSON)
+//             }
+//         )
+//     })
+// }
 
 // Function used to populate the calendar with bookings from the database.
 function populate() {
@@ -61,7 +82,18 @@ function populate() {
     for (i = 0; i < global_list[0].length; i++) {
         var day = global_list[0][i].start;
         var date_format = day.slice(0, 10);
-        $("#" + date_format + " h1").text("2/12");
+        // var booked_hours = 0;
+        // if (global_list.length > 1){
+
+        //     for (j= 0; j<global_list[1].length;j++){
+        //         var booked_date = global_list[1][j];
+        //         var booked_day = booked_date.start;
+        //         if (booked_day == day){
+        //             booked_hours = booked_date.s 
+        //         }
+        //     }
+        // }
+        $("#" + date_format + " h1").text("2/15");
     }
 }
 
