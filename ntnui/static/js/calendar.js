@@ -68,6 +68,7 @@ function populate() {
 
 function checkFilter() {
     for (i = 0; i < global_list[0].length; i++) {
+
         var loc = global_list[0][i].location__name;
         loc = document.getElementById(loc);
         var day = global_list[0][i].start;
@@ -79,7 +80,6 @@ function checkFilter() {
         else if (loc.checked === false){
             $("#" + date_format + " h1").text("0/12");
         }
-
     }
 }
 
