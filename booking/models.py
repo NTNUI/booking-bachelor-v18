@@ -5,7 +5,9 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from groups.models import SportsGroup
+from groups.models import Membership
 from django.contrib.auth.models import User
+from django.db.utils import OperationalError
 
 LOCATION_TYPES = (
     ('gym ','GYM'),
@@ -32,14 +34,31 @@ class Booking(models.Model):
     start = models.DateTimeField(_(u'Start'), blank=True)
     end = models.DateTimeField(_(u'End'), blank=True)
 
-    tu = tuple(SportsGroup.objects.all().values_list('name', 'name'))
-    print(tu)
+    try:
+        tu = tuple(SportsGroup.objects.all().values_list('name', 'name'))
+        if not tu:
+            tu = (
+                ('', '---------'),
+            )
+        else:
+            tu = tuple(SportsGroup.objects.all().values_list('name', 'name'))
+
+    except OperationalError:
+        tu = (
+            ('', '---------'),
+        )
+
     group = models.CharField(max_length=200, choices=tu, blank=True)
-
-
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         return reverse('booking_edit', kwargs={'pk': self.pk})
 
+    def get_group(self):
+        thelist = Membership.objects.filter(person=self.person).values_list('group', flat=True)
+        my_groups = []
+        for x in thelist:
+            thelist3 = SportsGroup.objects.get(id=x).name
+            my_groups.append(thelist3)
+        return my_groups

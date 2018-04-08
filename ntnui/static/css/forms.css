@@ -160,3 +160,11 @@
   background: url(images/img1.jpg) center no-repeat;
   background-size: cover;
 }
+
+#times {
+  display: flex;
+  flex-direction:row;
+  flex-wrap: reverse-wrap;
+  font-size:500%;
+}
+
