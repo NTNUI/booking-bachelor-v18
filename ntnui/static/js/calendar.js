@@ -262,6 +262,7 @@ function popup(e) {
     window.onclick = function(event) {
         if (event.target == modal || event.target == close) {
             modal.style.display = "none";
+
         }
     }
 }
@@ -297,6 +298,7 @@ $.ajaxSetup({
         }
     }
 });
+
 
 
 

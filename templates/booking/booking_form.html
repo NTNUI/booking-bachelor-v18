@@ -1,5 +1,9 @@
 {% block content %}
 
+{% block stylesheet %}
+
+{% endblock %}
+
 {% load static %}
     <div class="container">
      <div class="modal-header">
@@ -7,34 +11,44 @@
         </button>
         <h4 class="modal-title">Create a new booking</h4>
     </div>
-        <div class="row">
-            <div class="col-8">
-               <div id="bookings">
+      <div class="row">
+        <div class="col-8">
+         <div id="bookings">
 
-               </div>
-            </div>
-            <div class="col">
-                <form action="new" id="my-ajax-form" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{ form.file_name }}
-                    <table>
-                        {{form.person.as_hidden}}
-                        <h5>Location </h5>
-                        {{form.location}}
-                        <h5>End</h5>
-                        {{form.end}}
-                        <h5>Description</h5>
-                        {{form.description}}
-                        <h5>Date</h5>
-                        <input type="text" id="datepicker">
-                        <h5>Time</h5>
-                        <input type="text" class="timepicker">
-                    </table>
-                    <button type="submit" class="btn btn-primary" onclick="timeValidate()">Update booking</button>
-                    <p id="timeErrorMsg" style="display:none;">The chosen time is not available.</p>
-                </form>
-            </div>
+         </div>
         </div>
+        <div class="col">
+          <form action="new" id="my-ajax-form" method="post" enctype="multipart/form-data" onsubmit="event.preventDefault(); lengthValidate();">
+            {% csrf_token %}
+            {{ form.file_name }}
+            <table>
+              {{form.person.as_hidden}}
+              <h5>Location </h5>
+              {{form.location}}
+              <h5>End</h5>
+              {{form.end}}
+              <h5>Description</h5>
+              {{form.description}}
+              <h5>Starttime</h5>
+              <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="startTime">
+                <input type="text" class="form-control" value="Choose start time" id="startInput" required>
+                <span class="input-group-addon">
+                <span class="glyphicon glyphicon-time"></span>
+                </span>
+              </div>
+              <h5>Endtime</h5>
+              <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="endTime" onclick="editClock()">
+                <input type="text" class="form-control" value="Choose end time" id="endInput" onclick="editClock()" required>
+                <span class="input-group-addon">
+                <span class="glyphicon glyphicon-time"></span>
+                </span>
+              </div>
+            </table>
+            <button type="submit" class="btn btn-primary">Update booking</button>
+            <p id="timeErrorMsg" style="display:none;"></p>
+          </form>
+        </div>
+      </div>
     <div class="modal-footer">
         <button type="button" id="close" class="btn btn-outline-primary btn-sm">Close</button>
 
@@ -93,25 +107,12 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script type="text/javascript" src="{% static 'js/popup.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/clockpicker.js' %}"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-  $( function() {
-    $( "#datepicker" ).datepicker();
-  } );
-  $(document).ready(function(){
-    $('input.timepicker').timepicker({
-        timeFormat: 'HH:mm',
-        dropdown: true,
-        zindex:10000,
-        minTime: '10',
-        maxTime: '10:00 pm',
-        scrollbar: true,
-        dynamic: true
-    });
-  });
-
-  </script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+  <script type="text/javascript">
+    $('.clockpicker').clockpicker();
+  </script>
 <style>
 .timepicker{
     z-index:1151 !important;
