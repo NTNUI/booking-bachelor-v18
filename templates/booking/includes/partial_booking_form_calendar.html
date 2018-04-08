@@ -1,4 +1,6 @@
 {#form that is called when creating a new booking#}
+{% load static %}
+
 <div class="row">
     <div class="col-8">
         <div id="bookings">
@@ -19,6 +21,19 @@
         {{form.description}}
         <h5>Group</h5>
         {{form.group}}
+    <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="startTime">
+                            <input type="text" class="form-control" value="Choose start time" id="startInput" required>
+                            <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                        </div>
+                        <h5>Endtime</h5>
+                        <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="endTime" >
+                            <input type="text" class="form-control" value="Choose end time" id="endInput" onclick="editClock()" required>
+                            <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                        </div>
     </div>
 </div>
 <script>
@@ -59,3 +74,9 @@
         }
     });
 </script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="{% static 'js/popup.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/clockpicker.js' %}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
