@@ -729,49 +729,49 @@
 
 // Only make minutes thats divided by 5 pickable
 var startTime = $('#startTime').clockpicker({
-  afterDone: function() {
-    startTime.val(roundStart());
-    startTime.val(roundStart() + addSeconds());
-  }
+    afterDone: function() {
+        startTime.val(roundStart());
+        startTime.val(roundStart() + addSeconds());
+    }
 }).find('input');
 
 function roundStart() {
-  var time = startTime.val(),
-    arr = time.split(':'),
-    hour = arr[0],
-    min = arr[1],
-    newMin = (Math.floor(parseInt(min) / 5)) * 5;
+    var time = startTime.val(),
+        arr = time.split(':'),
+        hour = arr[0],
+        min = arr[1],
+        newMin = (Math.floor(parseInt(min) / 5)) * 5;
 
-  return hour + ':' + (newMin > 9 ? '' : '0') + newMin;
+    return hour + ':' + (newMin > 9 ? '' : '0') + newMin;
 }
 
 
 var endTime = $('#endTime').clockpicker({
-  afterDone: function() {
-    endTime.val(roundEnd());
-    endTime.val(roundEnd() + addSeconds());
-  }
+    afterDone: function() {
+        endTime.val(roundEnd());
+        endTime.val(roundEnd() + addSeconds());
+    }
 }).find('input');
 
 function roundEnd() {
-  var time = endTime.val(),
-    arr = time.split(':'),
-    hour = arr[0],
-    min = arr[1],
-    newMin = (Math.floor(parseInt(min) / 5)) * 5;
+    var time = endTime.val(),
+        arr = time.split(':'),
+        hour = arr[0],
+        min = arr[1],
+        newMin = (Math.floor(parseInt(min) / 5)) * 5;
 
-  return hour + ':' + (newMin > 9 ? '' : '0') + newMin;
+    return hour + ':' + (newMin > 9 ? '' : '0') + newMin;
 }
 
 function addSeconds(){
-  var hiddenSeconds = ':00';
-  return hiddenSeconds;
+    var hiddenSeconds = ':00';
+    return hiddenSeconds;
 }
 
 var hideMinutes = $('#endTime').clockpicker({
-  afterHourSelect: function() {
+    afterHourSelect: function() {
 
-  }
+    }
 })
 
 
