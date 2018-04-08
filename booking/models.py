@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from groups.models import SportsGroup
 from django.contrib.auth.models import User
+from django.db.utils import OperationalError
 
 LOCATION_TYPES = (
     ('gym ','GYM'),
@@ -32,11 +33,21 @@ class Booking(models.Model):
     start = models.DateTimeField(_(u'Start'), blank=True)
     end = models.DateTimeField(_(u'End'), blank=True)
 
-    tu = tuple(SportsGroup.objects.all().values_list('name', 'name'))
-    print(tu)
+    try:
+        tu = tuple(SportsGroup.objects.all().values_list('name', 'name'))
+        if not tu:
+            tu = (
+                ('', '---------'),
+            )
+        else:
+            tu = tuple(SportsGroup.objects.all().values_list('name', 'name'))
+
+    except OperationalError:
+        tu = (
+            ('', '---------'),
+        )
+
     group = models.CharField(max_length=200, choices=tu, blank=True)
-
-
     def __str__(self):
         return self.title
 
