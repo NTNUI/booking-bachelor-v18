@@ -33,139 +33,16 @@
             <div class="col" id="filtering" >
                 <div class="container">
                     <div class="filterHeader">Locations</div>
-                <!--
                     <div class="tb aBlock">
-                        <input type="checkbox" class="largeCheckbox" id="check1"/>
-                        <label for="check1">Gløshaugen</label>
-                        <table class="collapsible" id="collapsible1">
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check5"/>
-                                    <label for="check5">Gløshaugen hall 1</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check6"/>
-                                    <label for="check6">Gløshaugen hall 2</label>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    -->
-
-                    <div class="tb aBlock">
-                    {% for location in locations %}
-                        <input type="checkbox" class="largeCheckbox" id="{{ location }}" value="{{ location }}">
-
-                        <label for="{{ location }}">{{ location }}</label>
-                        <p></p>
-                    {% endfor %}
-                    <!--
-                        <input type="checkbox" class="largeCheckbox" value="Dragvoll" id="hall1" onclick="checkFilter()"/>
-                        <label for="check2">Dragvoll</label>
-                        <table class="collapsible" id="collapsible1">
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" id="h1" value="Hall 1"/>
-                                        <label for="check7">Dragvoll hall 1</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" id="h2" value="Hall 2"/>
-                                        <label for="check8">Dragvoll hall 2</label>
-                                    </td>
-                                </tr>
-                            </table>
-
                         {% for location in locations %}
-                            <form>
-                               <!-- <input type="checkbox" class="largeCheckbox" value="{{ location.name }}" id="filter">
-                                <label id="label" for="filter">{{ location.name }}</label>
-                                {% endfor %}
-                                <input type="button" onclick="checkFilter()">
-                                -->
-                                <!--
-                                <input type="checkbox" class="largeCheckbox" value="Fotballbane - Dødens dal" id="fot">
-                                <label for="fot">Fotballbane Dødens Dal</label>
-                                <input type="checkbox" class="largeCheckbox" value="Hall 1" id="h1">
-                                <label for="h1">Hall 1</label>
-                                <input type="checkbox" class="largeCheckbox" value="Hall 2" id="h2">
-                                <label for="h2">Hall 2</label>
-                                <input type="button" onclick="checkFilter()">
-                                -->
-                    <!--
-                            </form>
-                    </div>
-                    <div class="tb aBlock">
-                        <input type="checkbox" class="largeCheckbox" id="check3"/>
-                        <label for="check3">Solsiden</label>
-                        <table class="collapsible" id="collapsible1">
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check9"/>
-                                    <label for="check9">Solsiden hall 1</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check10"/>
-                                    <label for="check10">Solsiden hall 2</label>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="tb aBlock">
-                        <input type="checkbox" class="largeCheckbox" id="check4"/>
-                        <label for="check4">Sted</label>
-                        <table class="collapsible" id="collapsible1">
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check11"/>
-                                    <label for="check11">Sted hall 4</label>
-                                    <table class="collapsible" id="collapsible1">
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" id="check31"/>
-                                                <label for="check31">Sted hall 5</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" id="check32"/>
-                                                <label for="check32">Sted kjempelangt</label>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check12"/>
-                                    <label for="check12">Gløshaugen</label>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                            <input type="checkbox" class="largeCheckbox" id="{{ location }}" value="{{ location }}">
 
+                            <label for="{{ location }}">{{ location }}</label>
+                            <p></p>
+                        {% endfor %}
+                    </div>
                     <hr>
 
-                    <div class="filterHeader">Type</div>
-                    <div class="form-check">
-                        <input type="checkbox" class="largeCheckbox" id="check13">
-                        <label for="check13">Gymsal</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="largeCheckbox" id="fot" value="Fotballbane - Dødens dal">
-                        <label for="check14">Fotballbane</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="largeCheckbox" id="check15">
-                        <label for="check15">Volleyballbane</label>
-                    </div>
-
-                    <hr>
                     <div class="filterHeader">Time durations</div>
                     <div id="timeSelect">
                         <select class="custom-select mb-3">
@@ -176,8 +53,7 @@
                             <option value="3">180 min</option>
                         </select>
                     </div>
-                    -->
-                    <hr>
+
                     <div id="searchButton">
                         <button class="btn btn-success col" title="Click to search" onclick="checkFilter()">Search</button>
                     </div>
