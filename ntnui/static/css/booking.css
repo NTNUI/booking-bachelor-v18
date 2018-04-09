@@ -30,12 +30,13 @@
 }
 .calendar-day p {
     font-size: 100%;
+    display: inline;
 }
 
 .calendar-day h1{
     font-size: 100%;
     margin-top: 10%;
-    padding-bottom: 40%;
+    padding-bottom: 15%;
 }
 
 .calendar-day:hover {
