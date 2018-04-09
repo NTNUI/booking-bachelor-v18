@@ -25,7 +25,7 @@ def api(request, **kwargs):
 def api2(request, **kwargs):
     hours = Booking.objects.raw('SELECT SUM(end - start) AS s, start, queueNo FROM Booking WHERE queueNo = 0 GROUP BY SUBSTRING(start, 1, 10) HAVING s>0')
     hours_list = list(hours)
-    return JsonResponse(hours_list)
+    return JsonResponse(hours_list, safe=False)
 
 class BookingList(ListView):
     model = Booking
