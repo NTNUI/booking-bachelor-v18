@@ -301,6 +301,8 @@ def list_groups(request):
     all_groups = SportsGroup.objects.exclude(
         id__in=map(lambda x: x.id, my_groups))
 
+    print(my_groups)
+
     return render(request, 'groups/list_groups.html', {
         'my_groups': my_groups,
         'all_groups': all_groups,

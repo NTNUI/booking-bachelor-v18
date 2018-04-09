@@ -1,0 +1,44 @@
+{#list displaying all bookings#}
+
+{% if bookings %}
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Location</th>
+            <th>Start date</th>
+            <th>End date</th>
+            <th>Group</th>
+        </tr>
+    </thead>
+{% endif %}
+
+{% for book in bookings %}
+
+    {% for group in book.get_group %}
+        {% if user.get_username != book.person.get_username %}
+        {% if group == book.group %}
+            <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.location }}</td>
+            <td>{{ book.start }}</td>
+            <td>{{ book.end }}</td>
+            <td>{{ book.group }}</td>
+        </tr>
+
+        <tr class="borderless">
+            <td id="desc">Description: {{ book.description }}</td>
+        </tr>
+        {% endif %}
+         {% endif %}
+
+    {% endfor %}
+
+
+
+    {% empty %}
+        <tr>
+            <td><p>Yay! You have no bookings. Stay in and enjoy your day!</p></td>
+        </tr>
+
+
+{% endfor %}

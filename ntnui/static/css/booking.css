@@ -67,9 +67,8 @@
 
 /*Highlights today*/
 .today {
-    background: #ffffff;
-    border-bottom: solid 2px #4686f2;
-    color: #0d60e8;
+    border-bottom: solid 2px #EC1E24;
+    color: #EC1E24;
 }
 
 /* Restrictions for booking */
@@ -103,20 +102,6 @@
     width: 60%; /* Could be more or less, depending on screen size */
 }
 
-/* The Close Button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
 .form-control {
     display:flex;
 }
@@ -131,10 +116,6 @@ form {
     margin-top:2%;
 }
 
-.borderless td {
-    border:none;
-    width:50%;
-}
 
 
 /* The Modal (background) */
@@ -161,10 +142,11 @@ form {
     width: 60%; /* Could be more or less, depending on screen size */
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+.calendar-booking {
+    float: right;
+}
+
+h4.modal-title  {
+    margin: 0 auto;
 }
 

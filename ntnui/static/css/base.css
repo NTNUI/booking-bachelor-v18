@@ -54,25 +54,14 @@ a:hover {
 
 .btn {
     border-radius: 0.15rem;
+    margin: 2px;
+    cursor: pointer;
 }
 
 .btn:disabled {
     cursor: default;
 }
 
-
-.closeButton {
-    float: right;
-    color: #aaa;
-    font-size: 25px;
-    font-weight: bold;
-}
-
-.closeButton:hover,
-.closeButton:focus {
-    color: black;
-    cursor: pointer;
-}
 
 /*
  * Responsive design CSS

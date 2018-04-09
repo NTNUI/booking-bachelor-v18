@@ -3,8 +3,11 @@
 .booking-container {
     width: 60%;
 }
+.borderless td {
+    border:none;
+}
 
-.myBookingsHeader {
+#myBookingsHeader {
     margin-top: 2rem;
     margin-left: 1rem;
     text-transform: uppercase;
@@ -12,6 +15,11 @@
     font-size: 1.5rem;
     max-width: 50%;
     display: inline-block;
+}
+
+.myHeaders {
+    margin: 1rem;
+    font-size: 1.2rem;
 }
 
 .myBookingsBox {
@@ -39,11 +47,6 @@
 
 .title-description {
     font-weight: 500;
-}
-
-.btn {
-    margin-top: 5px;
-    cursor: pointer;
 }
 
 /* Delete and edit modal*/
@@ -96,8 +99,4 @@
     content: "";
     clear: both;
     display: table;
-}
-
-h4.modal-title  {
-    margin: 0 auto;
 }

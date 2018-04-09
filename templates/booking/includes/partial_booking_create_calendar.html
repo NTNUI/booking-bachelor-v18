@@ -1,0 +1,19 @@
+{#form used for creating new bookings#}
+
+<form method="post" id="createform" class="js-booking-create-form">
+    {% csrf_token %}
+    <div class="modal-header">
+        <h4 class="modal-title">Create a new booking</h4>
+        <button title="Close" type="button" id="close" class="btn" style="cursor: pointer" data-dismiss="modal">X</button>
+    </div>
+    <div class="modal-body">
+        {% include 'booking/includes/partial_booking_form_calendar.html' %}
+    </div>
+    <div class="modal-footer">
+        <button title="Click to create booking" type="submit" class="btn btn-success" style="cursor: pointer" >Create booking</button>
+    </div>
+</form>
+
+<script>
+    var close = document.getElementById('close');
+</script>

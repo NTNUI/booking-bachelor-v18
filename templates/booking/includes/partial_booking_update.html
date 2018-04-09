@@ -3,16 +3,14 @@
 <form method="post" action="{% url 'booking_update' form.instance.pk %}" class="js-booking-update-form">
   {% csrf_token %}
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        </button>
         <h4 class="modal-title">Update booking</h4>
+        <button title="Close" type="button" id="close" class="btn" data-dismiss="modal">X</button>
     </div>
     <div class="modal-body">
         {% include 'booking/includes/partial_booking_form.html' %}
     </div>
     <div class="modal-footer">
-        <button type="button" id="close" class="btn btn-outline-primary btn-sm">Close</button>
-        <button type="submit" class="btn btn-primary">Update booking</button>
+        <button type="submit" class="btn btn-success">Update booking</button>
     </div>
 </form>
 

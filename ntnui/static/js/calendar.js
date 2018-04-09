@@ -82,18 +82,25 @@ function populate() {
     for (i = 0; i < global_list[0].length; i++) {
         var day = global_list[0][i].start;
         var date_format = day.slice(0, 10);
-        // var booked_hours = 0;
-        // if (global_list.length > 1){
+        var location = global_list[0][i].location__name;
+        //$("#" + date_format + " h1").text("2/12");
+    }
+}
 
-        //     for (j= 0; j<global_list[1].length;j++){
-        //         var booked_date = global_list[1][j];
-        //         var booked_day = booked_date.start;
-        //         if (booked_day == day){
-        //             booked_hours = booked_date.s 
-        //         }
-        //     }
-        // }
-        $("#" + date_format + " h1").text("2/15");
+function checkFilter() {
+    for (i = 0; i < global_list[0].length; i++) {
+
+        var loc = global_list[0][i].location__name;
+        loc = document.getElementById(loc);
+        var day = global_list[0][i].start;
+        var date_format = day.slice(0, 10);
+        var location = global_list[0][i].location__name;
+        if (loc.value === location && loc.checked === true) {
+            $("#" + date_format + " h1").text(location);
+        }
+        else if (loc.checked === false){
+            $("#" + date_format + " h1").text("12 hours free");
+        }
     }
 }
 
@@ -174,11 +181,11 @@ function createCalendarDay(num, day, mon, year, available) {
     date.innerHTML = num;
     dayElement.innerHTML = ' ' + day;
     if(available == true){
-        availability.innerHTML = "0/12";
+        availability.innerHTML = "12 hours free";
         availability.style.color = "green";
     }
     newDay.className = "calendar-day";
-
+    newDay.title = "Click to book";
     // Set ID of element as date formatted "8-January" etc
     num = minTwoDigits(num);
     newDay.id = year + "-" + mon + "-" + num;
@@ -268,21 +275,20 @@ function getCurrentDay() {
 
 
 function popup(e) {
-    $('.booking-modal-contents').load('new');
-    // $.ajax({
-    //   url: '/booking/bookings_list/create/',
-    //   type: 'get',
-    //   dataType: 'json',
-    //   beforeSend: function () {
-    //     $("#booking-modal .booking-modal-contents").html("");
-    //     $('#booking-modal').fadeTo(100, 0.5, function() {
-    //       $(this).css("display", "inline-block");
-    //     }).fadeTo(300, 1);
-    //   },
-    //   success: function (data) {
-    //     $("#booking-modal .booking-modal-contents").html(data.html_form);
-    //   }
-    // });
+    $.ajax({
+      url: '/booking/bookings_list/create_calendar/',
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+        $("#booking-modal .booking-modal-contents").html("");
+        $('#booking-modal').fadeTo(100, 0.5, function() {
+          $(this).css("display", "inline-block");
+        }).fadeTo(300, 1);
+      },
+      success: function (data) {
+        $("#booking-modal .booking-modal-contents").html(data.html_form);
+      }
+    });
 
     //Set global tempDay variable to event that triggers the popup, ie the date.
     this.tempDay = e;
@@ -294,6 +300,7 @@ function popup(e) {
     window.onclick = function(event) {
         if (event.target == modal || event.target == close) {
             modal.style.display = "none";
+
         }
     }
 }
@@ -329,6 +336,7 @@ $.ajaxSetup({
         }
     }
 });
+
 
 
 

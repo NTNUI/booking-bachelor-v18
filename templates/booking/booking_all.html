@@ -29,7 +29,7 @@
     <ul class="list-group">
         {% for booking in filter.qs %}
             <br class="list-group-item ">
-            <h5 class = "title-description">{{ booking.description}}</h5>
+            <h5 class = "title-description">{{ booking.title}}</h5>
             Username: {{ booking.person.get_username}}
             </br> Start time: {{ booking.start}}
             </br> End time: {{ booking.end }}

@@ -39,7 +39,28 @@
             These are your bookings!
 
             <div class="container">
-                <!-- Get all bookings for your user -->
+                <!-- Get all bookings for the user -->
+                {% for booking in object_list %}
+                {% if user.get_username == booking.person.get_username %}
+                <div class="booking-item">
+                    <h4>{{ booking.title}}</h4>
+                    <div class = "title-description">Time</div>
+                    {{ booking.start}} - {{ booking.end }}
+                    <div class = "title-description">Location</div>
+                    {{ booking.location }}
+                    <p>
+                        <a id="{{ booking.id }}" class="editModal btn btn-outline-primary btn-sm">Edit</a>
+                        <a id="{{ booking.id }}" class="deleteModal btn btn-outline-primary btn-sm">Delete</a>
+                    </p>
+
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+
+            These are your groups bookings!
+            <div class="container">
+                <!-- Get all bookings for the user groups -->
                 {% for booking in object_list %}
                 {% if user.get_username == booking.person.get_username %}
                 <div class="booking-item">
@@ -56,6 +77,7 @@
                 {% endif %}
                 {% endfor %}
             </div>
+
         </div>
     </div>
 {% endblock content %}
