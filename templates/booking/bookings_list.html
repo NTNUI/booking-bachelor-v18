@@ -15,21 +15,11 @@
     <div class="myBookingsBox">
         <h3> Hello, {{user.first_name}} {{ user.last_name }}</h3>
 
-        <p class="myHeaders">My bookings</p>
-        <div class="replace">
-            <table class="table" id="booking-table">
+            <p class="myHeaders">My bookings</p>
 
-            <tbody>
+        <div class="replace">
+            <table class="table borderless" id="booking-table">
                 {% include 'booking/includes/partial_booking_list.html' %}
-            </table>
-        </div>
-
-        <p class="myHeaders">Group bookings</p>
-        <div class="replace">
-            <table class="table" id="booking-table">
-
-            <tbody>
-                {% include 'booking/includes/partial_groupbooking_list.html' %}
             </table>
         </div>
 
@@ -39,6 +29,13 @@
                 Create a new booking
             </button>
         </p>
+
+        <p class="myHeaders">Group bookings</p>
+        <div class="replace">
+            <table class="table borderless" id="booking-table">
+                {% include 'booking/includes/partial_groupbooking_list.html' %}
+            </table>
+        </div>
     </div>
 </div>
 

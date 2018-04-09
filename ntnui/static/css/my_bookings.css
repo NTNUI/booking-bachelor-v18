@@ -3,7 +3,7 @@
 .booking-container {
     width: 60%;
 }
-.borderless td {
+.borderless td{
     border:none;
 }
 
@@ -19,7 +19,7 @@
 
 .myHeaders {
     margin: 1rem;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
 }
 
 .myBookingsBox {
@@ -47,6 +47,11 @@
 
 .title-description {
     font-weight: 500;
+}
+
+.table-title {
+    font-size: 18px;
+    border-top: 2px solid black;
 }
 
 /* Delete and edit modal*/

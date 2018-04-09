@@ -1,37 +1,38 @@
 {#list displaying all bookings#}
 
-{% if bookings %}
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Location</th>
-            <th>Start date</th>
-            <th>End date</th>
-        </tr>
-    </thead>
-{% endif %}
-
-
 {% for book in bookings %}
-   {% if user.get_username == book.person.get_username %}
-    <tr>
-        <td>{{ book.title }}</td>
-        <td>{{ book.location }}</td>
-        <td>{{ book.start }}</td>
-        <td>{{ book.end }}</td>
-        <td>
-            <button type="button" class="btn col js-update-booking" data-url="{% url 'booking_update' book.id %}">
-                <span class="glyphicon glyphicon-pencil"></span> Edit
-            </button>
-            <button type="button" class="btn btn-danger col js-delete-booking" data-url="{% url 'booking_delete' book.id %}">
-                <span class="glyphicon glyphicon-trash"></span> Delete
-            </button>
-        </td>
-    </tr>
+    {% if user.get_username == book.person.get_username %}
+        {# Titles of bookings #}
+        {% if bookings %}
+            <thead class="table-title">
+                <tr>
+                    <th>{{ book.title }}</th>
+                </tr>
+            </thead>
+        {% endif %}
 
-    <tr class="borderless">
-        <td id="desc">Description: {{ book.description }}</td>
-    </tr>
+        <tr>
+            <td><b>What:</b> {{ book.description }}</td>
+        </tr>
+        <tr>
+            <td><b>Location:</b> {{ book.location }}</td>
+        </tr>
+        <tr>
+            <td><b>Time:</b> {{ book.start }} - {{ book.end }}</td>
+        </tr>
+        <tr>
+            <td><b>Group:</b> {{ book.group }}</td>
+        </tr>
+        <tr>
+            <td>
+                <button type="button" class="btn col js-update-booking" data-url="{% url 'booking_update' book.id %}">
+                    Edit
+                </button>
+                <button type="button" class="btn btn-danger col js-delete-booking" data-url="{% url 'booking_delete' book.id %}">
+                    Delete
+                </button>
+            </td>
+        </tr>
     {% endif %}
 
     {% empty %}
