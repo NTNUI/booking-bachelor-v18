@@ -11,34 +11,52 @@
 {% endblock %}
 
 
+
 {% block stylesheet %}
   <link rel="stylesheet" href="{% static 'css/booking.css' %}">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-
+  <link rel="stylesheet" href="{% static 'css/my_bookings.css' %}">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 {% endblock %}
 
 {% block content %}
-    <div class="myBookings">
-        <h1 class="myBookingsHeader">All bookings</h1>
-        <p>Filter the results:</p>
-        <form method='get'>
-            {{ filter.form.as_p }}
-            <button id='filterButton' type='submit'>Filter</button>
-        </form>
+    <div class="booking-container">
+    <h1 id="myBookingsHeader">
+        All bookings
+    </h1>
     <div class="myBookingsBox">
-    <ul class="list-group">
-        {% for booking in filter.qs %}
-            <br class="list-group-item ">
-            <h5 class = "title-description">{{ booking.title}}</h5>
-            Username: {{ booking.person.get_username}}
-            </br> Start time: {{ booking.start}}
-            </br> End time: {{ booking.end }}
-            </br> Location: {{ booking.location }}
-            <p></p>
-    {% endfor %}
-    </ul>
+        <div class="replace">
+            <table class="table" id="booking-table">
+                <div class="myBookings">
+                    <h1 class="myBookingsHeader">All bookings</h1>
+                    <p>Filter the results:</p>
+                    <form method='get'>
+                        Location: {{ filter.form.location }}
+                        Person: {{ filter.form.person }}
+                        Title: {{ filter.form.title }}
+                        Start time: {{ filter.form.start }}
+                        <button id='filterButton' type='submit'>Filter</button>
+                    </form>
+                </div>
+                    <tbody>
+                        {% include 'booking/includes/partial_booking_all.html' %}
+            </table>
+        </div>
+        <p>
+            <button type="button" class="btn btn-success js-create-booking" data-url="{% url 'booking_create' %}">
+                <span class="glyphicon glyphicon-plus"></span>
+                Create a new booking
+            </button>
+        </p>
     </div>
+</div>
+
+<div id="booking-modal" class="modal-big">
+    <div id="modal-booking">
+        <div class="booking-modal-contents">
+        </div>
     </div>
+</div>
+
 {% endblock content %}
 
 {% block script %}

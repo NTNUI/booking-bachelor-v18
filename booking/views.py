@@ -3,7 +3,10 @@ from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from booking.filters import LocationFilter, UserFilter
+
+import accounts
+from accounts.models import User
+from booking.filters import AdminFilter, UserFilter
 from .models import Booking, Location
 from django.http import JsonResponse
 from django.template.loader import render_to_string
@@ -39,18 +42,14 @@ class BookingList(ListView):
 
 @login_required
 def BookingAll(request):
-        locations = []
-        bookings = []
-        location_list = Booking.objects.all()
-        location_filter = LocationFilter(request.GET, queryset=location_list)
-        for location in list(Location.objects.filter()):
-            locations.append(location.name)
+        book = []
         for booking in list(Booking.objects.filter()):
-            bookings.append(booking)
+            book.append(booking)
+        bookings = Booking.objects.all()
+        booking_filter = AdminFilter(request.GET, queryset=bookings)
         return render(request, 'booking/booking_all.html', {
-            'locations': locations,
-            'bookings': bookings,
-            'filter': location_filter, })
+            'filter': booking_filter,
+            'bookings': book})
 
 def booking_list(request):
     model = Booking
