@@ -101,9 +101,11 @@ def booking_create_from_calendar(request):
 def booking_update(request, pk):
     book = get_object_or_404(Booking, pk=pk)
     if request.method == 'POST':
-        form = BookingForm(request.POST, instance=book)
+        user = request.user
+        form = BookingForm(user, request.POST, instance=book)
     else:
-        form = BookingForm(instance=book)
+        user = request.user
+        form = BookingForm(user, instance=book)
     return save_booking_form(request, form, 'booking/includes/partial_booking_update.html')
 
 def booking_delete(request, pk):
