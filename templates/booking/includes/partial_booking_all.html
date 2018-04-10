@@ -1,11 +1,9 @@
 {#list displaying all bookings#}
 
 {% for book in filter.qs %}
-
-    <table class="table borderless" id="booking-table">
         {# Titles of bookings #}
         {% if bookings %}
-            <thead class="table-title">
+            <thead class='table-title'>
                 <tr>
                     <th>{{ book.title }}</th>
                 </tr>
@@ -24,6 +22,14 @@
         <tr>
             <td><b>Group:</b> {{ book.group }}</td>
         </tr>
-    </table>
-
+        <tr>
+            <td>
+                <button type='button' class='btn col js-update-booking' data-url='{% url 'booking_update' book.id %}'>
+                    Edit
+                </button>
+                <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url 'booking_delete' book.id %}'>
+                    Delete
+                </button>
+            </td>
+        </tr>
 {% endfor %}
