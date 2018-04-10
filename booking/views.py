@@ -3,10 +3,13 @@ from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from rules import is_staff
 
 import accounts
 from accounts.models import User
 from booking.filters import AdminFilter, UserFilter
+from groups.rules import is_group_member
+from ntnui.decorators import is_main_board
 from .models import Booking, Location
 from django.http import JsonResponse
 from django.template.loader import render_to_string
