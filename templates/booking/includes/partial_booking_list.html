@@ -1,10 +1,10 @@
-{#list displaying all bookings#}
+{#list displaying bookings for user#}
 
 {% for book in bookings %}
     {% if user.get_username == book.person.get_username %}
         {# Titles of bookings #}
         {% if bookings %}
-            <thead class="table-title">
+            <thead class='table-title'>
                 <tr>
                     <th>{{ book.title }}</th>
                 </tr>
@@ -25,10 +25,10 @@
         </tr>
         <tr>
             <td>
-                <button type="button" class="btn col js-update-booking" data-url="{% url 'booking_update' book.id %}">
+                <button type='button' class='btn col js-update-booking' data-url='{% url "booking_update" book.id %}'>
                     Edit
                 </button>
-                <button type="button" class="btn btn-danger col js-delete-booking" data-url="{% url 'booking_delete' book.id %}">
+                <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url "booking_delete" book.id %}'>
                     Delete
                 </button>
             </td>

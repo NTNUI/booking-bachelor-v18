@@ -41,7 +41,7 @@ class BookingList(ListView):
             'bookings': bookings, })
 
 @login_required
-def BookingAll(request):
+def booking_all(request):
         book = []
         for booking in list(Booking.objects.filter()):
             book.append(booking)
@@ -59,7 +59,7 @@ def booking_list(request):
 
 def confirmation_mail(request):
     name = request.user.first_name
-    body = "Hey " + name + ", you have created a new booking!"
+    body = 'Hey ' + name + ', you have created a new booking!'
     print(body)
 
 def save_booking_form(request, form, template_name):
