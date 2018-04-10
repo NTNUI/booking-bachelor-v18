@@ -54,6 +54,10 @@
     border-top: 2px solid black;
 }
 
+#filterButton {
+    width: 40%;
+}
+
 /* Delete and edit modal*/
 /* The Modal (background) */
 .modal-big {
