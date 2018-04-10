@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'css/booking.css' %}">
+    <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
     <link rel="stylesheet" href="{% static 'css/booking_filters.css' %}">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -15,7 +15,7 @@
 
 
 
-    <div class="container" id="bookingContainer">
+    <div class="container" id="calendar-container">
 
         <!-- The modal -->
         <div id="booking-modal" class="modal-big">
@@ -32,10 +32,10 @@
             <!-- Filter content -->
             <div class="col" id="filtering" >
                 <div class="container">
-                    <div class="filterHeader">Locations</div>
+                    <div class="filter-header">Locations</div>
                     <div class="tb aBlock">
                         {% for location in locations %}
-                            <input type="checkbox" class="largeCheckbox" id="{{ location }}" value="{{ location }}">
+                            <input type="checkbox" class="large-checkbox" id="{{ location }}" value="{{ location }}">
 
                             <label for="{{ location }}">{{ location }}</label>
                             <p></p>
@@ -43,8 +43,8 @@
                     </div>
                     <hr>
 
-                    <div class="filterHeader">Time durations</div>
-                    <div id="timeSelect">
+                    <div class="filter-header">Time durations</div>
+                    <div id="time-select">
                         <select class="custom-select mb-3">
                             <option selected>30 min</option>
                             <option value="1">60 min</option>
@@ -54,7 +54,7 @@
                         </select>
                     </div>
 
-                    <div id="searchButton">
+                    <div id="search-button">
                         <button class="btn btn-success col" title="Click to search" onclick="checkFilter()">Search</button>
                     </div>
                 </div>

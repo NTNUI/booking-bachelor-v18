@@ -7,7 +7,7 @@
     border:none;
 }
 
-#myBookingsHeader {
+#my-bookings-header {
     margin-top: 2rem;
     margin-left: 1rem;
     text-transform: uppercase;
@@ -18,12 +18,12 @@
     display: inline-block;
 }
 
-.myHeaders {
+.my-bookings-header-2 {
     margin: 1rem;
     font-size: 1.6rem;
 }
 
-.myBookingsBox {
+.my-booking-box {
     padding: 2rem 2rem;
     background-color: white;
     box-shadow: 0 2px 4px rgba(50, 50, 93, 0.1);
@@ -55,7 +55,7 @@
     border-top: 2px solid black;
 }
 
-#filterButton {
+#filter-button {
     width: 40%;
 }
 /* Delete and edit modal*/
