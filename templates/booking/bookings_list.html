@@ -4,7 +4,7 @@
 
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/booking.css' %}">
-    <link rel="stylesheet" href="{% static 'css/my_bookings.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all_my_bookings.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -13,9 +13,8 @@
         My bookings
     </h1>
     <div class="myBookingsBox">
-        <h3> Hello, {{user.first_name}} {{ user.last_name }}</h3>
 
-            <p class="myHeaders">My bookings</p>
+        <p class="myHeaders">My bookings</p>
 
         <div class="replace">
             <table class="table borderless" id="booking-table">

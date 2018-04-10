@@ -14,7 +14,7 @@
 
 {% block stylesheet %}
   <link rel="stylesheet" href="{% static 'css/booking.css' %}">
-  <link rel="stylesheet" href="{% static 'css/my_bookings.css' %}">
+  <link rel="stylesheet" href="{% static 'css/all_my_bookings.css' %}">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 {% endblock %}
 
@@ -24,21 +24,22 @@
         All bookings
     </h1>
     <div class="myBookingsBox">
+        <p class="myHeaders">Filter all bookings</p>
+        <form method='get'>
+            <table class="table borderless"  id="booking-table">
+                <tr>
+                    <td>Location: {{ filter.form.location }}</td>
+                    <td>Person: {{ filter.form.person }}</td>
+                    <td>Title: {{ filter.form.title }}</td>
+                    <td>Start time: {{ filter.form.start }}</td>
+                </tr>
+            </table>
+            <button class="btn" id='filterButton' type='submit'>Filter</button>
+        </form>
+
         <div class="replace">
-            <table class="table" id="booking-table">
-                <div class="myBookings">
-                    <h1 class="myBookingsHeader">All bookings</h1>
-                    <p>Filter the results:</p>
-                    <form method='get'>
-                        Location: {{ filter.form.location }}
-                        Person: {{ filter.form.person }}
-                        Title: {{ filter.form.title }}
-                        Start time: {{ filter.form.start }}
-                        <button id='filterButton' type='submit'>Filter</button>
-                    </form>
-                </div>
-                    <tbody>
-                        {% include 'booking/includes/partial_booking_all.html' %}
+            <table class="table borderless" id="booking-table">
+                {% include 'booking/includes/partial_booking_all.html' %}
             </table>
         </div>
         <p>
