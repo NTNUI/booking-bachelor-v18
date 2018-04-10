@@ -1,0 +1,29 @@
+{#list displaying all bookings#}
+
+{% for book in filter.qs %}
+
+    <table class="table borderless" id="booking-table">
+        {# Titles of bookings #}
+        {% if bookings %}
+            <thead class="table-title">
+                <tr>
+                    <th>{{ book.title }}</th>
+                </tr>
+            </thead>
+        {% endif %}
+
+        <tr>
+            <td><b>What:</b> {{ book.description }}</td>
+        </tr>
+        <tr>
+            <td><b>Location:</b> {{ book.location }}</td>
+        </tr>
+        <tr>
+            <td><b>Time:</b> {{ book.start }} - {{ book.end }}</td>
+        </tr>
+        <tr>
+            <td><b>Group:</b> {{ book.group }}</td>
+        </tr>
+    </table>
+
+{% endfor %}
