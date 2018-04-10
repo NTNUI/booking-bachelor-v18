@@ -10,6 +10,8 @@ from django.template.loader import render_to_string
 from .forms import BookingForm
 from groups.models import SportsGroup
 from groups.models import Membership
+from itertools import chain
+
 
 
 @login_required
@@ -66,15 +68,18 @@ def booking_list(request):
     my_bookings_list = Booking.objects.filter(person=user)
     my_groups = get_my_groups(request)
     my_group_bookings_list = []
+    group_list = Booking.objects.none()
     for group in my_groups:
         booking = Booking.objects.filter(group=group).exclude(person=user)
+        print(booking)
+        group_list = booking | group_list
         my_group_bookings_list.append(booking)
-
+    print("result = " , group_list)
     print(my_group_bookings_list)
 
     return render(request, 'booking/bookings_list.html', {
         'my_bookings_list': my_bookings_list,
-        'my_group_bookings_list': booking,
+        'my_group_bookings_list': group_list,
         'bookings': bookings})
 
 def confirmation_mail(request):
