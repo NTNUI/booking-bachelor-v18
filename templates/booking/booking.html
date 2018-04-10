@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'css/booking.css' %}">
+    <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
     <link rel="stylesheet" href="{% static 'css/booking_filters.css' %}">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -15,7 +15,7 @@
 
 
 
-    <div class="container" id="bookingContainer">
+    <div class="container" id="calendar-container">
 
         <!-- The modal -->
         <div id="booking-modal" class="modal-big">
@@ -32,10 +32,10 @@
             <!-- Filter content -->
             <div class="col" id="filtering" >
                 <div class="container">
-                    <div class="filterHeader">Locations</div>
+                    <div class="filter-header">Locations</div>
                     <div class="tb aBlock">
                         {% for location in locations %}
-                            <input type="checkbox" class="largeCheckbox" id="{{ location }}" value="{{ location }}">
+                            <input type="checkbox" class="large-checkbox" id="{{ location }}" value="{{ location }}">
 
                             <label for="{{ location }}">{{ location }}</label>
                             <p></p>
@@ -43,8 +43,8 @@
                     </div>
                     <hr>
 
-                    <div class="filterHeader">Time durations</div>
-                    <div id="timeSelect">
+                    <div class="filter-header">Time durations</div>
+                    <div id="time-select">
                         <select class="custom-select mb-3">
                             <option selected>30 min</option>
                             <option value="1">60 min</option>
@@ -54,7 +54,7 @@
                         </select>
                     </div>
 
-                    <div id="searchButton">
+                    <div id="search-button">
                         <button class="btn btn-success col" title="Click to search" onclick="checkFilter()">Search</button>
                     </div>
                 </div>
@@ -83,25 +83,23 @@
 {% endblock content %}
 
 {% block script %}
-  <script src="http://malsup.github.com/jquery.form.js"></script>
-  <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/bookings.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/expand_group_card.js' %}"></script>
-  <script
-  src="http://code.jquery.com/jquery-3.3.1.js"
-  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-  crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-  $( function() {
-    $( "#datepicker" ).datepicker();
-  } );
-  $(document).ready(function(){
-    $('input.timepicker').timepicker({});
-  });
-  </script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
-
-
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+    <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bookings.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/expand_group_card.js' %}"></script>
+    <script
+        src="http://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $( "#datepicker" ).datepicker();
+        } );
+            $(document).ready(function(){
+            $('input.timepicker').timepicker({});
+        });
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 {% endblock script %}
