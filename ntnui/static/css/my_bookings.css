@@ -107,9 +107,9 @@
 }
 
 /* Responsive design */
-/* Make booking container bigger on smaller devices */
+/* Makes booking container bigger on smaller devices */
 @media only screen and (max-width: 580px){
     .booking-container {
-            width: 90%
+            width: 85%
     }
 }
