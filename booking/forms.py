@@ -16,7 +16,7 @@ class BookingForm(forms.ModelForm):
             my_groups.append((sport_objects, sport_objects))
         choices = tuple(my_groups)
         self.fields['group'] = forms.ChoiceField(
-            choices=blank_choice + choices)
+            choices=blank_choice + choices, required=False)
 
     class Meta:
         model = Booking
