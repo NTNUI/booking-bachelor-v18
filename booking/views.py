@@ -82,16 +82,20 @@ def save_booking_form(request, form, template_name):
 
 def booking_create(request):
     if request.method == 'POST':
-        form = BookingForm(request.POST)
+        user = request.user
+        form = BookingForm(user, request.POST)
     else:
-        form = BookingForm(initial={'person': request.user})
+        user = request.user
+        form = BookingForm(user, initial={'person': request.user})
     return save_booking_form(request, form, 'booking/includes/partial_booking_create.html')
 
 def booking_create_from_calendar(request):
     if request.method == 'POST':
-        form = BookingForm(request.POST)
+        user = request.user
+        form = BookingForm(user, request.POST)
     else:
-        form = BookingForm(initial={'person': request.user})
+        user = request.user
+        form = BookingForm(user, initial={'person': request.user})
     return save_booking_form(request, form, 'booking/includes/partial_booking_create_calendar.html')
 
 

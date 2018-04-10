@@ -48,7 +48,7 @@ class Booking(models.Model):
             ('', '---------'),
         )
 
-    group = models.CharField(max_length=200, choices=tu, blank=True)
+    group = models.CharField(max_length=200, blank=True)
     def __str__(self):
         return self.title
 
