@@ -1,3 +1,7 @@
+html, body {
+    height:100%;
+}
+
 body {
     background-color: #f1f1f1;
 }
@@ -50,11 +54,14 @@ a:hover {
 
 .btn {
     border-radius: 0.15rem;
+    margin: 2px;
+    cursor: pointer;
 }
 
 .btn:disabled {
     cursor: default;
 }
+
 
 /*
  * Responsive design CSS

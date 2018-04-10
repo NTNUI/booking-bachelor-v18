@@ -1,0 +1,42 @@
+{#list displaying all bookings#}
+
+{% if bookings %}
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Location</th>
+            <th>Start date</th>
+            <th>End date</th>
+        </tr>
+    </thead>
+{% endif %}
+
+
+{% for book in bookings %}
+   {% if user.get_username == book.person.get_username %}
+    <tr>
+        <td>{{ book.title }}</td>
+        <td>{{ book.location }}</td>
+        <td>{{ book.start }}</td>
+        <td>{{ book.end }}</td>
+        <td>
+            <button type="button" class="btn col js-update-booking" data-url="{% url 'booking_update' book.id %}">
+                <span class="glyphicon glyphicon-pencil"></span> Edit
+            </button>
+            <button type="button" class="btn btn-danger col js-delete-booking" data-url="{% url 'booking_delete' book.id %}">
+                <span class="glyphicon glyphicon-trash"></span> Delete
+            </button>
+        </td>
+    </tr>
+
+    <tr class="borderless">
+        <td id="desc">Description: {{ book.description }}</td>
+    </tr>
+    {% endif %}
+
+    {% empty %}
+        <tr>
+            <td><p>Yay! You have no bookings. Stay in and enjoy your day!</p></td>
+        </tr>
+
+{% endfor %}
