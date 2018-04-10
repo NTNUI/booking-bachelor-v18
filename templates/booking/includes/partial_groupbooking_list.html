@@ -1,33 +1,27 @@
 {#list displaying all bookings#}
 
-{% for book in bookings %}
+{% for booking in my_group_bookings_list %}
 
-    {% for group in book.get_groups %}
-        {% if user.get_username != book.person.get_username %}
-            {% if group == book.group %}
-                {# Titles of bookings #}
-                {% if bookings %}
-                    <thead class="table-title">
-                        <tr>
-                            <th>{{ book.title }}</th>
-                        </tr>
-                    </thead>
-                {% endif %}
+    <thead class="table-title">
+        <tr>
+            <th>{{ booking.title }}</th>
+        </tr>
+    </thead>
 
-                <tr>
-                    <td><b>What:</b> {{ book.description }}</td>
-                </tr>
-                <tr>
-                    <td><b>Location:</b> {{ book.location }}</td>
-                </tr>
-                <tr>
-                    <td><b>Time:</b> {{ book.start }} - {{ book.end }}</td>
-                </tr>
-                <tr>
-                    <td><b>Group:</b> {{ book.group }}</td>
-                </tr>
-            {% endif %}
-        {% endif %}
-    {% endfor %}
+    <tr>
+        <td><b>What:</b> {{ booking.description }}</td>
+    </tr>
+    <tr>
+        <td><b>Location:</b> {{ booking.location }}</td>
+    </tr>
+    <tr>
+        <td><b>Time:</b> {{ booking.start }} - {{ booking.end }}</td>
+    </tr>
+    <tr>
+        <td><b>Group:</b> {{ booking.group }}</td>
+    </tr>
+
+    {% empty %}
+        <p>Your groups have no bookings</p>
 
 {% endfor %}

@@ -1,12 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from rules import is_staff
-
-import accounts
-from accounts.models import User
 from booking.filters import AdminFilter, UserFilter
 from groups.rules import is_group_member
 from ntnui.decorators import is_main_board
@@ -14,6 +8,8 @@ from .models import Booking, Location
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from .forms import BookingForm
+from groups.models import SportsGroup
+from groups.models import Membership
 
 
 @login_required
@@ -54,10 +50,31 @@ def booking_all(request):
             'filter': booking_filter,
             'bookings': book})
 
+def get_my_groups(request):
+    user = request.user
+    thelist = Membership.objects.filter(person=user).values_list('group', flat=True)
+    my_groups = []
+    for x in thelist:
+        thelist3 = SportsGroup.objects.get(id=x).name
+        my_groups.append(thelist3)
+    return my_groups
+
 def booking_list(request):
     model = Booking
     bookings = model.objects.all()
+    user = request.user
+    my_bookings_list = Booking.objects.filter(person=user)
+    my_groups = get_my_groups(request)
+    my_group_bookings_list = []
+    for group in my_groups:
+        booking = Booking.objects.filter(group=group).exclude(person=user)
+        my_group_bookings_list.append(booking)
+
+    print(my_group_bookings_list)
+
     return render(request, 'booking/bookings_list.html', {
+        'my_bookings_list': my_bookings_list,
+        'my_group_bookings_list': booking,
         'bookings': bookings})
 
 def confirmation_mail(request):
