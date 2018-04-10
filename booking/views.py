@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 from booking.filters import AdminFilter, UserFilter
+from groups.rules import is_group_member
+from ntnui.decorators import is_main_board
 from .models import Booking, Location
 from django.http import JsonResponse
 from django.template.loader import render_to_string
