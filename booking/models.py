@@ -55,7 +55,7 @@ class Booking(models.Model):
     def get_absolute_url(self):
         return reverse('booking_edit', kwargs={'pk': self.pk})
 
-    def get_group(self):
+    def get_groups(self):
         thelist = Membership.objects.filter(person=self.person).values_list('group', flat=True)
         my_groups = []
         for x in thelist:

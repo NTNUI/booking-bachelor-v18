@@ -14,7 +14,7 @@
 
 {% for book in bookings %}
 
-    {% for group in book.get_group %}
+    {% for group in book.get_groups %}
         {% if user.get_username != book.person.get_username %}
         {% if group == book.group %}
             <tr>
