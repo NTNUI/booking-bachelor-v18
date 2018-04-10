@@ -13,6 +13,7 @@
     text-transform: uppercase;
     color: green;
     font-size: 1.5rem;
+    max-width: 80%;
     max-width: 50%;
     display: inline-block;
 }
@@ -57,7 +58,6 @@
 #filterButton {
     width: 40%;
 }
-
 /* Delete and edit modal*/
 /* The Modal (background) */
 .modal-big {
@@ -108,4 +108,12 @@
     content: "";
     clear: both;
     display: table;
+}
+
+/* Responsive design */
+/* Makes booking container bigger on smaller devices */
+@media only screen and (max-width: 580px){
+    .booking-container {
+            width: 85%
+    }
 }
