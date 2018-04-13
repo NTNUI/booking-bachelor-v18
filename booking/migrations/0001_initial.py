@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('start', models.DateTimeField(blank=True, verbose_name='Start')),
                 ('end', models.DateTimeField(blank=True, verbose_name='End')),
                 ('description', models.CharField(default='', max_length=400)),
-                ('queueNO', models.IntegerField(default=0)),
+                ('queueNo', models.IntegerField(default=0)),
             ],
         ),
         migrations.CreateModel(

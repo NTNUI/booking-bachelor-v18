@@ -42,21 +42,11 @@ function promiseTest() {
         }
     })
 }
-// function promiseTest2() {
-//     return $.ajax({
-//         url: "/booking/api2",
-//         dataType: "json",
-//         type: "GET",
-//         cache: false,
-//         success: function() {
-//             console.log("fresh")
-//         }
-//     })
-// }
 
 // Function used to resolve promise object. When object is resolved, call createMonth and push data to global_list.
 var promised = promiseTest();
-function promise() {
+var promise = function () {
+    console.log("promise")
 promised.done(function() {
     promised.then( function() {
             createMonth();
@@ -65,25 +55,55 @@ promised.done(function() {
         )
     })
 }
-// var promised2 = promiseTest2();
-// function promise2() {
-// promised2.done(function() {
-//     promised2.then( function() {
-//             // createMonth();
-//             global_list.push(promised.responseJSON)
-//             }
-//         )
-//     })
-// }
-
+promise();
+//temporary cheat
+// var win = window.open('http://www.google.com');
+// console.log(window.location)
+// window.onbeforeunload = function(){populate()}
+var getTime = function(time){
+    // console.log("gettime : " +time)
+    var timeArray = time.split(":");
+    var hours = parseInt(timeArray[0]);
+    var minutes = parseInt(timeArray[1]);
+    return new Array(hours, minutes)
+}
 // Function used to populate the calendar with bookings from the database.
 function populate() {
-    //promiseTest();
+    console.log("populated")
+    var date_map = new Map();
+    
     for (i = 0; i < global_list[0].length; i++) {
-        var day = global_list[0][i].start;
-        var date_format = day.slice(0, 10);
-        var location = global_list[0][i].location__name;
-        //$("#" + date_format + " h1").text("2/12");
+        var qNo = global_list[0][i].queueNo;
+        if (qNo == 0){
+            console.log("this far")
+            var day = global_list[0][i].start;
+            var date_format = day.slice(0, 10);
+            var location = global_list[0][i].location__name;
+            var start_datetime = day.split("T");
+            var start_date = start_datetime[0];
+            var start_time = start_datetime[1].replace("Z", "");
+
+            var end_datetime = global_list[0][i].end.split("T");
+            var end_time = end_datetime[1].replace("Z", "");
+            //find difference between end and start
+            var start_array = getTime(start_time);
+            var end_array = getTime(end_time);
+            var diff_hour = end_array[0]-start_array[0];
+            var diff_min = end_array[1]-start_array[1];
+
+            if (date_map.has(start_date)){
+                //add current hours to prior hours
+                sum_array = getTime(date_map.get(start_date));
+                var hours = diff_hour + sum_array[0];
+                var min = diff_min + sum_array[1];
+                date_map.set(start_date, ""+hours+":"+min);
+            }
+            else {
+                date_map.set(start_date, ""+diff_hour+":"+diff_min)
+            }
+            
+            $("#" + date_format + " h1").text(""+getTime(date_map.get(start_date))[0]+"/12");
+        }
     }
 }
 
@@ -95,6 +115,8 @@ function checkFilter() {
         var day = global_list[0][i].start;
         var date_format = day.slice(0, 10);
         var location = global_list[0][i].location__name;
+
+        
         if (loc.value === location && loc.checked === true) {
             $("#" + date_format + " h1").text(location);
         }
@@ -104,6 +126,28 @@ function checkFilter() {
     }
 }
 
+//Mutation Observer
+var targetNode = document.getElementById("calendar");
+var config = {attributes: true, subtree: true, characterData:true};
+//callback function to execute when mutations are observed
+var callback = function(mutationsList){
+    for (var mutation of mutationsList){
+        if (mutation.type = "childList"){
+            console.log("child node added/modified");
+            populate();
+        }
+        else if (mutation.type == 'attributes'){
+            console.log('The ' + mutation.attributeName + ' attribute was modified');
+        }
+        else if ( mutation.type == 'subtree'){
+            console.log("subtree")
+        }
+    }
+}
+
+var window = document.defaultView;
+var observer = new MutationObserver(callback);
+observer.observe(targetNode, config);
 // Event listener. Fires whenever the calendar changes.
 function HandleDOM_Change () {
     populate();
@@ -115,22 +159,28 @@ fireOnDomChange ('#calendar', HandleDOM_Change, 500);
 
 
 function fireOnDomChange (selector, actionFunction, delay) {
-    $(selector).bind ('DOMSubtreeModified', fireOnDelay);
+    
+    // observer.observe(targetNode, config);
 
-    function fireOnDelay () {
-        if (typeof this.Timer == "number") {
-            clearTimeout (this.Timer);
-        }
-        this.Timer  = setTimeout (  function() { fireActionFunction (); },
-                                    delay ? delay : 333
-                                 );
-    }
+    // $(selector).on ('DOMSubtreeModified', fireOnDelay);
 
-    function fireActionFunction () {
-        $(selector).unbind ('DOMSubtreeModified', fireOnDelay);
-        actionFunction ();
-        $(selector).bind ('DOMSubtreeModified', fireOnDelay);
-    }
+    // function fireOnDelay () {
+    //     if (typeof this.Timer == "number") {
+    //         clearTimeout (this.Timer);
+    //     }
+    //     this.Timer  = setTimeout (  function() { fireActionFunction (); },
+    //                                 delay ? delay : 333
+    //                              );
+    // }
+
+    // function fireActionFunction () {
+    //     // observer.disconnect();
+
+    //     $(selector).off ('DOMSubtreeModified', fireOnDelay);
+
+    //     actionFunction ();
+    //     $(selector).on ('DOMSubtreeModified', fireOnDelay);
+    // }
 }
 
 // Converts day ids to the relevant string
@@ -164,7 +214,7 @@ function createPopup() {
     popupTag.appendChild(popupContent);
     var modal = document.getElementsByClassName(popupTag.className);
     var span = document.getElementById(popupSpan.id);
-    modal.style.display = "block";
+    modal.style.display = "block";   
     $('.modal-content').load('new',function(){}).hide().fadeIn();
 }
 
@@ -275,6 +325,7 @@ function getCurrentDay() {
 
 
 function popup(e) {
+    console.log("popped up")
     $.ajax({
       url: '/booking/bookings_list/create_calendar/',
       type: 'get',
@@ -287,7 +338,9 @@ function popup(e) {
       },
       success: function (data) {
         $("#booking-modal .booking-modal-contents").html(data.html_form);
+        
       }
+      
     });
 
     //Set global tempDay variable to event that triggers the popup, ie the date.
@@ -298,9 +351,14 @@ function popup(e) {
     modal.style.display = "block";
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
-        if (event.target == modal || event.target == close) {
+        if (event.target == modal){
             modal.style.display = "none";
 
+        }
+        else if (event.target == close){
+            console.log("closed!")
+            modal.style.display = "none"
+            populate();
         }
     }
 }

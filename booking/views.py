@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from .forms import BookingForm
 from django.contrib import messages
+from datetime import time
 
 
 @login_required
@@ -21,14 +22,37 @@ def index(request):
 
 def api(request, **kwargs):
     model = Booking
-    bookings = model.objects.all().values('title', 'description', 'start', 'end', 'location__name', 'person__first_name')
+    bookings = model.objects.all().values('title', 'description', 'start', 'end', 'location__name', 'person__first_name', 'queueNo')
     booking_list = list(bookings)
     return JsonResponse(booking_list, safe=False)
 
 def api2(request, **kwargs):
-    hours = Booking.objects.raw('SELECT SUM(end - start) AS s, start, queueNo FROM Booking WHERE queueNo = 0 GROUP BY SUBSTRING(start, 1, 10) HAVING s>0')
-    hours_list = list(hours)
-    return JsonResponse(hours_list, safe=False)
+    #DEPRECATED
+    b = Booking.objects.all()#.values('title', 'description', 'start', 'end', 'location__name'     )
+    hours = Booking.objects.raw('SELECT id, start, end FROM booking_Booking WHERE queueNo = 0')
+    b2 = Booking.objects.raw('SELECT id, start, end FROM booking_Booking WHERE SUBSTR(start, 1, 10) = "2018-05-05"')
+    print("HELLO")
+    dates = {}
+    for b in hours:
+        date = b.start
+        d = b.end-b.start
+        date_key = str(date.year)+str(date.month)+str(date.month)
+        if date_key in dates.keys():
+            dates[date_key]+= d
+        else:
+            dates[date_key]=d
+    #convert to rounded integer
+    for k in dates.keys():
+        s = dates[k].total_seconds()
+        h = s//3600
+        m = (s-h)//60
+        if m > 30:
+            dates[k] = h
+        else:
+            dates[k] = h+1
+    b2_list = list(b2)
+    hours_list = [(i, j) for i, j in zip(dates.keys(), dates.values())]
+    return JsonResponse(hours_list+b2_list, safe=False)
 
 class BookingList(ListView):
     model = Booking

@@ -57,18 +57,9 @@ class Booking(models.Model):
     def get_absolute_url(self):
         return reverse('booking_edit', kwargs={'pk': self.pk})
 
-    # def save(self, *args, **kwargs):
-    #     model = Booking
-    #     bookings = model.objects.filter(location=self.location, start__lt=self.end, end__gt=self.start)
-    #     # bookings = list(bookings)
-    #     if list(bookings) != []:
-    #         maxVal =  bookings.aggregate(models.Max('queueNo'))
-    #         temp = [maxVal [i] for i in sorted(maxVal.keys())]
-    #         self.queueNo = int(temp[0])+1
-    #     return super(Booking, self).save(*args, **kwargs)
     
     def save(self, *args, **kwargs):
-        # TODO: retrieve all overlapping bookings
+        #TODO: editing causes interference with its own old qNo value
         # compare to all with qNo=0
         # a|----| b|----|
         #    c|-----| d|---|

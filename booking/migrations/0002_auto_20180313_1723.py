@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RenameField(
             model_name='booking',
-            old_name='queueNO',
+            old_name='queueNo',
             new_name='queueNo',
         ),
     ]
