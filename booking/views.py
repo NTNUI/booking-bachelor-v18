@@ -1,18 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
-from booking.filters import AdminFilter, UserFilter
-from groups.rules import is_group_member
-from ntnui.decorators import is_main_board
+from booking.filters import AdminFilter
 from .models import Booking, Location
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from .forms import BookingForm
 from groups.models import SportsGroup
 from groups.models import Membership
-from itertools import chain
-
-
 
 @login_required
 def index(request):
@@ -43,22 +38,22 @@ class BookingList(ListView):
 
 @login_required
 def booking_all(request):
-        book = []
-        for booking in list(Booking.objects.filter()):
-            book.append(booking)
-        bookings = Booking.objects.all()
-        booking_filter = AdminFilter(request.GET, queryset=bookings)
-        return render(request, 'booking/booking_all.html', {
-            'filter': booking_filter,
-            'bookings': book})
+    book = []
+    for booking in list(Booking.objects.filter()):
+        book.append(booking)
+    bookings = Booking.objects.all()
+    booking_filter = AdminFilter(request.GET, queryset=bookings)
+    return render(request, 'booking/booking_all.html', {
+        'filter': booking_filter,
+        'bookings': book})
 
 def get_my_groups(request):
     user = request.user
-    thelist = Membership.objects.filter(person=user).values_list('group', flat=True)
+    groups = Membership.objects.filter(person=user).values_list('group', flat=True)
     my_groups = []
-    for x in thelist:
-        thelist3 = SportsGroup.objects.get(id=x).name
-        my_groups.append(thelist3)
+    for g in groups:
+        group = SportsGroup.objects.get(id=g).name
+        my_groups.append(group)
     return my_groups
 
 def booking_list(request):
@@ -71,11 +66,8 @@ def booking_list(request):
     group_list = Booking.objects.none()
     for group in my_groups:
         booking = Booking.objects.filter(group=group).exclude(person=user)
-        print(booking)
         group_list = booking | group_list
         my_group_bookings_list.append(booking)
-    print("result = " , group_list)
-    print(my_group_bookings_list)
 
     return render(request, 'booking/bookings_list.html', {
         'my_bookings_list': my_bookings_list,
@@ -150,3 +142,4 @@ def booking_delete(request, pk):
             request=request,
         )
     return JsonResponse(data)
+
