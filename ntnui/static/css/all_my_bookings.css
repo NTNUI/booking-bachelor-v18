@@ -13,7 +13,7 @@
     text-transform: uppercase;
     color: green;
     font-size: 1.5rem;
-    max-width: 80%;
+    /*max-width: 80%;*/
     max-width: 50%;
     display: inline-block;
 }
@@ -34,6 +34,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 2rem;
 }
 
 .booking-item {
@@ -55,8 +56,43 @@
     border-top: 2px solid black;
 }
 
+#id_location{
+    width: 100%;
+}
+
+#id_person{
+    width: 100%;
+}
+
+#id_title{
+    width: 100%;
+}
+
+#id_start{
+    width: 100%;
+}
+
+
+form {
+    width: 85%;
+    alignment: center;
+   /* display: inline-block;*/
+
+}
+
+.replace{
+    width: 85%;
+    alignment: center;
+    display: inline-block;
+}
+
+
 #filterButton {
-    width: 40%;
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+
 }
 /* Delete and edit modal*/
 /* The Modal (background) */
@@ -110,10 +146,27 @@
     display: table;
 }
 
+
+
 /* Responsive design */
-/* Makes booking container bigger on smaller devices */
+
+
 @media only screen and (max-width: 580px){
     .booking-container {
-            width: 85%
+        width: 85%;
+    }
+    td{
+        display: inline-block;
+        width: 85%;
     }
 }
+
+@media only screen and (max-width: 1250px){
+    td{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 85%;
+    }
+}
+

@@ -25,8 +25,8 @@
     </h1>
     <div class="myBookingsBox">
         <p class="myHeaders">Filter all bookings</p>
-        <form method='get'>
-            <table class="table borderless"  id="booking-table">
+        <form method="get">
+            <table class="table borderless"  id="filter-table">
                 <tr>
                     <td>Location: {{ filter.form.location }}</td>
                     <td>Person: {{ filter.form.person }}</td>
@@ -34,7 +34,7 @@
                     <td>Start time: {{ filter.form.start }}</td>
                 </tr>
             </table>
-            <button class="btn" id='filterButton' type='submit'>Filter</button>
+            <button class="btn btn-success" id='filterButton' type='submit'>Filter</button>
         </form>
 
         <div class="replace">
