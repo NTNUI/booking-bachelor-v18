@@ -56,6 +56,19 @@ def get_my_groups(request):
         my_groups.append(group)
     return my_groups
 
+def confirmation_mail(request, pk):
+    name = request.user.first_name
+    booking = get_object_or_404(Booking, pk=pk)
+    date = booking.get_date()
+    (day, date, start_time, end_time) = date
+    new_booking = 'Hey ' + name + ', you have created a new booking on ' + day + ', ' + date
+    updated = 'Hey ' + name + ', your booking on ' + day + ', ' + date + ' has been updated!'
+    deleted = 'Hey ' + name + ', your booking on ' + day + ', ' + date + ' has been deleted!'
+    overwritten = 'Hey ' + name + ', your booking on ' + day + ', ' + date + ' has been overwritten!'
+    queued = 'Hey ' + name + ', you have queued for a booking on ' + day + ', ' + date
+    mails = (new_booking, updated, deleted, overwritten, queued)
+    return mails
+
 def booking_list(request):
     model = Booking
     bookings = model.objects.all()
@@ -74,11 +87,6 @@ def booking_list(request):
         'my_group_bookings_list': group_list,
         'bookings': bookings})
 
-def confirmation_mail(request):
-    name = request.user.first_name
-    body = 'Hey ' + name + ', you have created a new booking!'
-    print(body)
-
 def save_booking_form(request, form, template_name):
     data = dict()
     if request.method == 'POST':
@@ -89,7 +97,6 @@ def save_booking_form(request, form, template_name):
             data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
                 'bookings': bookings
             })
-            confirmation_mail(request)
         else:
             data['form_is_valid'] = False
     context = {'form': form}
@@ -116,16 +123,20 @@ def booking_create_from_calendar(request):
 
 
 def booking_update(request, pk):
+    mails = confirmation_mail(request, pk)
     book = get_object_or_404(Booking, pk=pk)
     if request.method == 'POST':
         user = request.user
         form = BookingForm(user, request.POST, instance=book)
+        (new_booking, updated, deleted, overwritten, queued) = mails
+        print(updated)
     else:
         user = request.user
         form = BookingForm(user, instance=book)
     return save_booking_form(request, form, 'booking/includes/partial_booking_update.html')
 
 def booking_delete(request, pk):
+    mails = confirmation_mail(request, pk)
     book = get_object_or_404(Booking, pk=pk)
     data = dict()
     if request.method == 'POST':
@@ -135,6 +146,8 @@ def booking_delete(request, pk):
         data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
             'bookings': bookings
         })
+        (new_booking, updated, deleted, overwritten, queued) = mails
+        print(deleted)
     else:
         context = {'book': book}
         data['html_form'] = render_to_string('booking/includes/partial_booking_delete.html',
