@@ -56,9 +56,23 @@ class Booking(models.Model):
         return reverse('booking_edit', kwargs={'pk': self.pk})
 
     def get_groups(self):
-        thelist = Membership.objects.filter(person=self.person).values_list('group', flat=True)
+        memberships = Membership.objects.filter(person=self.person).values_list('group', flat=True)
         my_groups = []
-        for x in thelist:
-            thelist3 = SportsGroup.objects.get(id=x).name
-            my_groups.append(thelist3)
+        for m in memberships:
+            sport_groups = SportsGroup.objects.get(id=m).name
+            my_groups.append(sport_groups)
         return my_groups
+
+    def get_date(self):
+        dates = {}
+        start = self.start
+        end = self.end
+        day = start.strftime("%A")
+        date = start.strftime("%d %B")
+        start_time = start.strftime("%H:%M")
+        end_time = end.strftime("%H:%M")
+        dates['day'] = day
+        dates['date'] = date
+        dates['start_time'] = start_time
+        dates['end_time'] = end_time
+        return dates
