@@ -1,9 +1,6 @@
-from datetime import date, datetime
-
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
-from django.conf import settings
 from groups.models import SportsGroup
 from groups.models import Membership
 from django.contrib.auth.models import User
@@ -64,15 +61,11 @@ class Booking(models.Model):
         return my_groups
 
     def get_date(self):
-        dates = {}
         start = self.start
         end = self.end
         day = start.strftime("%A")
         date = start.strftime("%d %B")
         start_time = start.strftime("%H:%M")
         end_time = end.strftime("%H:%M")
-        dates['day'] = day
-        dates['date'] = date
-        dates['start_time'] = start_time
-        dates['end_time'] = end_time
+        dates = (day, date, start_time, end_time)
         return dates
