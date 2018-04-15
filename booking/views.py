@@ -107,6 +107,12 @@ def booking_create(request):
     if request.method == 'POST':
         user = request.user
         form = BookingForm(user, request.POST)
+        if form.is_valid():
+            start = form.cleaned_data['start']
+            day = start.strftime("%A")
+            date = start.strftime("%d %B")
+            new_booking = 'Hey ' + user.first_name + ', you have created a new booking on ' + day + ', ' + date
+            print(new_booking)
     else:
         user = request.user
         form = BookingForm(user, initial={'person': request.user})
@@ -116,6 +122,12 @@ def booking_create_from_calendar(request):
     if request.method == 'POST':
         user = request.user
         form = BookingForm(user, request.POST)
+        if form.is_valid():
+            start = form.cleaned_data['start']
+            day = start.strftime("%A")
+            date = start.strftime("%d %B")
+            new_booking = 'Hey ' + user.first_name + ', you have created a new booking on ' + day + ', ' + date
+            print(new_booking)
     else:
         user = request.user
         form = BookingForm(user, initial={'person': request.user})
