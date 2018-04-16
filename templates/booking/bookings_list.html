@@ -5,17 +5,17 @@
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
     <link rel="stylesheet" href="{% static 'css/all_my_bookings.css' %}">
+    <link rel="stylesheet" href="{% static 'css/booking_modal.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="booking-container">
-    <h1 id="myBookingsHeader">
+    <h1 id="my-bookings-header">
         My bookings
     </h1>
-    <div class="myBookingsBox">
-        <h3> Hello, {{user.first_name}} {{ user.last_name }}</h3>
+    <div class="my-booking-box">
 
-            <p class="myHeaders">My bookings</p>
+        <p class="my-bookings-header-2">My bookings</p>
 
         <div class="replace">
             <table class="table borderless" id="booking-table">
@@ -30,7 +30,7 @@
             </button>
         </p>
 
-        <p class="myHeaders">Group bookings</p>
+        <p class="my-bookings-header-2">Group bookings</p>
         <div class="replace">
             <table class="table borderless" id="booking-table">
                 {% include 'booking/includes/partial_groupbooking_list.html' %}
