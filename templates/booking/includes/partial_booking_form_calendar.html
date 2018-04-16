@@ -6,15 +6,6 @@
 
         <div class="col-8">
             <div id="booking-cards">
-                <!--<div class="col-sm-10">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">09:00 - 10:00</h5>
-                            <p class="card-text">Håndball</p>
-                            <h6 class="card-subtitle mb-2 text-muted">Fride Skarseth</h6>
-                        </div>
-                    </div>
-                </div>-->
             </div>
         </div>
     {% load widget_tweaks %}
@@ -81,12 +72,17 @@
             success: function(data) {
                 var list_of_bookings = []
                 $.each(data, function(i, item) {
-                    var day = data[i].start;
-                    var date_format = day.slice(0, 10);
-                    if(tempDay.id == date_format){
+                    var date = data[i].start;
+                    console.log(newDate);
+                    var date_format = date.slice(0, 10);
+                    var start = date.slice(11, 16);
+                    var newDate = start.replace(":", "");
+                    if(tempDay.id == date_format) {
                         booking = []
-                        booking.push(day, data[i].end, data[i].title, data[i].person__first_name);
+                        booking.push(newDate, start, data[i].end, data[i].title, data[i].person__first_name);
                         list_of_bookings.push(booking)
+
+                        list_of_bookings.sort(function(a, b){return a[0] - b[0]});
                     }
                 })
                 for (var I = 0; I < list_of_bookings.length; I++) {
@@ -98,17 +94,17 @@
                     div3.className = "card-body";
                     var date = document.createElement("h5");
                     date.className = "card-title";
-                    var start_time = list_of_bookings[I][0].slice(11, 16);
-                    var end_time = list_of_bookings[I][1].slice(11, 16);
+                    var start_time = list_of_bookings[I][1];
+                    var end_time = list_of_bookings[I][2].slice(11, 16);
                     date.innerHTML = start_time + "-" + end_time;
                     var title = document.createElement("p");
                     title.className = "card-text";
-                    var title_f = list_of_bookings[I][2]
-                    title.innerHTML = title_f;
+                    var b_title = list_of_bookings[I][3]
+                    title.innerHTML = b_title;
                     var name = document.createElement("h6");
                     name.className = "card-subtitle mb-2 text-muted";
-                    var name_f = list_of_bookings[I][3]
-                    name.innerHTML = name_f;
+                    var b_name = list_of_bookings[I][4]
+                    name.innerHTML = b_name;
 
                     div3.appendChild(date);
                     div3.appendChild(title);
