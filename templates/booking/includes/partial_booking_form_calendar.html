@@ -18,7 +18,7 @@
             </div>
         </div>
     {% load widget_tweaks %}
-    <div class="calendar-booking{% if field.errors %} has-error{% endif %}" onmouseover="checkStartTime()">
+    <div class="calendar-booking{% if field.errors %} has-error{% endif %}">
         {{form.person.as_hidden}}
         <h5>Location </h5>
         {{form.location}}
@@ -43,8 +43,8 @@
         <h5>Endtime</h5>
         <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="endTime" >
             <input type="text" class="form-control" value="Choose end time" id="endInput" onclick="editClock()" required>
-            <span class="input-group-addon">
-            <span class="glyphicon glyphicon-time"></span>
+            <span class="input-group-addon" i id="endTimeSpan">
+            <span class="glyphicon glyphicon-time" ></span>
             </span>
             </div>
         </div>
