@@ -183,6 +183,7 @@ function createCalendarDay(num, day, mon, year, available) {
     if (newDay.id < getCurrentDay()){
         newDay.className = "calendar-day restricted";
     }
+
 }
 
 
@@ -271,6 +272,7 @@ function popup(e) {
 
     //Set global tempDay variable to event that triggers the popup, ie the date.
     this.tempDay = e;
+
     var modal = document.getElementById('booking-modal');
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
@@ -282,6 +284,7 @@ function popup(e) {
 
         }
     }
+
 }
 
 // Functions used to create secure POST requests.
