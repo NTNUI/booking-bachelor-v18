@@ -151,7 +151,7 @@ h4.modal-title  {
 }
 
 /* Responsive design */
-/* Makes text smaller and removes "busy" sign on smaller devices */
+/* Make text smaller and removes "busy" sign on smaller devices */
 
 @media only screen and (max-width: 480px) {
     .calendar-day p {
@@ -160,5 +160,19 @@ h4.modal-title  {
 
     .calendar-day h1 {
         display: none;
+    }
+}
+
+/* Make modal wider and text smaller on smaller devices */
+@media only screen and (max-width: 800px) {
+
+    h5, .calendar-booking, input, .form-control{
+        font-size: 90%;
+    }
+    .booking-modal-contents {
+        width: 85%;
+
+
+
     }
 }
