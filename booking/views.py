@@ -8,6 +8,7 @@ from django.template.loader import render_to_string
 from .forms import BookingForm
 from groups.models import SportsGroup
 from groups.models import Membership
+from django.utils import timezone
 
 @login_required
 def index(request):
@@ -39,9 +40,11 @@ class BookingList(ListView):
 @login_required
 def booking_all(request):
     book = []
+    now = timezone.now()
     for booking in list(Booking.objects.filter()):
         book.append(booking)
-    bookings = Booking.objects.all()
+
+    bookings = Booking.objects.all().filter(start__gte=now).order_by('start')
     booking_filter = AdminFilter(request.GET, queryset=bookings)
     return render(request, 'booking/booking_all.html', {
         'filter': booking_filter,
@@ -73,14 +76,16 @@ def booking_list(request):
     model = Booking
     bookings = model.objects.all()
     user = request.user
-    my_bookings_list = Booking.objects.filter(person=user)
+    now = timezone.now()
+    my_bookings_list = Booking.objects.filter(person=user).filter(start__gte=now).order_by('start')
     my_groups = get_my_groups(request)
     my_group_bookings_list = []
     group_list = Booking.objects.none()
     for group in my_groups:
-        booking = Booking.objects.filter(group=group).exclude(person=user)
+        booking = Booking.objects.filter(group=group).exclude(person=user).filter(start__gte=now).order_by('start')
         group_list = booking | group_list
         my_group_bookings_list.append(booking)
+        #upcoming = Booking.objects.filter(start__gte=now).order_by('start')
 
     return render(request, 'booking/bookings_list.html', {
         'my_bookings_list': my_bookings_list,
