@@ -1,35 +1,40 @@
 {#list displaying all bookings#}
 
-{% for book in filter.qs %}
-        {# Titles of bookings #}
-        {% if bookings %}
-            <thead class='table-title'>
-                <tr>
-                    <th>{{ book.title }}</th>
-                </tr>
-            </thead>
-        {% endif %}
+{% for booking in filter.qs %}
+    {# Titles of bookings #}
+    {% if bookings %}
+        <thead class='table-title'>
+            <tr>
+                <th>{{ booking.title }}</th>
+            </tr>
+        </thead>
+    {% endif %}
 
-        <tr>
-            <td><b>What:</b> {{ book.description }}</td>
-        </tr>
-        <tr>
-            <td><b>Location:</b> {{ book.location }}</td>
-        </tr>
-        <tr>
-            <td><b>Time:</b> {{ book.start }} - {{ book.end }}</td>
-        </tr>
-        <tr>
-            <td><b>Group:</b> {{ book.group }}</td>
-        </tr>
-        <tr>
-            <td>
-                <button type='button' class='btn col js-update-booking' data-url='{% url 'booking_update' book.id %}'>
-                    Edit
-                </button>
-                <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url 'booking_delete' book.id %}'>
-                    Delete
-                </button>
-            </td>
-        </tr>
+    <tr>
+        <td><b>What:</b> {{ booking.description }}</td>
+    </tr>
+    <tr>
+        <td><b>Location:</b> {{ booking.location }}</td>
+    </tr>
+    <tr>
+        <td><b>Date:</b> {{ booking.get_date.0 }}, {{ booking.get_date.1}}</td>
+    </tr>
+    <tr>
+        <td><b>Time:</b> {{ booking.get_date.2 }} - {{ booking.get_date.3 }}</td>
+    </tr>
+    <tr>
+        <td><b>Group:</b> {{ booking.group }}</td>
+    </tr>
+    <tr>
+        <td>
+            <button type='button' class='btn col js-update-booking' data-url='{% url 'booking_update' booking.id %}'>
+                Edit
+            </button>
+            <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url 'booking_delete' booking.id %}'>
+                Delete
+            </button>
+        </td>
+    </tr>
+    {% empty %}
+        <p>There are no bookings!</p>
 {% endfor %}

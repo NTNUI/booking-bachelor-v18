@@ -78,6 +78,7 @@
     pointer-events: none;
 }
 
+
 /* The Modal (background) */
 .modal-large {
     display: none; /* Hidden by default */
@@ -109,7 +110,7 @@
 form {
     display: grid;
 }
-#schedule-table {
+#scheduleTable {
     font-size:50%;
     width:25%;
     display: flex;
@@ -149,5 +150,32 @@ form {
 
 h4.modal-title  {
     margin: 0 auto;
+}
+
+/* Responsive design */
+/* Make text smaller and removes "busy" sign on smaller devices */
+
+@media only screen and (max-width: 480px) {
+    .calendar-day p {
+        font-size: 80%;
+    }
+
+    .calendar-day h1 {
+        display: none;
+    }
+}
+
+/* Make modal wider and text smaller on smaller devices */
+@media only screen and (max-width: 800px) {
+
+    h5, .calendar-booking, input, .form-control{
+        font-size: 90%;
+    }
+    .booking-modal-contents {
+        width: 85%;
+
+
+
+    }
 }
 

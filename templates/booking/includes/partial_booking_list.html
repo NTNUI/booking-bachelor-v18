@@ -15,7 +15,10 @@
         <td><b>Location:</b> {{ booking.location }}</td>
     </tr>
     <tr>
-        <td><b>Time:</b> {{ booking.start }} - {{ booking.end }}</td>
+        <td><b>Date:</b> {{ booking.get_date.0 }}, {{ booking.get_date.1}}</td>
+    </tr>
+    <tr>
+        <td><b>Time:</b> {{ booking.get_date.2 }} - {{ booking.get_date.3 }}</td>
     </tr>
     {% if booking.group %}
         <tr>
