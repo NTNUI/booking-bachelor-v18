@@ -1,7 +1,6 @@
 // Globally head date object for the month shown.
 var date = new Date();
-console.log(date)
-date.setDate(1);
+var currentMonth;
 
 // Global list to store bookings. This list will be used to populate the calendar with data.
 var global_list = [];
@@ -49,7 +48,8 @@ function promise() {
 promised.done(function() {
     promised.then( function() {
             createMonth();
-            global_list.push(promised.responseJSON)
+            global_list.push(promised.responseJSON);
+            currentMonth = document.getElementById("current-month");
             }
         )
     })
@@ -193,28 +193,68 @@ function clearCalendar() {
 
 }
 
+var back = false;
+var next = false;
+
 // Clears the calendar and shows the next month
-function nextMonth() {
+function nextMonth(next) {
+    next = true;
     clearCalendar();
     date.setMonth(date.getMonth() + 1);
-    createMonth(date.getMonth());
+    createMonth(date.getMonth(), next);
 }
 
 // Clears the calendar and shows the previous month
-function previousMonth() {
+function previousMonth(back) {
+    back = true;
     clearCalendar();
     date.setMonth(date.getMonth() - 1);
     var val = date.getMonth();
-    createMonth(date.getMonth());
+    createMonth(date.getMonth(), back);
+    return val
+}
+
+function firstMonday(month, year){
+    var d = new Date(year, month, 1, 0, 0, 0, 0)
+    var day = 0
+// check if first of the month is a Sunday, if so set date to the second
+        if (d.getDay() == 0) {
+         day = 2
+         d = d.setDate(day)
+         d = new Date(d)
+     }
+// check if first of the month is a Monday, if so return the date, otherwise get to the Monday following the first of the month
+     else if (d.getDay() != 1) {
+         day = 9-(d.getDay())
+         d = d.setDate(day)
+         d = new Date(d)
+     }
+    return d
+}
+
+function timeDifference(start, end) {
+    var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+    var diffDays = Math.floor(Math.round(Math.abs((start.getTime() - end.getTime())/(oneDay)))/30);
+    return diffDays
 }
 
 // Creates and populates all of the days to make up the month
-function createMonth() {
+function createMonth(monday, next) {
+    date.setDate(1);
+    if(date.getDay() != 1) {
+        console.log(date)
+        var next = date.getDate() + (1 + 7 - date.getDay()) % 7
+        var prev = date.getDate() - (date.getDay() + 6) % 7;
+        date.setDate(next)
+    }
     var dateObject = new Date();
     dateObject.setDate(date.getDate());
     dateObject.setMonth(date.getMonth());
     dateObject.setYear(date.getFullYear());
 
+    var monday = firstMonday(dateObject.getMonth(), dateObject.getFullYear())
+    var start = monday.getDate().toString()
+    date.setDate(start);
     createCalendarDay(dateObject.getDate(),
         dayOfWeekAsString(dateObject.getDay()),
         monthsAsString(dateObject.getMonth()),
@@ -236,7 +276,7 @@ function createMonth() {
 
     // Gives the current date a highligth
     var current_day = getCurrentDay();
-    document.getElementById(current_day).className = "calendar-day today";
+    //document.getElementById(current_day).className = "calendar-day today";
 }
 
 
