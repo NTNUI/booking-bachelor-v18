@@ -17,30 +17,35 @@
                 </div>
             </div>
         </div>
-        {% load widget_tweaks %}
-        <div class="calendar-booking{% if field.errors %} has-error{% endif %}" onmouseover="checkStartTime()">
-            {{form.person.as_hidden}}
-            <h5>Location </h5>
-            {{form.location}}
-            <h5>Title</h5>
-            {{form.title}}
-            <h5>Description</h5>
-            {{form.description}}
-            <h5>Group</h5>
-            {{form.group}}
-
-            <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="startTime">
-                <input type="text" class="form-control" value="Choose start time" id="startInput" onclick="resetClock()" required>
-                <span class="input-group-addon">
-                <span class="glyphicon glyphicon-time"></span>
-                </span>
-            </div>
-            <h5>Endtime</h5>
-            <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="endTime" >
-                <input type="text" class="form-control" value="Choose end time" id="endInput" onclick="editClock()" required>
-                <span class="input-group-addon">
-                <span class="glyphicon glyphicon-time"></span>
-                </span>
+    {% load widget_tweaks %}
+    <div class="calendar-booking{% if field.errors %} has-error{% endif %}" onmouseover="checkStartTime()">
+        {{form.person.as_hidden}}
+        <h5>Location </h5>
+        {{form.location}}
+        <h5>Title</h5>
+        {{form.title}}
+        <h5>Description</h5>
+        {{form.description}}
+        <h5>Group</h5>
+        {{form.group}}
+        <h5>Recurring</h5>
+        <select id="recurringEvent">
+            <option value="noRepeat" id="noRepeat">Does not repeat</option>
+            <option value="weekly" id="weekly">Repeat every</option>
+        </select>
+        <h5>Starttime</h5>
+        <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="startTime">
+            <input type="text" class="form-control" value="Choose start time" id="startInput" onclick="resetClock()" required>
+            <span class="input-group-addon">
+            <span class="glyphicon glyphicon-time"></span>
+            </span>
+        </div>
+        <h5>Endtime</h5>
+        <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="endTime" >
+            <input type="text" class="form-control" value="Choose end time" id="endInput" onclick="editClock()" required>
+            <span class="input-group-addon">
+            <span class="glyphicon glyphicon-time"></span>
+            </span>
             </div>
         </div>
     </div>
