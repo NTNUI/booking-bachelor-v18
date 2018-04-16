@@ -1,82 +1,99 @@
 {#form that is called when creating a new booking#}
 {% load static %}
 
-<div class="row">
-    <div class="col-8">
-        <div id="bookings">
+{% block content %}
+    <div class="row">
 
+        <div id="card-container" class="col-8">
+            <div id="booking-cards">
+                <div class="col-sm-10">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">09:00 - 10:00</h5>
+                            <p class="card-text">Håndball</p>
+                            <h6 class="card-subtitle mb-2 text-muted">Fride Skarseth</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        {% load widget_tweaks %}
+        <div class="calendar-booking{% if field.errors %} has-error{% endif %}" onmouseover="checkStartTime()">
+            {{form.person.as_hidden}}
+            <h5>Location </h5>
+            {{form.location}}
+            <h5>End</h5>
+            {{form.end}}
+            <h5>Title</h5>
+            {{form.title}}
+            <h5>Description</h5>
+            {{form.description}}
+            <h5>Group</h5>
+            {{form.group}}
+
+            <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="startTime">
+                <input type="text" class="form-control" value="Choose start time" id="startInput" onclick="resetClock()" required>
+                <span class="input-group-addon">
+                <span class="glyphicon glyphicon-time"></span>
+                </span>
+            </div>
+            <h5>Endtime</h5>
+            <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="endTime" >
+                <input type="text" class="form-control" value="Choose end time" id="endInput" onclick="editClock()" required>
+                <span class="input-group-addon">
+                <span class="glyphicon glyphicon-time"></span>
+                </span>
+            </div>
         </div>
     </div>
+{% endblock content %}
 
-    {% load widget_tweaks %}
-    <div class="calendar-booking{% if field.errors %} has-error{% endif %}" onmouseover="checkStartTime()">
-        {{form.person.as_hidden}}
-        <h5>Location </h5>
-        {{form.location}}
-        <h5>End</h5>
-        {{form.end}}
-        <h5>Title</h5>
-        {{form.title}}
-        <h5>Description</h5>
-        {{form.description}}
-        <h5>Group</h5>
-        {{form.group}}
-    <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="startTime">
-                            <input type="text" class="form-control" value="Choose start time" id="startInput" onclick="resetClock()" required>
-                            <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-time"></span>
-                            </span>
-                        </div>
-                        <h5>Endtime</h5>
-                        <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="endTime" >
-                            <input type="text" class="form-control" value="Choose end time" id="endInput" onclick="editClock()" required>
-                            <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-time"></span>
-                            </span>
-                        </div>
-    </div>
-</div>
-<script>
-    $(document).ready(function(){
-    var $myForm = $('#createform')
-    $myForm.submit(function(event){
-        event.preventDefault()
-        // append start date to post request
-        var $formData = $(this).serialize()+"&start="+tempDay.id.toString()
+{% block script %}
+    <script>
+        $(document).ready(function(){
+        var $myForm = $('#createform')
+        $myForm.submit(function(event){
+            event.preventDefault()
+            // append start date to post request
+            var $formData = $(this).serialize()+"&start="+tempDay.id.toString()
+            $.ajax({
+                method: "POST",
+                url: '/booking/bookings_list/create_calendar/',
+                data: $formData,
+                // close popup on success
+                success: function() {
+                    var modal = document.getElementById('booking-modal');
+                    var date_format = tempDay.id.slice(0, 10);
+                    modal.style.display = "none";
+                    }
+                })
+            })
+        });
+
         $.ajax({
-            method: "POST",
-            url: '/booking/bookings_list/create_calendar/',
-            data: $formData,
-            // close popup on success
-            success: function() {
-                var modal = document.getElementById('booking-modal');
-                var date_format = tempDay.id.slice(0, 10);
-                modal.style.display = "none";
+        method: "GET",
+        url: '/booking/api',
+        success: function(data) {
+            var day_list = [];
+            $.each(data, function(i, item) {
+                var day = data[i].start;
+                var date_format = day.slice(0, 10);
+                if(tempDay.id == date_format){
+                    day_list.push(date_format, data[i].description, data[i].location__name, data[i].person__first_name);
                 }
             })
-        })
-    });
-
-    $.ajax({
-    method: "GET",
-    url: '/booking/api',
-    success: function(data) {
-        var day_list = [];
-        $.each(data, function(i, item) {
-            var day = data[i].start;
-            var date_format = day.slice(0, 10);
-            if(tempDay.id == date_format){
-                day_list.push(date_format, data[i].description, data[i].location__name, data[i].person__first_name);
+            var text = day_list.toString();
+            document.getElementById("bookings").innerHTML = text;
             }
-        })
-        var text = day_list.toString();
-        document.getElementById("bookings").innerHTML = text;
-        }
-    });
-</script>
+        });
+    </script>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script type="text/javascript" src="{% static 'js/popup.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/clockpicker.js' %}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+{% endblock script %}
