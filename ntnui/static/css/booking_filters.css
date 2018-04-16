@@ -49,3 +49,11 @@ select {
 #search-button {
     bottom: 20px;
 }
+
+/*Responsive design*/
+/*Make filter text smaller on smaller devices*/
+@media only screen and (max-width: 800px) {
+    .col-lg-3{
+        font-size: 90%;
+    }
+}

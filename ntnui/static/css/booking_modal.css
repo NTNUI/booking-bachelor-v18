@@ -91,3 +91,20 @@ h4.modal-title  {
 .card-title {
     text-align: center;
 }
+
+/* Make modal wider and text smaller on smaller devices */
+@media only screen and (max-width: 800px) {
+    .booking-modal-contents {
+        width: 80%;
+    }
+    h5, h6, p, select, .form-control{
+        font-size: 90%;
+    }
+}
+
+/*Make time table disappear on small devices*/
+@media only screen and (max-width: 660px){
+    #card-container {
+        display: none;
+    }
+}
