@@ -73,10 +73,6 @@ h4.modal-title  {
 
 /* Cards for bookings */
 
-#card-container {
-
-}
-
 #booking-cards {
     height: 400px;
     overflow-y: scroll;

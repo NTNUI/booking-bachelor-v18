@@ -4,9 +4,9 @@
 {% block content %}
     <div class="row">
 
-        <div id="card-container" class="col-8">
+        <div class="col-8">
             <div id="booking-cards">
-                <div class="col-sm-10">
+                <!--<div class="col-sm-10">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">09:00 - 10:00</h5>
@@ -14,7 +14,7 @@
                             <h6 class="card-subtitle mb-2 text-muted">Fride Skarseth</h6>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
 
@@ -74,19 +74,47 @@
         });
 
         $.ajax({
-        method: "GET",
-        url: '/booking/api',
-        success: function(data) {
-            var day_list = [];
-            $.each(data, function(i, item) {
-                var day = data[i].start;
-                var date_format = day.slice(0, 10);
-                if(tempDay.id == date_format){
-                    day_list.push(date_format, data[i].description, data[i].location__name, data[i].person__first_name);
+            method: "GET",
+            url: '/booking/api',
+            success: function(data) {
+                var list_of_bookings = []
+                $.each(data, function(i, item) {
+                    var day = data[i].start;
+                    var date_format = day.slice(0, 10);
+                    if(tempDay.id == date_format){
+                        booking = []
+                        booking.push(day, data[i].end, data[i].title, data[i].person__first_name);
+                        list_of_bookings.push(booking)
+                    }
+                })
+                for (var I = 0; I < list_of_bookings.length; I++) {
+                    var div = document.createElement("div");
+                    div.className = "col-sm-10";
+                    var div2 = document.createElement("div");
+                    div2.className = "card";
+                    var div3 = document.createElement("div");
+                    div3.className = "card-body";
+                    var date = document.createElement("h5");
+                    date.className = "card-title";
+                    var start_time = list_of_bookings[I][0].slice(11, 16);
+                    var end_time = list_of_bookings[I][1].slice(11, 16);
+                    date.innerHTML = start_time + "-" + end_time;
+                    var title = document.createElement("p");
+                    title.className = "card-text";
+                    var title_f = list_of_bookings[I][2]
+                    title.innerHTML = title_f;
+                    var name = document.createElement("h6");
+                    name.className = "card-subtitle mb-2 text-muted";
+                    var name_f = list_of_bookings[I][3]
+                    name.innerHTML = name_f;
+
+                    div3.appendChild(date);
+                    div3.appendChild(title);
+                    div3.appendChild(name);
+                    div2.appendChild(div3);
+                    div.appendChild(div2);
+                    document.getElementById("booking-cards").appendChild(div);
                 }
-            })
-            var text = day_list.toString();
-            document.getElementById("bookings").innerHTML = text;
             }
         });
     </script>
