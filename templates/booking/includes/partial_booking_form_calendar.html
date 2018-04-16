@@ -17,15 +17,11 @@
                 </div>
             </div>
         </div>
-
-
     {% load widget_tweaks %}
     <div class="calendar-booking{% if field.errors %} has-error{% endif %}" onmouseover="checkStartTime()">
         {{form.person.as_hidden}}
         <h5>Location </h5>
         {{form.location}}
-        <h5>End</h5>
-        {{form.end}}
         <h5>Title</h5>
         {{form.title}}
         <h5>Description</h5>
@@ -62,11 +58,13 @@
         $myForm.submit(function(event){
             event.preventDefault()
             // append start date to post request
-            var $formData = $(this).serialize()+"&start="+tempDay.id.toString()
+            var start_time = document.getElementById("startInput").value;
+            var end_time = document.getElementById("endInput").value;
+            var $form_data = $(this).serialize()+"&start="+tempDay.id.toString() + " " + start_time + "&end="+tempDay.id.toString() + " " + end_time;
             $.ajax({
                 method: "POST",
                 url: '/booking/bookings_list/create_calendar/',
-                data: $formData,
+                data: $form_data,
                 // close popup on success
                 success: function() {
                     var modal = document.getElementById('booking-modal');
