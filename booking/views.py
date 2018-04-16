@@ -40,9 +40,11 @@ class BookingList(ListView):
 @login_required
 def booking_all(request):
     book = []
+    now = timezone.now()
     for booking in list(Booking.objects.filter()):
         book.append(booking)
-    bookings = Booking.objects.all()
+
+    bookings = Booking.objects.all().filter(start__gte=now).order_by('start')
     booking_filter = AdminFilter(request.GET, queryset=bookings)
     return render(request, 'booking/booking_all.html', {
         'filter': booking_filter,
