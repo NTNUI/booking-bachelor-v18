@@ -46,7 +46,6 @@ function promiseTest() {
 // Function used to resolve promise object. When object is resolved, call createMonth and push data to global_list.
 var promised = promiseTest();
 var promise = function () {
-    console.log("promise")
 promised.done(function() {
     promised.then( function() {
             createMonth();
@@ -69,13 +68,13 @@ var getTime = function(time){
 }
 // Function used to populate the calendar with bookings from the database.
 function populate() {
-    console.log("populated")
+    
     var date_map = new Map();
     
     for (i = 0; i < global_list[0].length; i++) {
         var qNo = global_list[0][i].queueNo;
         if (qNo == 0){
-            console.log("this far")
+            
             var day = global_list[0][i].start;
             var date_format = day.slice(0, 10);
             var location = global_list[0][i].location__name;
@@ -133,7 +132,6 @@ var config = {attributes: true, subtree: true, characterData:true};
 var callback = function(mutationsList){
     for (var mutation of mutationsList){
         if (mutation.type = "childList"){
-            console.log("child node added/modified");
             populate();
         }
         else if (mutation.type == 'attributes'){
@@ -325,7 +323,7 @@ function getCurrentDay() {
 
 
 function popup(e) {
-    console.log("popped up")
+    
     $.ajax({
       url: '/booking/bookings_list/create_calendar/',
       type: 'get',
@@ -350,7 +348,9 @@ function popup(e) {
     var span = document.getElementsByClassName("close")[0];
     modal.style.display = "block";
     // When the user clicks anywhere outside of the modal, close it
+    
     window.onclick = function(event) {
+        
         if (event.target == modal){
             modal.style.display = "none";
 
@@ -358,7 +358,11 @@ function popup(e) {
         else if (event.target == close){
             console.log("closed!")
             modal.style.display = "none"
-            populate();
+            //location.reload();
+            
+        }
+        else if(event.target.type == "submit"){
+            
         }
     }
 }

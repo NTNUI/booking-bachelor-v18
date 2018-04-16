@@ -46,8 +46,15 @@
                             </span>
                         </div>
                     </table>
-                    <button type="submit" class="btn btn-success">Update booking</button>
+                    <button type="submit" id="submit" class="btn btn-success">Update booking</button>
                 </form>
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{message.tags}}"{%endif %}>UPdated : {{message}}</li>
+                    {% endfor%}
+                </ul>
+                {%endif%}
             </div>
         </div>
         <div class="modal-footer">
