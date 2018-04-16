@@ -1,8 +1,9 @@
 /*CCS for booking page and calendar */
 
 /* Container for the booking page */
-#bookingContainer {
+#calendar-container {
     height:92vh;
+    margin: 10px;
 }
 
 /*Calendar days*/
@@ -108,7 +109,7 @@
 form {
     display: grid;
 }
-#scheduleTable {
+#schedule-table {
     font-size:50%;
     width:25%;
     display: flex;

@@ -77,7 +77,7 @@
 			'<div class="popover-content">',
 				'<div class="clockpicker-plate">',
 					'<div class="clockpicker-canvas"></div>',
-					'<div class="clockpicker-dial clockpicker-hours" onmousedown="editClockMinutes()"></div>',
+					'<div class="clockpicker-dial clockpicker-hours"></div>',
 					'<div class="clockpicker-dial clockpicker-minutes clockpicker-dial-out"></div>',
 				'</div>',
 				'<span class="clockpicker-am-pm-block">',
@@ -223,7 +223,7 @@
 		}
 
 		// Minutes view
-		for (i = 0; i < 60; i += 5) {
+		for (i = 0; i < 60; i += 15) {
 			tick = tickTpl.clone();
 			radian = i / 30 * Math.PI;
 			tick.css({
@@ -574,7 +574,7 @@
 			inner = isHours && z < (outerRadius + innerRadius) / 2,
 			radius = inner ? innerRadius : outerRadius,
 			value;
-			
+
 			if (options.twelvehour) {
 				radius = outerRadius;
 			}

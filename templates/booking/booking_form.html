@@ -5,12 +5,11 @@
 {% endblock %}
 
 {% load static %}
-     <div class="container">
-     <div class="modal-header">
-        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
-        </button>
-        <h4 class="modal-title">Create a new booking</h4>
-    </div>
+    <div class="container">
+        <div class="modal-header">
+            <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close"></button>
+            <h4 class="modal-title">Create a new booking</h4>
+        </div>
         <div class="row">
             <div class="col-8">
                <div id="bookings">
@@ -33,7 +32,7 @@
                         {{form.description}}
                         <h5>Starttime</h5>
                         <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="startTime">
-                            <input type="text" class="form-control" value="Choose start time" id="startInput" required>
+                            <input type="text" class="form-control" value="Choose start time" id="startInput" onclick="resetEditClock()" required>
                             <span class="input-group-addon">
                             <span class="glyphicon glyphicon-time"></span>
                             </span>
