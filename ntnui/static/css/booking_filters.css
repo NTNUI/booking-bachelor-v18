@@ -49,11 +49,3 @@ select {
 #search-button {
     bottom: 20px;
 }
-
-/*
-@media only screen and (max-width: 992px){
-    #filtering{
-            display:none;
-    }
-}
-*/

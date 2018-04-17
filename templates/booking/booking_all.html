@@ -4,13 +4,11 @@
 
 {% block extra_js%}
     <script
-  src='http://code.jquery.com/jquery-3.3.1.js'
-  integrity='sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60='
-  crossorigin='anonymous'></script>
+        src='http://code.jquery.com/jquery-3.3.1.js'
+        integrity='sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60='
+        crossorigin='anonymous'></script>
     <script src='http://malsup.github.com/jquery.form.js'></script>
 {% endblock %}
-
-
 
 {% block stylesheet %}
   <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
@@ -23,9 +21,10 @@
     <h1 id="my-bookings-header">
         All bookings
     </h1>
+    <p class="my-bookings-header-2">Filter all bookings</p>
+
 
     <div class="my-booking-box">
-        <p class="my-bookings-header-2">Filter all bookings</p>
         <form method='get'>
             <table class='table borderless'  id='filter-table'>
 
@@ -38,18 +37,22 @@
             </table>
             <button class="btn btn-light" id='filter-button' type='submit'>Filter</button>
         </form>
-
-        <div class='replace'>
-            <table class='table borderless' id='booking-table'>
-                {% include 'booking/includes/partial_booking_all.html' %}
-            </table>
+        <div class="flex-container">
+            <div>
+                <div class='replace'>
+                    <table class='table borderless' id='booking-table'>
+                        {% include 'booking/includes/partial_booking_all.html' %}
+                    </table>
+                </div>
+                <p>
+                    <button type='button' class='btn btn-success col js-create-booking' data-url='{% url 'booking_create' %}'>
+                        <span class='glyphicon glyphicon-plus'></span>
+                        Create a new booking
+                    </button>
+                </p>
+            </div>
         </div>
-        <p>
-            <button type='button' class='btn btn-success js-create-booking' data-url='{% url 'booking_create' %}'>
-                <span class='glyphicon glyphicon-plus'></span>
-                Create a new booking
-            </button>
-        </p>
+
     </div>
 </div>
 

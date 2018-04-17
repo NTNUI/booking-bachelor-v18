@@ -1,14 +1,4 @@
-//function overlapValidate(overlap){
-//    var formTime = document.getElementById("timeErrorMsg");
-//    overlap == false;
-//    if (overlap == false){
-//        formTime.style.display = "none";
-//    }else {
-//        formTime.style.display = "block";
-//    }
-//}
-//
-function lengthValidate(){
+function validateTime(busyHours){
     var errorMsg = document.getElementById("timeErrorMsg");
     var startTime = document.getElementById("startInput").value;
     var endTime = document.getElementById("endInput").value;
@@ -24,6 +14,11 @@ function lengthValidate(){
         return false;
     }if((hourEnd-hourStart)>3){
         errorMsg.innerHTML = "Maximum 3 hours";
+        errorMsg.style.display = "block";
+        return false;
+    }
+    if(busyHours.contains(startHour) || busyHours.contains(hourEnd)){
+        errorMsg.innerHTML = "That hour is busy";
         errorMsg.style.display = "block";
         return false;
     }
@@ -73,10 +68,14 @@ function editClock(){
 function checkStartTime(){
     var startTime = document.getElementById('startInput');
     var endTime = document.getElementById('endInput');
+    var endTimeSpan = document.getElementById('endTimeSpan');
     if(startTime.value == 'Choose start time'){
         endTime.disabled = true;
+        endTimeSpan.style.pointerEvents = "none";
     }if(startTime.value != 'Choose start time'){
         endTime.disabled = false;
+        endTimeSpan.style.pointerEvents = "auto";
     }
 
 }
+

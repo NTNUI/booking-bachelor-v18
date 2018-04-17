@@ -5,6 +5,7 @@
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
     <link rel="stylesheet" href="{% static 'css/all_my_bookings.css' %}">
+    <link rel="stylesheet" href="{% static 'css/booking_modal.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -13,27 +14,29 @@
         My bookings
     </h1>
     <div class="my-booking-box">
-
-        <p class="my-bookings-header-2">My bookings</p>
-
-        <div class="replace">
-            <table class="table borderless" id="booking-table">
-                {% include 'booking/includes/partial_booking_list.html' %}
-            </table>
-        </div>
-
-        <p>
-            <button type="button" class="btn btn-success js-create-booking" data-url="{% url 'booking_create' %}">
-                <span class="glyphicon glyphicon-plus"></span>
-                Create a new booking
-            </button>
-        </p>
-
-        <p class="my-bookings-header-2">Group bookings</p>
-        <div class="replace">
-            <table class="table borderless" id="booking-table">
-                {% include 'booking/includes/partial_groupbooking_list.html' %}
-            </table>
+        <div class="flex-container">
+            <div>
+                <p class="my-bookings-header-2">My bookings</p>
+                <div class="replace">
+                    <table class="table borderless" id="booking-table">
+                        {% include 'booking/includes/partial_booking_list.html' %}
+                    </table>
+                </div>
+                <p>
+                    <button type="button" class="btn btn-success col js-create-booking" data-url="{% url 'booking_create' %}">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        Create a new booking
+                    </button>
+                </p>
+            </div>
+            <div>
+                <p class="my-bookings-header-2">Group bookings</p>
+                <div class="replace">
+                    <table class="table borderless" id="booking-table">
+                        {% include 'booking/includes/partial_groupbooking_list.html' %}
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
