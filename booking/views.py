@@ -48,7 +48,8 @@ def booking_all(request):
     booking_filter = AdminFilter(request.GET, queryset=bookings)
     return render(request, 'booking/booking_all.html', {
         'filter': booking_filter,
-        'bookings': book})
+        'bookings': book
+    })
 
 def get_my_groups(request):
     user = request.user
@@ -85,12 +86,12 @@ def booking_list(request):
         booking = Booking.objects.filter(group=group).exclude(person=user).filter(start__gte=now).order_by('start')
         group_list = booking | group_list
         my_group_bookings_list.append(booking)
-        #upcoming = Booking.objects.filter(start__gte=now).order_by('start')
 
     return render(request, 'booking/bookings_list.html', {
         'my_bookings_list': my_bookings_list,
         'my_group_bookings_list': group_list,
-        'bookings': bookings})
+        'bookings': bookings
+    })
 
 def save_booking_form(request, form, template_name):
     data = dict()

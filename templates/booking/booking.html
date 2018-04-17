@@ -14,7 +14,7 @@
 
 {% block content %}
 
-    <div class="container" id="calendar-container">
+    <div class="container" id="booking-container">
 
         <!-- The modal -->
         <div id="booking-modal" class="modal-big">
@@ -29,8 +29,8 @@
         <div class="row">
             
             <!-- Filter content -->
-            <div class="col-lg-3" id="filtering" >
-                <div class="container">
+            <div class="col-lg-3">
+                <div id="filtering-container" >
                     <div class="filter-header">Locations</div>
                     <div class="tb aBlock">
                         {% for location in locations %}
@@ -60,25 +60,24 @@
             </div>
 
             <!-- Calendar content -->
-            <div class="col-lg-8">
-                <div class="container">
-                <div class="controls">
-                    <p class="next label" onclick="nextMonth()">
-                        <i class="fa fa-arrow-right" title="Next month"></i>
-                    </p>
-                    <p class="previous label" onclick="previousMonth()">
-                        <i class="fa fa-arrow-left" title="Previous month"></i>
-                    </p>
-                    <p id="current-month" class="label bold"></p>
-                </div>
-
-                <div id="calendar">
-
+            <div class="col-lg-9">
+                <div id="calendar-container">
+                    <div id="control-box">
+                        <p id="previous" class="label" title="Previous month" onclick="previousMonth()">
+                            <i class="fa fa-arrow-left"></i>
+                        </p>
+                        <p id="current-month" class="label"></p>
+                        <p id="next" class="label" title="Next month" onclick="nextMonth()">
+                            <i class="fa fa-arrow-right"></i>
+                        </p>
+                    </div>
+                    <div id="calendar-box">
+                        <div id="calendar"></div>
+                    </div>
                 </div>
             </div>
 
         </div>
-    </div>
     </div>
 {% endblock content %}
 
