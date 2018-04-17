@@ -89,18 +89,18 @@ h4.modal-title  {
 }
 
 /* Make modal wider and text smaller on smaller devices */
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1125px) {
     .booking-modal-contents {
         width: 80%;
     }
-    h5, h6, p, select, input, .form-control{
+    .col-8, .modal-body h5, h6, p, select, input, .form-control{
         font-size: 90%;
     }
 }
 
-/*Make time table disappear on small devices*/
-@media only screen and (max-width: 660px){
-    #card-container {
-        display: none;
+@media only screen and (max-width: 860px) {
+    .col-8 {
+        max-width: 100%;
+        flex: 100%;
     }
 }
