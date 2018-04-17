@@ -97,7 +97,7 @@ h4.modal-title  {
     .booking-modal-contents {
         width: 80%;
     }
-    h5, h6, p, select, .form-control{
+    h5, h6, p, select, input, .form-control{
         font-size: 90%;
     }
 }
