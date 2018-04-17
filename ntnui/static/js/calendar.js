@@ -99,27 +99,16 @@ function populate() {
             else {
                 date_map.set(start_date, ""+diff_hour+":"+diff_min)
             }
+            var loc = global_list[0][i].location__name;
+            loc = document.getElementById(loc);
 
-            $("#" + date_format + " h1").text(""+getTime(date_map.get(start_date))[0]+"/12");
-        }
-    }
-}
+            if (loc.value === location && loc.checked === true) {
+                $("#" + date_format + " h1").text(""+getTime(date_map.get(start_date))[0]+"/12");
+            }
+            else if (loc.checked === false){
+                $("#" + date_format + " h1").text("12 hours free");
+            }
 
-function checkFilter() {
-    for (i = 0; i < global_list[0].length; i++) {
-
-        var loc = global_list[0][i].location__name;
-        loc = document.getElementById(loc);
-        var day = global_list[0][i].start;
-        var date_format = day.slice(0, 10);
-        var location = global_list[0][i].location__name;
-
-
-        if (loc.value === location && loc.checked === true) {
-            $("#" + date_format + " h1").text(location);
-        }
-        else if (loc.checked === false){
-            $("#" + date_format + " h1").text("12 hours free");
         }
     }
 }
