@@ -54,7 +54,6 @@ promised.done(function() {
         )
     })
 }
-promise();
 //temporary cheat
 // var win = window.open('http://www.google.com');
 // console.log(window.location)
@@ -68,13 +67,13 @@ var getTime = function(time){
 }
 // Function used to populate the calendar with bookings from the database.
 function populate() {
-    
+
     var date_map = new Map();
-    
+
     for (i = 0; i < global_list[0].length; i++) {
         var qNo = global_list[0][i].queueNo;
         if (qNo == 0){
-            
+
             var day = global_list[0][i].start;
             var date_format = day.slice(0, 10);
             var location = global_list[0][i].location__name;
@@ -100,7 +99,7 @@ function populate() {
             else {
                 date_map.set(start_date, ""+diff_hour+":"+diff_min)
             }
-            
+
             $("#" + date_format + " h1").text(""+getTime(date_map.get(start_date))[0]+"/12");
         }
     }
@@ -115,7 +114,7 @@ function checkFilter() {
         var date_format = day.slice(0, 10);
         var location = global_list[0][i].location__name;
 
-        
+
         if (loc.value === location && loc.checked === true) {
             $("#" + date_format + " h1").text(location);
         }
@@ -157,7 +156,7 @@ fireOnDomChange ('#calendar', HandleDOM_Change, 500);
 
 
 function fireOnDomChange (selector, actionFunction, delay) {
-    
+
     // observer.observe(targetNode, config);
 
     // $(selector).on ('DOMSubtreeModified', fireOnDelay);
@@ -212,7 +211,7 @@ function createPopup() {
     popupTag.appendChild(popupContent);
     var modal = document.getElementsByClassName(popupTag.className);
     var span = document.getElementById(popupSpan.id);
-    modal.style.display = "block";   
+    modal.style.display = "block";
     $('.modal-content').load('new',function(){}).hide().fadeIn();
 }
 
@@ -252,6 +251,7 @@ function createCalendarDay(num, day, mon, year, available) {
     if (newDay.id < getCurrentDay()){
         newDay.className = "calendar-day restricted";
     }
+
 }
 
 
@@ -323,7 +323,7 @@ function getCurrentDay() {
 
 
 function popup(e) {
-    
+
     $.ajax({
       url: '/booking/bookings_list/create_calendar/',
       type: 'get',
@@ -336,21 +336,22 @@ function popup(e) {
       },
       success: function (data) {
         $("#booking-modal .booking-modal-contents").html(data.html_form);
-        
+
       }
-      
+
     });
 
     //Set global tempDay variable to event that triggers the popup, ie the date.
     this.tempDay = e;
+
     var modal = document.getElementById('booking-modal');
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
     modal.style.display = "block";
     // When the user clicks anywhere outside of the modal, close it
-    
+
     window.onclick = function(event) {
-        
+
         if (event.target == modal){
             modal.style.display = "none";
 
@@ -359,12 +360,13 @@ function popup(e) {
             console.log("closed!")
             modal.style.display = "none"
             //location.reload();
-            
+
         }
         else if(event.target.type == "submit"){
-            
+
         }
     }
+
 }
 
 // Functions used to create secure POST requests.

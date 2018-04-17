@@ -1,17 +1,17 @@
 {#form used for editing bookings#}
 
 <form method="post" action="{% url 'booking_update' form.instance.pk %}" class="js-booking-update-form">
-  {% csrf_token %}
-    <div class="modal-header">
-        <h4 class="modal-title">Update booking</h4>
-        <button title="Close" type="button" id="close" class="btn" data-dismiss="modal">X</button>
-    </div>
-    <div class="modal-body">
-        {% include 'booking/includes/partial_booking_form.html' %}
-    </div>
-    <div class="modal-footer">
-        <button type="submit" class="btn btn-success">Update booking</button>
-    </div>
+    {% csrf_token %}
+        <div class="modal-header">
+            <h4 class="modal-title">Update booking</h4>
+            <button title="Close" type="button" id="close" class="btn" data-dismiss="modal">X</button>
+        </div>
+        <div class="modal-body">
+            {% include 'booking/includes/partial_booking_form.html' %}
+        </div>
+        <div class="modal-footer">
+            <button title="Click to update" type="submit" class="btn btn-success">Update booking</button>
+        </div>
 </form>
 
 <script>

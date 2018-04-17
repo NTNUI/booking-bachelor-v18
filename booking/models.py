@@ -1,9 +1,6 @@
-from datetime import date, datetime
-
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
-from django.conf import settings
 from groups.models import SportsGroup
 from groups.models import Membership
 from django.contrib.auth.models import User
@@ -50,7 +47,7 @@ class Booking(models.Model):
             ('', '---------'),
         )
 
-    group = models.CharField(max_length=200, choices=tu, blank=True)
+    group = models.CharField(max_length=200, blank=True)
     def __str__(self):
         return self.title
 
@@ -111,11 +108,21 @@ class Booking(models.Model):
         # print("your booking for "+ self.location+ " starting "+ self.start+ " has been deleted by "+ user)
         return super(Booking, self).delete(*args, **kwargs)
     
-    
-    def get_group(self):
-        thelist = Membership.objects.filter(person=self.person).values_list('group', flat=True)
+
+    def get_groups(self):
+        memberships = Membership.objects.filter(person=self.person).values_list('group', flat=True)
         my_groups = []
-        for x in thelist:
-            thelist3 = SportsGroup.objects.get(id=x).name
-            my_groups.append(thelist3)
+        for m in memberships:
+            sport_groups = SportsGroup.objects.get(id=m).name
+            my_groups.append(sport_groups)
         return my_groups
+
+    def get_date(self):
+        start = self.start
+        end = self.end
+        day = start.strftime("%A")
+        date = start.strftime("%d %B")
+        start_time = start.strftime("%H:%M")
+        end_time = end.strftime("%H:%M")
+        dates = (day, date, start_time, end_time)
+        return dates
