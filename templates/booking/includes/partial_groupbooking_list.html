@@ -15,10 +15,10 @@
         <td><b>Location:</b> {{ booking.location }}</td>
     </tr>
     <tr>
-        <td><b>Date:</b> {{ booking.get_date.day }}, {{ booking.get_date.date}}</td>
+        <td><b>Date:</b> {{ booking.get_date.0 }}, {{ booking.get_date.1}}</td>
     </tr>
     <tr>
-        <td><b>Time:</b> {{ booking.get_date.start_time }} - {{ booking.get_date.end_time }}</td>
+        <td><b>Time:</b> {{ booking.get_date.2 }} - {{ booking.get_date.3 }}</td>
     </tr>
     <tr>
         <td><b>Group:</b> {{ booking.group }}</td>

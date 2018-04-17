@@ -4,48 +4,39 @@
 {% block content %}
     <div class="row">
 
-        <div id="card-container" class="col-8">
+        <div class="col-8">
             <div id="booking-cards">
-                <div class="col-sm-10">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">09:00 - 10:00</h5>
-                            <p class="card-text">Håndball</p>
-                            <h6 class="card-subtitle mb-2 text-muted">Fride Skarseth</h6>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
-
-
-
-        {% load widget_tweaks %}
-        <div class="calendar-booking{% if field.errors %} has-error{% endif %}" onmouseover="checkStartTime()">
-            {{form.person.as_hidden}}
-            <h5>Location </h5>
-            {{form.location}}
-            <h5>End</h5>
-            {{form.end}}
-            <h5>Title</h5>
-            {{form.title}}
-            <h5>Description</h5>
-            {{form.description}}
-            <h5>Group</h5>
-            {{form.group}}
-
-            <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="startTime">
-                <input type="text" class="form-control" value="Choose start time" id="startInput" onclick="resetClock()" required>
-                <span class="input-group-addon">
-                <span class="glyphicon glyphicon-time"></span>
-                </span>
-            </div>
-            <h5>Endtime</h5>
-            <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="endTime" >
-                <input type="text" class="form-control" value="Choose end time" id="endInput" onclick="editClock()" required>
-                <span class="input-group-addon">
-                <span class="glyphicon glyphicon-time"></span>
-                </span>
+    {% load widget_tweaks %}
+    <div class="calendar-booking{% if field.errors %} has-error{% endif %}">
+        {{form.person.as_hidden}}
+        <h5>Location </h5>
+        {{form.location}}
+        <h5>Title</h5>
+        {{form.title}}
+        <h5>Description</h5>
+        {{form.description}}
+        <h5>Group</h5>
+        {{form.group}}
+        <h5>Recurring</h5>
+        <select id="recurringEvent">
+            <option value="noRepeat" id="noRepeat">Does not repeat</option>
+            <option value="weekly" id="weekly">Repeat every</option>
+        </select>
+        <h5>Starttime</h5>
+        <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="startTime">
+            <input type="text" class="form-control" value="Choose start time" id="startInput" onclick="resetClock()" required>
+            <span class="input-group-addon">
+            <span class="glyphicon glyphicon-time"></span>
+            </span>
+        </div>
+        <h5>Endtime</h5>
+        <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="endTime" >
+            <input type="text" class="form-control" value="Choose end time" id="endInput" onclick="editClock()" required>
+            <span class="input-group-addon" i id="endTimeSpan">
+            <span class="glyphicon glyphicon-time" ></span>
+            </span>
             </div>
         </div>
     </div>
@@ -58,11 +49,13 @@
         $myForm.submit(function(event){
             event.preventDefault()
             // append start date to post request
-            var $formData = $(this).serialize()+"&start="+tempDay.id.toString()
+            var start_time = document.getElementById("startInput").value;
+            var end_time = document.getElementById("endInput").value;
+            var $form_data = $(this).serialize()+"&start="+tempDay.id.toString() + " " + start_time + "&end="+tempDay.id.toString() + " " + end_time;
             $.ajax({
                 method: "POST",
                 url: '/booking/bookings_list/create_calendar/',
-                data: $formData,
+                data: $form_data,
                 // close popup on success
                 success: function() {
                     var modal = document.getElementById('booking-modal');
@@ -74,19 +67,52 @@
         });
 
         $.ajax({
-        method: "GET",
-        url: '/booking/api',
-        success: function(data) {
-            var day_list = [];
-            $.each(data, function(i, item) {
-                var day = data[i].start;
-                var date_format = day.slice(0, 10);
-                if(tempDay.id == date_format){
-                    day_list.push(date_format, data[i].description, data[i].location__name, data[i].person__first_name);
+            method: "GET",
+            url: '/booking/api',
+            success: function(data) {
+                var list_of_bookings = []
+                $.each(data, function(i, item) {
+                    var date = data[i].start;
+                    console.log(newDate);
+                    var date_format = date.slice(0, 10);
+                    var start = date.slice(11, 16);
+                    var newDate = start.replace(":", "");
+                    if(tempDay.id == date_format) {
+                        booking = []
+                        booking.push(newDate, start, data[i].end, data[i].title, data[i].person__first_name);
+                        list_of_bookings.push(booking)
+
+                        list_of_bookings.sort(function(a, b){return a[0] - b[0]});
+                    }
+                })
+                for (var I = 0; I < list_of_bookings.length; I++) {
+                    var div = document.createElement("div");
+                    div.className = "col-sm-10";
+                    var div2 = document.createElement("div");
+                    div2.className = "card";
+                    var div3 = document.createElement("div");
+                    div3.className = "card-body";
+                    var date = document.createElement("h5");
+                    date.className = "card-title";
+                    var start_time = list_of_bookings[I][1];
+                    var end_time = list_of_bookings[I][2].slice(11, 16);
+                    date.innerHTML = start_time + "-" + end_time;
+                    var title = document.createElement("p");
+                    title.className = "card-text";
+                    var b_title = list_of_bookings[I][3]
+                    title.innerHTML = b_title;
+                    var name = document.createElement("h6");
+                    name.className = "card-subtitle mb-2 text-muted";
+                    var b_name = list_of_bookings[I][4]
+                    name.innerHTML = b_name;
+
+                    div3.appendChild(date);
+                    div3.appendChild(title);
+                    div3.appendChild(name);
+                    div2.appendChild(div3);
+                    div.appendChild(div2);
+                    document.getElementById("booking-cards").appendChild(div);
                 }
-            })
-            var text = day_list.toString();
-            document.getElementById("bookings").innerHTML = text;
             }
         });
     </script>
