@@ -108,7 +108,6 @@ def save_booking_form(request, form, template_name):
             form.save()
             data['form_is_valid'] = True
             my_bookings = get_my_bookings(request)
-            print(my_bookings)
 
             data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
                 'my_bookings_list': my_bookings

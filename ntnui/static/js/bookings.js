@@ -1,47 +1,48 @@
 $(function () {
-  var loadForm = function () {
-    var btn = $(this);
-    $.ajax({
-      url: btn.attr("data-url"),
-      type: 'get',
-      dataType: 'json',
-      beforeSend: function () {
-        $("#booking-modal .booking-modal-contents").html("");
-        $('#booking-modal').fadeTo(100, 0.5, function() {
-          $(this).css("display", "inline-block");
-        }).fadeTo(300, 1);
-      },
-      success: function (data) {
-        $("#booking-modal .booking-modal-contents").html(data.html_form);
-      }
-    });
-  };
 
-  var saveForm = function () {
-    var form = $(this);
-    $.ajax({
-      url: form.attr("action"),
-      data: form.serialize(),
-      type: form.attr("method"),
-      dataType: 'json',
-      success: function (data) {
-        if (data.form_is_valid) {
-          $("#person-booking-table").html(data.html_booking_list);
-          $("#booking-modal").css("display", "none");
-          $(document).ready(function() {
-            var $myDiv = $('.js-delete-booking');
-            if ( $myDiv.length){
-              $(".empty").css("display", "none");
+    var loadForm = function () {
+        var btn = $(this);
+        $.ajax({
+            url: btn.attr("data-url"),
+            type: 'get',
+            dataType: 'json',
+            beforeSend: function () {
+                $("#booking-modal .booking-modal-contents").html("");
+                $('#booking-modal').fadeTo(100, 0.5, function() {
+                    $(this).css("display", "inline-block");
+                }).fadeTo(300, 1);
+            },
+            success: function (data) {
+                $("#booking-modal .booking-modal-contents").html(data.html_form);
             }
-          });
-        }
-        else {
-          $("#booking-modal .booking-modal-contents").html(data.html_form);
-        }
-      }
-    });
-    return false;
-  };
+        });
+    };
+
+    var saveForm = function () {
+        var form = $(this);
+        $.ajax({
+            url: form.attr("action"),
+            data: form.serialize(),
+            type: form.attr("method"),
+            dataType: 'json',
+            success: function (data) {
+                if (data.form_is_valid) {
+                    $("#person-booking-table").html(data.html_booking_list);
+                    $("#booking-modal").css("display", "none");
+                    $(document).ready(function() {
+                        var $myDiv = $('.js-delete-booking');
+                        if ( $myDiv.length){
+                            $(".empty").css("display", "none");
+                        }
+                    });
+                }
+                else {
+                    $("#booking-modal .booking-modal-contents").html(data.html_form);
+                }
+            }
+        });
+        return false;
+    };
 
     // Create book
     $(".js-create-booking").click(loadForm);
@@ -64,9 +65,9 @@ var modal = document.getElementById('booking-modal');
 var modal2 = document.getElementById('modal-booking');
 
 window.onclick = function(event) {
-  if (event.target == modal || event.target == modal2 || event.target == close ) {
-    $("#booking-modal").css("display", "none");
-  }
+    if (event.target == modal || event.target == modal2 || event.target == close ) {
+        $("#booking-modal").css("display", "none");
+    }
 }
 
 
