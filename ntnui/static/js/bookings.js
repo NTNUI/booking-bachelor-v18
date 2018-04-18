@@ -1,5 +1,4 @@
 $(function () {
-
   var loadForm = function () {
     var btn = $(this);
     $.ajax({
@@ -27,8 +26,14 @@ $(function () {
       dataType: 'json',
       success: function (data) {
         if (data.form_is_valid) {
-          $("#booking-table").html(data.html_booking_list);
+          $("#person-booking-table").html(data.html_booking_list);
           $("#booking-modal").css("display", "none");
+          $(document).ready(function() {
+            var $myDiv = $('.js-delete-booking');
+            if ( $myDiv.length){
+              $(".empty").css("display", "none");
+            }
+          });
         }
         else {
           $("#booking-modal .booking-modal-contents").html(data.html_form);
@@ -38,17 +43,18 @@ $(function () {
     return false;
   };
 
-  // Create book
-  $(".js-create-booking").click(loadForm);
-  $("#booking-modal").on("submit", ".js-booking-create-form", saveForm);
+    // Create book
+    $(".js-create-booking").click(loadForm);
+    $("#booking-modal").on("submit", ".js-booking-create-form", saveForm);
 
-  // Update book
-  $("#booking-table").on("click", ".js-update-booking", loadForm);
-  $("#booking-modal").on("submit", ".js-booking-update-form", saveForm);
+    // Update book
+    $("#person-booking-table").on("click", ".js-update-booking", loadForm);
+    $("#booking-modal").on("submit", ".js-booking-update-form", saveForm);
 
-    // Delete book
-  $("#booking-table").on("click", ".js-delete-booking", loadForm);
-  $("#booking-modal").on("submit", ".js-booking-delete-form", saveForm);
+      // Delete book
+    $("#person-booking-table").on("click", ".js-delete-booking", loadForm);
+    $("#booking-modal").on("submit", ".js-booking-delete-form", saveForm);
+
 
 
 });
@@ -62,5 +68,6 @@ window.onclick = function(event) {
     $("#booking-modal").css("display", "none");
   }
 }
+
 
 
