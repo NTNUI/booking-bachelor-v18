@@ -78,7 +78,7 @@ def booking_list(request):
     bookings = model.objects.all()
     user = request.user
     now = timezone.now()
-    my_bookings_list = Booking.objects.filter(person=user).filter(start__gte=now).order_by('start')
+    my_bookings_list = get_my_bookings(request)
     my_groups = get_my_groups(request)
     my_group_bookings_list = []
     group_list = Booking.objects.none()
@@ -93,15 +93,24 @@ def booking_list(request):
         'bookings': bookings
     })
 
+def get_my_bookings(request):
+    model = Booking
+    bookings = model.objects.all()
+    user = request.user
+    now = timezone.now()
+    my_bookings_list = Booking.objects.filter(person=user).filter(start__gte=now).order_by('start')
+    return my_bookings_list
+
 def save_booking_form(request, form, template_name):
     data = dict()
     if request.method == 'POST':
         if form.is_valid():
             form.save()
             data['form_is_valid'] = True
-            bookings = Booking.objects.all()
+            my_bookings = get_my_bookings(request)
+            print(my_bookings)
             data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
-                'bookings': bookings
+                'my_bookings_list': my_bookings
             })
         else:
             data['form_is_valid'] = False
@@ -160,9 +169,9 @@ def booking_delete(request, pk):
     if request.method == 'POST':
         book.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
-        bookings = Booking.objects.all()
+        bookings = get_my_bookings(request)
         data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
-            'bookings': bookings
+            'my_bookings_list': bookings
         })
         (new_booking, updated, deleted, overwritten, queued) = mails
         print(deleted)

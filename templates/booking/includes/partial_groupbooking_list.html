@@ -1,7 +1,8 @@
 {#list displaying all bookings#}
-
 <table class="table borderless" id="booking-table">
+
     {% for booking in my_group_bookings_list %}
+
         <thead class="table-title">
             <tr>
                 <th>{{ booking.title }}</th>
@@ -24,8 +25,10 @@
             <td><b>Group:</b> {{ booking.group }}</td>
         </tr>
 
+
         {% empty %}
             <p>Your groups have no bookings</p>
 
     {% endfor %}
+
 </table>

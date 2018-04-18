@@ -27,8 +27,7 @@ $(function () {
       dataType: 'json',
       success: function (data) {
         if (data.form_is_valid) {
-          console.log("hello")
-          $("#booking-table tbody").html(data.html_booking_list);
+          $("#booking-table").html(data.html_booking_list);
           $("#booking-modal").css("display", "none");
         }
         else {
