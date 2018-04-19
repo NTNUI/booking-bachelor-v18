@@ -16,6 +16,7 @@ var tempDay;
 // Load promise object when site is loaded.
 window.onload = function() {
     promise();
+    filterPopup();
 }
 
 // Allows us to navigate through months with the arrow keys
@@ -317,19 +318,18 @@ function getCurrentDay() {
 function popup(e) {
 
     $.ajax({
-      url: '/booking/bookings_list/create_calendar/',
-      type: 'get',
-      dataType: 'json',
-      beforeSend: function () {
-        $("#booking-modal .booking-modal-contents").html("");
-        $('#booking-modal').fadeTo(100, 0.5, function() {
-          $(this).css("display", "inline-block");
-        }).fadeTo(300, 1);
-      },
-      success: function (data) {
-        $("#booking-modal .booking-modal-contents").html(data.html_form);
-
-      }
+        url: '/booking/bookings_list/create_calendar/',
+        type: 'get',
+        dataType: 'json',
+        beforeSend: function () {
+            $("#booking-modal .booking-modal-contents").html("");
+            $('#booking-modal').fadeTo(100, 0.5, function() {
+                $(this).css("display", "inline-block");
+            }).fadeTo(300, 1);
+        },
+        success: function (data) {
+            $("#booking-modal .booking-modal-contents").html(data.html_form);
+        }
 
     });
 
@@ -361,8 +361,26 @@ function popup(e) {
 
 }
 
-// Functions used to create secure POST requests.
+//Popup for filters
+function filterPopup() {
+    $.ajax({
+        url: '/booking/bookings_list/booking_filter/',
+        type: 'get',
+        dataType: 'json',
+        beforeSend: function () {
+            $("#booking-modal .booking-modal-contents").html("");
+            $('#booking-modal').fadeTo(100, 0.5, function() {
+                $(this).css("display", "inline-block");
+            }).fadeTo(300, 1);
+        },
+        success: function (data) {
+            $("#booking-modal .booking-modal-contents").html(data.html_form);
+        }
 
+    });
+}
+
+// Functions used to create secure POST requests.
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
