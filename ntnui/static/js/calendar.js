@@ -79,7 +79,7 @@ function populate() {
         var date_format = day.slice(0, 10);
         if (qNo == 0){
             if(loc.value === location && loc.checked === true){
-                
+
                 var start_datetime = day.split("T");
                 var start_date = start_datetime[0];
                 var start_time = start_datetime[1].replace("Z", "");
@@ -91,7 +91,6 @@ function populate() {
                 var end_array = getTime(end_time);
                 var diff_hour = end_array[0]-start_array[0];
                 var diff_min = end_array[1]-start_array[1];
-
                 if (date_map.has(start_date) && loc.value === location && loc.checked === true){
                     //add current hours to prior hours
                     sum_array = getTime(date_map.get(start_date));
@@ -99,20 +98,21 @@ function populate() {
                     var min = diff_min + sum_array[1];
                     date_map.set(start_date, ""+hours+":"+min);
                 }
-                else {
+                else if(loc.value === location && loc.checked === true) {
                     date_map.set(start_date, ""+diff_hour+":"+diff_min)
                 }
 
 
 
-                $("#" + date_format + " h1").text(""+getTime(date_map.get(start_date))[0]+"/12");
+                $("#" + date_format + " h1").text(""+getTime(date_map.get(start_date))[0]+"/12 booked");
             }
             else if (loc.checked === false){
                 $("#" + date_format + " h1").text("12 hours free");
+                console.log("else if")
             }
-
         }
     }
+
 }
 
 //Mutation Observer
