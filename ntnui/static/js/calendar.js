@@ -7,8 +7,9 @@ date.setDate(1);
 var global_list = [];
 // Ajax setting to set caching to false.
 $.ajaxSetup ({
-        cache: false
+    cache: false
 });
+
 // Global variabel which is used to store the date for each popup.
 var tempDay;
 
