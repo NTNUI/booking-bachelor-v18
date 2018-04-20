@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from booking.filters import LocationFilter, UserFilter
 from .models import Booking, Location
 from django.http import JsonResponse
@@ -10,6 +10,7 @@ from django.template.loader import render_to_string
 from .forms import BookingForm
 from django.contrib import messages
 from datetime import time
+from calendar import Calendar
 
 
 @login_required
@@ -28,31 +29,8 @@ def api(request, **kwargs):
 
 def api2(request, **kwargs):
     #DEPRECATED
-    b = Booking.objects.all()#.values('title', 'description', 'start', 'end', 'location__name'     )
-    hours = Booking.objects.raw('SELECT id, start, end FROM booking_Booking WHERE queueNo = 0')
-    b2 = Booking.objects.raw('SELECT id, start, end FROM booking_Booking WHERE SUBSTR(start, 1, 10) = "2018-05-05"')
-    print("HELLO")
-    dates = {}
-    for b in hours:
-        date = b.start
-        d = b.end-b.start
-        date_key = str(date.year)+str(date.month)+str(date.month)
-        if date_key in dates.keys():
-            dates[date_key]+= d
-        else:
-            dates[date_key]=d
-    #convert to rounded integer
-    for k in dates.keys():
-        s = dates[k].total_seconds()
-        h = s//3600
-        m = (s-h)//60
-        if m > 30:
-            dates[k] = h
-        else:
-            dates[k] = h+1
-    b2_list = list(b2)
-    hours_list = [(i, j) for i, j in zip(dates.keys(), dates.values())]
-    return JsonResponse(hours_list+b2_list, safe=False)
+    pass
+
 
 class BookingList(ListView):
     model = Booking
@@ -69,6 +47,7 @@ class BookingList(ListView):
             'bookings': bookings, })
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
 def BookingAll(request):
         locations = []
         bookings = []
@@ -106,6 +85,35 @@ def save_booking_form(request, form, template_name):
             })
             # messages.success(request, "Your booking request was successful")
             confirmation_mail(request)
+            #TODO:replace request.repeat with actual name
+            #get dayNr from request
+            #request.repeat
+            repeat = False
+            #TODO: replace with actual data from form 
+            dayofweek = 0
+            year = 2018
+            loc = "location"
+            s_time = "12:00"
+            e_time = "14:00"
+            title = "TITLE"
+            descr = "description"
+            #TODO: skip past dates
+            if repeat:
+                cal = Calendar()
+                ydcal = cal.yeardays2calendar(year, width=6)
+                for w in ydcal:
+                    for month in w:
+                        for week in month:
+                            for day in week:
+                                if day[1]==dayofweek:
+                                    month_nr = w.index(month)+ydcal.index(w)+1
+                                    date_format = str(year)+"-"+str(month_nr)+"-"+str(day[0])
+                                    start = date_format+" "+s_time
+                                    end = date_format+" "+e_time
+                                    b = Booking(location=loc, start=start, end=end, title=title, description=descr)
+                                    b.save(repeatable=True)
+
+
         else:
             data['form_is_valid'] = False
     context = {'form': form}
@@ -152,3 +160,6 @@ def booking_delete(request, pk):
             request=request,
         )
     return JsonResponse(data)
+
+def show_form(request):
+    return render(request, "booking/booking_form.html")
