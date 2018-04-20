@@ -92,104 +92,16 @@
     pointer-events: none;
 }
 
-
-/* The Modal (background) */
-.modal-large {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    margin: 15% auto;
-    margin-top: 0;
-}
-
-/* Modal Content/Box */
-.modal-content {
-    background-color: #fefefe;
-    margin: 10% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 60%; /* Could be more or less, depending on screen size */
-}
-
-.form-control {
-    display:flex;
-}
-form {
-    display: grid;
-}
-#scheduleTable {
-    font-size:50%;
-    width:25%;
-    display: flex;
-    justify-content: left;
-    margin-top:2%;
-}
-
-
-
-/* The Modal (background) */
-.modal-big {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    /* overflow: hidden; */
-}
-
-/* Modal Content/Box */
-.booking-modal-contents {
-    background-color: #fefefe;
-    margin: 5% auto!important; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 60%; /* Could be more or less, depending on screen size */
-}
-
-.calendar-booking {
-    float: right;
-}
-
-h4.modal-title  {
-    margin: 0 auto;
-}
-
 /* Responsive design */
-/* Make text smaller and removes "busy" sign on smaller devices */
+/* Make text smaller and removes "busy" sign and day name on smaller devices */
 
 @media only screen and (max-width: 480px) {
     .calendar-day p {
-        font-size: 80%;
-    }
-
-    .calendar-day h1 {
-        display: none;
-    }
-}
-
-/* Make modal wider and text smaller on smaller devices */
-@media only screen and (max-width: 800px) {
-
-    h5, .calendar-booking, input, .form-control{
         font-size: 90%;
     }
-    .booking-modal-contents {
-        width: 85%;
 
-
-
+    .calendar-day h1, h6 {
+        display: none;
     }
 }
 

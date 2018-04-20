@@ -212,7 +212,7 @@ function createCalendarDay(num, day, mon, year, available) {
     var currentCalendar = document.getElementById("calendar");
     var newDay = document.createElement("div");
     var date = document.createElement("p");
-    var dayElement = document.createElement("p");
+    var dayElement = document.createElement("h6");
     var availability = document.createElement("h1");
 
     // Fills out empty days
@@ -392,6 +392,7 @@ $.ajaxSetup({
         }
     }
 });
+
 
 
 
