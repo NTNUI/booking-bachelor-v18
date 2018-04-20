@@ -1,18 +1,18 @@
 /* Styling for filter-box*/
-#filtering{
-    margin: 10px;
-    padding: 15px;
+#filtering-container{
     background: white;
     box-shadow: 0 2px 4px rgba(50, 50, 93, 0.3);
+    height: inherit;
+    padding: 8%;
 }
 
-.filterHeader{
+.filter-header{
     font-weight: bold;
     font-size: 17px;
     margin-bottom: 10px;
 }
 
-.largeCheckbox {
+.large-checkbox {
     width: 15px;
     height: 15px;
 }
@@ -41,18 +41,11 @@
 select {
     width: 100%;
 }
-#timeSelect {
+#time-select {
     width: 100%;
 }
 
 /*Search button */
-#searchButton {
+#search-button {
     bottom: 20px;
-}
-
-/* Removes filters for mobile version */
-@media only screen and (max-width: 992px){
-    #filtering{
-            display:none;
-    }
 }

@@ -3,26 +3,27 @@
 .booking-container {
     width: 60%;
 }
-.borderless td {
+.borderless td{
     border:none;
 }
 
-#myBookingsHeader {
+#my-bookings-header {
     margin-top: 2rem;
     margin-left: 1rem;
     text-transform: uppercase;
     color: green;
     font-size: 1.5rem;
+    max-width: 80%;
     max-width: 50%;
     display: inline-block;
 }
 
-.myHeaders {
+.my-bookings-header-2 {
     margin: 1rem;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
 }
 
-.myBookingsBox {
+.my-booking-box {
     padding: 2rem 2rem;
     background-color: white;
     box-shadow: 0 2px 4px rgba(50, 50, 93, 0.1);
@@ -31,8 +32,13 @@
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
 }
 
 .booking-item {
@@ -49,6 +55,14 @@
     font-weight: 500;
 }
 
+.table-title {
+    font-size: 18px;
+    border-top: 2px solid black;
+}
+
+#filter-button {
+    width: 40%;
+}
 /* Delete and edit modal*/
 /* The Modal (background) */
 .modal-big {
@@ -99,4 +113,12 @@
     content: "";
     clear: both;
     display: table;
+}
+
+/* Responsive design */
+/* Makes booking container bigger on smaller devices */
+@media only screen and (max-width: 580px){
+    .booking-container {
+            width: 85%
+    }
 }

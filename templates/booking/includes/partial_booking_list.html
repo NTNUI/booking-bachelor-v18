@@ -1,42 +1,50 @@
-{#list displaying all bookings#}
+{#list displaying bookings for user#}
 
-{% if bookings %}
-    <thead>
+<table class="table borderless" id="person-booking-table">
+    {% for booking in my_bookings_list %}
+        <thead class='table-title'>
+            <tr>
+                <th>{{ booking.title }}</th>
+            </tr>
+        </thead>
+
         <tr>
-            <th>Title</th>
-            <th>Location</th>
-            <th>Start date</th>
-            <th>End date</th>
+            <td><b>What:</b> {{ booking.description }}</td>
         </tr>
-    </thead>
-{% endif %}
-
-
-{% for book in bookings %}
-   {% if user.get_username == book.person.get_username %}
-    <tr>
-        <td>{{ book.title }}</td>
-        <td>{{ book.location }}</td>
-        <td>{{ book.start }}</td>
-        <td>{{ book.end }}</td>
-        <td>
-            <button type="button" class="btn col js-update-booking" data-url="{% url 'booking_update' book.id %}">
-                <span class="glyphicon glyphicon-pencil"></span> Edit
-            </button>
-            <button type="button" class="btn btn-danger col js-delete-booking" data-url="{% url 'booking_delete' book.id %}">
-                <span class="glyphicon glyphicon-trash"></span> Delete
-            </button>
-        </td>
-    </tr>
-
-    <tr class="borderless">
-        <td id="desc">Description: {{ book.description }}</td>
-    </tr>
-    {% endif %}
-
-    {% empty %}
         <tr>
-            <td><p>Yay! You have no bookings. Stay in and enjoy your day!</p></td>
+            <td><b>Location:</b> {{ booking.location }}</td>
+        </tr>
+        <tr>
+            <td><b>Date:</b> {{ booking.get_date.0 }}, {{ booking.get_date.1}}</td>
+        </tr>
+        <tr>
+            <td><b>Time:</b> {{ booking.get_date.2 }} - {{ booking.get_date.3 }}</td>
         </tr>
 
-{% endfor %}
+
+
+        {% if booking.group %}
+            <tr>
+                <td><b>Group:</b> {{ booking.group }}</td>
+            </tr>
+        {% endif %}
+        <tr>
+            <td>
+                <button type='button' class='btn col js-update-booking' data-url='{% url "booking_update" booking.id %}'>
+                    Edit
+                </button>
+                <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url "booking_delete" booking.id %}'>
+                    Delete
+                </button>
+            </td>
+        </tr>
+
+          {% empty %}
+        <div class="empty">
+             <p>You have no bookings!</p>
+        </div>
+
+
+
+    {% endfor %}
+</table>

@@ -7,8 +7,9 @@ date.setDate(1);
 var global_list = [];
 // Ajax setting to set caching to false.
 $.ajaxSetup ({
-        cache: false
+    cache: false
 });
+
 // Global variabel which is used to store the date for each popup.
 var tempDay;
 
@@ -54,7 +55,6 @@ promised.done(function() {
         )
     })
 }
-promise();
 //temporary cheat
 // var win = window.open('http://www.google.com');
 // console.log(window.location)
@@ -68,61 +68,52 @@ var getTime = function(time){
 }
 // Function used to populate the calendar with bookings from the database.
 function populate() {
-    
+
     var date_map = new Map();
-    
+
     for (i = 0; i < global_list[0].length; i++) {
         var qNo = global_list[0][i].queueNo;
-        if (qNo == 0){
-            
-            var day = global_list[0][i].start;
-            var date_format = day.slice(0, 10);
-            var location = global_list[0][i].location__name;
-            var start_datetime = day.split("T");
-            var start_date = start_datetime[0];
-            var start_time = start_datetime[1].replace("Z", "");
-
-            var end_datetime = global_list[0][i].end.split("T");
-            var end_time = end_datetime[1].replace("Z", "");
-            //find difference between end and start
-            var start_array = getTime(start_time);
-            var end_array = getTime(end_time);
-            var diff_hour = end_array[0]-start_array[0];
-            var diff_min = end_array[1]-start_array[1];
-
-            if (date_map.has(start_date)){
-                //add current hours to prior hours
-                sum_array = getTime(date_map.get(start_date));
-                var hours = diff_hour + sum_array[0];
-                var min = diff_min + sum_array[1];
-                date_map.set(start_date, ""+hours+":"+min);
-            }
-            else {
-                date_map.set(start_date, ""+diff_hour+":"+diff_min)
-            }
-            
-            $("#" + date_format + " h1").text(""+getTime(date_map.get(start_date))[0]+"/12");
-        }
-    }
-}
-
-function checkFilter() {
-    for (i = 0; i < global_list[0].length; i++) {
-
         var loc = global_list[0][i].location__name;
         loc = document.getElementById(loc);
+        var location = global_list[0][i].location__name;
         var day = global_list[0][i].start;
         var date_format = day.slice(0, 10);
-        var location = global_list[0][i].location__name;
+        if (qNo == 0){
+            if(loc.value === location && loc.checked === true){
 
-        
-        if (loc.value === location && loc.checked === true) {
-            $("#" + date_format + " h1").text(location);
-        }
-        else if (loc.checked === false){
-            $("#" + date_format + " h1").text("12 hours free");
+                var start_datetime = day.split("T");
+                var start_date = start_datetime[0];
+                var start_time = start_datetime[1].replace("Z", "");
+
+                var end_datetime = global_list[0][i].end.split("T");
+                var end_time = end_datetime[1].replace("Z", "");
+                //find difference between end and start
+                var start_array = getTime(start_time);
+                var end_array = getTime(end_time);
+                var diff_hour = end_array[0]-start_array[0];
+                var diff_min = end_array[1]-start_array[1];
+                if (date_map.has(start_date) && loc.value === location && loc.checked === true){
+                    //add current hours to prior hours
+                    sum_array = getTime(date_map.get(start_date));
+                    var hours = diff_hour + sum_array[0];
+                    var min = diff_min + sum_array[1];
+                    date_map.set(start_date, ""+hours+":"+min);
+                }
+                else if(loc.value === location && loc.checked === true) {
+                    date_map.set(start_date, ""+diff_hour+":"+diff_min)
+                }
+
+
+
+                $("#" + date_format + " h1").text(""+getTime(date_map.get(start_date))[0]+"/12 booked");
+            }
+            else if (loc.checked === false){
+                $("#" + date_format + " h1").text("12 hours free");
+                console.log("else if")
+            }
         }
     }
+
 }
 
 //Mutation Observer
@@ -157,7 +148,7 @@ fireOnDomChange ('#calendar', HandleDOM_Change, 500);
 
 
 function fireOnDomChange (selector, actionFunction, delay) {
-    
+
     // observer.observe(targetNode, config);
 
     // $(selector).on ('DOMSubtreeModified', fireOnDelay);
@@ -212,7 +203,7 @@ function createPopup() {
     popupTag.appendChild(popupContent);
     var modal = document.getElementsByClassName(popupTag.className);
     var span = document.getElementById(popupSpan.id);
-    modal.style.display = "block";   
+    modal.style.display = "block";
     $('.modal-content').load('new',function(){}).hide().fadeIn();
 }
 
@@ -252,6 +243,7 @@ function createCalendarDay(num, day, mon, year, available) {
     if (newDay.id < getCurrentDay()){
         newDay.className = "calendar-day restricted";
     }
+
 }
 
 
@@ -323,7 +315,7 @@ function getCurrentDay() {
 
 
 function popup(e) {
-    
+
     $.ajax({
       url: '/booking/bookings_list/create_calendar/',
       type: 'get',
@@ -336,21 +328,22 @@ function popup(e) {
       },
       success: function (data) {
         $("#booking-modal .booking-modal-contents").html(data.html_form);
-        
+
       }
-      
+
     });
 
     //Set global tempDay variable to event that triggers the popup, ie the date.
     this.tempDay = e;
+
     var modal = document.getElementById('booking-modal');
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
     modal.style.display = "block";
     // When the user clicks anywhere outside of the modal, close it
-    
+
     window.onclick = function(event) {
-        
+
         if (event.target == modal){
             modal.style.display = "none";
 
@@ -359,12 +352,13 @@ function popup(e) {
             console.log("closed!")
             modal.style.display = "none"
             //location.reload();
-            
+
         }
         else if(event.target.type == "submit"){
-            
+
         }
     }
+
 }
 
 // Functions used to create secure POST requests.
