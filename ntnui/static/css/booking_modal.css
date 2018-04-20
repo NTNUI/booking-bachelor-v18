@@ -78,6 +78,7 @@ h4.modal-title  {
     overflow-y: scroll;
     padding-left: 10%;
     margin-right: 20%;
+    margin-bottom: 15px;
 }
 
 .card {
@@ -93,7 +94,7 @@ h4.modal-title  {
     .booking-modal-contents {
         width: 80%;
     }
-    .col-8, .modal-body h5, h6, p, select, input, .form-control{
+    .col-8, h5, h6, p, select, input, .form-control{
         font-size: 90%;
     }
 }
@@ -110,7 +111,4 @@ h4.modal-title  {
         max-width: 100%;
         flex: 100%;
     }
-    /*#booking-cards {
-        margin-right: 0;
-    }*/
 }
