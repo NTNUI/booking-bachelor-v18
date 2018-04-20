@@ -21,13 +21,12 @@
     <h1 id="my-bookings-header">
         All bookings
     </h1>
-    <p class="my-bookings-header-2">Filter all bookings</p>
 
 
     <div class="my-booking-box">
+        <p class="my-bookings-header-2">Filter all bookings</p>
         <form method='get'>
             <table class='table borderless'  id='filter-table'>
-
                 <tr>
                     <td>Location: {{ filter.form.location }}</td>
                     <td>Person: {{ filter.form.person }}</td>
@@ -35,17 +34,17 @@
                     <td>Start time: {{ filter.form.start }}</td>
                 </tr>
             </table>
-            <button class="btn btn-light" id='filter-button' type='submit'>Filter</button>
+            <button class="btn" id='filter-button' type='submit'>Filter</button>
         </form>
         <div class="flex-container">
-            <div>
+            <div class="all-bookings">
                 <div class='replace'>
                     <table class='table borderless' id='booking-table'>
                         {% include 'booking/includes/partial_booking_all.html' %}
                     </table>
                 </div>
                 <p>
-                    <button type='button' class='btn btn-success col js-create-booking' data-url='{% url 'booking_create' %}'>
+                    <button type='button' id="create-booking"class='btn btn-success col js-create-booking' data-url='{% url 'booking_create' %}'>
                         <span class='glyphicon glyphicon-plus'></span>
                         Create a new booking
                     </button>

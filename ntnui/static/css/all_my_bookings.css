@@ -23,6 +23,7 @@
     font-size: 1.6rem;
 }
 
+
 .my-booking-box {
     padding: 2rem 2rem;
     background-color: white;
@@ -32,6 +33,8 @@
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .flex-container {
@@ -39,6 +42,9 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: flex-start;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
 
 }
 
@@ -65,6 +71,16 @@
     width: 100%;
 }
 
+.all-bookings{
+    word-break: break-word;
+}
+.my-bookings{
+    width: 100%;
+}
+
+.group-bookings {
+    width: 100%;
+}
 
 #filter-button{
     width: 100%;
@@ -74,16 +90,37 @@
 }
 
 form{
+  /*  width: 85%;
+    alignment: center;
+    margin-right: auto;
+    margin-left:auto;*/
+
+
+    /*margin: 1rem;
     width: 85%;
     alignment: center;
+    display: inline-block;*/
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+
 }
 
 
 .replace{
-    width: 85%;
+    margin: 1rem;
+    width: 95%;
     alignment: center;
     display: inline-block;
+    word-break: break-word;
 }
+
+
 
 /* Delete and edit modal*/
 /* The Modal (background) */
@@ -142,21 +179,47 @@ form{
 /* Makes booking container bigger on smaller devices */
 @media only screen and (max-width: 580px){
     .booking-container {
-            width: 85%
+            width: 80%
     }
 
+    .flex-container {
+        flex-direction: column;
+    }
     td{
-        display: inline-block;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
         width: 85%;
     }
     #filter-button{
-        display: inline-block;
         width: 85%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
 
     }
+
+    #table-title{
+        font-size: 90%;
+        word-wrap: break-word;
+
+    }
+    .flex-container, form{
+        align-self: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .my-booking-box{
+        width: 100%;
+    }
+    .my-bookings,.group-bookings, form {
+        width: 100%;
+    }
+
 }
 @media only screen and (max-width: 1250px){
-    td{
+
+    td, .table-title{
         display: block;
         margin-left: auto;
         margin-right: auto;
@@ -167,9 +230,16 @@ form{
         display: block;
         margin-left: auto;
         margin-right: auto;
-
     }
+
+    form{
+        align-self: center;
+        width: 60%;
+    }
+
+
 }
+
 
 
 
