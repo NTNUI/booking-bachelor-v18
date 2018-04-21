@@ -82,44 +82,31 @@
     width: 100%;
 }
 
-#filter-button{
+#filter-button {
     width: 100%;
     padding: .75rem;
     margin-bottom: 1rem;
     alignment: center;
 }
 
-form{
-  /*  width: 85%;
-    alignment: center;
-    margin-right: auto;
-    margin-left:auto;*/
-
-
-    /*margin: 1rem;
-    width: 85%;
-    alignment: center;
-    display: inline-block;*/
-
+form {
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: flex-start;
-    width: 60%;
     margin-left: auto;
     margin-right: auto;
-
 }
 
+.modal-body {
+    width: 60%;
+    margin: 0 auto;
+}
 
-.replace{
+.replace {
     margin: 1rem;
     width: 95%;
     alignment: center;
     display: inline-block;
     word-break: break-word;
 }
-
 
 
 /* Delete and edit modal*/

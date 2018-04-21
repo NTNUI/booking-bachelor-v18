@@ -53,35 +53,54 @@ form {
 .booking-modal-contents {
     background-color: #fefefe;
     margin: 1% auto!important; /* 15% from the top and centered */
-    padding: 20px;
+    padding: 10px;
     border: 1px solid #888;
     width: 60%; /* Could be more or less, depending on screen size */
-}
-
-.calendar-booking {
-    float: right;
 }
 
 h4.modal-title  {
     margin: 0 auto;
 }
 
+/* Content container */
+#content-container {
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* Booking fields */
+#booking-fields {
+    display: flex;
+    justify-content: center;
+}
+
 /* Cards for bookings */
+#booking-cards-con {
+    display: flex;
+    justify-content: center;
+}
 
 #booking-cards {
-    height: 400px;
-    overflow-y: scroll;
-    padding-left: 10%;
-    margin-right: 20%;
-    margin-bottom: 15px;
+    max-height: 450px;
+    width: 100%;
+    overflow-y: auto;
+    padding-left: 11%;
 }
 
 .card {
-    margin-bottom: 5px;
+    margin: 5px 0px 5px 0px;
 }
 
 .card-title {
     text-align: center;
+}
+
+.empty {
+    text-align: center;
+    padding: 10%;
+    margin-left: -10%;
 }
 
 /* Make modal wider and text smaller on smaller devices */
@@ -89,7 +108,7 @@ h4.modal-title  {
     .booking-modal-contents {
         width: 80%;
     }
-    .col-8, h5, h6, p, select, input, .form-control{
+    .col-8, h6, p, select, input, .form-control{
         font-size: 90%;
     }
 }
