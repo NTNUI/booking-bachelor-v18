@@ -13,7 +13,7 @@
     text-transform: uppercase;
     color: green;
     font-size: 1.5rem;
-    max-width: 80%;
+    /*max-width: 80%;*/
     max-width: 50%;
     display: inline-block;
 }
@@ -22,6 +22,7 @@
     margin: 1rem;
     font-size: 1.6rem;
 }
+
 
 .my-booking-box {
     padding: 2rem 2rem;
@@ -32,6 +33,8 @@
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .flex-container {
@@ -39,6 +42,10 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: flex-start;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+
 }
 
 .booking-item {
@@ -60,9 +67,61 @@
     border-top: 2px solid black;
 }
 
-#filter-button {
-    width: 40%;
+#id_location, #id_person, #id_title, #id_start{
+    width: 100%;
 }
+
+.all-bookings{
+    word-break: break-word;
+}
+.my-bookings{
+    width: 100%;
+}
+
+.group-bookings {
+    width: 100%;
+}
+
+#filter-button{
+    width: 100%;
+    padding: .75rem;
+    margin-bottom: 1rem;
+    alignment: center;
+}
+
+form{
+  /*  width: 85%;
+    alignment: center;
+    margin-right: auto;
+    margin-left:auto;*/
+
+
+    /*margin: 1rem;
+    width: 85%;
+    alignment: center;
+    display: inline-block;*/
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+
+.replace{
+    margin: 1rem;
+    width: 95%;
+    alignment: center;
+    display: inline-block;
+    word-break: break-word;
+}
+
+
+
 /* Delete and edit modal*/
 /* The Modal (background) */
 .modal-big {
@@ -115,10 +174,72 @@
     display: table;
 }
 
+
 /* Responsive design */
 /* Makes booking container bigger on smaller devices */
 @media only screen and (max-width: 580px){
     .booking-container {
-            width: 85%
+            width: 80%
     }
+
+    .flex-container {
+        flex-direction: column;
+    }
+    td{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 85%;
+    }
+    #filter-button{
+        width: 85%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+
+    #table-title{
+        font-size: 90%;
+        word-wrap: break-word;
+
+    }
+    .flex-container, form{
+        align-self: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .my-booking-box{
+        width: 100%;
+    }
+    .my-bookings,.group-bookings, form {
+        width: 100%;
+    }
+
 }
+@media only screen and (max-width: 1250px){
+
+    td, .table-title{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 85%;
+    }
+    #filter-button{
+        width: 85%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    form{
+        align-self: center;
+        width: 60%;
+    }
+
+
+}
+
+
+
+

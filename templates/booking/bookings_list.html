@@ -9,25 +9,32 @@
 {% endblock %}
 
 {% block content %}
-    <div class="booking-container">
-        <h1 id="my-bookings-header">
-            My bookings
-        </h1>
-        <div class="my-booking-box">
-            <div class="flex-container">
-                <div>
-                    <p class="my-bookings-header-2">My bookings</p>
-                    {% include 'booking/includes/partial_booking_list.html' %}
-                    <p>
-                        <button type="button" class="btn btn-success col js-create-booking" data-url="{% url 'booking_create' %}">
-                            <span class="glyphicon glyphicon-plus"></span>
-                            Create a new booking
-                        </button>
-                    </p>
+<div class="booking-container">
+    <h1 id="my-bookings-header">
+        My bookings
+    </h1>
+    <div class="my-booking-box">
+        <div class="flex-container">
+            <div class="my-bookings">
+                <p class="my-bookings-header-2">My bookings</p>
+                <div class="replace">
+                    <table class="table borderless" id="booking-table">
+                        {% include 'booking/includes/partial_booking_list.html' %}
+                    </table>
                 </div>
-                <div>
-                    <p class="my-bookings-header-2">Group bookings</p>
-                    {% include 'booking/includes/partial_groupbooking_list.html' %}
+                <p>
+                    <button type="button" class="btn btn-success col js-create-booking" data-url="{% url 'booking_create' %}">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        Create a new booking
+                    </button>
+                </p>
+            </div>
+            <div class="group-bookings">
+                <p class="my-bookings-header-2">Group bookings</p>
+                <div class="replace">
+                    <table class="table borderless" id="booking-table">
+                        {% include 'booking/includes/partial_groupbooking_list.html' %}
+                    </table>
                 </div>
             </div>
         </div>
