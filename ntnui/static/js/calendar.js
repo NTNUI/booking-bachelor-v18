@@ -1,7 +1,6 @@
 // Globally head date object for the month shown.
 var date = new Date();
-console.log(date)
-date.setDate(1);
+var currentMonth;
 
 // Global list to store bookings. This list will be used to populate the calendar with data.
 var global_list = [];
@@ -50,7 +49,8 @@ var promise = function () {
 promised.done(function() {
     promised.then( function() {
             createMonth();
-            global_list.push(promised.responseJSON)
+            global_list.push(promised.responseJSON);
+            currentMonth = document.getElementById("current-month");
             }
         )
     })
@@ -207,6 +207,8 @@ function createPopup() {
     $('.modal-content').load('new',function(){}).hide().fadeIn();
 }
 
+days_in_month = []
+
 // Creates a day element
 function createCalendarDay(num, day, mon, year, available) {
     var currentCalendar = document.getElementById("calendar");
@@ -243,8 +245,9 @@ function createCalendarDay(num, day, mon, year, available) {
     if (newDay.id < getCurrentDay()){
         newDay.className = "calendar-day restricted";
     }
+    days_in_month.push(newDay)
+    return newDay
 
-}
 
 
 // Clears all days from the calendar
@@ -267,30 +270,78 @@ function previousMonth() {
     date.setMonth(date.getMonth() - 1);
     var val = date.getMonth();
     createMonth(date.getMonth());
+    return val
+}
+
+function daysInMonth (month, year) {
+    return new Date(year, month, 0).getDate();
 }
 
 // Creates and populates all of the days to make up the month
 function createMonth() {
+    date.setDate(1);
     var dateObject = new Date();
     dateObject.setDate(date.getDate());
     dateObject.setMonth(date.getMonth());
     dateObject.setYear(date.getFullYear());
-
-    createCalendarDay(dateObject.getDate(),
+    var days;
+    var count = 0;
+    var length = daysInMonth(date.getMonth()+1, date.getFullYear())
+    for(days=0; days < length; days++) {
+        while(count < 6) {
+            count += 0;
+            if(date.getDay() == 0) {
+                createCalendarDay("dummy", dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear()).style.visibility = "hidden";
+            }
+            if(date.getDay() == 2) {
+                count += 5;
+                createCalendarDay("dummy", dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear()).style.visibility = "hidden"
+            }
+            if(date.getDay() == 3) {
+                count += 4;
+                createCalendarDay("dummy", dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear()).style.visibility = "hidden"
+            }
+            if(date.getDay() == 4) {
+                count += 1.2;
+                createCalendarDay("dummy", dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear()).style.visibility = "hidden"
+            }
+            if(date.getDay() == 5) {
+                count += 0.5;
+                createCalendarDay("dummy", dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear()).style.visibility = "hidden"
+            }
+            if(date.getDay() == 6) {
+                count += 0.2
+                createCalendarDay("dummy", dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear()).style.visibility = "hidden"
+            }
+            count += 1
+        }
+        createCalendarDay(dateObject.getDate(),
         dayOfWeekAsString(dateObject.getDay()),
         monthsAsString(dateObject.getMonth()),
         dateObject.getFullYear());
 
-    dateObject.setDate(dateObject.getDate() + 1);
-
-    while (dateObject.getDate() != 1) {
-        createCalendarDay(dateObject.getDate(),
-            dayOfWeekAsString(dateObject.getDay()),
-            monthsAsString(dateObject.getMonth()),
-            dateObject.getFullYear());
         dateObject.setDate(dateObject.getDate() + 1);
+        count += 1;
     }
-
+    
     // Set the text to the correct month
     var currentMonthText = document.getElementById("current-month");
     currentMonthText.innerHTML = monthNames[date.getMonth()] + " " + date.getFullYear();
@@ -299,6 +350,7 @@ function createMonth() {
     var current_day = getCurrentDay();
     document.getElementById(current_day).className = "calendar-day today";
 }
+
 
 
 function getCurrentDay() {
@@ -360,39 +412,6 @@ function popup(e) {
     }
 
 }
-
-// Functions used to create secure POST requests.
-
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-var csrftoken = getCookie('csrftoken');
-
-function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
-});
-
 
 
 
