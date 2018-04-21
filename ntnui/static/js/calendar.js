@@ -103,9 +103,7 @@ function populate() {
                     date_map.set(start_date, ""+diff_hour+":"+diff_min)
                 }
 
-
-
-                $("#" + date_format + " h1").text(""+getTime(date_map.get(start_date))[0]+"/12 booked");
+                $("#" + date_format + " h1").text(""+ (12 - parseInt(getTime(date_map.get(start_date)[0])))+" hours free");
             }
             else if (loc.checked === false){
                 $("#" + date_format + " h1").text("12 hours free");
@@ -212,13 +210,13 @@ function createCalendarDay(num, day, mon, year, available) {
     var currentCalendar = document.getElementById("calendar");
     var newDay = document.createElement("div");
     var date = document.createElement("p");
-    var dayElement = document.createElement("h6");
+    var dayElement = document.createElement("p");
     var availability = document.createElement("h1");
 
     // Fills out empty days
     available = true;
-    date.innerHTML = num;
-    dayElement.innerHTML = ' ' + day;
+    date.innerHTML = num + ".";
+    dayElement.innerHTML = " " + day;
     if (available == true) {
         availability.innerHTML = "12 hours free";
         availability.style.color = "green";

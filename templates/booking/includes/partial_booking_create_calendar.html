@@ -4,7 +4,7 @@
     {% csrf_token %}
     <div class="modal-header">
         <h4 class="modal-title" id="dayTitle"></h4>
-        <button title="Close" type="button" id="close" class="btn" style="cursor: pointer" data-dismiss="modal">X</button>
+        <button title="Close" type="button" id="close" class="btn" data-dismiss="modal">X</button>
     </div>
     <div class="modal-body">
         {% include 'booking/includes/partial_booking_form_calendar.html' %}
