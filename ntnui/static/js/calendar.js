@@ -197,121 +197,79 @@ function clearCalendar() {
 
 }
 
-var back = false;
-var next = false;
-
 // Clears the calendar and shows the next month
-function nextMonth(next) {
-    next = true;
+function nextMonth() {
     clearCalendar();
     date.setMonth(date.getMonth() + 1);
-    createMonth(date.getMonth(), next);
+    createMonth(date.getMonth());
 }
 
 // Clears the calendar and shows the previous month
-function previousMonth(back) {
-    back = true;
+function previousMonth() {
     clearCalendar();
     date.setMonth(date.getMonth() - 1);
     var val = date.getMonth();
-    createMonth(date.getMonth(), back);
+    createMonth(date.getMonth());
     return val
 }
-
-function firstMonday(month, year){
-    var d = new Date(year, month, 1, 0, 0, 0, 0)
-    var day = 0
-// check if first of the month is a Sunday, if so set date to the second
-        if (d.getDay() == 0) {
-         day = 2
-         d = d.setDate(day)
-         d = new Date(d)
-     }
-// check if first of the month is a Monday, if so return the date, otherwise get to the Monday following the first of the month
-     else if (d.getDay() != 1) {
-         day = 9-(d.getDay())
-         d = d.setDate(day)
-         d = new Date(d)
-     }
-    return d
-}
-
-function timeDifference(start, end) {
-    var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
-    var diffDays = Math.floor(Math.round(Math.abs((start.getTime() - end.getTime())/(oneDay)))/30);
-    return diffDays
-}
-
-var g = []
 
 function daysInMonth (month, year) {
     return new Date(year, month, 0).getDate();
 }
 
 // Creates and populates all of the days to make up the month
-function createMonth(monday, next) {
-    days_in_month = []
+function createMonth() {
     date.setDate(1);
-    if(date.getDay() != 1) {
-        console.log(date)
-        var next = date.getDate() + (1 + 7 - date.getDay()) % 7
-        var prev = date.getDate() - (date.getDay() + 6) % 7;
-        date.setDate(1)
-    }
     var dateObject = new Date();
     dateObject.setDate(date.getDate());
     dateObject.setMonth(date.getMonth());
     dateObject.setYear(date.getFullYear());
-    var duplicate = false;
-    var d;
+    var days;
     var count = 0;
-    console.log(date);
     var length = daysInMonth(date.getMonth()+1, date.getFullYear())
-    for(d=0; d < length; d++) {
-
+    for(days=0; days < length; days++) {
         while(count < 6) {
             count += 0;
             if(date.getDay() == 0) {
-            duplicate = true
-            createCalendarDay(dateObject.getDate(),
-            dayOfWeekAsString(dateObject.getDay()),
-            monthsAsString(dateObject.getMonth()),
-            dateObject.getFullYear()).style.visibility = "hidden";
+                createCalendarDay("dummy", dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear()).style.visibility = "hidden";
             }
             if(date.getDay() == 2) {
-            count += 5;
-            createCalendarDay("hei", dateObject.getDate(),
-            dayOfWeekAsString(dateObject.getDay()),
-            monthsAsString(dateObject.getMonth()),
-            dateObject.getFullYear()).style.visibility = "hidden"
+                count += 5;
+                createCalendarDay("dummy", dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear()).style.visibility = "hidden"
             }
             if(date.getDay() == 3) {
-            count += 4;
-            createCalendarDay(dateObject.getDate(),
-            dayOfWeekAsString(dateObject.getDay()),
-            monthsAsString(dateObject.getMonth()),
-            dateObject.getFullYear()).style.visibility = "hidden"
+                count += 4;
+                createCalendarDay("dummy", dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear()).style.visibility = "hidden"
             }
             if(date.getDay() == 4) {
-            count += 1.2;
-            createCalendarDay(dateObject.getDate(),
-            dayOfWeekAsString(dateObject.getDay()),
-            monthsAsString(dateObject.getMonth()),
-            dateObject.getFullYear()).style.visibility = "hidden"
+                count += 1.2;
+                createCalendarDay("dummy", dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear()).style.visibility = "hidden"
             }
             if(date.getDay() == 5) {
-            count += 0.5;
-            createCalendarDay(dateObject.getDate(),
-            dayOfWeekAsString(dateObject.getDay()),
-            monthsAsString(dateObject.getMonth()),
-            dateObject.getFullYear()).style.visibility = "hidden"
+                count += 0.5;
+                createCalendarDay("dummy", dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear()).style.visibility = "hidden"
             }
             if(date.getDay() == 6) {
-            count += 0.2
-            createCalendarDay(dateObject.getDate(),
-            dayOfWeekAsString(dateObject.getDay()),
-            monthsAsString(dateObject.getMonth()),
-            dateObject.getFullYear()).style.visibility = "hidden"
+                count += 0.2
+                createCalendarDay("dummy", dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear()).style.visibility = "hidden"
             }
             count += 1
         }
@@ -323,20 +281,7 @@ function createMonth(monday, next) {
         dateObject.setDate(dateObject.getDate() + 1);
         count += 1;
     }
-
-
-    //
-    //
-    // while (dateObject.getDate() != 1) {
-    //     createCalendarDay(dateObject.getDate(),
-    //         dayOfWeekAsString(dateObject.getDay()),
-    //         monthsAsString(dateObject.getMonth()),
-    //         dateObject.getFullYear());
-    //     dateObject.setDate(dateObject.getDate() + 1);
-    // }
-
-
-
+    
     // Set the text to the correct month
     var currentMonthText = document.getElementById("current-month");
     currentMonthText.innerHTML = monthNames[date.getMonth()] + " " + date.getFullYear();
