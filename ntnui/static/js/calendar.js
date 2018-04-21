@@ -348,7 +348,7 @@ function createMonth() {
 
     // Gives the current date a highligth
     var current_day = getCurrentDay();
-    //document.getElementById(current_day).className = "calendar-day today";
+    document.getElementById(current_day).className = "calendar-day today";
 }
 
 
