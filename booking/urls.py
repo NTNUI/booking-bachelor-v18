@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index, name='booking'),
     url(r'^api', views.api, name='api'),
+    url(r'^hours_api', views.api2, name='api2'),
     url(r'^profile', views.BookingList.as_view(), name='booking_list'),
     url(r'^all/', views.booking_all, name="booking_all_list"),
     url(r'^bookings_list/$', views.booking_list, name='booking_list'),

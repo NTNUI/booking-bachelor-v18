@@ -8,6 +8,7 @@
             <div id="booking-cards">
             </div>
         </div>
+
     {% load widget_tweaks %}
     <div class="calendar-booking{% if field.errors %} has-error{% endif %}">
         {{form.person.as_hidden}}
@@ -77,12 +78,22 @@
                     var date_format = date.slice(0, 10);
                     var start = date.slice(11, 16);
                     var newDate = start.replace(":", "");
-                    if(tempDay.id == date_format) {
+
+                    var loc = global_list[0][i].location__name;
+                    loc = document.getElementById(loc);
+                    console.log("loc: " + loc.checked + " value: " + loc.value);
+                    console.log("Location: " + data[i].location__name);
+
+                    var loc = global_list[0][i].location__name;
+                    loc = document.getElementById(loc);
+                    if(tempDay.id === date_format && data[i].location__name === loc.value && loc.checked === true) {
+                        console.log("okay")
                         booking = []
                         booking.push(newDate, start, data[i].end, data[i].title, data[i].person__first_name);
                         list_of_bookings.push(booking)
 
                         list_of_bookings.sort(function(a, b){return a[0] - b[0]});
+
                     }
                 })
                 for (var I = 0; I < list_of_bookings.length; I++) {
