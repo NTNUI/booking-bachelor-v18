@@ -1,0 +1,108 @@
+/*CCS for booking page and calendar */
+
+/* Container for the booking page */
+#booking-container {
+    height:auto;
+    margin: 0.5%;
+    padding: 2%;
+}
+
+#calendar-container {
+    background: white;
+    box-shadow: 0 2px 4px rgba(50, 50, 93, 0.3);
+    padding: 1.5%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Controls and month header */
+#control-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
+}
+.label {
+    box-shadow: 0 2px 4px rgba(50, 50, 93, 0.2);
+    background-color: #fff;
+    padding: 20px;
+    line-height: 2px;
+    font-weight: bold;
+}
+#previous {
+    box-shadow: 0 2px 4px rgba(50, 50, 93, 0.2);
+    cursor: pointer;
+    border: solid 1px #fff;
+}
+#next {
+    box-shadow: 0 2px 4px rgba(50, 50, 93, 0.2);
+    cursor: pointer;
+    border: solid 1px #fff;
+}
+#current-month {
+    cursor: default;
+}
+
+#previous:hover {
+    background: #f7f4f4;
+}
+#next:hover {
+    background: #f7f4f4;
+}
+
+/*Calendar days*/
+#calendar-box {
+    display: flex;
+}
+.calendar-day {
+    display: flex;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.2);
+    background-color: #fff;
+    padding: 0.5%;
+    width: 13.2%;
+    margin: 0.5%;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    border: solid 1px #fff;
+    font-weight: 500;
+}
+.calendar-day p {
+    display: inline;
+}
+.calendar-day h1{
+    font-size: 100%;
+    padding-bottom: 40%;
+}
+
+.calendar-day:hover {
+    background: #eee;
+}
+
+
+/*Highlights today*/
+.today {
+    border-bottom: solid 2px #EC1E24;
+    color: #EC1E24;
+}
+
+/* Restrictions for booking */
+.restricted {
+    opacity: .6;
+    pointer-events: none;
+}
+
+/* Responsive design */
+/* Make text smaller and removes "busy" sign and day name on smaller devices */
+
+@media only screen and (max-width: 480px) {
+    .calendar-day p {
+        font-size: 90%;
+    }
+
+    .calendar-day h1, h6 {
+        display: none;
+    }
+}
+
+

@@ -1,0 +1,50 @@
+{#list displaying bookings for user#}
+
+<table class="table borderless" id="person-booking-table">
+    {% for booking in my_bookings_list %}
+        <thead class='table-title'>
+            <tr>
+                <th>{{ booking.title }}</th>
+            </tr>
+        </thead>
+
+        <tr>
+            <td><b>What:</b> {{ booking.description }}</td>
+        </tr>
+        <tr>
+            <td><b>Location:</b> {{ booking.location }}</td>
+        </tr>
+        <tr>
+            <td><b>Date:</b> {{ booking.get_date.0 }}, {{ booking.get_date.1}}</td>
+        </tr>
+        <tr>
+            <td><b>Time:</b> {{ booking.get_date.2 }} - {{ booking.get_date.3 }}</td>
+        </tr>
+
+
+
+        {% if booking.group %}
+            <tr>
+                <td><b>Group:</b> {{ booking.group }}</td>
+            </tr>
+        {% endif %}
+        <tr>
+            <td>
+                <button type='button' class='btn col js-update-booking' data-url='{% url "booking_update" booking.id %}'>
+                    Edit
+                </button>
+                <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url "booking_delete" booking.id %}'>
+                    Delete
+                </button>
+            </td>
+        </tr>
+
+          {% empty %}
+        <div class="empty">
+             <p>You have no bookings!</p>
+        </div>
+
+
+
+    {% endfor %}
+</table>

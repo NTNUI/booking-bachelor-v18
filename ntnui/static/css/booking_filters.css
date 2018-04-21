@@ -1,0 +1,59 @@
+/* Styling for filter-box*/
+#filtering-container{
+    background: white;
+    box-shadow: 0 2px 4px rgba(50, 50, 93, 0.3);
+    height: inherit;
+    padding: 8%;
+}
+
+.filter-header{
+    font-weight: bold;
+    font-size: 17px;
+    margin-bottom: 10px;
+}
+
+.large-checkbox {
+    width: 15px;
+    height: 15px;
+}
+
+/* Collapse and expand filters menu */
+.tb {
+    margin:10px 0;
+}
+.aBlock table td {
+     padding-left:15px;
+}
+.tb span+span, .collapsible {
+    display:none;
+}
+.tb input[type="checkbox"]:checked ~ span {
+    display:none;
+}
+.tb input[type="checkbox"]:checked ~ span+span{
+    display:inline;
+}
+.tb input[type="checkbox"]:checked ~ .collapsible {
+    display:table;
+}
+
+/* Dropdown for time select */
+select {
+    width: 100%;
+}
+#time-select {
+    width: 100%;
+}
+
+/*Search button */
+#search-button {
+    bottom: 20px;
+}
+
+/*Responsive design*/
+/*Make filter text smaller on smaller devices*/
+@media only screen and (max-width: 800px) {
+    .col-lg-3{
+        font-size: 90%;
+    }
+}
