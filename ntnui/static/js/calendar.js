@@ -147,6 +147,8 @@ function createPopup() {
     $('.modal-content').load('new',function(){}).hide().fadeIn();
 }
 
+days_in_month = []
+
 // Creates a day element
 function createCalendarDay(num, day, mon, year, available) {
     var currentCalendar = document.getElementById("calendar");
@@ -183,6 +185,8 @@ function createCalendarDay(num, day, mon, year, available) {
     if (newDay.id < getCurrentDay()){
         newDay.className = "calendar-day restricted";
     }
+    days_in_month.push(newDay)
+    return newDay
 }
 
 
@@ -238,37 +242,95 @@ function timeDifference(start, end) {
     return diffDays
 }
 
+var g = []
+
 // Creates and populates all of the days to make up the month
 function createMonth(monday, next) {
+    days_in_month = []
     date.setDate(1);
     if(date.getDay() != 1) {
         console.log(date)
         var next = date.getDate() + (1 + 7 - date.getDay()) % 7
         var prev = date.getDate() - (date.getDay() + 6) % 7;
-        date.setDate(next)
+        date.setDate(1)
     }
     var dateObject = new Date();
     dateObject.setDate(date.getDate());
     dateObject.setMonth(date.getMonth());
     dateObject.setYear(date.getFullYear());
+    var duplicate = false;
+    var d;
+    var count = 0;
+    console.log(date);
+    for(d=0; d < 36; d++) {
 
-    var monday = firstMonday(dateObject.getMonth(), dateObject.getFullYear())
-    var start = monday.getDate().toString()
-    date.setDate(start);
-    createCalendarDay(dateObject.getDate(),
+        while(count < 6) {
+            count += 0;
+            if(date.getDay() == 0) {
+            duplicate = true
+            createCalendarDay(dateObject.getDate(),
+            dayOfWeekAsString(dateObject.getDay()),
+            monthsAsString(dateObject.getMonth()),
+            dateObject.getFullYear()).style.visibility = "hidden";
+            }
+            if(date.getDay() == 2) {
+            count += 5;
+            createCalendarDay(dateObject.getDate(),
+            dayOfWeekAsString(dateObject.getDay()),
+            monthsAsString(dateObject.getMonth()),
+            dateObject.getFullYear()).style.visibility = "hidden"
+            }
+            if(date.getDay() == 3) {
+            count += 4;
+            createCalendarDay(dateObject.getDate(),
+            dayOfWeekAsString(dateObject.getDay()),
+            monthsAsString(dateObject.getMonth()),
+            dateObject.getFullYear()).style.visibility = "hidden"
+            }
+            if(date.getDay() == 4) {
+            count += 1.2;
+            createCalendarDay(dateObject.getDate(),
+            dayOfWeekAsString(dateObject.getDay()),
+            monthsAsString(dateObject.getMonth()),
+            dateObject.getFullYear()).style.visibility = "hidden"
+            }
+            if(date.getDay() == 5) {
+            count += 0.5;
+            createCalendarDay(dateObject.getDate(),
+            dayOfWeekAsString(dateObject.getDay()),
+            monthsAsString(dateObject.getMonth()),
+            dateObject.getFullYear()).style.visibility = "hidden"
+            }
+            if(date.getDay() == 6) {
+            count += 0.2
+            createCalendarDay(dateObject.getDate(),
+            dayOfWeekAsString(dateObject.getDay()),
+            monthsAsString(dateObject.getMonth()),
+            dateObject.getFullYear()).style.visibility = "hidden"
+            }
+            count += 1
+        }
+        createCalendarDay(dateObject.getDate(),
         dayOfWeekAsString(dateObject.getDay()),
         monthsAsString(dateObject.getMonth()),
         dateObject.getFullYear());
 
-    dateObject.setDate(dateObject.getDate() + 1);
-
-    while (dateObject.getDate() != 1) {
-        createCalendarDay(dateObject.getDate(),
-            dayOfWeekAsString(dateObject.getDay()),
-            monthsAsString(dateObject.getMonth()),
-            dateObject.getFullYear());
         dateObject.setDate(dateObject.getDate() + 1);
+        count += 1;
     }
+
+
+    //
+    //
+    // while (dateObject.getDate() != 1) {
+    //     createCalendarDay(dateObject.getDate(),
+    //         dayOfWeekAsString(dateObject.getDay()),
+    //         monthsAsString(dateObject.getMonth()),
+    //         dateObject.getFullYear());
+    //     dateObject.setDate(dateObject.getDate() + 1);
+    // }
+
+
 
     // Set the text to the correct month
     var currentMonthText = document.getElementById("current-month");
@@ -278,6 +340,7 @@ function createMonth(monday, next) {
     var current_day = getCurrentDay();
     //document.getElementById(current_day).className = "calendar-day today";
 }
+
 
 
 function getCurrentDay() {
@@ -323,39 +386,6 @@ function popup(e) {
         }
     }
 }
-
-// Functions used to create secure POST requests.
-
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-var csrftoken = getCookie('csrftoken');
-
-function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
-});
-
 
 
 
