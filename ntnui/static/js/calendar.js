@@ -280,7 +280,7 @@ function createMonth(monday, next) {
             }
             if(date.getDay() == 2) {
             count += 5;
-            createCalendarDay(dateObject.getDate(),
+            createCalendarDay("hei", dateObject.getDate(),
             dayOfWeekAsString(dateObject.getDay()),
             monthsAsString(dateObject.getMonth()),
             dateObject.getFullYear()).style.visibility = "hidden"
