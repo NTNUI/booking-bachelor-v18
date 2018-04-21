@@ -244,6 +244,10 @@ function timeDifference(start, end) {
 
 var g = []
 
+function daysInMonth (month, year) {
+    return new Date(year, month, 0).getDate();
+}
+
 // Creates and populates all of the days to make up the month
 function createMonth(monday, next) {
     days_in_month = []
@@ -262,7 +266,8 @@ function createMonth(monday, next) {
     var d;
     var count = 0;
     console.log(date);
-    for(d=0; d < 36; d++) {
+    var length = daysInMonth(date.getMonth()+1, date.getFullYear())
+    for(d=0; d < length; d++) {
 
         while(count < 6) {
             count += 0;
