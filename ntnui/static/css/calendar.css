@@ -19,16 +19,15 @@
 /* Controls and month header */
 #control-box {
     display: flex;
-    align-items: center;
     justify-content: space-between;
     text-align: center;
 }
 .label {
-    box-shadow: 0 2px 4px rgba(50, 50, 93, 0.2);
     background-color: #fff;
     padding: 20px;
     line-height: 2px;
     font-weight: bold;
+    font-size: 20px;
 }
 #previous {
     box-shadow: 0 2px 4px rgba(50, 50, 93, 0.2);
