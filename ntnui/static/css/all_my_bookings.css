@@ -176,7 +176,7 @@ form {
 
 /* Responsive design */
 /* Makes booking container bigger on smaller devices */
-@media only screen and (max-width: 580px){
+@media only screen and (max-width: 650px){
     .booking-container {
         width: 90%
     }
@@ -214,6 +214,16 @@ form {
     }
     .my-booking-box{
         width: 100%;
+    }
+}
+@media only screen and (max-width: 1050px){
+    .booking-container {
+        width: 80%
+    }
+    .my-bookings,.group-bookings, .all-bookings, form {
+        width: 100%;
+        margin: 0px auto;
+        padding: 0.8rem;
     }
 }
 @media only screen and (max-width: 1250px){
