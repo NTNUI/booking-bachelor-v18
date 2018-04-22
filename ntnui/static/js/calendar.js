@@ -107,7 +107,6 @@ function populate() {
             }
             else if (loc.checked === false){
                 $("#" + date_format + " h1").text("12 hours free");
-                console.log("else if")
             }
         }
     }
@@ -221,6 +220,17 @@ function createCalendarDay(num, day, mon, year, available) {
         availability.innerHTML = "12 hours free";
         availability.style.color = "green";
     }
+
+    //console.log(parseInt(getTime(date_map.get(start_date)[0])));
+
+    //if(12 - parseInt(getTime(date_map.get(start_date)[0])) > 6){
+    //    availability.style.color = "green";
+    //}else if(12 - parseInt(getTime(date_map.get(start_date)[0])) > 2){
+    //    availability.style.color = "yellow";
+    //}else{
+    //    availability.style.color = "red";
+    //}
+
     newDay.className = "calendar-day";
     newDay.title = "Click to book";
     // Set ID of element as date formatted "8-January" etc
