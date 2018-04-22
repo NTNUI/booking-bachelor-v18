@@ -21,11 +21,12 @@
 }
 
 .form-control {
-    display:flex;
+    display: flex;
 }
 form {
     display: grid;
 }
+
 #schedule-table {
     font-size:50%;
     width:25%;
@@ -80,6 +81,7 @@ h4.modal-title  {
 #booking-cards-con {
     display: flex;
     justify-content: center;
+    align-content: flex-start;
 }
 
 #booking-cards {
