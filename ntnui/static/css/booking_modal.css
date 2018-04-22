@@ -97,16 +97,10 @@
 }
 
 /* Make modal wider and text smaller on smaller devices */
-@media only screen and (max-width: 1125px) {
-    .booking-modal-contents {
-        width: 80%;
-    }
-    .col-8, h6, p, select, input, .form-control{
-        font-size: 90%;
-    }
-}
-
 @media only screen and (max-width: 480px) {
+    #booking-cards-con {
+        padding-left: 2%;
+    }
     .booking-modal-contents {
         width: 90%;
     }
@@ -115,16 +109,30 @@
         display: block;
         font-size: 20px;
     }
+    .card-title {
+        font-size: 17px;
+    }
     #close {
         padding: 3px 7px 3px 7px;
         font-size: 12px;
     }
 }
 
-
 @media only screen and (max-width: 900px) {
     .col-8 {
         max-width: 100%;
         flex: 100%;
+    }
+}
+
+@media only screen and (max-width: 1125px) {
+    .booking-modal-contents {
+        width: 80%;
+    }
+    .col-8, h6, p, select, input, .form-control{
+        font-size: 90%;
+    }
+    #booking-cards-con {
+        margin-right: 7%;
     }
 }
