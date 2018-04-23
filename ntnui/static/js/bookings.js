@@ -8,7 +8,7 @@ $(function () {
             dataType: 'json',
             beforeSend: function () {
                 $("#booking-modal .booking-modal-contents").html("");
-                $('#booking-modal').fadeTo(100, 0.5, function() {
+                $('#booking-modal').fadeTo(100, function() {
                     $(this).css("display", "inline-block");
                 }).fadeTo(300, 1);
             },
