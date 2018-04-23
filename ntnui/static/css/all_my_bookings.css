@@ -243,6 +243,24 @@ form {
 
 }
 
+button.btn.col.js-update-booking:hover {
+    background: #b4afaf54;
+}
+
+button.btn.col.js-update-booking {
+    border: 1px solid #8080803b;
+    background: #d3d3d32b;
+}
+
+button#filter-button {
+    border: 1px solid #8080803b;
+    background: #d3d3d32b;
+}
+
+button#filter-button:hover {
+    background: #b4afaf54;
+}
+
 
 
 
