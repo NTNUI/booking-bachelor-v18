@@ -1,13 +1,14 @@
 // Globally head date object for the month shown.
 var date = new Date();
-date.setDate(1);
+var currentMonth;
 
 // Global list to store bookings. This list will be used to populate the calendar with data.
 var global_list = [];
 // Ajax setting to set caching to false.
 $.ajaxSetup ({
-        cache: false
+    cache: false
 });
+
 // Global variabel which is used to store the date for each popup.
 var tempDay;
 
@@ -44,44 +45,95 @@ function promiseTest() {
 
 // Function used to resolve promise object. When object is resolved, call createMonth and push data to global_list.
 var promised = promiseTest();
-function promise() {
+var promise = function () {
 promised.done(function() {
     promised.then( function() {
             createMonth();
-            global_list.push(promised.responseJSON)
+            global_list.push(promised.responseJSON);
+            currentMonth = document.getElementById("current-month");
             }
         )
     })
 }
-
+//temporary cheat
+// var win = window.open('http://www.google.com');
+// console.log(window.location)
+// window.onbeforeunload = function(){populate()}
+var getTime = function(time){
+    // console.log("gettime : " +time)
+    var timeArray = time.split(":");
+    var hours = parseInt(timeArray[0]);
+    var minutes = parseInt(timeArray[1]);
+    return new Array(hours, minutes)
+}
 // Function used to populate the calendar with bookings from the database.
 function populate() {
-    //promiseTest();
-    for (i = 0; i < global_list[0].length; i++) {
-        var day = global_list[0][i].start;
-        var date_format = day.slice(0, 10);
-        var location = global_list[0][i].location__name;
-        //$("#" + date_format + " h1").text("2/12");
-    }
-}
 
-function checkFilter() {
-    for (i = 0; i < global_list[0].length; i++) {
+    var date_map = new Map();
 
+    for (i = 0; i < global_list[0].length; i++) {
+        var qNo = global_list[0][i].queueNo;
         var loc = global_list[0][i].location__name;
         loc = document.getElementById(loc);
+        var location = global_list[0][i].location__name;
         var day = global_list[0][i].start;
         var date_format = day.slice(0, 10);
-        var location = global_list[0][i].location__name;
-        if (loc.value === location && loc.checked === true) {
-            $("#" + date_format + " h1").text(location);
+        if (qNo == 0){
+            if(loc.value === location && loc.checked === true){
+
+                var start_datetime = day.split("T");
+                var start_date = start_datetime[0];
+                var start_time = start_datetime[1].replace("Z", "");
+
+                var end_datetime = global_list[0][i].end.split("T");
+                var end_time = end_datetime[1].replace("Z", "");
+                //find difference between end and start
+                var start_array = getTime(start_time);
+                var end_array = getTime(end_time);
+                var diff_hour = end_array[0]-start_array[0];
+                var diff_min = end_array[1]-start_array[1];
+                if (date_map.has(start_date) && loc.value === location && loc.checked === true){
+                    //add current hours to prior hours
+                    sum_array = getTime(date_map.get(start_date));
+                    var hours = diff_hour + sum_array[0];
+                    var min = diff_min + sum_array[1];
+                    date_map.set(start_date, ""+hours+":"+min);
+                }
+                else if(loc.value === location && loc.checked === true) {
+                    date_map.set(start_date, ""+diff_hour+":"+diff_min)
+                }
+
+                $("#" + date_format + " h1").text(""+ (12 - parseInt(getTime(date_map.get(start_date)[0])))+" hours free");
+            }
+            else if (loc.checked === false){
+                $("#" + date_format + " h1").text("12 hours free");
+            }
         }
-        else if (loc.checked === false){
-            $("#" + date_format + " h1").text("12 hours free");
+    }
+
+}
+
+//Mutation Observer
+var targetNode = document.getElementById("calendar");
+var config = {attributes: true, subtree: true, characterData:true};
+//callback function to execute when mutations are observed
+var callback = function(mutationsList){
+    for (var mutation of mutationsList){
+        if (mutation.type = "childList"){
+            populate();
+        }
+        else if (mutation.type == 'attributes'){
+            console.log('The ' + mutation.attributeName + ' attribute was modified');
+        }
+        else if ( mutation.type == 'subtree'){
+            console.log("subtree")
         }
     }
 }
 
+var window = document.defaultView;
+var observer = new MutationObserver(callback);
+observer.observe(targetNode, config);
 // Event listener. Fires whenever the calendar changes.
 function HandleDOM_Change () {
     populate();
@@ -93,22 +145,28 @@ fireOnDomChange ('#calendar', HandleDOM_Change, 500);
 
 
 function fireOnDomChange (selector, actionFunction, delay) {
-    $(selector).bind ('DOMSubtreeModified', fireOnDelay);
 
-    function fireOnDelay () {
-        if (typeof this.Timer == "number") {
-            clearTimeout (this.Timer);
-        }
-        this.Timer  = setTimeout (  function() { fireActionFunction (); },
-                                    delay ? delay : 333
-                                 );
-    }
+    // observer.observe(targetNode, config);
 
-    function fireActionFunction () {
-        $(selector).unbind ('DOMSubtreeModified', fireOnDelay);
-        actionFunction ();
-        $(selector).bind ('DOMSubtreeModified', fireOnDelay);
-    }
+    // $(selector).on ('DOMSubtreeModified', fireOnDelay);
+
+    // function fireOnDelay () {
+    //     if (typeof this.Timer == "number") {
+    //         clearTimeout (this.Timer);
+    //     }
+    //     this.Timer  = setTimeout (  function() { fireActionFunction (); },
+    //                                 delay ? delay : 333
+    //                              );
+    // }
+
+    // function fireActionFunction () {
+    //     // observer.disconnect();
+
+    //     $(selector).off ('DOMSubtreeModified', fireOnDelay);
+
+    //     actionFunction ();
+    //     $(selector).on ('DOMSubtreeModified', fireOnDelay);
+    // }
 }
 
 // Converts day ids to the relevant string
@@ -156,12 +214,23 @@ function createCalendarDay(num, day, mon, year, available) {
 
     // Fills out empty days
     available = true;
-    date.innerHTML = num;
-    dayElement.innerHTML = ' ' + day;
-    if(available == true){
+    date.innerHTML = num + ".";
+    dayElement.innerHTML = " " + day;
+    if (available == true) {
         availability.innerHTML = "12 hours free";
         availability.style.color = "green";
     }
+
+    //console.log(parseInt(getTime(date_map.get(start_date)[0])));
+
+    //if(12 - parseInt(getTime(date_map.get(start_date)[0])) > 6){
+    //    availability.style.color = "green";
+    //}else if(12 - parseInt(getTime(date_map.get(start_date)[0])) > 2){
+    //    availability.style.color = "yellow";
+    //}else{
+    //    availability.style.color = "red";
+    //}
+
     newDay.className = "calendar-day";
     newDay.title = "Click to book";
     // Set ID of element as date formatted "8-January" etc
@@ -174,149 +243,175 @@ function createCalendarDay(num, day, mon, year, available) {
     currentCalendar.appendChild(newDay);
     var btn = document.getElementById(newDay.id);
     // call popup function and pass event.target.
-    btn.onclick = function(e) {
+    btn.onclick = function (e) {
         popup(this, e);
     }
 
     // Restricts days that cant be booked
-    if (newDay.id < getCurrentDay()){
+    if (newDay.id < getCurrentDay()) {
         newDay.className = "calendar-day restricted";
     }
-
+    return newDay
 }
 
 
 // Clears all days from the calendar
-function clearCalendar() {
-    var currentCalendar = document.getElementById("calendar");
-    currentCalendar.innerHTML = "";
+    function clearCalendar() {
+        var currentCalendar = document.getElementById("calendar");
+        currentCalendar.innerHTML = "";
 
-}
+    }
 
 // Clears the calendar and shows the next month
-function nextMonth() {
-    clearCalendar();
-    date.setMonth(date.getMonth() + 1);
-    createMonth(date.getMonth());
-}
+    function nextMonth() {
+        clearCalendar();
+        date.setMonth(date.getMonth() + 1);
+        createMonth(date.getMonth());
+    }
 
 // Clears the calendar and shows the previous month
-function previousMonth() {
-    clearCalendar();
-    date.setMonth(date.getMonth() - 1);
-    var val = date.getMonth();
-    createMonth(date.getMonth());
-}
+    function previousMonth() {
+        clearCalendar();
+        date.setMonth(date.getMonth() - 1);
+        var val = date.getMonth();
+        createMonth(date.getMonth());
+        return val
+    }
+
+    function daysInMonth(month, year) {
+        return new Date(year, month, 0).getDate();
+    }
 
 // Creates and populates all of the days to make up the month
-function createMonth() {
-    var dateObject = new Date();
-    dateObject.setDate(date.getDate());
-    dateObject.setMonth(date.getMonth());
-    dateObject.setYear(date.getFullYear());
+    function createMonth() {
+        date.setDate(1);
+        var dateObject = new Date();
+        dateObject.setDate(date.getDate());
+        dateObject.setMonth(date.getMonth());
+        dateObject.setYear(date.getFullYear());
+        var days;
+        var count = 0;
+        var length = daysInMonth(date.getMonth() + 1, date.getFullYear())
+        for (days = 0; days < length; days++) {
+            while (count < 6) {
+                count += 0;
+                if (date.getDay() == 0) {
+                    createCalendarDay("dummy", dateObject.getDate(),
+                        dayOfWeekAsString(dateObject.getDay()),
+                        monthsAsString(dateObject.getMonth()),
+                        dateObject.getFullYear()).style.visibility = "hidden";
+                }
+                if (date.getDay() == 2) {
+                    count += 5;
+                    createCalendarDay("dummy", dateObject.getDate(),
+                        dayOfWeekAsString(dateObject.getDay()),
+                        monthsAsString(dateObject.getMonth()),
+                        dateObject.getFullYear()).style.visibility = "hidden"
+                }
+                if (date.getDay() == 3) {
+                    count += 4;
+                    createCalendarDay("dummy", dateObject.getDate(),
+                        dayOfWeekAsString(dateObject.getDay()),
+                        monthsAsString(dateObject.getMonth()),
+                        dateObject.getFullYear()).style.visibility = "hidden"
+                }
+                if (date.getDay() == 4) {
+                    count += 1.2;
+                    createCalendarDay("dummy", dateObject.getDate(),
+                        dayOfWeekAsString(dateObject.getDay()),
+                        monthsAsString(dateObject.getMonth()),
+                        dateObject.getFullYear()).style.visibility = "hidden"
+                }
+                if (date.getDay() == 5) {
+                    count += 0.5;
+                    createCalendarDay("dummy", dateObject.getDate(),
+                        dayOfWeekAsString(dateObject.getDay()),
+                        monthsAsString(dateObject.getMonth()),
+                        dateObject.getFullYear()).style.visibility = "hidden"
+                }
+                if (date.getDay() == 6) {
+                    count += 0.2
+                    createCalendarDay("dummy", dateObject.getDate(),
+                        dayOfWeekAsString(dateObject.getDay()),
+                        monthsAsString(dateObject.getMonth()),
+                        dateObject.getFullYear()).style.visibility = "hidden"
+                }
+                count += 1
+            }
+            createCalendarDay(dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear());
 
-    createCalendarDay(dateObject.getDate(),
-        dayOfWeekAsString(dateObject.getDay()),
-        monthsAsString(dateObject.getMonth()),
-        dateObject.getFullYear());
-
-    dateObject.setDate(dateObject.getDate() + 1);
-
-    while (dateObject.getDate() != 1) {
-        createCalendarDay(dateObject.getDate(),
-            dayOfWeekAsString(dateObject.getDay()),
-            monthsAsString(dateObject.getMonth()),
-            dateObject.getFullYear());
-        dateObject.setDate(dateObject.getDate() + 1);
-    }
-
-    // Set the text to the correct month
-    var currentMonthText = document.getElementById("current-month");
-    currentMonthText.innerHTML = monthNames[date.getMonth()] + " " + date.getFullYear();
-
-    // Gives the current date a highligth
-    var current_day = getCurrentDay();
-    document.getElementById(current_day).className = "calendar-day today";
-}
-
-
-function getCurrentDay() {
-    var todaysDate = new Date();
-    var today = todaysDate.getDate();
-    // add 0 to single digit days
-    var today_formatted = minTwoDigits(today);
-    var currentMonth = todaysDate.getMonth();
-    var currentYear = todaysDate.getFullYear();
-    var currentMonthString = monthsAsString(currentMonth);
-    var current_day = (currentYear + "-" + currentMonthString + "-" + today_formatted).toString();
-    return current_day
-}
-
-
-function popup(e) {
-    $.ajax({
-      url: '/booking/bookings_list/create_calendar/',
-      type: 'get',
-      dataType: 'json',
-      beforeSend: function () {
-        $("#booking-modal .booking-modal-contents").html("");
-        $('#booking-modal').fadeTo(100, 0.5, function() {
-          $(this).css("display", "inline-block");
-        }).fadeTo(300, 1);
-      },
-      success: function (data) {
-        $("#booking-modal .booking-modal-contents").html(data.html_form);
-      }
-    });
-
-    //Set global tempDay variable to event that triggers the popup, ie the date.
-    this.tempDay = e;
-
-    var modal = document.getElementById('booking-modal');
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-    modal.style.display = "block";
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal || event.target == close) {
-            modal.style.display = "none";
-
+            dateObject.setDate(dateObject.getDate() + 1);
+            count += 1;
         }
+
+        // Set the text to the correct month
+        var currentMonthText = document.getElementById("current-month");
+        currentMonthText.innerHTML = monthNames[date.getMonth()] + " " + date.getFullYear();
+
+        // Gives the current date a highligth
+        var current_day = getCurrentDay();
+        document.getElementById(current_day).className = "calendar-day today";
     }
 
-}
 
-// Functions used to create secure POST requests.
+    function getCurrentDay() {
+        var todaysDate = new Date();
+        var today = todaysDate.getDate();
+        // add 0 to single digit days
+        var today_formatted = minTwoDigits(today);
+        var currentMonth = todaysDate.getMonth();
+        var currentYear = todaysDate.getFullYear();
+        var currentMonthString = monthsAsString(currentMonth);
+        var current_day = (currentYear + "-" + currentMonthString + "-" + today_formatted).toString();
+        return current_day
+    }
 
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
+
+    function popup(e) {
+
+        $.ajax({
+            url: '/booking/bookings_list/create_calendar/',
+            type: 'get',
+            dataType: 'json',
+            beforeSend: function () {
+                $("#booking-modal .booking-modal-contents").html("");
+                $('#booking-modal').fadeTo(100, 0.5, function () {
+                    $(this).css("display", "inline-block");
+                }).fadeTo(300, 1);
+            },
+            success: function (data) {
+                $("#booking-modal .booking-modal-contents").html(data.html_form);
+
+            }
+
+        });
+
+        //Set global tempDay variable to event that triggers the popup, ie the date.
+        this.tempDay = e;
+
+        var modal = document.getElementById('booking-modal');
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+        modal.style.display = "block";
+        // When the user clicks anywhere outside of the modal, close it
+
+        window.onclick = function (event) {
+
+            if (event.target == modal) {
+                modal.style.display = "none";
+
+            }
+            else if (event.target == close) {
+                console.log("closed!")
+                modal.style.display = "none"
+                //location.reload();
+
             }
         }
     }
-    return cookieValue;
-}
-
-var csrftoken = getCookie('csrftoken');
-
-function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
-});
 
 
 

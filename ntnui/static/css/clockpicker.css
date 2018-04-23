@@ -16,6 +16,7 @@
 .clockpicker-align-top.popover > .arrow {
 	top: 17px;
 }
+
 .clockpicker-align-right.popover > .arrow {
 	left: auto;
 	right: 25px;

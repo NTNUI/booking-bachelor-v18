@@ -1,34 +1,52 @@
 /* The Modal (background) */
 .modal-large {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    display: none;
+    position: fixed;
+    z-index: 1;
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
+    width: 100%;
+    height: 100%;
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    margin: 15% auto;
-    margin-top: 0;
 }
 
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
-    margin: 10% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 60%; /* Could be more or less, depending on screen size */
+    width: 60%;
 }
 
-.form-control {
-    display:flex;
+/* The Modal (background) */
+.modal-big {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-form {
-    display: grid;
+
+/* Modal Content/Box */
+.booking-modal-contents {
+    background-color: #fefefe;
+    margin: 1% auto!important;
+    padding: 10px;
+    border: 1px solid #888;
+    width: 60%;
 }
+
+#day-title {
+    margin: 0 auto;
+}
+
 #schedule-table {
     font-size:50%;
     width:25%;
@@ -38,56 +56,83 @@ form {
 }
 
 
-
-/* The Modal (background) */
-.modal-big {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    /* overflow: hidden; */
+/* Content container */
+#content-container {
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
 }
 
-/* Modal Content/Box */
-.booking-modal-contents {
-    background-color: #fefefe;
-    margin: 5% auto!important; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 60%; /* Could be more or less, depending on screen size */
-}
-
-.calendar-booking {
-    float: right;
-}
-
-h4.modal-title  {
-    margin: 0 auto;
+/* Booking fields */
+#booking-fields {
+    display: flex;
+    justify-content: center;
 }
 
 /* Cards for bookings */
-
-#card-container {
-
+#booking-cards-con {
+    display: flex;
+    justify-content: center;
 }
 
 #booking-cards {
-    height: 400px;
-    overflow-y: scroll;
-    padding-left: 10%;
-    margin-right: 20%;
+    max-height: 450px;
+    width: 100%;
+    overflow-y: auto;
+    padding-left: 11%;
 }
 
 .card {
-    margin-bottom: 5px;
+    margin: 5px 0px 5px 0px;
 }
 
 .card-title {
     text-align: center;
+}
+
+.empty {
+    text-align: center;
+    padding: 10%;
+    margin-left: -10%;
+}
+
+/* Make modal wider and text smaller on smaller devices */
+@media only screen and (max-width: 480px) {
+    #booking-cards-con {
+        padding-left: 2%;
+    }
+    .booking-modal-contents {
+        width: 90%;
+    }
+    #day-title  {
+        margin: 0 auto;
+        display: block;
+        font-size: 20px;
+    }
+    .card-title {
+        font-size: 17px;
+    }
+    #close {
+        padding: 3px 7px 3px 7px;
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .col-8 {
+        max-width: 100%;
+        flex: 100%;
+    }
+}
+
+@media only screen and (max-width: 1125px) {
+    .booking-modal-contents {
+        width: 80%;
+    }
+    .col-8, h6, p, select, input, .form-control{
+        font-size: 90%;
+    }
+    #booking-cards-con {
+        margin-right: 7%;
+    }
 }

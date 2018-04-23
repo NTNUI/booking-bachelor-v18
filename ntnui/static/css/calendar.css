@@ -1,23 +1,66 @@
 /*CCS for booking page and calendar */
 
 /* Container for the booking page */
+#booking-container {
+    height: auto;
+    width: 90%;
+    padding: 1% 0% 1.5% 0%;
+}
+
 #calendar-container {
-    height:92vh;
-    margin: 10px;
+    height: auto;
+    background: white;
+    box-shadow: 0 2px 4px rgba(50, 50, 93, 0.3);
+    display: flex;
+    flex-direction: column;
+    padding: 18px;
+}
+
+/* Controls and month header */
+#control-box {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+.label {
+    background-color: #fff;
+    padding: 20px;
+    line-height: 2px;
+    font-weight: bold;
+    font-size: 20px;
+}
+#previous {
+    box-shadow: 0 2px 4px rgba(50, 50, 93, 0.2);
+    cursor: pointer;
+    border: solid 1px #fff;
+}
+#next {
+    box-shadow: 0 2px 4px rgba(50, 50, 93, 0.2);
+    cursor: pointer;
+    border: solid 1px #fff;
+}
+#current-month {
+    cursor: default;
+}
+
+#previous:hover {
+    background: #f7f4f4;
+}
+#next:hover {
+    background: #f7f4f4;
 }
 
 /*Calendar days*/
-.calendar {
-    display: block;
-    width: 100%;
-    height: 100%;
+#calendar-box {
+    display: flex;
 }
 .calendar-day {
-    box-shadow: 0 2px 4px rgba(50, 50, 93, 0.2);
+    display: flex;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.2);
     background-color: #fff;
-    padding: 2px 8px;
-    width: 12%;
-    margin: 1%;
+    padding: 0px 15px 0px 15px;
+    width: 13.6%;
+    margin: 0.3%;
     text-align: center;
     display: inline-block;
     cursor: pointer;
@@ -29,42 +72,13 @@
 }
 .calendar-day h1{
     font-size: 100%;
-    margin-top: 10%;
-    padding-bottom: 40%;
+    padding: 5% 20% 15% 20%;
 }
 
 .calendar-day:hover {
     background: #eee;
 }
 
-/* Controls and month header */
-.controls {
-    display: block;
-    width: 98%;
-    text-align: center;
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-.label {
-    box-shadow: 0 2px 4px rgba(50, 50, 93, 0.2);
-    background-color: #fff;
-    padding: 20px;
-    line-height: 2px;
-    margin: 1%;
-    font-weight: bold;
-    text-align: center;
-    display: inline-block;
-    cursor: pointer;
-    border: solid 1px #fff;
-}
-.previous {
-    box-shadow: 0 2px 4px rgba(50, 50, 93, 0.2);
-    float: left;
-}
-.next {
-    box-shadow: 0 2px 4px rgba(50, 50, 93, 0.2);
-    float: right;
-}
 
 /*Highlights today*/
 .today {
@@ -78,104 +92,45 @@
     pointer-events: none;
 }
 
-
-/* The Modal (background) */
-.modal-large {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    margin: 15% auto;
-    margin-top: 0;
-}
-
-/* Modal Content/Box */
-.modal-content {
-    background-color: #fefefe;
-    margin: 10% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 60%; /* Could be more or less, depending on screen size */
-}
-
-.form-control {
-    display:flex;
-}
-form {
-    display: grid;
-}
-#scheduleTable {
-    font-size:50%;
-    width:25%;
-    display: flex;
-    justify-content: left;
-    margin-top:2%;
-}
-
-
-
-/* The Modal (background) */
-.modal-big {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    /* overflow: hidden; */
-}
-
-/* Modal Content/Box */
-.booking-modal-contents {
-    background-color: #fefefe;
-    margin: 5% auto!important; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 60%; /* Could be more or less, depending on screen size */
-}
-
-.calendar-booking {
-    float: right;
-}
-
-h4.modal-title  {
-    margin: 0 auto;
-}
-
 /* Responsive design */
-/* Make text smaller and removes "busy" sign on smaller devices */
-
-@media only screen and (max-width: 480px) {
+/* Make text smaller and removes "busy" sign and day name on smaller devices */
+@media only screen and (max-width: 750px) {
+    .calendar-day {
+        padding: 10px 10px 0px 10px;
+    }
     .calendar-day p {
-        font-size: 80%;
+        font-size: 90%;
+        line-height: 30%;
+        display: block;
+    }
+    .calendar-day h1{
+        font-size: 100%;
+        padding: 5% 15% 10% 15%;
+    }
+}
+@media only screen and (max-width: 550px) {
+    .calendar-day {
+        height: 15%;
+        padding:  6px 3px 0px 3px;
+        margin-bottom: 2px;
+    }
+    .calendar-day p {
+        font-size: 90%;
+        line-height: 50%;
+        display: block;
     }
 
     .calendar-day h1 {
         display: none;
     }
-}
-
-/* Make modal wider and text smaller on smaller devices */
-@media only screen and (max-width: 800px) {
-
-    h5, .calendar-booking, input, .form-control{
-        font-size: 90%;
+    .label {
+        padding: 10px;
+        font-size: 15px;
     }
-    .booking-modal-contents {
-        width: 85%;
-
-
-
+    #control-box {
+        display: flex;
+        align-items: center;
     }
 }
+
 

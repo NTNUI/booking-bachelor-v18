@@ -10,58 +10,51 @@
     <script src='http://malsup.github.com/jquery.form.js'></script>
 {% endblock %}
 
-
 {% block stylesheet %}
-  <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-
-
-{% block stylesheet %}
-  <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
-  <link rel="stylesheet" href="{% static 'css/all_my_bookings.css' %}">
+    <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all_my_bookings.css' %}">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 {% endblock %}
 
 {% block content %}
     <div class="booking-container">
-    <h1 id="my-bookings-header">
-        All bookings
-    </h1>
-    <div class="my-booking-box">
-        <p class="my-bookings-header-2">Filter all bookings</p>
-        <form method='get'>
-            <table class='table borderless'  id='filter-table'>
-                <tr>
-                    <td>Location: {{ filter.form.location }}</td>
-                    <td>Person: {{ filter.form.person }}</td>
-                    <td>Title: {{ filter.form.title }}</td>
-                    <td>Start time: {{ filter.form.start }}</td>
-                </tr>
-            </table>
+        <h1 id="my-bookings-header">
+            Manage bookings
+        </h1>
+        <div class="my-booking-box">
+            <p class="my-bookings-header-2">Manage all bookings</p>
+            <form method='get'>
+                <table class='table borderless'>
+                    <tr>
+                        <td>Location: {{ filter.form.location }}</td>
+                        <td>Person: {{ filter.form.person }}</td>
+                        <td>Title: {{ filter.form.title }}</td>
+                        <td>Start time: {{ filter.form.start }}</td>
+                    </tr>
+                </table>
+            </form>
             <button class="btn" id='filter-button' type='submit'>Filter</button>
-        </form>
 
-        <div class='replace'>
-            <table class='table borderless' id='booking-table'>
-                {% include 'booking/includes/partial_booking_all.html' %}
-            </table>
+                <div class="all-bookings">
+                    <div class='replace'>
+                        {% include 'booking/includes/partial_booking_all.html' %}
+                    </div>
+                    <p>
+                        <button type='button' id="create-booking"class='btn btn-success col js-create-booking' data-url='{% url 'booking_create' %}'>
+                            <span class='glyphicon glyphicon-plus'></span>
+                            Create a new booking
+                        </button>
+                    </p>
+                </div>
         </div>
-        <p>
-            <button type='button' class='btn btn-success js-create-booking' data-url='{% url 'booking_create' %}'>
-                <span class='glyphicon glyphicon-plus'></span>
-                Create a new booking
-            </button>
-        </p>
-    </div>
-</div>
 
-<div id='booking-modal' class='modal-big'>
-    <div id='modal-booking'>
-        <div class='booking-modal-contents'>
+        <div id='booking-modal' class='modal-big'>
+            <div id='modal-booking'>
+                <div class='booking-modal-contents'>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-
 {% endblock content %}
 
 {% block script %}

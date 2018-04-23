@@ -1,9 +1,9 @@
 /* Styling for filter-box*/
-#filtering{
-    margin: 10px;
-    padding: 15px;
+#filtering-container{
     background: white;
     box-shadow: 0 2px 4px rgba(50, 50, 93, 0.3);
+    height: inherit;
+    padding: 8%;
 }
 
 .filter-header{
@@ -48,4 +48,12 @@ select {
 /*Search button */
 #search-button {
     bottom: 20px;
+}
+
+/*Responsive design*/
+/*Make filter text smaller on smaller devices*/
+@media only screen and (max-width: 800px) {
+    .col-lg-3{
+        font-size: 90%;
+    }
 }

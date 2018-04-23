@@ -6,8 +6,12 @@ from .models import Booking, Location
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from .forms import BookingForm
+
+from django.contrib import messages
+from datetime import time
 from groups.models import SportsGroup
 from groups.models import Membership
+from django.utils import timezone
 
 @login_required
 def index(request):
@@ -16,16 +20,45 @@ def index(request):
     return render(request, 'booking/booking.html', {
         'locations': locations})
 
+
 def api(request, **kwargs):
     model = Booking
-    bookings = model.objects.all().values('title', 'description', 'start', 'end', 'location__name', 'person__first_name')
+    bookings = model.objects.all().values('title', 'description', 'start', 'end', 'location__name', 'person__first_name', 'queueNo')
     booking_list = list(bookings)
     return JsonResponse(booking_list, safe=False)
+
+def api2(request, **kwargs):
+    #DEPRECATED
+    b = Booking.objects.all()#.values('title', 'description', 'start', 'end', 'location__name'     )
+    hours = Booking.objects.raw('SELECT id, start, end FROM booking_Booking WHERE queueNo = 0')
+    b2 = Booking.objects.raw('SELECT id, start, end FROM booking_Booking WHERE SUBSTR(start, 1, 10) = "2018-05-05"')
+    print("HELLO")
+    dates = {}
+    for b in hours:
+        date = b.start
+        d = b.end-b.start
+        date_key = str(date.year)+str(date.month)+str(date.month)
+        if date_key in dates.keys():
+            dates[date_key]+= d
+        else:
+            dates[date_key]=d
+    #convert to rounded integer
+    for k in dates.keys():
+        s = dates[k].total_seconds()
+        h = s//3600
+        m = (s-h)//60
+        if m > 30:
+            dates[k] = h
+        else:
+            dates[k] = h+1
+    b2_list = list(b2)
+    hours_list = [(i, j) for i, j in zip(dates.keys(), dates.values())]
+    return JsonResponse(hours_list+b2_list, safe=False)
 
 class BookingList(ListView):
     model = Booking
 
-    def all(request):
+    def all(self, request):
         locations = []
         bookings = []
         for location in list(Location.objects.filter()):
@@ -39,13 +72,16 @@ class BookingList(ListView):
 @login_required
 def booking_all(request):
     book = []
+    now = timezone.now()
     for booking in list(Booking.objects.filter()):
         book.append(booking)
-    bookings = Booking.objects.all()
+
+    bookings = Booking.objects.all().filter(start__gte=now).order_by('start')
     booking_filter = AdminFilter(request.GET, queryset=bookings)
     return render(request, 'booking/booking_all.html', {
         'filter': booking_filter,
-        'bookings': book})
+        'bookings': book
+    })
 
 def get_my_groups(request):
     user = request.user
@@ -73,19 +109,29 @@ def booking_list(request):
     model = Booking
     bookings = model.objects.all()
     user = request.user
-    my_bookings_list = Booking.objects.filter(person=user)
+    now = timezone.now()
+    my_bookings_list = get_my_bookings(request)
     my_groups = get_my_groups(request)
     my_group_bookings_list = []
     group_list = Booking.objects.none()
     for group in my_groups:
-        booking = Booking.objects.filter(group=group).exclude(person=user)
+        booking = Booking.objects.filter(group=group).exclude(person=user).filter(start__gte=now).order_by('start')
         group_list = booking | group_list
         my_group_bookings_list.append(booking)
 
     return render(request, 'booking/bookings_list.html', {
         'my_bookings_list': my_bookings_list,
         'my_group_bookings_list': group_list,
-        'bookings': bookings})
+        'bookings': bookings
+    })
+
+def get_my_bookings(request):
+    model = Booking
+    bookings = model.objects.all()
+    user = request.user
+    now = timezone.now()
+    my_bookings_list = Booking.objects.filter(person=user).filter(start__gte=now).order_by('start')
+    return my_bookings_list
 
 def save_booking_form(request, form, template_name):
     data = dict()
@@ -93,9 +139,10 @@ def save_booking_form(request, form, template_name):
         if form.is_valid():
             form.save()
             data['form_is_valid'] = True
-            bookings = Booking.objects.all()
+            my_bookings = get_my_bookings(request)
+
             data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
-                'bookings': bookings
+                'my_bookings_list': my_bookings
             })
         else:
             data['form_is_valid'] = False
@@ -154,9 +201,9 @@ def booking_delete(request, pk):
     if request.method == 'POST':
         book.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
-        bookings = Booking.objects.all()
+        bookings = get_my_bookings(request)
         data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
-            'bookings': bookings
+            'my_bookings_list': bookings
         })
         (new_booking, updated, deleted, overwritten, queued) = mails
         print(deleted)

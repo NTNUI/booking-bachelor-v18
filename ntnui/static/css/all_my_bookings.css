@@ -1,9 +1,9 @@
-/*CSS for my bookings page*/
+/*CSS for my bookings and all bookings page*/
 
 .booking-container {
     width: 60%;
 }
-.borderless td{
+.borderless td {
     border:none;
 }
 
@@ -13,18 +13,18 @@
     text-transform: uppercase;
     color: green;
     font-size: 1.5rem;
-    max-width: 80%;
+    /*max-width: 80%;*/
     max-width: 50%;
     display: inline-block;
 }
 
 .my-bookings-header-2 {
     margin: 1rem;
+    text-align: center;
     font-size: 1.6rem;
 }
 
 .my-booking-box {
-    padding: 2rem 2rem;
     background-color: white;
     box-shadow: 0 2px 4px rgba(50, 50, 93, 0.1);
     border: solid 1px #dfdfdf;
@@ -32,8 +32,16 @@
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+    margin-right: 0px auto;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-right: 0px auto;
+    width: 100%;
 }
 
 .booking-item {
@@ -55,10 +63,60 @@
     border-top: 2px solid black;
 }
 
+#id_location, #id_person, #id_title, #id_start {
+    width: 100%;
+}
+
+/* Containers for list of bookings */
+.all-bookings {
+    width: 60%;
+    margin: 1rem auto;
+    word-break: break-word;
+    padding: 1rem;
+}
+
+.my-bookings {
+    width: 100%;
+    margin: 0rem auto;
+    padding: 1rem 3rem 3rem 3rem;
+}
+
+.group-bookings {
+    width: 100%;
+    margin: 0rem auto;
+    padding: 1rem 3rem 3rem 3rem;
+}
+
+/* All bookings specific design */
+/* Create button on all bookings*/
+#create-booking {
+    width: 100%;
+    margin: 0px auto;
+}
+
+/* Filters on all booking */
+form {
+    width: 80%;
+    margin: 0px auto;
+}
+
+
 #filter-button {
     width: 40%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
-/* Delete and edit modal*/
+
+.replace{
+    width: 100%;
+    alignment: center;
+    display: inline-block;
+    word-break: break-word;
+}
+
+
+/* Delete, edit and modal*/
 /* The Modal (background) */
 .modal-big {
     display: none; /* Hidden by default */
@@ -80,6 +138,11 @@
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     width: 60%; /* Could be more or less, depending on screen size */
+}
+
+.modal-body {
+    width: 60%;
+    margin: 0px auto;
 }
 
 
@@ -110,10 +173,76 @@
     display: table;
 }
 
+
 /* Responsive design */
 /* Makes booking container bigger on smaller devices */
-@media only screen and (max-width: 580px){
+@media only screen and (max-width: 650px){
     .booking-container {
-            width: 85%
+        width: 90%
+    }
+    .my-bookings,.group-bookings, .all-bookings, form {
+        width: 100%;
+        margin: 0px auto;
+        padding: 0.8rem;
+    }
+    .flex-container {
+        flex-direction: column;
+    }
+    td{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 85%;
+    }
+    #filter-button{
+        width: 47%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+
+    #table-title{
+        font-size: 90%;
+        word-wrap: break-word;
+
+    }
+    .flex-container, form{
+        align-self: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .my-booking-box{
+        width: 100%;
     }
 }
+@media only screen and (max-width: 1050px){
+    .booking-container {
+        width: 80%
+    }
+    .my-bookings,.group-bookings, .all-bookings, form {
+        width: 100%;
+        margin: 0px auto;
+        padding: 0.8rem;
+    }
+}
+@media only screen and (max-width: 1250px){
+
+    td, .table-title{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 85%;
+    }
+    #filter-button{
+        width: 47%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+}
+
+
+
+
