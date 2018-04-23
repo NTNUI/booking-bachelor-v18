@@ -43,7 +43,7 @@
     width: 60%;
 }
 
-#day-title {
+#day-title, .modal-title{
     margin: 0 auto;
 }
 
@@ -54,7 +54,6 @@
     justify-content: left;
     margin-top:2%;
 }
-
 
 /* Content container */
 #content-container {
