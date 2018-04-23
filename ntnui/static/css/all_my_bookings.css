@@ -96,7 +96,6 @@
 
 /* Filters on all booking */
 form {
-    width: 80%;
     margin: 0px auto;
 }
 
@@ -134,14 +133,12 @@ form {
 
 /* Modal Content/Box */
 .booking-modal-contents {
-    background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     width: 60%; /* Could be more or less, depending on screen size */
 }
 
 .modal-body {
-    width: 60%;
     margin: 0px auto;
 }
 
@@ -171,6 +168,30 @@ form {
     content: "";
     clear: both;
     display: table;
+}
+
+
+/* Buttons */
+button.btn.col.js-update-booking:hover {
+    background: #b4afaf54;
+}
+
+button.btn.col.js-update-booking {
+    border: 1px solid #8080803b;
+    background: #d3d3d32b;
+}
+
+button#filter-button {
+    border: 1px solid #8080803b;
+    background: #d3d3d32b;
+}
+
+button#filter-button:hover {
+    background: #b4afaf54;
+}
+
+button#close {
+    background: #00800000;
 }
 
 
@@ -242,25 +263,4 @@ form {
     }
 
 }
-
-button.btn.col.js-update-booking:hover {
-    background: #b4afaf54;
-}
-
-button.btn.col.js-update-booking {
-    border: 1px solid #8080803b;
-    background: #d3d3d32b;
-}
-
-button#filter-button {
-    border: 1px solid #8080803b;
-    background: #d3d3d32b;
-}
-
-button#filter-button:hover {
-    background: #b4afaf54;
-}
-
-
-
 
