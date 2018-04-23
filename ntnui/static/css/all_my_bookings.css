@@ -82,6 +82,10 @@
     width: 100%;
 }
 
+.group-width {
+    width: 60%;
+}
+
 #filter-button {
     width: 100%;
     padding: .75rem;

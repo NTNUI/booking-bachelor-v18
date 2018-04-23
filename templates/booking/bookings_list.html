@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
-
+{% load tags %}
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
     <link rel="stylesheet" href="{% static 'css/all_my_bookings.css' %}">
@@ -15,21 +15,27 @@
     </h1>
     <div class="my-booking-box">
         <div class="flex-container">
-            <div class="my-bookings">
-                <p class="my-bookings-header-2">My bookings</p>
-                <div class="replace">
-                    <table class="table borderless" id="booking-table">
-                        {% include 'booking/includes/partial_booking_list.html' %}
-                    </table>
+            {% if user.is_authenticated %}
+                {% user_in_hs user as user_in_hs %}
+                {% if user_in_hs %}
+                <div class="my-bookings">
+                    <p class="my-bookings-header-2">My bookings</p>
+                    <div class="replace">
+                        <table class="table borderless" id="booking-table">
+                            {% include 'booking/includes/partial_booking_list.html' %}
+                        </table>
+                    </div>
+                    <p>
+                        <button type="button" class="btn btn-success col js-create-booking" data-url="{% url 'booking_create' %}">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Create a new booking
+                        </button>
+                    </p>
                 </div>
-                <p>
-                    <button type="button" class="btn btn-success col js-create-booking" data-url="{% url 'booking_create' %}">
-                        <span class="glyphicon glyphicon-plus"></span>
-                        Create a new booking
-                    </button>
-                </p>
-            </div>
-            <div class="group-bookings">
+                {% endif %}
+            {% endif %}
+
+            <div class="group-bookings {% if user.is_authenticated and not user_in_hs %} group-width {% endif %}">
                 <p class="my-bookings-header-2">Group bookings</p>
                 <div class="replace">
                     <table class="table borderless" id="booking-table">
