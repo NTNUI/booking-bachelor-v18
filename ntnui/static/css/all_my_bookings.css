@@ -140,7 +140,8 @@ form {
 
 .modal-body {
     margin: 0px auto;
-    padding: 0% 15% 0% 15%;
+    padding-left: 15%;
+    padding-right: 15%;
 }
 
 
