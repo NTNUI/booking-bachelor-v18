@@ -6,6 +6,7 @@ from .models import Booking, Location
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from .forms import BookingForm
+from django.contrib.auth.decorators import user_passes_test
 
 from django.contrib import messages
 from datetime import time
@@ -69,7 +70,7 @@ class BookingList(ListView):
             'locations': locations,
             'bookings': bookings, })
 
-@login_required
+@user_passes_test(lambda u: u.is_superuser)
 def booking_all(request):
     book = []
     now = timezone.now()
