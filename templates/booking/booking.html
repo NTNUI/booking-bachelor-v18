@@ -34,9 +34,9 @@
                     <div class="filter-header">Locations</div>
                     <div class="tb aBlock">
                         {% for location in locations %}
-                            <input type="checkbox" class="large-checkbox" id="{{ location }}" value="{{ location }}">
+                            <input type="checkbox" class="filter-labels large-checkbox" id="{{ location }}" value="{{ location }}">
 
-                            <label for="{{ location }}">{{ location }}</label>
+                            <label class="filter-labels" for="{{ location }}">{{ location }}</label>
                             <p></p>
                         {% endfor %}
                     </div>

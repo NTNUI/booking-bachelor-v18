@@ -17,6 +17,10 @@
     height: 15px;
 }
 
+.filter-labels {
+    cursor: pointer;
+}
+
 /* Collapse and expand filters menu */
 .tb {
     margin:10px 0;
