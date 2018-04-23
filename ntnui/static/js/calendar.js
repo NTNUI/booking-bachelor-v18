@@ -1,6 +1,5 @@
 // Globally head date object for the month shown.
 var date = new Date();
-console.log(date)
 date.setDate(1);
 
 // Global list to store bookings. This list will be used to populate the calendar with data.
