@@ -1,6 +1,6 @@
 {#form used for creating new bookings#}
 
-<form method="post" id="createform" class="js-booking-create-form" onmouseover="checkStartTime()">
+<form onsubmit="return validateTime()" method="post" id="createform" class="js-booking-create-form" onmouseover="checkStartTime()" >
     {% csrf_token %}
     <div class="modal-header">
         <h4 id="day-title"></h4>
