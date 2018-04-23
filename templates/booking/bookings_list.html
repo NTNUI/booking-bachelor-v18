@@ -17,7 +17,7 @@
         <div class="flex-container">
             {% if user.is_authenticated %}
                 {% user_in_hs user as user_in_hs %}
-                {% if user_in_hs %}
+                {% if user_in_hs or request.user.is_superuser %}
                 <div class="my-bookings">
                     <p class="my-bookings-header-2">My bookings</p>
                     <div class="replace">
