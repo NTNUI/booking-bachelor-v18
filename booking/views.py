@@ -186,16 +186,6 @@ def booking_create_from_calendar(request):
         form = BookingForm(user, initial={'person': request.user})
     return save_booking_form(request, form, 'booking/includes/partial_booking_create_calendar.html')
 
-def booking_filter(request):
-    if request.method == 'POST':
-        user = request.user
-        form = BookingForm(user, request.POST)
-    else:
-        user = request.user
-        form = BookingForm(user, initial={'person': request.user})
-    return save_booking_form(request, form, 'booking/includes/partial_booking_filter.html')
-
-
 def booking_update(request, pk):
     mails = confirmation_mail(request, pk)
     book = get_object_or_404(Booking, pk=pk)

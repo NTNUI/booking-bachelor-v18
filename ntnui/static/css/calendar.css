@@ -13,6 +13,11 @@
     padding: 1.5%;
     display: flex;
     flex-direction: column;
+    pointer-events: none;
+    user-select: none;
+    -webkit-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
 }
 
 /* Controls and month header */

@@ -12,7 +12,6 @@ urlpatterns = [
     url(r'^bookings_list/$', views.booking_list, name='booking_list'),
     url(r'^bookings_list/create/$', views.booking_create, name='booking_create'),
     url(r'^bookings_list/create_calendar/$', views.booking_create_from_calendar, name='booking_create_calendar'),
-    url(r'^bookings_list/booking_filter/$', views.booking_filter, name='booking_filter'),
     url(r'^books/(?P<pk>\d+)/update/$', views.booking_update, name='booking_update'),
     url(r'^books/(?P<pk>\d+)/delete/$', views.booking_delete, name='booking_delete'),
 ]
