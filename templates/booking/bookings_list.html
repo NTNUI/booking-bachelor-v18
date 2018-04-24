@@ -15,9 +15,11 @@
         </h1>
         <div class="my-booking-box">
             <div class="flex-container">
-                <div>
+                <div class="my-bookings">
                     <p class="my-bookings-header-2">My bookings</p>
-                    {% include 'booking/includes/partial_booking_list.html' %}
+                    <div class="replace">
+                        {% include 'booking/includes/partial_booking_list.html' %}
+                    </div>
                     <p>
                         <button type="button" class="btn btn-success col js-create-booking" data-url="{% url 'booking_create' %}">
                             <span class="glyphicon glyphicon-plus"></span>
@@ -25,17 +27,19 @@
                         </button>
                     </p>
                 </div>
-                <div>
+                <div class="group-bookings">
                     <p class="my-bookings-header-2">Group bookings</p>
-                    {% include 'booking/includes/partial_groupbooking_list.html' %}
+                    <div class="replace">
+                        {% include 'booking/includes/partial_groupbooking_list.html' %}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div id="booking-modal" class="modal-big">
-        <div id="modal-booking">
-            <div class="booking-modal-contents">
+        <div id="booking-modal" class="modal-big">
+            <div id="modal-booking">
+                <div class="booking-modal-contents">
+                </div>
             </div>
         </div>
     </div>
