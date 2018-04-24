@@ -66,7 +66,18 @@ var getTime = function(time){
     var minutes = parseInt(timeArray[1]);
     return new Array(hours, minutes)
 }
+// Removes the calendar blur when filter is used
+$('#search-button').click(function () {
+      $('#calendar-container').css({
+          'pointer-events': 'all',
+          '-webkit-filter': 'blur(0px)',
+          '-ms-filter': 'blur(0px)',
+          'filter': 'blur(0px)',
+      })
+   });
+
 // Function used to populate the calendar with bookings from the database.
+
 function populate() {
 
     var date_map = new Map();
@@ -402,6 +413,7 @@ function createCalendarDay(num, day, mon, year, available) {
 
             if (event.target == modal) {
                 modal.style.display = "none";
+
 
             }
             else if (event.target == close) {

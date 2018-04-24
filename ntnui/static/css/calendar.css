@@ -13,7 +13,13 @@
     box-shadow: 0 2px 4px rgba(50, 50, 93, 0.3);
     display: flex;
     flex-direction: column;
+    pointer-events: none;
+    user-select: none;
+    -webkit-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
     padding: 18px;
+
 }
 
 /* Controls and month header */
