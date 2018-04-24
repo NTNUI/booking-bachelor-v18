@@ -99,6 +99,9 @@ form {
     margin: 0px auto;
 }
 
+#filter-form {
+    width: 80%;
+}
 
 #filter-button {
     width: 40%;
@@ -112,36 +115,6 @@ form {
     alignment: center;
     display: inline-block;
     word-break: break-word;
-}
-
-
-/* Delete, edit and modal*/
-/* The Modal (background) */
-.modal-big {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    /* overflow: hidden; */
-}
-
-/* Modal Content/Box */
-.booking-modal-contents {
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    width: 60%; /* Could be more or less, depending on screen size */
-}
-
-.modal-body {
-    margin: 0px auto;
-    padding-left: 15%;
-    padding-right: 15%;
 }
 
 
