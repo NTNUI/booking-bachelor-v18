@@ -56,6 +56,12 @@ def api2(request, **kwargs):
     hours_list = [(i, j) for i, j in zip(dates.keys(), dates.values())]
     return JsonResponse(hours_list+b2_list, safe=False)
 
+def locationApi(request, **kwargs):
+    model = Location
+    locations = model.objects.all().values('name', 'address', 'description', 'type')
+    location_list = list(locations)
+    return JsonResponse(location_list, safe=False)
+
 class BookingList(ListView):
     model = Booking
 
@@ -180,7 +186,6 @@ def booking_create_from_calendar(request):
         user = request.user
         form = BookingForm(user, initial={'person': request.user})
     return save_booking_form(request, form, 'booking/includes/partial_booking_create_calendar.html')
-
 
 def booking_update(request, pk):
     mails = confirmation_mail(request, pk)

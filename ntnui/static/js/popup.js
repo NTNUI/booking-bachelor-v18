@@ -1,29 +1,32 @@
-function validateTime(busyHours){
+function validateTime(){
     var errorMsg = document.getElementById("timeErrorMsg");
     var startTime = document.getElementById("startInput").value;
     var endTime = document.getElementById("endInput").value;
     var arrStart = startTime.split(':'), hourStart = arrStart[0], minStart = arrStart[1];
     var arrEnd = endTime.split(':'), hourEnd = arrEnd[0], minEnd = arrEnd[1];
     if((hourEnd < hourStart) || (hourEnd == hourStart && minStart > minEnd)){
-        errorMsg.innerHTML = "End can't be before start";
-        errorMsg.style.display = "block";
+        alert("End can't be before start");
+        //errorMsg.style.display = "block";
         return false;
-    }if(hourEnd-hourStart == 0 && (minEnd - minStart)<30){
-        errorMsg.innerHTML == "The appointment must be atleast 30 minutes";
-        errorMsg.style.display = "block";
+    }if(hourEnd==hourStart && (minEnd - minStart)<30){
+        alert('Minimum 30 minutes')
+        //errorMsg.innerHTML == "The appointment must be atleast 30 minutes";
+        //errorMsg.style.display = "block";
         return false;
     }if((hourEnd-hourStart)>3){
-        errorMsg.innerHTML = "Maximum 3 hours";
-        errorMsg.style.display = "block";
+        alert('Maximum 3 hours');
+        //errorMsg.innerHTML = "Maximum 3 hours";
+        //errorMsg.style.display = "block";
         return false;
     }
-    if(busyHours.contains(startHour) || busyHours.contains(hourEnd)){
-        errorMsg.innerHTML = "That hour is busy";
-        errorMsg.style.display = "block";
-        return false;
-    }
+    //if(busyHours.contains(startHour) || busyHours.contains(hourEnd)){
+    //    alert('That hour is busy');
+    //    //errorMsg.innerHTML = "That hour is busy";
+    //    //errorMsg.style.display = "block";
+    //    return false;
+    //}
     else{
-        errorMsg.style.display = "none";
+        //errorMsg.style.display = "none";
         return true;
     }
 }
@@ -31,14 +34,23 @@ function resetClock(){
     console.log("test");
     var clockTicks = document.getElementsByClassName('clockpicker-tick');
     var endTime = document.getElementById('endInput');
+    console.log(clockTicks.length);
     for(var i=0;i<clockTicks.length; i++){
-        if((clockTicks[i].innerHTML > 10 && clockTicks[i].innerHTML < 23 || clockTicks.innerHTML == '00') && i<(+clockTicks.length - 4)){
-            clockTicks[i].style.color = "black";
-            clockTicks[i].style.pointerEvents = "auto";
-            endTime.value = 'Choose end time';
-            endTime.disabled = true;
+        if(clockTicks.length == 28)
+            if(clockTicks[i].innerHTML > 10 && clockTicks[i].innerHTML < 23 || (clockTicks[i].innerHTML == '00' && i>(+clockTicks.length - 4))){
+                clockTicks[i].style.color = "black";
+                clockTicks[i].style.pointerEvents = "auto";
+                endTime.value = 'Choose end time';
+                endTime.disabled = true;
+            }
+        if(clockTicks.length == 56){
+            if(clockTicks[i].innerHTML > 10 && clockTicks[i].innerHTML < 23 || (clockTicks[i].innerHTML == '00' && i>(+clockTicks.length - 36   ))){
+                clockTicks[i].style.color = "black";
+                clockTicks[i].style.pointerEvents = "auto";
+                endTime.value = 'Choose end time';
+                endTime.disabled = true;
+            }
         }
-
     }
 }
 

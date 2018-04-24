@@ -6,6 +6,10 @@
     padding: 8%;
 }
 
+#filter-bookings {
+    width: 60%;
+}
+
 .filter-header{
     font-weight: bold;
     font-size: 17px;
@@ -15,6 +19,10 @@
 .large-checkbox {
     width: 15px;
     height: 15px;
+}
+
+.filter-cursors{
+    cursor: pointer;
 }
 
 /* Collapse and expand filters menu */

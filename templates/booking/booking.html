@@ -17,10 +17,10 @@
     <div class="container" id="booking-container">
 
         <!-- The modal -->
-        <div id="booking-modal" class="modal-big">
+        <div id="booking-modal" class="modal-big" data-backdrop="static" data-keyboard="false">
 
             <!-- Modal content -->
-            <div class="booking-modal-contents">
+            <div class="booking-modal-contents" data-backdrop="static" data-keyboard="false">
 
             </div>
         </div>
@@ -34,19 +34,18 @@
                     <div class="filter-header">Locations</div>
                     <div class="tb aBlock">
                         {% for location in locations %}
-                            <input type="checkbox" class="large-checkbox" id="{{ location }}" value="{{ location }}">
-
-                            <label for="{{ location }}">{{ location }}</label>
+                            <input type="radio" class="radio-inline" name="opradio" id="{{ location }}" value="{{ location }}">
+                            <label class="filter-cursors" for="{{ location }}">{{ location }}</label>
                             <p></p>
                         {% endfor %}
                     </div>
                     <hr>
 
                     <div class="filter-header">Time durations</div>
-                    <div id="time-select">
-                        <select class="custom-select mb-3">
+                    <div class="filter-cursors" id="time-select">
+                        <select class="filter-cursors custom-select mb-3">
                             <option selected>30 min</option>
-                            <option value="1">60 min</option>
+                            <option class="filter-cursors" value="1">60 min</option>
                             <option value="2">90 min</option>
                             <option value="3">120 min</option>
                             <option value="3">180 min</option>

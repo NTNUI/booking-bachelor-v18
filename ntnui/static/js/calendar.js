@@ -66,7 +66,18 @@ var getTime = function(time){
     var minutes = parseInt(timeArray[1]);
     return new Array(hours, minutes)
 }
+// Removes the calendar blur when filter is used
+$('#search-button').click(function () {
+      $('#calendar-container').css({
+          'pointer-events': 'all',
+          '-webkit-filter': 'blur(0px)',
+          '-ms-filter': 'blur(0px)',
+          'filter': 'blur(0px)',
+      })
+   });
+
 // Function used to populate the calendar with bookings from the database.
+
 function populate() {
 
     var date_map = new Map();
@@ -107,7 +118,6 @@ function populate() {
             }
             else if (loc.checked === false){
                 $("#" + date_format + " h1").text("12 hours free");
-                console.log("else if")
             }
         }
     }
@@ -221,6 +231,17 @@ function createCalendarDay(num, day, mon, year, available) {
         availability.innerHTML = "12 hours free";
         availability.style.color = "green";
     }
+
+    //console.log(parseInt(getTime(date_map.get(start_date)[0])));
+
+    //if(12 - parseInt(getTime(date_map.get(start_date)[0])) > 6){
+    //    availability.style.color = "green";
+    //}else if(12 - parseInt(getTime(date_map.get(start_date)[0])) > 2){
+    //    availability.style.color = "yellow";
+    //}else{
+    //    availability.style.color = "red";
+    //}
+
     newDay.className = "calendar-day";
     newDay.title = "Click to book";
     // Set ID of element as date formatted "8-January" etc
@@ -368,7 +389,7 @@ function createCalendarDay(num, day, mon, year, available) {
             dataType: 'json',
             beforeSend: function () {
                 $("#booking-modal .booking-modal-contents").html("");
-                $('#booking-modal').fadeTo(100, 0.5, function () {
+                $('#booking-modal').fadeTo(100, function () {
                     $(this).css("display", "inline-block");
                 }).fadeTo(300, 1);
             },
@@ -392,6 +413,7 @@ function createCalendarDay(num, day, mon, year, available) {
 
             if (event.target == modal) {
                 modal.style.display = "none";
+
 
             }
             else if (event.target == close) {
