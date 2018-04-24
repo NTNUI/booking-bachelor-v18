@@ -11,8 +11,7 @@
 }
 
 .filter-header{
-    font-weight: bold;
-    font-size: 17px;
+    font-size: 20px;
     margin-bottom: 10px;
 }
 
@@ -74,7 +73,7 @@
 
 /*Dropdown filter */
 .type-header {
-    font-size: 120%;
+    font-size: 110%;
     display: inline;
 }
 .arrow {
@@ -88,7 +87,7 @@
     outline: none;
 }
 
-#filter-type {
+.filter-type {
     display: none;
     margin-top: 3%;
     margin-left: 5%;
