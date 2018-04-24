@@ -11,10 +11,14 @@ class BookingForm(forms.ModelForm):
         super(BookingForm, self).__init__(*args, **kwargs)
         member_objects = Membership.objects.filter(person=user).values_list('group', flat=True)
         my_groups = []
+        admin_groups = tuple(SportsGroup.objects.all().values_list('name', 'name'))
         for choices, choice_id in enumerate(member_objects):
             sport_objects = SportsGroup.objects.get(id=str(choice_id)).name
             my_groups.append((sport_objects, sport_objects))
-        choices = tuple(my_groups)
+        if user.is_superuser:
+            choices = admin_groups
+        else:
+            choices = tuple(my_groups)
         self.fields['group'] = forms.ChoiceField(
             choices=blank_choice + choices, required=False)
         self.fields['title'].widget.attrs['class'] = 'form-control'

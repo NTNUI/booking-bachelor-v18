@@ -87,8 +87,10 @@
     padding: 1rem 3rem 3rem 3rem;
 }
 
-/* All bookings specific design */
-/* Create button on all bookings*/
+.group-width {
+    width: 60%;
+}
+
 #create-booking {
     width: 100%;
     margin: 0px auto;

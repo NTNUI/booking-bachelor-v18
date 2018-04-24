@@ -1,5 +1,4 @@
 {#list displaying bookings for user#}
-
 <table class="table borderless" id="person-booking-table">
     {% for booking in my_bookings_list %}
         <thead class='table-title'>
@@ -20,9 +19,6 @@
         <tr>
             <td><b>Time:</b> {{ booking.get_date.2 }} - {{ booking.get_date.3 }}</td>
         </tr>
-
-
-
         {% if booking.group %}
             <tr>
                 <td><b>Group:</b> {{ booking.group }}</td>
@@ -44,3 +40,4 @@
 
     {% endfor %}
 </table>
+
