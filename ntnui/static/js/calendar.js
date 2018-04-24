@@ -379,7 +379,7 @@ function createCalendarDay(num, day, mon, year, available) {
         document.getElementById(current_day).className = "calendar-day today";
     }
 
-
+//Get the current day
     function getCurrentDay() {
         var todaysDate = new Date();
         var today = todaysDate.getDate();
@@ -392,7 +392,7 @@ function createCalendarDay(num, day, mon, year, available) {
         return current_day
     }
 
-
+//Opens the modal with content */
     function popup(e) {
 
         $.ajax({
@@ -437,6 +437,12 @@ function createCalendarDay(num, day, mon, year, available) {
         }
     }
 
-
+// Dropdown for filtering
+    document.getElementById("dropdown").onclick = function(){
+        var toggle = document.getElementById('filter-type');
+        toggle.style.display = toggle.style.display == "block" ? "none" : "block";
+        var toggleArrow = document.getElementById("dropdown");
+        toggleArrow.classList.toggle("down");
+    };
 
 

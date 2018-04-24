@@ -72,6 +72,39 @@
     transform: scale(1);
 }
 
+/*Dropdown filter */
+.type-header {
+    font-size: 120%;
+    display: inline;
+}
+.arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 5px;
+    margin-top: 1.8%;
+    margin-left: 1%;
+    cursor: pointer;
+    outline: none;
+}
+
+#filter-type {
+    display: none;
+    margin-top: 3%;
+    margin-left: 5%;
+}
+
+.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    margin-left: 5%;
+}
+
 /* Collapse and expand filters menu */
 .tb {
     margin:10px 0;

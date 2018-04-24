@@ -33,13 +33,22 @@
                 <div id="filtering-container" >
                     <div class="filter-header">Locations</div>
                     <div class="tb aBlock">
-                        {% for location in locations %}
-                            <div class="radio">
-                                <input type="radio" onclick="populate()" class="radio-inline" name="opradio" id="{{ location }}" value="{{ location }}">
-                                <label class="filter-cursors" onchange="populate()" for="{{ location }}">{{ location }}</label>
-                                <p></p>
+                        <div>
+                            <p class="type-header">Gym</p>
+                            <span id="dropdown" class="arrow right"></span>
+
+                            <div id="filter-type">
+                                {% for location in locations %}
+                                    {% if location.type == 'gym ' %}
+                                        <div class="radio" style="display:block">
+                                            <input type="radio" onclick="populate()" class="radio-inline" name="opradio" id="{{ location }}" value="{{ location }}">
+                                            <label class="filter-cursors" onchange="populate()" for="{{ location }}">{{ location }}</label>
+                                            <p></p>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
                             </div>
-                        {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
