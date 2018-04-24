@@ -56,6 +56,10 @@
     padding-right: 15%;
 }
 
+.full {
+    padding: 0%;
+}
+
 .modal-footer {
     background: white;
 }
