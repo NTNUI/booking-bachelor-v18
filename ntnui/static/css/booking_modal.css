@@ -36,15 +36,28 @@
 
 /* Modal Content/Box */
 .booking-modal-contents {
-    background-color: #fefefe;
-    margin: 1% auto!important;
-    padding: 10px;
-    border: 1px solid #888;
+    margin: auto;
+    padding: 20px;
     width: 60%;
 }
 
-#day-title {
+#day-title, .modal-title{
     margin: 0 auto;
+}
+
+.modal-header {
+    background: white;
+}
+
+.modal-body {
+    margin: 0px auto;
+    background: white;
+    padding-left: 15%;
+    padding-right: 15%;
+}
+
+.modal-footer {
+    background: white;
 }
 
 #schedule-table {
@@ -54,7 +67,6 @@
     justify-content: left;
     margin-top:2%;
 }
-
 
 /* Content container */
 #content-container {
