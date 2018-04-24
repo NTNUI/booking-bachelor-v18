@@ -76,6 +76,18 @@ $('#search-button').click(function () {
       })
    });
 
+// Removes the calendar blur when filter is used
+$('.filter-cursors').click(function () {
+        populate()
+        $('#calendar-container').css({
+          'pointer-events': 'all',
+          '-webkit-filter': 'blur(0px)',
+          '-ms-filter': 'blur(0px)',
+          'filter': 'blur(0px)',
+      })
+
+   });
+
 // Function used to populate the calendar with bookings from the database.
 
 function populate() {
