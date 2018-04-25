@@ -15,6 +15,7 @@ var tempDay;
 // Load promise object when site is loaded.
 window.onload = function() {
     promise();
+    triggerFilterAlert();
 }
 
 // Allows us to navigate through months with the arrow keys
@@ -69,25 +70,24 @@ var getTime = function(time){
 }
 // Removes the calendar blur when filter is used
 $('#search-button').click(function () {
-      $('#calendar-container').css({
-          'pointer-events': 'all',
-          '-webkit-filter': 'blur(0px)',
-          '-ms-filter': 'blur(0px)',
-          'filter': 'blur(0px)',
-      })
-   });
+    $('#calendar-container').css({
+        'pointer-events': 'all',
+        '-webkit-filter': 'blur(0px)',
+        '-ms-filter': 'blur(0px)',
+        'filter': 'blur(0px)',
+    })
+});
 
 // Removes the calendar blur when filter is used
 $('.filter-cursors').click(function () {
-        populate()
-        $('#calendar-container').css({
-          'pointer-events': 'all',
-          '-webkit-filter': 'blur(0px)',
-          '-ms-filter': 'blur(0px)',
-          'filter': 'blur(0px)',
-      })
-
-   });
+    populate()
+    $('#calendar-container').css({
+        'pointer-events': 'all',
+        '-webkit-filter': 'blur(0px)',
+        '-ms-filter': 'blur(0px)',
+        'filter': 'blur(0px)',
+    })
+});
 
 // Function used to populate the calendar with bookings from the database.
 
@@ -449,13 +449,21 @@ function dropdownFilters(event){
 
 // Alerts
 function triggerFilterAlert(){
-    $(".alert-warning").alert();
-    //$(".alert-warning").slideDown(2000);
+    $(".alert-warning").slideDown(1000);
+    document.getElementById("filter-alert").style.display = "block";
+    $('.filter-cursors').click(function () {
+         $(".alert-warning").slideUp(1000);
+    });
 }
 
 function triggerSuccessAlert(){
-    $(".alert-success").slideDown(2000);
-    document.getElementById("booking-success").style.display = "block";
+    setTimeout(function () {
+        $(".alert-success").slideDown(1000);
+        document.getElementById("booking-success").style.display = "block";
+        setTimeout(function () {
+            $(".alert-success").slideUp(1000);
+        }, 5000);
+    }, 800);
 }
 
 

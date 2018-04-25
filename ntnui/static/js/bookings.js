@@ -14,7 +14,7 @@ $(function () {
             },
             success: function (data) {
                 $("#booking-modal .booking-modal-contents").html(data.html_form);
-            }
+            },
         });
     };
 
@@ -39,6 +39,10 @@ $(function () {
                 else {
                     $("#booking-modal .booking-modal-contents").html(data.html_form);
                 }
+            },
+            complete: function() {
+                console.log("save");
+                //triggerSuccessAlert();
             }
         });
         return false;
