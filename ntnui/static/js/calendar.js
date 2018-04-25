@@ -76,6 +76,18 @@ $('#search-button').click(function () {
       })
    });
 
+// Removes the calendar blur when filter is used
+$('.filter-cursors').click(function () {
+        populate()
+        $('#calendar-container').css({
+          'pointer-events': 'all',
+          '-webkit-filter': 'blur(0px)',
+          '-ms-filter': 'blur(0px)',
+          'filter': 'blur(0px)',
+      })
+
+   });
+
 // Function used to populate the calendar with bookings from the database.
 
 function populate() {
@@ -367,7 +379,7 @@ function createCalendarDay(num, day, mon, year, available) {
         document.getElementById(current_day).className = "calendar-day today";
     }
 
-
+//Get the current day
     function getCurrentDay() {
         var todaysDate = new Date();
         var today = todaysDate.getDate();
@@ -380,7 +392,7 @@ function createCalendarDay(num, day, mon, year, available) {
         return current_day
     }
 
-
+//Opens the modal with content */
     function popup(e) {
 
         $.ajax({
@@ -425,6 +437,13 @@ function createCalendarDay(num, day, mon, year, available) {
         }
     }
 
-
+// Dropdown for filtering
+    function dropdownFilters(event){
+        var toggleArrow = document.getElementById(event.target.id);
+        toggleArrow.classList.toggle("down");
+        var typeId = toggleArrow.nextSibling.nextSibling.id;
+        var toggleType = document.getElementById(typeId);
+        toggleType.style.display = toggleType.style.display == "block" ? "none" : "block";
+    };
 
 
