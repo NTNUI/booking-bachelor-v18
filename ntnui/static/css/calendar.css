@@ -100,6 +100,30 @@ button#close {
     background: #00800000;
 }
 
+/* Alerts */
+.booking-alert {
+    /*display: none;*/
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    z-index: 1;
+}
+.alert-success {
+    display: none;
+    bottom: 0px !important;
+    margin-bottom: 5%;
+    padding: 20px;
+}
+
+.alert-warning {
+    display: none;
+    top: 0px !important;
+    margin-top: 7%;
+}
+
 /* Responsive design */
 /* Make text smaller and removes "busy" sign and day name on smaller devices */
 @media only screen and (max-width: 750px) {
