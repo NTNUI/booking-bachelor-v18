@@ -445,12 +445,5 @@ function createCalendarDay(num, day, mon, year, available) {
         var toggleType = document.getElementById(typeId);
         toggleType.style.display = toggleType.style.display == "block" ? "none" : "block";
     };
-/*
-    document.getElementById("dropdown").onclick = function(){
-        var toggle = document.getElementById('filter-type');
-        toggle.style.display = toggle.style.display == "block" ? "none" : "block";
-        var toggleArrow = document.getElementById("dropdown");
-        toggleArrow.classList.toggle("down");
-    };*/
 
 
