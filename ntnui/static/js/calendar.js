@@ -51,6 +51,7 @@ promised.done(function() {
             createMonth();
             global_list.push(promised.responseJSON);
             currentMonth = document.getElementById("current-month");
+            console.log(global_list)
             }
         )
     })
