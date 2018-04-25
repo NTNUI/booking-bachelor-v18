@@ -51,7 +51,6 @@ promised.done(function() {
             createMonth();
             global_list.push(promised.responseJSON);
             currentMonth = document.getElementById("current-month");
-            console.log(global_list)
             }
         )
     })
@@ -89,10 +88,11 @@ $('.filter-cursors').click(function () {
 
    });
 
+
+
 // Function used to populate the calendar with bookings from the database.
 
 function populate() {
-
     var date_map = new Map();
 
     for (i = 0; i < global_list[0].length; i++) {
@@ -443,8 +443,15 @@ function createCalendarDay(num, day, mon, year, available) {
         var toggleArrow = document.getElementById(event.target.id);
         toggleArrow.classList.toggle("down");
         var typeId = toggleArrow.nextSibling.nextSibling.id;
+        console.log(typeId)
         var toggleType = document.getElementById(typeId);
         toggleType.style.display = toggleType.style.display == "block" ? "none" : "block";
     };
+
+    function getLocation(event) {
+        populate();
+        var location = event.target.id
+        return location;
+    }
 
 
