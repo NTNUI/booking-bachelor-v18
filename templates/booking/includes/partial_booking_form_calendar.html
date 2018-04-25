@@ -81,32 +81,44 @@
                     var modal = document.getElementById('booking-modal');
                     var date_format = tempDay.id.slice(0, 10);
                     modal.style.display = "none";
-                    }
+                    },
+                complete: function(data) {
+                    var promised = promiseTest();
+                    promised.done(function() {
+                        promised.then( function() {
+                        global_list = []
+                        global_list.push(promised.responseJSON);
+                                })
+                            })
+                        }
+                    })
                 })
-            })
-        });
-
+            });
         $.ajax({
             method: "GET",
             url: '/booking/api',
+            beforeSend: function(){
+                var promised = promiseTest();
+                    promised.done(function() {
+                        promised.then( function() {
+                            global_list = []
+                            global_list.push(promised.responseJSON);
+                    })
+                })
+            },
             success: function(data) {
                 var list_of_bookings = []
                 $.each(data, function(i, item) {
                     var date = data[i].start;
-                    console.log(newDate);
                     var date_format = date.slice(0, 10);
                     var start = date.slice(11, 16);
                     var newDate = start.replace(":", "");
 
                     var loc = global_list[0][i].location__name;
                     loc = document.getElementById(loc);
-                    console.log("loc: " + loc.checked + " value: " + loc.value);
-                    console.log("Location: " + data[i].location__name);
-
                     var loc = global_list[0][i].location__name;
                     loc = document.getElementById(loc);
                     if(tempDay.id === date_format && data[i].location__name === loc.value && loc.checked === true) {
-                        console.log("okay")
                         booking = []
                         booking.push(newDate, start, data[i].end, data[i].title, data[i].person__first_name);
                         list_of_bookings.push(booking)
@@ -136,7 +148,6 @@
                         name.className = "card-subtitle mb-2 text-muted";
                         var b_name = list_of_bookings[I][4]
                         name.innerHTML = b_name;
-
                         div3.appendChild(date);
                         div3.appendChild(title);
                         div3.appendChild(name);
