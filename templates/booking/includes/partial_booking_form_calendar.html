@@ -65,35 +65,36 @@
 {% block script %}
     <script>
         $(document).ready(function(){
-        var $myForm = $('#createform')
-        $myForm.submit(function(event){
-            event.preventDefault()
-            // append start date to post request
-            var start_time = document.getElementById("startInput").value;
-            var end_time = document.getElementById("endInput").value;
-            var $form_data = $(this).serialize()+"&start="+tempDay.id.toString() + " " + start_time + "&end="+tempDay.id.toString() + " " + end_time;
-            $.ajax({
-                method: "POST",
-                url: '/booking/bookings_list/create_calendar/',
-                data: $form_data,
-                // close popup on success
-                success: function() {
-                    var modal = document.getElementById('booking-modal');
-                    var date_format = tempDay.id.slice(0, 10);
-                    modal.style.display = "none";
+            var $myForm = $('#createform')
+            $myForm.submit(function(event){
+                event.preventDefault()
+                // append start date to post request
+                var start_time = document.getElementById("startInput").value;
+                var end_time = document.getElementById("endInput").value;
+                var $form_data = $(this).serialize()+"&start="+tempDay.id.toString() + " " + start_time + "&end="+tempDay.id.toString() + " " + end_time;
+                $.ajax({
+                    method: "POST",
+                    url: '/booking/bookings_list/create_calendar/',
+                    data: $form_data,
+                    // close popup on success
+                    success: function() {
+                        var modal = document.getElementById('booking-modal');
+                        var date_format = tempDay.id.slice(0, 10);
+                        modal.style.display = "none";
                     },
-                complete: function(data) {
-                    var promised = promiseTest();
-                    promised.done(function() {
-                        promised.then( function() {
-                        global_list = []
-                        global_list.push(promised.responseJSON);
-                                })
+                    complete: function() {
+                        var promised = promiseTest();
+                        promised.done(function() {
+                            promised.then( function() {
+                                global_list = []
+                                global_list.push(promised.responseJSON);
                             })
-                        }
-                    })
+                        })
+                        triggerSuccessAlert();
+                    }
                 })
-            });
+            })
+        });
         $.ajax({
             method: "GET",
             url: '/booking/api',

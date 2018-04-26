@@ -15,13 +15,11 @@
 {% block content %}
 
     <div class="container" id="booking-container">
-
-        <!-- The modal -->
-        <div id="booking-modal" class="modal-big" data-backdrop="static" data-keyboard="false">
-
-            <!-- Modal content -->
-            <div class="booking-modal-contents" data-backdrop="static" data-keyboard="false">
-
+        <!-- Modal container -->
+        <div id="booking-modal" class="modal-big">
+            <div id="modal-booking">
+                <div class="booking-modal-contents">
+                </div>
             </div>
         </div>
         
@@ -35,7 +33,7 @@
                     <div class="tb aBlock">
                         <div>
                             <p class="type-header">Gym</p>
-                            <div id="dropdown1" class="arrow right" onclick="dropdownFilters(event)"></div>
+                            <div id="dropdown1" class="filter-arrow right" onclick="dropdownFilters(event)"></div>
                             <div id="filter-type1" class="filter-type">
                                 {% for location in locations %}
                                     {% if location.type == 'gym ' %}
@@ -50,7 +48,7 @@
                         </div>
                         <div>
                             <p class="type-header">Football Field</p>
-                            <div id="dropdown2" class="arrow right" onclick="dropdownFilters(event)"></div>
+                            <div id="dropdown2" class="filter-arrow right" onclick="dropdownFilters(event)"></div>
                             <div id="filter-type2" class="filter-type">
                                 {% for location in locations %}
                                     {% if location.type == 'football field' %}
@@ -65,7 +63,7 @@
                         </div>
                         <div>
                             <p class="type-header">Volleyball Grounds</p>
-                            <div id="dropdown3" class="arrow right" onclick="dropdownFilters(event)"></div>
+                            <div id="dropdown3" class="filter-arrow right" onclick="dropdownFilters(event)"></div>
                             <div id="filter-type3" class="filter-type">
                                 {% for location in locations %}
                                     {% if location.type == 'volleyball grounds' %}
@@ -98,6 +96,19 @@
                         <div id="calendar"></div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Alerts-->
+            <div class="alert booking-alert alert-success" id="booking-success" role="alert">
+                <!-- Alert content -->
+                <strong id="alert-head">Congratzis!</strong>
+                <div id="alert-text">You have created a booking.</div>
+            </div>
+
+            <div class="alert booking-alert alert-warning" id="filter-alert" role="alert">
+                <!-- Alert content -->
+                <strong id="alert-head">Hey!</strong>
+                <div id="alert-text">You need to filter on location before seeing the calendar.</div>
             </div>
 
         </div>

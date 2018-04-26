@@ -1,5 +1,5 @@
-$(function () {
 
+$(function () {
     var loadForm = function () {
         var btn = $(this);
         $.ajax({
@@ -14,7 +14,7 @@ $(function () {
             },
             success: function (data) {
                 $("#booking-modal .booking-modal-contents").html(data.html_form);
-            }
+            },
         });
     };
 
@@ -39,6 +39,9 @@ $(function () {
                 else {
                     $("#booking-modal .booking-modal-contents").html(data.html_form);
                 }
+            },
+            complete: function() {
+                triggerSuccessAlert();
             }
         });
         return false;
@@ -68,6 +71,17 @@ window.onclick = function(event) {
     if (event.target == modal || event.target == modal2 || event.target == close ) {
         $("#booking-modal").css("display", "none");
     }
+}
+
+// Alerts
+function triggerSuccessAlert(){
+    setTimeout(function () {
+        $(".alert-success").slideDown(1000);
+        document.getElementById("booking-success").style.display = "block";
+        setTimeout(function () {
+            $(".alert-success").slideUp(1000);
+        }, 5000);
+    }, 600);
 }
 
 
