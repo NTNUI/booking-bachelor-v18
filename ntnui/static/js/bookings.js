@@ -1,5 +1,5 @@
-$(function () {
 
+$(function () {
     var loadForm = function () {
         var btn = $(this);
         $.ajax({
@@ -41,8 +41,7 @@ $(function () {
                 }
             },
             complete: function() {
-                console.log("save");
-                //triggerSuccessAlert();
+                triggerSuccessAlert();
             }
         });
         return false;
@@ -72,6 +71,17 @@ window.onclick = function(event) {
     if (event.target == modal || event.target == modal2 || event.target == close ) {
         $("#booking-modal").css("display", "none");
     }
+}
+
+// Alerts
+function triggerSuccessAlert(){
+    setTimeout(function () {
+        $(".alert-success").slideDown(1000);
+        document.getElementById("booking-success").style.display = "block";
+        setTimeout(function () {
+            $(".alert-success").slideUp(1000);
+        }, 5000);
+    }, 800);
 }
 
 
