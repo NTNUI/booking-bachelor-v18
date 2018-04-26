@@ -81,7 +81,7 @@ function triggerSuccessAlert(){
         setTimeout(function () {
             $(".alert-success").slideUp(1000);
         }, 5000);
-    }, 800);
+    }, 600);
 }
 
 
