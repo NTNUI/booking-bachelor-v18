@@ -448,9 +448,12 @@ function createCalendarDay(num, day, mon, year, available) {
         toggleType.style.display = toggleType.style.display == "block" ? "none" : "block";
     };
 
+    var currentLocation;
+
     function getLocation(event) {
         populate();
-        this.currentLocation = event.target.parentElement.parentElement.id
-        console.log(this.currentLocation)
+        var s = event.target.getAttribute('data-id');
+        this.currentLocation = s;
+        console.log(this.currentLocation);
     }
 

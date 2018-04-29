@@ -100,6 +100,11 @@ button#close {
     background: #00800000;
 }
 
+/* Capitalize first letter of word in filterbox */
+p.type-header {
+    text-transform: capitalize;
+}
+
 /* Responsive design */
 /* Make text smaller and removes "busy" sign and day name on smaller devices */
 @media only screen and (max-width: 750px) {

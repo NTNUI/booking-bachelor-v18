@@ -41,8 +41,8 @@
                                 {% for location in locations %}
                                     {% if location.type == type.0 %}
                                         <div class="radio" style="display:block">
-                                            <input type="radio" onclick="getLocation(event)" class="radio-inline" name="opradio" id="{{ location }}" value="{{ location }}">
-                                            <label class="filter-cursors" onchange="populate()" for="{{ location }}">{{ location }}</label>
+                                            <input type="radio" class="radio-inline" name="opradio" id="{{ location }}" value="{{ location }}">
+                                            <label class="filter-cursors" data-id="{{ forloop.counter }}" onchange="populate()" for="{{ location }}">{{ location }}</label>
                                             <p></p>
                                         </div>
                                     {% endif %}
