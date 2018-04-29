@@ -1,0 +1,23 @@
+{#form used for creating new bookings#}
+
+<form onsubmit="return validateTime()" method="post" id="createform" class="js-booking-create-form" onmouseover="checkStartTime()" >
+    {% csrf_token %}
+    <div class="modal-header">
+        <h4 id="day-title"></h4>
+        <button title="Close" type="button" id="close" class="btn" data-dismiss="modal">X</button>
+    </div>
+    <div class="modal-body full">
+        {% include 'booking/includes/partial_booking_form_calendar.html' %}
+    </div>
+    <div class="modal-footer">
+        <button title="Click to create booking" type="submit" class="btn btn-success">Create booking</button>
+    </div>
+</form>
+
+<script>
+    var close = document.getElementById('close');
+    var formattedDate = new Date(tempDay.id.substring(0,4), +tempDay.id.substring(5,7)-1, tempDay.id.substring(8,10));
+    document.getElementById('day-title').innerHTML = dayOfWeekAsString(formattedDate.getDay())+' '+formattedDate.getDate()+
+    '. '+monthNames[formattedDate.getMonth()]+' '+formattedDate.getFullYear();
+    document.getElementById('weekly').innerHTML = 'Repeat every '+dayOfWeekAsString(formattedDate.getDay());
+</script>
