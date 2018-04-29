@@ -42,9 +42,8 @@
                         <td>Start time: {{ filter.form.start }}</td>
                     </tr>
                 </table>
+                <button class="btn" id='filter-button' type='submit'>Filter</button>
             </form>
-            <button class="btn" id='filter-button' type='submit'>Filter</button>
-
             <div class="all-bookings">
                 <div class='replace'>
                     {% include 'booking/includes/partial_booking_all.html' %}
