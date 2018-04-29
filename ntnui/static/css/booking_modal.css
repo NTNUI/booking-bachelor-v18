@@ -82,6 +82,15 @@
 #booking-fields {
     display: flex;
     justify-content: center;
+    font-weight: 100;
+}
+
+h5 {
+    font-size: 17px;
+}
+
+.form-padding {
+    margin-top: 20px;
 }
 
 /* Cards for bookings */
@@ -91,7 +100,7 @@
 }
 
 #booking-cards {
-    max-height: 490px;
+    max-height: 600px;
     width: 100%;
     overflow-y: auto;
     padding-left: 11%;
