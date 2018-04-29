@@ -77,8 +77,8 @@ $('#search-button').click(function () {
    });
 
 // Removes the calendar blur when filter is used
-$('.filter-cursors').click(function () {
-        populate()
+$('.filter-cursors').click(function (event) {
+        getLocation(event)
         $('#calendar-container').css({
           'pointer-events': 'all',
           '-webkit-filter': 'blur(0px)',
@@ -438,7 +438,7 @@ function createCalendarDay(num, day, mon, year, available) {
         }
     }
 
-// Dropdown for filtering
+    // Dropdown for filtering
     function dropdownFilters(event){
         var toggleArrow = document.getElementById(event.target.id);
         toggleArrow.classList.toggle("down");
@@ -450,8 +450,7 @@ function createCalendarDay(num, day, mon, year, available) {
 
     function getLocation(event) {
         populate();
-        var location = event.target.id
-        return location;
+        this.currentLocation = event.target.parentElement.parentElement.id
+        console.log(this.currentLocation)
     }
-
 
