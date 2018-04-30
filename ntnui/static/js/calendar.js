@@ -52,7 +52,6 @@ promised.done(function() {
             createMonth();
             global_list.push(promised.responseJSON);
             currentMonth = document.getElementById("current-month");
-            console.log(global_list)
             }
         )
     })
@@ -79,20 +78,24 @@ $('#search-button').click(function () {
 });
 
 // Removes the calendar blur when filter is used
-$('.filter-cursors').click(function () {
-    populate()
-    $('#calendar-container').css({
-        'pointer-events': 'all',
-        '-webkit-filter': 'blur(0px)',
-        '-ms-filter': 'blur(0px)',
-        'filter': 'blur(0px)',
-    })
-});
+$('.filter-cursors').click(function (event) {
+        getLocation(event)
+        $('#calendar-container').css({
+          'pointer-events': 'all',
+          '-webkit-filter': 'blur(0px)',
+          '-ms-filter': 'blur(0px)',
+          'filter': 'blur(0px)',
+      })
+
+   });
+
+// Removes the calendar blur when filter is used
+$('.type-header').click(function (e) {
+        dropdownFilters(e)
+   });
 
 // Function used to populate the calendar with bookings from the database and show available hours.
-
 function populate() {
-
     var date_map = new Map();
 
     for (i = 0; i < global_list[0].length; i++) {
@@ -436,6 +439,16 @@ function popup(e) {
     }
 }
 
+
+    // Dropdown for filtering
+    function dropdownFilters(event){
+        var toggleArrow = document.getElementById(event.target.id);
+        toggleArrow.classList.toggle("down");
+        var typeId = toggleArrow.nextSibling.nextSibling.id;
+        var toggleType = document.getElementById(typeId);
+        toggleType.style.display = toggleType.style.display == "block" ? "none" : "block";
+    };
+
 // Dropdown for filtering
 function dropdownFilters(event){
     var toggleArrow = document.getElementById(event.target.id);
@@ -464,4 +477,16 @@ function triggerSuccessAlert(){
     }, 600);
 }
 
+
+    var currentLocation;
+    var locationString;
+
+    // populate calendar and get location of clicked filter type.
+    function getLocation(event) {
+        populate();
+        var locationId = event.target.getAttribute('data-id');
+        var locationName = event.target.innerHTML;
+        this.currentLocation = locationId;
+        this.locationString = locationName;
+    }
 

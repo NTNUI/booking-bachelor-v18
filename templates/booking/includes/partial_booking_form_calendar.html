@@ -15,22 +15,13 @@
                 <div class="col-lg-5" id="booking-fields">
                     <div class="col form-group {% if field.errors %} has-error{% endif %}">
                         {{form.person.as_hidden}}
-                        <div class="form-padding">
-                            <h5>Location </h5>
-                            {{form.location}}
-                        </div>
-                        <div class="form-padding">
-                            <h5>Title</h5>
-                            {{form.title}}
-                        </div>
-                        <div class="form-padding">
-                            <h5>Description</h5>
-                            {{form.description}}
-                        </div>
-                        <div class="form-padding">
-                            <h5>Group</h5>
-                            {{form.group}}
-                        </div>
+                        {{form.location.as_hidden}}
+                        <h5>Title</h5>
+                        {{form.title}}
+                        <h5>Description</h5>
+                        {{form.description}}
+                        <h5>Group</h5>
+                        {{form.group}}
                         {% if request.user.is_superuser %}
                             <div class="form-padding">
                                 <h5>Recurring</h5>
@@ -80,30 +71,34 @@
 
 {% block script %}
     <script>
+        var chosenLocation = this.currentLocation
+        console.log(chosenLocation)
         $(document).ready(function(){
-            var $myForm = $('#createform')
-            $myForm.submit(function(event){
-                event.preventDefault()
-                // append start date to post request
-                var start_time = document.getElementById("startInput").value;
-                var end_time = document.getElementById("endInput").value;
-                var $form_data = $(this).serialize()+"&start="+tempDay.id.toString() + " " + start_time + "&end="+tempDay.id.toString() + " " + end_time;
-                $.ajax({
-                    method: "POST",
-                    url: '/booking/bookings_list/create_calendar/',
-                    data: $form_data,
-                    // close popup on success
-                    success: function() {
-                        var modal = document.getElementById('booking-modal');
-                        var date_format = tempDay.id.slice(0, 10);
-                        modal.style.display = "none";
-                    },
-                    complete: function() {
-                        var promised = promiseTest();
-                        promised.done(function() {
-                            promised.then( function() {
-                                global_list = []
-                                global_list.push(promised.responseJSON);
+        var $myForm = $('#createform')
+        $myForm.submit(function(event){
+            event.preventDefault()
+            // append start date to post request
+            var start_time = document.getElementById("startInput").value;
+            var end_time = document.getElementById("endInput").value;
+            var $form_data = $(this).serialize()+"&start="+tempDay.id.toString() + " " + start_time + "&end="+tempDay.id.toString() + " " + end_time + "&location=" + " " + chosenLocation
+            $.ajax({
+                method: "POST",
+                url: '/booking/bookings_list/create_calendar/',
+                data: $form_data,
+                // close popup on success
+                success: function(data) {
+                    var modal = document.getElementById('booking-modal');
+                    var date_format = tempDay.id.slice(0, 10);
+                    modal.style.display = "none";
+                    console.log($form_data)
+                },
+                complete: function(data) {
+                    var promised = promiseTest();
+                    promised.done(function() {
+                        promised.then( function() {
+                        global_list = []
+                        global_list.push(promised.responseJSON);
+                                })
                             })
                         })
                         triggerSuccessAlert();

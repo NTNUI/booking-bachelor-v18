@@ -100,6 +100,10 @@ button#close {
     background: #00800000;
 }
 
+/* Capitalize first letter of word in filterbox */
+p.type-header {
+    text-transform: capitalize;
+}
 /* Alerts */
 .booking-alert {
     position: fixed;
