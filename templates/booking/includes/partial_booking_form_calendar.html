@@ -100,12 +100,12 @@
                         global_list.push(promised.responseJSON);
                                 })
                             })
-                        })
-                        triggerSuccessAlert();
+                        },
+                        triggerSuccessAlert(){
                     }
                 })
             })
-        });
+        })
         $.ajax({
             method: "GET",
             url: '/booking/api',
@@ -125,7 +125,6 @@
                     var date_format = date.slice(0, 10);
                     var start = date.slice(11, 16);
                     var newDate = start.replace(":", "");
-
                     var loc = global_list[0][i].location__name;
                     loc = document.getElementById(loc);
                     var loc = global_list[0][i].location__name;
@@ -134,9 +133,7 @@
                         booking = []
                         booking.push(newDate, start, data[i].end, data[i].title, data[i].person__first_name);
                         list_of_bookings.push(booking)
-
                         list_of_bookings.sort(function(a, b){return a[0] - b[0]});
-
                     }
                 })
                 if(list_of_bookings.length != 0){

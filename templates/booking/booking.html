@@ -34,7 +34,7 @@
                         {% for type in types %}
                        <div>
                             <p class="type-header">{{ type.0 }}</p>
-                            <div id="{{ type.0 }}" class="arrow right" onclick="dropdownFilters(event)"></div>
+                            <div id="{{ type.0 }}" class="filter-arrow right" onclick="dropdownFilters(event)"></div>
                             <div id="{{ forloop.counter }}" class="filter-type">
                                 {% for location in locations %}
                                     {% if location.type == type.0 %}
