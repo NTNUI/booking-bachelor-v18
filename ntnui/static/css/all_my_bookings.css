@@ -7,6 +7,14 @@
     border:none;
 }
 
+.table thead th{
+    border: none;
+}
+
+hr{
+    border-top: 2px solid #8080803b;
+}
+
 #my-bookings-header {
     margin-top: 2rem;
     margin-left: 1rem;
@@ -60,7 +68,6 @@
 
 .table-title {
     font-size: 18px;
-    border-top: 2px solid black;
 }
 
 #id_location, #id_person, #id_title, #id_start {
@@ -192,6 +199,7 @@ button#close {
         margin-right: auto;
         width: 85%;
     }
+
     #filter-button{
         width: 47%;
         display: block;

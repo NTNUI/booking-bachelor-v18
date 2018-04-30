@@ -1,16 +1,13 @@
-{#list displaying all bookings#}
+{#list displaying all requested bookings#}
+<table class="table borderless" id="booking-table">
+    <!-- remember to change from my group bookings -->
+    {% for booking in my_group_bookings_list %}
 
-<table class='table borderless' id='person-booking-table'>
-    {% for booking in filter.qs %}
-        {# Titles of bookings #}
-        {% if bookings %}
-            <thead class='table-title'>
-                <tr>
-                    <th>{{ booking.title }}</th>
-                </tr>
-            </thead>
-        {% endif %}
-
+        <thead class="table-title">
+            <tr>
+                <th>{{ booking.title }}</th>
+            </tr>
+        </thead>
 
         <tr>
             <td><b>What:</b> {{ booking.description }}</td>
@@ -45,7 +42,10 @@
                 <hr>
             </td>
         </tr>
+
         {% empty %}
-            <h6 class="empty">There are no bookings!</h6>
+            <h6 class="empty">You have no requested bookings!</h6>
+
     {% endfor %}
+
 </table>
