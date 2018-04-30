@@ -126,21 +126,68 @@ button#close {
 /* Responsive for different screens devices */
 @media only screen and (min-width: 1900px) {
     #booking-container {
-        width: 85%;
+        width: 84%;
     }
     .alert-warning {
         padding: 2%;
+        font-size: 23px;
+    }
+    .alert-success {
+        padding: 2%;
+        font-size: 22px;
+    }
+    #filtering-container {
+        font-size: 22px;
     }
 }
-@media only screen and (max-width: 1900px) {
+@media only screen and (min-width: 1350px) {
     #booking-container {
-        width: 80%;
+        width: 82%;
+    }
+    .alert-warning {
+        padding: 3%;
+        font-size: 20px;
+    }
+    .alert-success {
+        padding: 3%;
+        font-size: 20px;
+    }
+    #filtering-container {
+        font-size: 20px;
+    }
+    .filter-header {
+        font-size: 18px !important;
+    }
+}
+@media only screen and (min-width: 1000px) {
+    #booking-container {
+        width: 72%;
     }
     .alert-warning {
         padding: 3%;
     }
+    .alert-success {
+        padding: 3%;
+    }
+    #filtering-container {
+        font-size: 16px;
+    }
+}
+@media only screen and (min-width: 990px) {
+    #booking-container {
+        width: 79%;
+    }
+    #filtering-container {
+        font-size: 14px;
+    }
+    .filter-header {
+        font-size: 22px !important;
+    }
 }
 @media only screen and (max-width: 990px) {
+    #booking-container {
+        width: 90%;
+    }
     .booking-alert {
         width: 60%;
     }
@@ -166,6 +213,12 @@ button#close {
     .calendar-day h1{
         font-size: 100%;
         padding: 5% 15% 10% 15%;
+    }
+    #filtering-container {
+        font-size: 12px;
+    }
+    .filter-header {
+        font-size: 18px !important;
     }
 }
 @media only screen and (max-width: 550px) {
