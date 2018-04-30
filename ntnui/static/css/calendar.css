@@ -3,7 +3,7 @@
 /* Container for the booking page */
 #booking-container {
     height: auto;
-    width: 90%;
+    width: 60%;
     padding: 1% 0% 1.5% 0%;
 }
 
@@ -19,7 +19,6 @@
     -ms-filter: blur(5px);
     filter: blur(5px);
     padding: 18px;
-
 }
 
 /* Controls and month header */
@@ -124,12 +123,88 @@ p.type-header {
 .alert-warning {
     display: none;
     top: 0px !important;
-    margin-top: 7%;
+    margin-top: 10%;
     padding: 4%;
 }
 
-/* Responsive design */
-/* Make text smaller and removes "busy" sign and day name on smaller devices */
+/* Responsive for different screens devices */
+@media only screen and (min-width: 1900px) {
+    #booking-container {
+        width: 84%;
+    }
+    .alert-warning {
+        padding: 2%;
+        font-size: 23px;
+    }
+    .alert-success {
+        padding: 2%;
+        font-size: 22px;
+    }
+    #filtering-container {
+        font-size: 22px;
+    }
+}
+@media only screen and (min-width: 1350px) {
+    #booking-container {
+        width: 82%;
+    }
+    .alert-warning {
+        padding: 3%;
+        font-size: 20px;
+    }
+    .alert-success {
+        padding: 3%;
+        font-size: 20px;
+    }
+    #filtering-container {
+        font-size: 20px;
+    }
+    .filter-header {
+        font-size: 18px !important;
+    }
+}
+@media only screen and (min-width: 1000px) {
+    #booking-container {
+        width: 72%;
+    }
+    .alert-warning {
+        padding: 3%;
+    }
+    .alert-success {
+        padding: 3%;
+    }
+    #filtering-container {
+        font-size: 16px;
+    }
+}
+@media only screen and (min-width: 990px) {
+    #booking-container {
+        width: 79%;
+    }
+    #filtering-container {
+        font-size: 14px;
+    }
+    .filter-header {
+        font-size: 22px !important;
+    }
+}
+@media only screen and (max-width: 990px) {
+    #booking-container {
+        width: 90%;
+    }
+    .booking-alert {
+        width: 60%;
+    }
+    .alert-success {
+        bottom: 0px !important;
+        padding: 2%;
+    }
+
+    .alert-warning {
+        top: 70% !important;
+        padding: 4%;
+    }
+}
 @media only screen and (max-width: 750px) {
     .calendar-day {
         padding: 10px 10px 0px 10px;
@@ -143,19 +218,11 @@ p.type-header {
         font-size: 100%;
         padding: 5% 15% 10% 15%;
     }
-}
-@media only screen and (max-width: 990px) {
-    .booking-alert {
-        width: 60%;
+    #filtering-container {
+        font-size: 12px;
     }
-    .alert-success {
-        bottom: 0px !important;
-        padding: 2%;
-    }
-
-    .alert-warning {
-        top: 70% !important;
-        padding: 4%;
+    .filter-header {
+        font-size: 18px !important;
     }
 }
 @media only screen and (max-width: 550px) {

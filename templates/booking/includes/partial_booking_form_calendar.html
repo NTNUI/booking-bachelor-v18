@@ -15,13 +15,22 @@
                 <div class="col-lg-5" id="booking-fields">
                     <div class="col form-group {% if field.errors %} has-error{% endif %}">
                         {{form.person.as_hidden}}
-                        {{form.location.as_hidden}}
-                        <h5>Title</h5>
-                        {{form.title}}
-                        <h5>Description</h5>
-                        {{form.description}}
-                        <h5>Group</h5>
-                        {{form.group}}
+                        <div>
+                            <h5>Location </h5>
+                            {{form.location}}
+                        </div>
+                        <div class="form-padding">
+                            <h5>Title</h5>
+                            {{form.title}}
+                        </div>
+                        <div class="form-padding">
+                            <h5>Description</h5>
+                            {{form.description}}
+                        </div>
+                        <div class="form-padding">
+                            <h5>Group</h5>
+                            {{form.group}}
+                        </div>
                         {% if request.user.is_superuser %}
                             <div class="form-padding">
                                 <h5>Recurring</h5>
