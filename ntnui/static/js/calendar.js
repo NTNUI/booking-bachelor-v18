@@ -460,8 +460,8 @@ function triggerSuccessAlert(){
         document.getElementById("booking-success").style.display = "block";
         setTimeout(function () {
             $(".alert-success").slideUp(1000);
-        }, 5000);
-    }, 600);
+        }, 3000);
+    }, 100);
 }
 
 
