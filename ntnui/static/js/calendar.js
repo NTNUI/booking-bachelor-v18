@@ -88,7 +88,10 @@ $('.filter-cursors').click(function (event) {
 
    });
 
-
+// Removes the calendar blur when filter is used
+$('.type-header').click(function (e) {
+        dropdownFilters(e)
+   });
 
 // Function used to populate the calendar with bookings from the database.
 
@@ -443,17 +446,19 @@ function createCalendarDay(num, day, mon, year, available) {
         var toggleArrow = document.getElementById(event.target.id);
         toggleArrow.classList.toggle("down");
         var typeId = toggleArrow.nextSibling.nextSibling.id;
-        console.log(typeId)
         var toggleType = document.getElementById(typeId);
         toggleType.style.display = toggleType.style.display == "block" ? "none" : "block";
     };
 
     var currentLocation;
+    var locationString;
 
+    // populate calendar and get location of clicked filter type.
     function getLocation(event) {
         populate();
-        var s = event.target.getAttribute('data-id');
-        this.currentLocation = s;
-        console.log(this.currentLocation);
+        var locationId = event.target.getAttribute('data-id');
+        var locationName = event.target.innerHTML;
+        this.currentLocation = locationId;
+        this.locationString = locationName;
     }
 
