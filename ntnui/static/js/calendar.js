@@ -4,6 +4,7 @@ var currentMonth;
 
 // Global list to store bookings. This list will be used to populate the calendar with data.
 var global_list = [];
+
 // Ajax setting to set caching to false.
 $.ajaxSetup ({
     cache: false
@@ -16,7 +17,7 @@ var tempDay;
 window.onload = function() {
     promise();
     triggerFilterAlert();
-}
+};
 
 // Allows us to navigate through months with the arrow keys
 document.onkeydown = function(evt) {
@@ -58,10 +59,8 @@ promised.done(function() {
 }
 //temporary cheat
 // var win = window.open('http://www.google.com');
-// console.log(window.location)
 // window.onbeforeunload = function(){populate()}
 var getTime = function(time){
-    // console.log("gettime : " +time)
     var timeArray = time.split(":");
     var hours = parseInt(timeArray[0]);
     var minutes = parseInt(timeArray[1]);
@@ -105,7 +104,7 @@ function populate() {
         var location = global_list[0][i].location__name;
         var day = global_list[0][i].start;
         var date_format = day.slice(0, 10);
-        if (qNo == 0){
+        if (qNo === 0){
             if(loc.value === location && loc.checked === true){
 
                 var start_datetime = day.split("T");
@@ -129,7 +128,7 @@ function populate() {
                 else if(loc.value === location && loc.checked === true) {
                     date_map.set(start_date, ""+diff_hour+":"+diff_min)
                 }
-
+                // change the html in the calendar boxes with number of booked hours.
                 $("#" + date_format + " h1").text(""+ (12 - parseInt(getTime(date_map.get(start_date)[0])))+" hours free");
             }
 
@@ -163,37 +162,6 @@ observer.observe(targetNode, config);
 function HandleDOM_Change () {
     populate();
 }
-
-// Event listener logic.
-// TODO: Replace with mutation observer.
-fireOnDomChange ('#calendar', HandleDOM_Change, 500);
-
-
-function fireOnDomChange (selector, actionFunction, delay) {
-
-    // observer.observe(targetNode, config);
-
-    // $(selector).on ('DOMSubtreeModified', fireOnDelay);
-
-    // function fireOnDelay () {
-    //     if (typeof this.Timer == "number") {
-    //         clearTimeout (this.Timer);
-    //     }
-    //     this.Timer  = setTimeout (  function() { fireActionFunction (); },
-    //                                 delay ? delay : 333
-    //                              );
-    // }
-
-    // function fireActionFunction () {
-    //     // observer.disconnect();
-
-    //     $(selector).off ('DOMSubtreeModified', fireOnDelay);
-
-    //     actionFunction ();
-    //     $(selector).on ('DOMSubtreeModified', fireOnDelay);
-    // }
-}
-
 // Converts day ids to the relevant string
 function dayOfWeekAsString(dayIndex) {
     return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][dayIndex];
@@ -245,16 +213,6 @@ function createCalendarDay(num, day, mon, year, available) {
         availability.innerHTML = "12 hours free";
         availability.style.color = "green";
     }
-
-    //console.log(parseInt(getTime(date_map.get(start_date)[0])));
-
-    //if(12 - parseInt(getTime(date_map.get(start_date)[0])) > 6){
-    //    availability.style.color = "green";
-    //}else if(12 - parseInt(getTime(date_map.get(start_date)[0])) > 2){
-    //    availability.style.color = "yellow";
-    //}else{
-    //    availability.style.color = "red";
-    //}
 
     newDay.className = "calendar-day";
     newDay.title = "Click to book";
