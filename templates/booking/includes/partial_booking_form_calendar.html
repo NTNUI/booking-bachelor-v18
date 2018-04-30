@@ -80,37 +80,41 @@
 
 {% block script %}
     <script>
+        var chosenLocation = this.currentLocation
+        console.log(chosenLocation)
         $(document).ready(function(){
-            var $myForm = $('#createform')
-            $myForm.submit(function(event){
-                event.preventDefault()
-                // append start date to post request
-                var start_time = document.getElementById("startInput").value;
-                var end_time = document.getElementById("endInput").value;
-                var $form_data = $(this).serialize()+"&start="+tempDay.id.toString() + " " + start_time + "&end="+tempDay.id.toString() + " " + end_time;
-                $.ajax({
-                    method: "POST",
-                    url: '/booking/bookings_list/create_calendar/',
-                    data: $form_data,
-                    // close popup on success
-                    success: function() {
-                        var modal = document.getElementById('booking-modal');
-                        var date_format = tempDay.id.slice(0, 10);
-                        modal.style.display = "none";
-                    },
-                    complete: function() {
-                        var promised = promiseTest();
-                        promised.done(function() {
-                            promised.then( function() {
-                                global_list = []
-                                global_list.push(promised.responseJSON);
+        var $myForm = $('#createform')
+        $myForm.submit(function(event){
+            event.preventDefault()
+            // append start date to post request
+            var start_time = document.getElementById("startInput").value;
+            var end_time = document.getElementById("endInput").value;
+            var $form_data = $(this).serialize()+"&start="+tempDay.id.toString() + " " + start_time + "&end="+tempDay.id.toString() + " " + end_time + "&location=" + " " + chosenLocation
+            $.ajax({
+                method: "POST",
+                url: '/booking/bookings_list/create_calendar/',
+                data: $form_data,
+                // close popup on success
+                success: function(data) {
+                    var modal = document.getElementById('booking-modal');
+                    var date_format = tempDay.id.slice(0, 10);
+                    modal.style.display = "none";
+                    console.log($form_data)
+                },
+                complete: function(data) {
+                    var promised = promiseTest();
+                    promised.done(function() {
+                        promised.then( function() {
+                        global_list = []
+                        global_list.push(promised.responseJSON);
+                                })
                             })
-                        })
-                        triggerSuccessAlert();
+                        },
+                        triggerSuccessAlert(){
                     }
                 })
             })
-        });
+        })
         $.ajax({
             method: "GET",
             url: '/booking/api',
@@ -130,7 +134,6 @@
                     var date_format = date.slice(0, 10);
                     var start = date.slice(11, 16);
                     var newDate = start.replace(":", "");
-
                     var loc = global_list[0][i].location__name;
                     loc = document.getElementById(loc);
                     var loc = global_list[0][i].location__name;
@@ -139,9 +142,7 @@
                         booking = []
                         booking.push(newDate, start, data[i].end, data[i].title, data[i].person__first_name);
                         list_of_bookings.push(booking)
-
                         list_of_bookings.sort(function(a, b){return a[0] - b[0]});
-
                     }
                 })
                 if(list_of_bookings.length != 0){

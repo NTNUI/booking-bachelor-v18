@@ -12,14 +12,17 @@ from django.contrib import messages
 from datetime import time
 from groups.models import SportsGroup
 from groups.models import Membership
+from .models import LOCATION_TYPES
 from django.utils import timezone
 
 @login_required
 def index(request):
     model = Location
     locations = model.objects.all()
+    type_list = LOCATION_TYPES
     return render(request, 'booking/booking.html', {
-        'locations': locations})
+        'locations': locations,
+        'types': type_list})
 
 
 def api(request, **kwargs):
