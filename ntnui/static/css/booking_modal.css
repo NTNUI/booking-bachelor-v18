@@ -38,7 +38,7 @@
 .booking-modal-contents {
     margin: auto;
     padding: 20px;
-    width: 60%;
+    width: 70%;
 }
 
 #day-title, .modal-title{
@@ -52,6 +52,7 @@
 .modal-body {
     margin: 0px auto;
     background: white;
+    width: 100%;
     padding: 3% 15% 1% 15%;
 }
 
@@ -102,7 +103,6 @@ h5 {
     max-height: 500px;
     width: 100%;
     overflow-y: auto;
-    padding-left: 11%;
 }
 
 .card {
@@ -140,6 +140,9 @@ h5 {
     h5 {
         font-size: 17px;
     }
+    .booking-modal-contents {
+        width: 80%;
+    }
 }
 
 @media only screen and (max-width: 1050px) {
@@ -147,11 +150,14 @@ h5 {
         font-size: 80%;
     }
     #booking-cards-con {
-        margin-right: 7%;
+        margin-right: 5%;
         max-height: 450px;
     }
     #booking-fields {
         padding: 0% 5% 1% 5%;
+    }
+    .booking-modal-contents {
+        width: 75%;
     }
 }
 
