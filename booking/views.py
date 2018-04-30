@@ -1,12 +1,12 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required, user_passes_test
-from booking.filters import LocationFilter, UserFilter, AdminFilter
+from booking.filters import UserFilter, AdminFilter#, LocationFilter,
 from django.contrib.auth.decorators import login_required
 from .models import Booking, Location
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
 from .forms import BookingForm
 from django.contrib import messages
@@ -113,10 +113,22 @@ def get_my_bookings(request):
     my_bookings_list = Booking.objects.filter(person=user).filter(start__gte=now).order_by('start')
     return my_bookings_list
 
+def confirm_enqueue(request, form):
+
+    # return HttpResponse("tis is response")
+    return redirect(request, "booking/api.html")
+
 def save_booking_form(request, form, template_name):
     data = dict()
     if request.method == 'POST':
         if form.is_valid():
+            location = form.cleaned_data['location']
+            start = form.cleaned_data['start']
+            end = form.cleaned_data['end']
+            overlap = Booking.objects.filter(location=location, start__lt=end, end__gt=start)
+            if overlap != []:#TODO: send redirect if 
+                pass
+            
             form.save()
             data['form_is_valid'] = True
             my_bookings = get_my_bookings(request)
@@ -126,33 +138,58 @@ def save_booking_form(request, form, template_name):
             })
             # messages.success(request, "Your booking request was successful")
             # confirmation_mail(request, )
-            #TODO:replace request.repeat with actual name
+            #TODO: check if form has field recurringEvent
             #get dayNr from request
             #request.repeat
-            repeat = False
+            if form.cleaned_data['repeat'] == "noRepeat":
+                repeat = False
+            elif form.cleaned_data['repeat'] == "weekly":
+                repeat = True
+            else:
+                repeat = False
             #TODO: replace with actual data from form 
-            dayofweek = 0
-            year = 2018
-            loc = "location"
-            s_time = "12:00"
-            e_time = "14:00"
-            title = "TITLE"
-            descr = "description"
+            day_map = {"MON" : 0, "TUE":1, "WED":2, "THU" : 3, 
+                "FRI":4, "SAT":5, "SUN":6
+            }
+            dayofweek = 0# day_map[form.cleaned_data['dayID'].upper()]
+            year = int(start.year)
+            month = int(start.month)
+            day = int(start.day)#[8:10])
+            loc = location
+            s_time = str(start)[-8:] #get time substring
+            e_time = str(end)[-8:]
+            title = form.cleaned_data['title']
+            descr = form.cleaned_data['description']
             #TODO: skip past dates
             if repeat:
                 cal = Calendar()
                 ydcal = cal.yeardays2calendar(year, width=6)
-                for w in ydcal:
-                    for month in w:
-                        for week in month:
-                            for day in week:
-                                if day[1]==dayofweek:
-                                    month_nr = w.index(month)+ydcal.index(w)+1
-                                    date_format = str(year)+"-"+str(month_nr)+"-"+str(day[0])
-                                    start = date_format+" "+s_time
-                                    end = date_format+" "+e_time
-                                    b = Booking(location=loc, start=start, end=end, title=title, description=descr)
-                                    b.save(repeatable=True)
+                if month > 5:
+                    w = ydcal[1]
+                else:
+                    w = ydcal[0]
+                for m in range(len(w)):
+                    if m+1 < month:
+                        continue #skip past months 
+                    for k in range(len(w[m])):
+                        for d in range(len(w[m][k])):
+                            if d+1 < day:
+                                continue
+                            cal_day = w[m][k][d]
+                            if cal_day[1]==dayofweek:
+                                if m <9: #format month
+                                    cal_m = "0"+str(m+1)
+                                else:
+                                    cal_m = str(m+1)
+                                if d<9: #format day
+                                    cal_d = "0"+str(d+1)
+                                else:
+                                    cal_d = str(d+1)
+                                date_format = str(year)+cal_m+cal_d 
+                                start_rec = date_format+" "+s_time
+                                end_rec = date_format+" "+e_time
+                                b = Booking(location=loc, start=start_rec, end=end_rec, title=title, description=descr)
+                                b.save(repeatable=True)
 
 
         else:
@@ -189,6 +226,7 @@ def booking_create_from_calendar(request):
     else:
         user = request.user
         form = BookingForm(user, initial={'person': request.user})
+        print(form)
     return save_booking_form(request, form, 'booking/includes/partial_booking_create_calendar.html')
 
 

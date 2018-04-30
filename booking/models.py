@@ -33,7 +33,7 @@ class Booking(models.Model):
     end = models.DateTimeField(_(u'End'), blank=True)
     queueNo = models.IntegerField(default=0)
     #repeatable = models.
-    overlapping = models.ManyToManyField("self", blank=True, null=True)
+    #overlapping = models.ManyToManyField("self", blank=True, null=True)
 
     try:
         tu = tuple(SportsGroup.objects.all().values_list('name', 'name'))
