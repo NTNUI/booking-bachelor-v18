@@ -120,7 +120,31 @@ h5 {
     margin-left: -10%;
 }
 
-/* Make modal wider and text smaller on smaller devices */
+/* Responsive for different screens devices */
+@media only screen and (min-width: 1350px) {
+    .col-8, h6, p, select, input, .form-control{
+        font-size: 110%;
+    }
+    #booking-cards-con {
+        margin-right: 7%;
+    }
+    #booking-fields {
+        padding: 2% 7% 1% 7%;
+    }
+    .booking-modal-contents {
+        width: 80%;
+    }
+    #day-title  {
+        font-size: 30px;
+    }
+    .card-title {
+        font-size: 17px;
+    }
+    h5 {
+        font-size: 17px;
+    }
+}
+
 @media only screen and (max-width: 1125px) {
     .col-8, h6, p, select, input, .form-control{
         font-size: 90%;

@@ -3,7 +3,7 @@
 /* Container for the booking page */
 #booking-container {
     height: auto;
-    width: 90%;
+    width: 60%;
     padding: 1% 0% 1.5% 0%;
 }
 
@@ -19,7 +19,6 @@
     -ms-filter: blur(5px);
     filter: blur(5px);
     padding: 18px;
-
 }
 
 /* Controls and month header */
@@ -120,24 +119,25 @@ button#close {
 .alert-warning {
     display: none;
     top: 0px !important;
-    margin-top: 7%;
+    margin-top: 10%;
     padding: 4%;
 }
 
-/* Responsive design */
-/* Make text smaller and removes "busy" sign and day name on smaller devices */
-@media only screen and (max-width: 750px) {
-    .calendar-day {
-        padding: 10px 10px 0px 10px;
+/* Responsive for different screens devices */
+@media only screen and (min-width: 1900px) {
+    #booking-container {
+        width: 85%;
     }
-    .calendar-day p {
-        font-size: 90%;
-        line-height: 30%;
-        display: block;
+    .alert-warning {
+        padding: 2%;
     }
-    .calendar-day h1{
-        font-size: 100%;
-        padding: 5% 15% 10% 15%;
+}
+@media only screen and (max-width: 1900px) {
+    #booking-container {
+        width: 80%;
+    }
+    .alert-warning {
+        padding: 3%;
     }
 }
 @media only screen and (max-width: 990px) {
@@ -152,6 +152,20 @@ button#close {
     .alert-warning {
         top: 70% !important;
         padding: 4%;
+    }
+}
+@media only screen and (max-width: 750px) {
+    .calendar-day {
+        padding: 10px 10px 0px 10px;
+    }
+    .calendar-day p {
+        font-size: 90%;
+        line-height: 30%;
+        display: block;
+    }
+    .calendar-day h1{
+        font-size: 100%;
+        padding: 5% 15% 10% 15%;
     }
 }
 @media only screen and (max-width: 550px) {
