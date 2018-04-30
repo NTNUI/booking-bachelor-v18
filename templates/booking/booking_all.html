@@ -33,13 +33,14 @@
         </h1>
         <div class="my-booking-box">
             <p class="my-bookings-header-2">Manage all bookings</p>
+            <!-- Filter booking form -->
             <form id="filter-form" method='get'>
                 <table class='table borderless'>
                     <tr>
                         <td>Location: {{ filter.form.location }}</td>
                         <td>Person: {{ filter.form.person }}</td>
                         <td>Title: {{ filter.form.title }}</td>
-                        <td>Start time: {{ filter.form.start }}</td>
+                        <td>Group: {{ filter.form.group }}</td>
                     </tr>
                 </table>
                 <button class="btn" id='filter-button' type='submit'>Filter</button>
