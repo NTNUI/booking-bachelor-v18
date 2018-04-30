@@ -15,11 +15,8 @@
                 <div class="col-lg-5" id="booking-fields">
                     <div class="col form-group {% if field.errors %} has-error{% endif %}">
                         {{form.person.as_hidden}}
+                        {{form.location.as_hidden}}
                         <div>
-                            <h5>Location </h5>
-                            {{form.location}}
-                        </div>
-                        <div class="form-padding">
                             <h5>Title</h5>
                             {{form.title}}
                         </div>

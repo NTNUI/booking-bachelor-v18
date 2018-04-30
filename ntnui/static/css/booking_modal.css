@@ -99,7 +99,7 @@ h5 {
 }
 
 #booking-cards {
-    max-height: 600px;
+    max-height: 500px;
     width: 100%;
     overflow-y: auto;
     padding-left: 11%;
@@ -126,6 +126,7 @@ h5 {
     }
     #booking-cards-con {
         margin-right: 7%;
+        max-height: 600px;
     }
     #booking-fields {
         padding: 0% 4% 1% 4%;
@@ -147,6 +148,7 @@ h5 {
     }
     #booking-cards-con {
         margin-right: 7%;
+        max-height: 450px;
     }
     #booking-fields {
         padding: 0% 5% 1% 5%;
