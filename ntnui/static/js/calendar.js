@@ -89,7 +89,7 @@ $('.filter-cursors').click(function () {
     })
 });
 
-// Function used to populate the calendar with bookings from the database.
+// Function used to populate the calendar with bookings from the database and show available hours.
 
 function populate() {
 
@@ -129,9 +129,7 @@ function populate() {
 
                 $("#" + date_format + " h1").text(""+ (12 - parseInt(getTime(date_map.get(start_date)[0])))+" hours free");
             }
-            else if (loc.checked === false){
-                $("#" + date_format + " h1").text("12 hours free");
-            }
+
         }
     }
 
