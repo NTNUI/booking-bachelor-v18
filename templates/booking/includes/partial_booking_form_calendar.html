@@ -23,36 +23,44 @@
                         <h5>Group</h5>
                         {{form.group}}
                         {% if request.user.is_superuser %}
-                            <h5>Recurring</h5>
-                            <select class="form-control" id="recurringEvent">
-                                <option value="noRepeat" id="noRepeat">Does not repeat</option>
-                                <option value="weekly" id="weekly">Repeat every</option>
-                            </select>
-                        {% endif %}
-                        {% if user.is_authenticated and not request.user.is_superuser %}
-                            {% user_in_hs user as user_in_hs %}
-                            {% if user_in_hs %}
-                                <h5>Request Recurring</h5>
+                            <div class="form-padding">
+                                <h5>Recurring</h5>
                                 <select class="form-control" id="recurringEvent">
                                     <option value="noRepeat" id="noRepeat">Does not repeat</option>
                                     <option value="weekly" id="weekly">Repeat every</option>
                                 </select>
+                            </div>
+                        {% endif %}
+                        {% if user.is_authenticated and not request.user.is_superuser %}
+                            {% user_in_hs user as user_in_hs %}
+                            {% if user_in_hs %}
+                                <div class="form-padding">
+                                    <h5>Request Recurring</h5>
+                                    <select class="form-control" id="recurringEvent">
+                                        <option value="noRepeat" id="noRepeat">Does not repeat</option>
+                                        <option value="weekly" id="weekly">Repeat every</option>
+                                    </select>
+                                </div>
                             {% endif %}
                         {% endif %}
 
-                        <h5>Starttime</h5>
-                        <div class="input-group clockpicker" data-placement="left" data-align="bottom" data-autoclose="true" id="startTime">
-                            <input type="text" class="form-control" value="Choose start time" id="startInput" onclick="resetClock()" required>
-                            <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-time"></span>
-                            </span>
+                        <div class="form-padding">
+                            <h5>Starttime</h5>
+                            <div class="input-group clockpicker" data-placement="left" data-align="bottom" data-autoclose="true" id="startTime">
+                                <input type="text" class="form-control" value="Choose start time" id="startInput" onclick="resetClock()" required>
+                                <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                                </span>
+                            </div>
                         </div>
-                        <h5>Endtime</h5>
-                        <div class="input-group clockpicker" data-placement="left" data-align="bottom" data-autoclose="true" id="endTime" >
-                            <input type="text" class="form-control" value="Choose end time" id="endInput" onclick="editClock()" required>
-                            <span class="input-group-addon" i id="endTimeSpan">
-                            <span class="glyphicon glyphicon-time" ></span>
-                            </span>
+                        <div class="form-padding">
+                            <h5>Endtime</h5>
+                            <div class="input-group clockpicker" data-placement="left" data-align="bottom" data-autoclose="true" id="endTime" >
+                                <input type="text" class="form-control" value="Choose end time" id="endInput" onclick="editClock()" required>
+                                <span class="input-group-addon" i id="endTimeSpan">
+                                <span class="glyphicon glyphicon-time" ></span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -92,10 +100,12 @@
                         global_list.push(promised.responseJSON);
                                 })
                             })
-                        }
-                    })
+                        })
+                        triggerSuccessAlert();
+                    }
                 })
-            });
+            })
+        });
         $.ajax({
             method: "GET",
             url: '/booking/api',

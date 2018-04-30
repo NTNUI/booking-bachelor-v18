@@ -19,6 +19,15 @@
 
 {% block content %}
     <div class="booking-container">
+        <!-- Modal container -->
+        <div id="booking-modal" class="modal-big">
+            <div id="modal-booking">
+                <div class="booking-modal-contents">
+                </div>
+            </div>
+        </div>
+
+        <!-- Manage bookings -->
         <h1 id="my-bookings-header">
             Manage bookings
         </h1>
@@ -33,27 +42,26 @@
                         <td>Start time: {{ filter.form.start }}</td>
                     </tr>
                 </table>
+                <button class="btn" id='filter-button' type='submit'>Filter</button>
             </form>
-            <button class="btn" id='filter-button' type='submit'>Filter</button>
-
-                <div class="all-bookings">
-                    <div class='replace'>
-                        {% include 'booking/includes/partial_booking_all.html' %}
-                    </div>
-                    <p>
-                        <button type='button' id="create-booking"class='btn btn-success col js-create-booking' data-url='{% url 'booking_create' %}'>
-                            <span class='glyphicon glyphicon-plus'></span>
-                            Create a new booking
-                        </button>
-                    </p>
+            <div class="all-bookings">
+                <div class='replace'>
+                    {% include 'booking/includes/partial_booking_all.html' %}
                 </div>
+                <p>
+                    <button type='button' id="create-booking"class='btn btn-success col js-create-booking' data-url='{% url 'booking_create' %}'>
+                        <span class='glyphicon glyphicon-plus'></span>
+                        Create a new booking
+                    </button>
+                </p>
+            </div>
         </div>
 
-        <div id='booking-modal' class='modal-big'>
-            <div id='modal-booking'>
-                <div class='booking-modal-contents'>
-                </div>
-            </div>
+        <!-- Alerts-->
+        <div class="alert booking-alert alert-success" id="booking-success" role="alert">
+            <!-- Alert content -->
+            <strong id="alert-head">Congratzis!</strong>
+            <div id="alert-text">You have created a booking.</div>
         </div>
     </div>
 {% endblock content %}

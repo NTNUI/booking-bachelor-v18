@@ -104,6 +104,29 @@ button#close {
 p.type-header {
     text-transform: capitalize;
 }
+/* Alerts */
+.booking-alert {
+    position: fixed;
+    left: 0px;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    z-index: 1;
+}
+.alert-success {
+    display: none;
+    bottom: 0px !important;
+    margin-bottom: 5%;
+    padding: 3%;
+}
+
+.alert-warning {
+    display: none;
+    top: 0px !important;
+    margin-top: 7%;
+    padding: 4%;
+}
 
 /* Responsive design */
 /* Make text smaller and removes "busy" sign and day name on smaller devices */
@@ -119,6 +142,20 @@ p.type-header {
     .calendar-day h1{
         font-size: 100%;
         padding: 5% 15% 10% 15%;
+    }
+}
+@media only screen and (max-width: 990px) {
+    .booking-alert {
+        width: 60%;
+    }
+    .alert-success {
+        bottom: 0px !important;
+        padding: 2%;
+    }
+
+    .alert-warning {
+        top: 70% !important;
+        padding: 4%;
     }
 }
 @media only screen and (max-width: 550px) {
@@ -143,6 +180,19 @@ p.type-header {
     #control-box {
         display: flex;
         align-items: center;
+    }
+    .booking-alert {
+        width: 80%;
+    }
+    .alert-success {
+        bottom: 0px !important;
+        margin-bottom: 5%;
+        padding: 2%;
+    }
+
+    .alert-warning {
+        top: 78% !important;
+        padding: 2%;
     }
 }
 

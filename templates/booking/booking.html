@@ -15,13 +15,11 @@
 {% block content %}
 
     <div class="container" id="booking-container">
-
-        <!-- The modal -->
-        <div id="booking-modal" class="modal-big" data-backdrop="static" data-keyboard="false">
-
-            <!-- Modal content -->
-            <div class="booking-modal-contents" data-backdrop="static" data-keyboard="false">
-
+        <!-- Modal container -->
+        <div id="booking-modal" class="modal-big">
+            <div id="modal-booking">
+                <div class="booking-modal-contents">
+                </div>
             </div>
         </div>
         
@@ -70,6 +68,19 @@
                         <div id="calendar"></div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Alerts-->
+            <div class="alert booking-alert alert-success" id="booking-success" role="alert">
+                <!-- Alert content -->
+                <strong id="alert-head">Congratzis!</strong>
+                <div id="alert-text">You have created a booking.</div>
+            </div>
+
+            <div class="alert booking-alert alert-warning" id="filter-alert" role="alert">
+                <!-- Alert content -->
+                <strong id="alert-head">Hey!</strong>
+                <div id="alert-text">You need to filter on location before seeing the calendar.</div>
             </div>
 
         </div>
