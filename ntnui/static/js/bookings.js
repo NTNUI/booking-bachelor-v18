@@ -40,9 +40,6 @@ $(function () {
                     $("#booking-modal .booking-modal-contents").html(data.html_form);
                 }
             },
-            complete: function() {
-                triggerSuccessAlert();
-            }
         });
         return false;
     };
