@@ -103,14 +103,15 @@ function populate() {
         loc = document.getElementById(loc);
         var location = global_list[0][i].location__name;
         var day = global_list[0][i].start;
+        var start_datetime = day.split("T");
+        var start_date = start_datetime[0];
         var date_format = day.slice(0, 10);
-        if (qNo === 0){
-            if(loc.value === location && loc.checked === true){
-
+        if (qNo == 0){
+            if(loc.checked === true){
                 var start_datetime = day.split("T");
                 var start_date = start_datetime[0];
+                //.log("startdate: "+start_date.slice(0,10))
                 var start_time = start_datetime[1].replace("Z", "");
-
                 var end_datetime = global_list[0][i].end.split("T");
                 var end_time = end_datetime[1].replace("Z", "");
                 //find difference between end and start
@@ -128,8 +129,14 @@ function populate() {
                 else if(loc.value === location && loc.checked === true) {
                     date_map.set(start_date, ""+diff_hour+":"+diff_min)
                 }
-                // change the html in the calendar boxes with number of booked hours.
-                $("#" + date_format + " h1").text(""+ (12 - parseInt(getTime(date_map.get(start_date)[0])))+" hours free");
+                $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date)[0]))) + " hours free");
+            }
+            else if(date_map.has(start_date) && loc.checked === false){
+                $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date)[0]))) + " hours free");
+            }
+            // change the html in the calendar boxes with number of booked hours.
+            else if(date_map.has(start_date) === false) {
+                $("#" + date_format + " h1").text("12 hours free");
             }
 
         }
