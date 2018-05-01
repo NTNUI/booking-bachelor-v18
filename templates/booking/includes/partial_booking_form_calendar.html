@@ -81,14 +81,17 @@
                 var start_time = document.getElementById("startInput").value;
                 var end_time = document.getElementById("endInput").value;
                 var $form_data = $(this).serialize()+"&start="+tempDay.id.toString() + " " + start_time + "&end="+tempDay.id.toString() + " " + end_time + "&location=" + " " + chosenLocation;
+                var overlap = false;
                 $.ajax({
                     method: "POST",
                     url: '/booking/bookings_list/create_calendar/',
                     data: $form_data,
                     // close popup on success
+
                     beforeSend: function(data) {
+                        var modal = document.getElementById('booking-modal');
                         $( list_of_bookings ).each(function( index ) {
-                            var overlap = false;
+
                             var s = list_of_bookings[index][1].replace(":", "");
                             var e = list_of_bookings[index][2].slice(11, 16).replace(":", "");
                             var s0 = start_time.slice(0, 5).replace(":", "");
@@ -100,17 +103,56 @@
                                 overlap = true;
                             }
                             if (overlap) {
-                              data.abort();
-                              console.log("overlap")
+                            data.abort();
+                                swal({
+                                    title: "Ops! Looks like a booking already exists on that time range",
+                                    text: "Do you want to enqueue your booking?",
+                                    buttons: ["No", "Yes"],
+                                    successMode: true,
+                                    })
+                                    .then((willQueue) => {
+                                        if (willQueue) {
+                                            swal("Great! Your booking is now in the queue.", {
+                                                icon: "success",
+                                                buttons: false,
+                                                timer: 3000,
+                                            });
+                                            console.log("hei fride")
+                                            var modal = document.getElementById('booking-modal');
+                                            modal.style.display = "none";
+                                        } else {
+
+                                            console.log("nei?")
+                                        }
+                                    });
+                            }
+                            else {
+                                swal("Great! you just made a new booking", {
+                                    icon: "success",
+                                    buttons: false,
+                                    timer: 3000,
+                                });
                             }
                         });
                     },
                     success: function(data) {
-                        var modal = document.getElementById('booking-modal');
+
                         var date_format = tempDay.id.slice(0, 10);
-                        modal.style.display = "none";
+                        if (!overlap) {
+                            var modal = document.getElementById('booking-modal');
+                            //modal.style.display = "none";
+                            swal("Congrats! you just made a new booking", {
+                                    icon: "success",
+                                    buttons: false,
+                                    timer: 3000,
+                                });
+                        }
+
+
                     },
                     complete: function(data) {
+                        var modal = document.getElementById('booking-modal');
+                        modal.style.display = "none";
                         var promised = promiseTest();
                         promised.done(function() {
                             promised.then( function() {
@@ -195,4 +237,5 @@
     <script type="text/javascript" src="{% static 'js/popup.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/clockpicker.js' %}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 {% endblock script %}
