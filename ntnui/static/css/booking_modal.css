@@ -36,25 +36,33 @@
 
 /* Modal Content/Box */
 .booking-modal-contents {
-    background-color: #fefefe;
-    margin: 1% auto!important;
-    padding: 10px;
-    border: 1px solid #888;
+    margin: auto;
+    padding: 20px;
     width: 60%;
 }
 
-#day-title {
+#day-title, .modal-title{
     margin: 0 auto;
 }
 
-#schedule-table {
-    font-size:50%;
-    width:25%;
-    display: flex;
-    justify-content: left;
-    margin-top:2%;
+.modal-header {
+    background: white;
 }
 
+.modal-body {
+    margin: 0px auto;
+    background: white;
+    width: 100%;
+    padding: 3% 5% 1% 5%;
+}
+
+.full {
+    padding: 3% 0% 2% 0%;
+}
+
+.modal-footer {
+    background: white;
+}
 
 /* Content container */
 #content-container {
@@ -64,26 +72,43 @@
 }
 
 /* Booking fields */
+#schedule-table {
+    font-size:50%;
+    width: 30%;
+    display: flex;
+    justify-content: left;
+}
+
 #booking-fields {
     display: flex;
     justify-content: center;
+    font-weight: 100;
+}
+
+h5 {
+    font-size: 17px;
+}
+
+.form-padding {
+    margin-top: 10%;
 }
 
 /* Cards for bookings */
 #booking-cards-con {
     display: flex;
     justify-content: center;
+    width: 50%;
+    margin: 0 auto;
 }
 
 #booking-cards {
-    max-height: 450px;
+    max-height: 500px;
     width: 100%;
     overflow-y: auto;
-    padding-left: 11%;
 }
 
 .card {
-    margin: 5px 0px 5px 0px;
+    margin: 5px auto;
 }
 
 .card-title {
@@ -96,13 +121,55 @@
     margin-left: -10%;
 }
 
-/* Make modal wider and text smaller on smaller devices */
-@media only screen and (max-width: 480px) {
+/* Responsive for different screens devices */
+@media only screen and (min-width: 1350px) {
+    .col-8, h6, p, select, input, .form-control{
+        font-size: 110%;
+    }
     #booking-cards-con {
-        padding-left: 2%;
+        margin-right: 7%;
+        max-height: 600px;
+    }
+    #booking-fields {
+        padding: 0% 4% 1% 4%;
+    }
+    #day-title  {
+        font-size: 30px;
+    }
+    .card-title {
+        font-size: 17px;
+    }
+    h5 {
+        font-size: 17px;
     }
     .booking-modal-contents {
-        width: 90%;
+        width: 60%;
+    }
+}
+
+@media only screen and (max-width: 1050px) {
+    .col-8, h6, p, select, input, .form-control{
+        font-size: 80%;
+    }
+    #booking-cards-con {
+        margin-right: 5%;
+        max-height: 450px;
+    }
+    #booking-fields {
+        padding: 0% 5% 1% 5%;
+    }
+    .booking-modal-contents {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 990px) {
+    .col-8 {
+        max-width: 90%;
+        flex: 100%;
+    }
+    #booking-fields {
+        margin-top: 5%;
     }
     #day-title  {
         margin: 0 auto;
@@ -112,27 +179,23 @@
     .card-title {
         font-size: 17px;
     }
+    h5 {
+        font-size: 17px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    #booking-cards-con {
+        padding-left: 2%;
+    }
+    .booking-modal-contents {
+        width: 100%;
+    }
+    .modal-header, modal-body, modal-footer, content-container {
+        width: 100%;
+    }
     #close {
         padding: 3px 7px 3px 7px;
         font-size: 12px;
-    }
-}
-
-@media only screen and (max-width: 900px) {
-    .col-8 {
-        max-width: 100%;
-        flex: 100%;
-    }
-}
-
-@media only screen and (max-width: 1125px) {
-    .booking-modal-contents {
-        width: 80%;
-    }
-    .col-8, h6, p, select, input, .form-control{
-        font-size: 90%;
-    }
-    #booking-cards-con {
-        margin-right: 7%;
     }
 }

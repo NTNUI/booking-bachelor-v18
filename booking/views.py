@@ -6,19 +6,23 @@ from .models import Booking, Location
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from .forms import BookingForm
+from django.contrib.auth.decorators import user_passes_test
 
 from django.contrib import messages
 from datetime import time
 from groups.models import SportsGroup
 from groups.models import Membership
+from .models import LOCATION_TYPES
 from django.utils import timezone
 
 @login_required
 def index(request):
     model = Location
     locations = model.objects.all()
+    type_list = LOCATION_TYPES
     return render(request, 'booking/booking.html', {
-        'locations': locations})
+        'locations': locations,
+        'types': type_list})
 
 
 def api(request, **kwargs):
@@ -55,6 +59,12 @@ def api2(request, **kwargs):
     hours_list = [(i, j) for i, j in zip(dates.keys(), dates.values())]
     return JsonResponse(hours_list+b2_list, safe=False)
 
+def locationApi(request, **kwargs):
+    model = Location
+    locations = model.objects.all().values('name', 'address', 'description', 'type')
+    location_list = list(locations)
+    return JsonResponse(location_list, safe=False)
+
 class BookingList(ListView):
     model = Booking
 
@@ -69,7 +79,7 @@ class BookingList(ListView):
             'locations': locations,
             'bookings': bookings, })
 
-@login_required
+@user_passes_test(lambda u: u.is_superuser)
 def booking_all(request):
     book = []
     now = timezone.now()
@@ -179,7 +189,6 @@ def booking_create_from_calendar(request):
         user = request.user
         form = BookingForm(user, initial={'person': request.user})
     return save_booking_form(request, form, 'booking/includes/partial_booking_create_calendar.html')
-
 
 def booking_update(request, pk):
     mails = confirmation_mail(request, pk)

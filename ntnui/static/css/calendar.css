@@ -3,7 +3,7 @@
 /* Container for the booking page */
 #booking-container {
     height: auto;
-    width: 90%;
+    width: 60%;
     padding: 1% 0% 1.5% 0%;
 }
 
@@ -13,6 +13,11 @@
     box-shadow: 0 2px 4px rgba(50, 50, 93, 0.3);
     display: flex;
     flex-direction: column;
+    pointer-events: none;
+    user-select: none;
+    -webkit-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
     padding: 18px;
 }
 
@@ -26,8 +31,7 @@
     background-color: #fff;
     padding: 20px;
     line-height: 2px;
-    font-weight: bold;
-    font-size: 20px;
+    font-size: 1.6rem;
 }
 #previous {
     box-shadow: 0 2px 4px rgba(50, 50, 93, 0.2);
@@ -79,7 +83,6 @@
     background: #eee;
 }
 
-
 /*Highlights today*/
 .today {
     border-bottom: solid 2px #EC1E24;
@@ -92,8 +95,116 @@
     pointer-events: none;
 }
 
-/* Responsive design */
-/* Make text smaller and removes "busy" sign and day name on smaller devices */
+button#close {
+    background: #00800000;
+}
+
+/* Capitalize first letter of word in filterbox */
+p.type-header {
+    text-transform: capitalize;
+}
+/* Alerts */
+.booking-alert {
+    position: fixed;
+    left: 0px;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    z-index: 1;
+}
+.alert-success {
+    display: none;
+    bottom: 0px !important;
+    margin-bottom: 5%;
+    padding: 3%;
+}
+
+.alert-warning {
+    display: none;
+    top: 0px !important;
+    margin-top: 10%;
+    padding: 4%;
+}
+
+/* Responsive for different screens devices */
+@media only screen and (min-width: 1900px) {
+    #booking-container {
+        width: 84%;
+    }
+    .alert-warning {
+        padding: 2%;
+        font-size: 23px;
+    }
+    .alert-success {
+        padding: 2%;
+        font-size: 22px;
+    }
+    #filtering-container {
+        font-size: 22px;
+    }
+}
+@media only screen and (min-width: 1350px) {
+    #booking-container {
+        width: 82%;
+    }
+    .alert-warning {
+        padding: 3%;
+        font-size: 20px;
+    }
+    .alert-success {
+        padding: 3%;
+        font-size: 20px;
+    }
+    #filtering-container {
+        font-size: 20px;
+    }
+    .filter-header {
+        font-size: 18px !important;
+    }
+}
+@media only screen and (min-width: 1000px) {
+    #booking-container {
+        width: 72%;
+    }
+    .alert-warning {
+        padding: 3%;
+    }
+    .alert-success {
+        padding: 3%;
+    }
+    #filtering-container {
+        font-size: 16px;
+    }
+}
+@media only screen and (min-width: 990px) {
+    #booking-container {
+        width: 79%;
+    }
+    #filtering-container {
+        font-size: 14px;
+    }
+    .filter-header {
+        font-size: 22px !important;
+    }
+}
+@media only screen and (max-width: 990px) {
+    #booking-container {
+        width: 90%;
+    }
+    .booking-alert {
+        width: 60%;
+    }
+    .alert-success {
+        bottom: 0px !important;
+        padding: 2%;
+    }
+
+    .alert-warning {
+        top: 70% !important;
+        padding: 4%;
+    }
+}
 @media only screen and (max-width: 750px) {
     .calendar-day {
         padding: 10px 10px 0px 10px;
@@ -107,11 +218,17 @@
         font-size: 100%;
         padding: 5% 15% 10% 15%;
     }
+    #filtering-container {
+        font-size: 12px;
+    }
+    .filter-header {
+        font-size: 18px !important;
+    }
 }
 @media only screen and (max-width: 550px) {
     .calendar-day {
         height: 15%;
-        padding:  6px 3px 0px 3px;
+        padding:  6px 0px 0px 0px;
         margin-bottom: 2px;
     }
     .calendar-day p {
@@ -130,6 +247,19 @@
     #control-box {
         display: flex;
         align-items: center;
+    }
+    .booking-alert {
+        width: 80%;
+    }
+    .alert-success {
+        bottom: 0px !important;
+        margin-bottom: 5%;
+        padding: 2%;
+    }
+
+    .alert-warning {
+        top: 78% !important;
+        padding: 2%;
     }
 }
 

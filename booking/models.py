@@ -7,9 +7,9 @@ from django.contrib.auth.models import User
 from django.db.utils import OperationalError
 
 LOCATION_TYPES = (
-    ('gym ','GYM'),
+    ('gym ', 'GYM'),
     ('football field', 'FOOTBALL FIELD'),
-    ('volleyball grounds','VOLLEYBALL GROUNDS')
+    ('volleyball grounds', 'VOLLEYBALL GROUNDS')
 )
 
 

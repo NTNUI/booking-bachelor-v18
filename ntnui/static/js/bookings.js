@@ -1,5 +1,5 @@
-$(function () {
 
+$(function () {
     var loadForm = function () {
         var btn = $(this);
         $.ajax({
@@ -14,7 +14,7 @@ $(function () {
             },
             success: function (data) {
                 $("#booking-modal .booking-modal-contents").html(data.html_form);
-            }
+            },
         });
     };
 
@@ -69,6 +69,7 @@ window.onclick = function(event) {
         $("#booking-modal").css("display", "none");
     }
 }
+
 
 
 
