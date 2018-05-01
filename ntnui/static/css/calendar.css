@@ -164,9 +164,6 @@ p.type-header {
     }
 }
 @media only screen and (min-width: 1000px) {
-    #booking-container {
-        width: 72%;
-    }
     .alert-warning {
         padding: 3%;
     }
@@ -179,13 +176,19 @@ p.type-header {
 }
 @media only screen and (min-width: 990px) {
     #booking-container {
-        width: 79%;
+        width: 88%;
     }
     #filtering-container {
         font-size: 14px;
     }
     .filter-header {
         font-size: 22px !important;
+    }
+    .calendar-day {
+        font-size: 94%;
+    }
+    .calendar-day h1{
+        font-size: 90%;
     }
 }
 @media only screen and (max-width: 990px) {
@@ -199,23 +202,26 @@ p.type-header {
         bottom: 0px !important;
         padding: 2%;
     }
-
+    .calendar-day p{
+        font-size: 100%;
+    }
+    .calendar-day h1{
+        font-size: 98%;
+    }
     .alert-warning {
         top: 70% !important;
         padding: 4%;
     }
 }
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 800px) {
     .calendar-day {
         padding: 10px 10px 0px 10px;
     }
     .calendar-day p {
-        font-size: 90%;
         line-height: 30%;
         display: block;
     }
     .calendar-day h1{
-        font-size: 100%;
         padding: 5% 15% 10% 15%;
     }
     #filtering-container {
@@ -236,7 +242,6 @@ p.type-header {
         line-height: 50%;
         display: block;
     }
-
     .calendar-day h1 {
         display: none;
     }
@@ -256,7 +261,6 @@ p.type-header {
         margin-bottom: 5%;
         padding: 2%;
     }
-
     .alert-warning {
         top: 78% !important;
         padding: 2%;
