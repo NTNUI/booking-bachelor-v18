@@ -24,16 +24,22 @@
         <tr>
             <td><b>Group:</b> {{ booking.group }}</td>
         </tr>
-
+        <tr>
+            <td><b>Requested by:</b> {{ booking.person }}</td>
+        </tr>
+        <tr>
+            <td><b>Recurring:</b> </td>
+        </tr>
 
 
         <tr>
             <td>
-                <button type='button' class='btn col js-update-booking' data-url='{% url "booking_update" booking.id %}'>
-                    Edit
+                <!--Remember to change from 'delete' to approve/disapprove -->
+                <button type='button' class='btn btn-success col js-delete-booking' data-url='{% url "booking_delete" booking.id %}'>
+                    Approve
                 </button>
                 <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url "booking_delete" booking.id %}'>
-                    Delete
+                    Disapprove
                 </button>
             </td>
         </tr>
