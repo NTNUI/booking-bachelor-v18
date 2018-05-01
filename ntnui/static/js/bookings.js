@@ -39,9 +39,6 @@ $(function () {
                 else {
                     $("#booking-modal .booking-modal-contents").html(data.html_form);
                 }
-            },
-            complete: function() {
-                triggerSuccessAlert();
             }
         });
         return false;
@@ -73,16 +70,6 @@ window.onclick = function(event) {
     }
 }
 
-// Alerts
-function triggerSuccessAlert(){
-    setTimeout(function () {
-        $(".alert-success").slideDown(1000);
-        document.getElementById("booking-success").style.display = "block";
-        setTimeout(function () {
-            $(".alert-success").slideUp(1000);
-        }, 5000);
-    }, 600);
-}
 
 
 

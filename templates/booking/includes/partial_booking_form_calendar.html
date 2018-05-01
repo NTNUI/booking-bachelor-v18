@@ -16,12 +16,18 @@
                     <div class="col form-group {% if field.errors %} has-error{% endif %}">
                         {{form.person.as_hidden}}
                         {{form.location.as_hidden}}
-                        <h5>Title</h5>
-                        {{form.title}}
-                        <h5>Description</h5>
-                        {{form.description}}
-                        <h5>Group</h5>
-                        {{form.group}}
+                        <div>
+                            <h5>Title</h5>
+                            {{form.title}}
+                        </div>
+                        <div class="form-padding">
+                            <h5>Description</h5>
+                            {{form.description}}
+                        </div>
+                        <div class="form-padding">
+                            <h5>Group</h5>
+                            {{form.group}}
+                        </div>
                         {% if request.user.is_superuser %}
                             <div class="form-padding">
                                 <h5>Recurring</h5>
@@ -72,9 +78,8 @@
 {% block script %}
     <script>
         var chosenLocation = this.currentLocation
-        console.log(chosenLocation)
         $(document).ready(function(){
-        var $myForm = $('#createform')
+        var $myForm = $('#createform');
         $myForm.submit(function(event){
             event.preventDefault()
             // append start date to post request
@@ -90,7 +95,6 @@
                     var modal = document.getElementById('booking-modal');
                     var date_format = tempDay.id.slice(0, 10);
                     modal.style.display = "none";
-                    console.log($form_data)
                 },
                 complete: function(data) {
                     var promised = promiseTest();
@@ -128,41 +132,45 @@
                     var loc = global_list[0][i].location__name;
                     loc = document.getElementById(loc);
                     var loc = global_list[0][i].location__name;
+                    var queueNo = global_list[0][i].queueNo;
                     loc = document.getElementById(loc);
                     if(tempDay.id === date_format && data[i].location__name === loc.value && loc.checked === true) {
                         booking = []
-                        booking.push(newDate, start, data[i].end, data[i].title, data[i].person__first_name);
+                        booking.push(newDate, start, data[i].end, data[i].title, data[i].person__first_name, queueNo);
                         list_of_bookings.push(booking)
                         list_of_bookings.sort(function(a, b){return a[0] - b[0]});
                     }
                 })
                 if(list_of_bookings.length != 0){
                     for (var I = 0; I < list_of_bookings.length; I++) {
-                        var div = document.createElement("div");
-                        div.className = "col-sm-10";
-                        var div2 = document.createElement("div");
-                        div2.className = "card";
-                        var div3 = document.createElement("div");
-                        div3.className = "card-body";
-                        var date = document.createElement("h5");
-                        date.className = "card-title";
-                        var start_time = list_of_bookings[I][1];
-                        var end_time = list_of_bookings[I][2].slice(11, 16);
-                        date.innerHTML = start_time + "-" + end_time;
-                        var title = document.createElement("p");
-                        title.className = "card-text";
-                        var b_title = list_of_bookings[I][3]
-                        title.innerHTML = b_title;
-                        var name = document.createElement("h6");
-                        name.className = "card-subtitle mb-2 text-muted";
-                        var b_name = list_of_bookings[I][4]
-                        name.innerHTML = b_name;
-                        div3.appendChild(date);
-                        div3.appendChild(title);
-                        div3.appendChild(name);
-                        div2.appendChild(div3);
-                        div.appendChild(div2);
-                        document.getElementById("booking-cards").appendChild(div);
+                        var queueNo = list_of_bookings[I][5];
+                        if (queueNo == 0) {
+                            var div = document.createElement("div");
+                            div.className = "col-sm-10";
+                            var div2 = document.createElement("div");
+                            div2.className = "card";
+                            var div3 = document.createElement("div");
+                            div3.className = "card-body";
+                            var date = document.createElement("h5");
+                            date.className = "card-title";
+                            var start_time = list_of_bookings[I][1];
+                            var end_time = list_of_bookings[I][2].slice(11, 16);
+                            date.innerHTML = start_time + "-" + end_time;
+                            var title = document.createElement("p");
+                            title.className = "card-text";
+                            var b_title = list_of_bookings[I][3]
+                            title.innerHTML = b_title;
+                            var name = document.createElement("h6");
+                            name.className = "card-subtitle mb-2 text-muted";
+                            var b_name = list_of_bookings[I][4]
+                            name.innerHTML = b_name;
+                            div3.appendChild(date);
+                            div3.appendChild(title);
+                            div3.appendChild(name);
+                            div2.appendChild(div3);
+                            div.appendChild(div2);
+                            document.getElementById("booking-cards").appendChild(div);
+                        }
                     }
                 }else {
                     var empty = document.createElement("h5");
