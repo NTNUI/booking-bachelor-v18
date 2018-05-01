@@ -31,7 +31,6 @@ function validateTime(){
     }
 }
 function resetClock(){
-    console.log("test");
     var clockTicks = document.getElementsByClassName('clockpicker-tick');
     var endTime = document.getElementById('endInput');
     console.log(clockTicks.length);
