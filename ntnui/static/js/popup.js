@@ -33,7 +33,6 @@ function validateTime(){
 function resetClock(){
     var clockTicks = document.getElementsByClassName('clockpicker-tick');
     var endTime = document.getElementById('endInput');
-    console.log(clockTicks.length);
     for(var i=0;i<clockTicks.length; i++){
         if(clockTicks.length == 28)
             if(clockTicks[i].innerHTML > 10 && clockTicks[i].innerHTML < 23 || (clockTicks[i].innerHTML == '00' && i>(+clockTicks.length - 4))){
@@ -61,7 +60,6 @@ function editClock(){
     var startHour = startTime.value.substring(0,2);
     var startMinute = startTime.value.substring(3,5);
     var hourParent = clockTicks[0].parentNode.className;
-    console.log("editing clock", startHour);
     for(var i=0;i<clockTicks.length; i++){
         if((clockTicks[i].innerHTML < +startHour+1 || clockTicks[i].innerHTML<10) && i<(+clockTicks.length - 4))  {
             clockTicks[i].style.color = "#DCDCDC";

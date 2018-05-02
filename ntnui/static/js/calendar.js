@@ -407,16 +407,6 @@ function popup(e) {
     }
 }
 
-
-    // Dropdown for filtering
-    function dropdownFilters(event){
-        var toggleArrow = document.getElementById(event.target.id);
-        toggleArrow.classList.toggle("down");
-        var typeId = toggleArrow.nextSibling.nextSibling.id;
-        var toggleType = document.getElementById(typeId);
-        toggleType.style.display = toggleType.style.display == "block" ? "none" : "block";
-    };
-
 // Dropdown for filtering
 function dropdownFilters(event){
     var toggleArrow = document.getElementById(event.target.id);
@@ -428,33 +418,33 @@ function dropdownFilters(event){
 
 // Alerts
 function triggerFilterAlert(){
-    $(".alert-warning").slideDown(1000);
-    document.getElementById("filter-alert").style.display = "block";
+    swal({
+        title: "Hey!",
+        text: "You need to filter on location before seeing the calendar.",
+        buttons: false,
+        closeOnClickOutside: false,
+    })
+
+    document.getElementById("filtering-container").style.borderRadius = "5px";
+
+    // $(".alert-warning").slideDown(1000);
+    //document.getElementById("filter-alert").style.display = "block";
     $('.filter-cursors').click(function () {
-         $(".alert-warning").slideUp(1000);
+        swal.close();
+        document.getElementById("filter-box").style.zIndex="0"
+        document.getElementById("filtering-container").style.borderRadius = "0px";
     });
 }
 
-function triggerSuccessAlert(){
-    setTimeout(function () {
-        $(".alert-success").slideDown(1000);
-        document.getElementById("booking-success").style.display = "block";
-        setTimeout(function () {
-            $(".alert-success").slideUp(1000);
-        }, 3000);
-    }, 100);
+var currentLocation;
+var locationString;
+
+// populate calendar and get location of clicked filter type.
+function getLocation(event) {
+    populate();
+    var locationId = event.target.getAttribute('data-id');
+    var locationName = event.target.innerHTML;
+    this.currentLocation = locationId;
+    this.locationString = locationName;
 }
-
-
-    var currentLocation;
-    var locationString;
-
-    // populate calendar and get location of clicked filter type.
-    function getLocation(event) {
-        populate();
-        var locationId = event.target.getAttribute('data-id');
-        var locationName = event.target.innerHTML;
-        this.currentLocation = locationId;
-        this.locationString = locationName;
-    }
 

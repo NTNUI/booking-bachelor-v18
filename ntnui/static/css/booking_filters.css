@@ -4,6 +4,7 @@
     box-shadow: 0 2px 4px rgba(50, 50, 93, 0.3);
     height: inherit;
     padding: 8%;
+    z-index: 10002;
 }
 
 #filter-bookings {

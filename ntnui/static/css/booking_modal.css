@@ -217,3 +217,22 @@ h8, h6 {
         font-size: 12px;
     }
 }
+
+/* Sway css */
+
+.swal-overlay--show-modal {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.swal-modal {
+    border-radius: 0px;
+}
+
+.col-lg-3 {
+    z-index: 10001;
+}
+
+.swal-modal {
+    margin-bottom: 20%;
+}
