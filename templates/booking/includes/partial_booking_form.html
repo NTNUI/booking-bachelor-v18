@@ -5,8 +5,6 @@
 
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/clockpicker.css' %}">
-
-
 {% endblock %}
 
 {% block content %}
@@ -52,20 +50,39 @@
             </span>
         </div>
     </div>
-    <div class="form-margin">
-        <label>Recurring</label>
-        <select class="form-control" id="recurringEvent">
-            <option value="noRepeat" id="noRepeat">Does not repeat</option>
-            <option value="weekly" id="weekly">Repeat every week</option>
-        </select>
-    </div>
 {% endblock %}
 
 {% block script %}
-    <script src="https://code.jquery.com/ui/1.12.4/jquery-ui.js"></script>
+<script>
+    $(document).ready(function(){
+        var $myForm = $('#createform');
+        $myForm.submit(function(event){
+            event.preventDefault()
+            // append start date to post request
+            var start_time = document.getElementById("startInput").value;
+            var end_time = document.getElementById("endInput").value;
+            var dates = document.getElementById("date").value
+            console.log(dates)
+            var $form_data = $(this).serialize()+"&start="+dates + " " + start_time + "&end="+dates + " " + end_time
+            console.log($form_data)
+            $.ajax({
+                method: "POST",
+                url: '/booking/bookings_list/create_calendar/',
+                data: $form_data,
+                // close popup on success
+                success: function(data) {
+                    var modal = document.getElementById('booking-modal');
+                    modal.style.display = "none";
+                },
+            })
+        })
+    })
+</script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script type="text/javascript" src="{% static 'js/popup.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/clockpicker.js' %}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
 {% endblock script %}
