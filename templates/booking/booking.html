@@ -34,13 +34,13 @@
                         {% for type in types %}
                        <div>
                             <p class="type-header">{{ type.0 }}</p>
-                            <div id="{{ type.0 }}" class="filter-arrow right" onclick="dropdownFilters(event)"></div>
+                            <div id="{{ type.0 }}" class="filter-arrow right" title="Click to see locations" onclick="dropdownFilters(event)"></div>
                             <div id="{{ forloop.counter }}" class="filter-type">
                                 {% for location in locations %}
                                     {% if location.type == type.0 %}
                                         <div class="radio" style="display:block">
                                             <input type="radio" class="radio-inline" name="opradio" id="{{ location }}" value="{{ location }}">
-                                            <label class="filter-cursors" data-id="{{ forloop.counter }}" onchange="populate()" for="{{ location }}">{{ location }}</label>
+                                            <label class="filter-cursors" data-id="{{ forloop.counter }}" title="Click to filter" onchange="populate()" for="{{ location }}">{{ location }}</label>
                                             <p></p>
                                         </div>
                                     {% endif %}
