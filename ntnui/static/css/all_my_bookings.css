@@ -191,7 +191,16 @@ label {
 
 /* Responsive design */
 /* Makes booking container bigger on smaller devices */
+
+@media only screen and (max-width: 1100px) {
+    .booking-modal-contents {
+        width: 65% !important;
+    }
+}
 @media only screen and (max-width: 650px){
+    .booking-modal-contents {
+        width: 90% !important;
+    }
     .booking-container {
         width: 90%
     }
