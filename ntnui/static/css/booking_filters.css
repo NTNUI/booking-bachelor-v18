@@ -147,6 +147,14 @@ select {
     .type-header {
         font-size: 110%;
         display: inline-block;
-        margin-top: 3%;
+        margin-top: 2%;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .type-header {
+        font-size: 110%;
+        display: inline-block;
+        margin-top: 1% !important;
     }
 }
