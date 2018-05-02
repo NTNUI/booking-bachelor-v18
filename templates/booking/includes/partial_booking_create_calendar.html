@@ -22,7 +22,6 @@
     document.getElementById('dayTitle').innerHTML = dayOfWeekAsString(formattedDate.getDay())+' '+formattedDate.getDate()+
     '. '+monthNames[formattedDate.getMonth()]+' '+formattedDate.getFullYear() + ' ' + 'at' + ' ' + locationString;
     document.getElementById('weekly').innerHTML = 'Repeat every '+dayOfWeekAsString(formattedDate.getDay());
-
     function validateForm() {
         var description = document.forms["createform"]["id_description"];
         var title = document.forms["createform"]["id_title"];
@@ -57,7 +56,6 @@
                 end.style.border = "1px solid rgba(0,0,0,.15)"
             })
         }
-        console.log(error)
         if(error === ""){
             return true;
         }
