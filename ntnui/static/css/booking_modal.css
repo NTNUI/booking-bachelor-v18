@@ -164,6 +164,10 @@ h5 {
 }
 
 @media only screen and (max-width: 990px) {
+    #booking-cards-con {
+        padding-left: 5%;
+        width: 90%;
+    }
     .col-8 {
         max-width: 90%;
         flex: 100%;
@@ -187,6 +191,7 @@ h5 {
 @media only screen and (max-width: 480px) {
     #booking-cards-con {
         padding-left: 2%;
+        width: 90%;
     }
     .booking-modal-contents {
         width: 100%;
