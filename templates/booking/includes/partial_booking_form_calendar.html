@@ -77,7 +77,8 @@
         $(document).ready(function(){
             var btn = document.getElementById("submission");
             $(btn).click(function () {
-                var count = 0;
+                if(validateForm()) {
+                    var count = 0;
                 $( list_of_bookings ).each(function( index ) {
                     var start_time = document.getElementById("startInput").value;
                     var end_time = document.getElementById("endInput").value;
@@ -160,6 +161,8 @@
                     },
                     })
                 }
+                }
+
                 });
             });
         $.ajax({

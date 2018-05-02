@@ -10,14 +10,60 @@
         {% include 'booking/includes/partial_booking_form_calendar.html' %}
     </div>
     <div class="modal-footer">
-        <button title="Click to create booking" id="submission" type="submit" class="btn btn-success">Create booking</button>
+        <button title="Click to create booking" id="submission" onclick="return validateForm()" type="submit" class="btn btn-success">Create booking</button>
     </div>
 </form>
 
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
 <script>
     var close = document.getElementById('close');
     var formattedDate = new Date(tempDay.id.substring(0,4), +tempDay.id.substring(5,7)-1, tempDay.id.substring(8,10));
     document.getElementById('dayTitle').innerHTML = dayOfWeekAsString(formattedDate.getDay())+' '+formattedDate.getDate()+
     '. '+monthNames[formattedDate.getMonth()]+' '+formattedDate.getFullYear() + ' ' + 'at' + ' ' + locationString;
     document.getElementById('weekly').innerHTML = 'Repeat every '+dayOfWeekAsString(formattedDate.getDay());
+
+    function validateForm() {
+        var description = document.forms["createform"]["id_description"];
+        var title = document.forms["createform"]["id_title"];
+        var start = document.forms["createform"]["startInput"];
+        var end = document.forms["createform"]["endInput"];
+        var error = "";
+        if(description.value === "") {
+            description.style.border = "1px solid red";
+            error += "description ";
+            $(description).click(function () {
+                description.style.border = "1px solid rgba(0,0,0,.15)"
+            })
+        }
+        if(title.value === "") {
+            title.style.border = "1px solid red";
+            error += "title ";
+            $(title).click(function () {
+                title.style.border = "1px solid rgba(0,0,0,.15)"
+            })
+        }
+        if(start.value === "Choose start time") {
+            start.style.border = "1px solid red";
+            error += "start ";
+            $(start).click(function () {
+                start.style.border = "1px solid rgba(0,0,0,.15)"
+            })
+        }
+        if(end.value === "Choose end time") {
+            end.style.border = "1px solid red"
+            error += "end ";
+            $(end).click(function () {
+                end.style.border = "1px solid rgba(0,0,0,.15)"
+            })
+        }
+        console.log(error)
+        if(error === ""){
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
 </script>
