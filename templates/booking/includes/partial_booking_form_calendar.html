@@ -20,16 +20,36 @@
                             <h5>Title</h5>
                             {{form.title}}
                         </div>
-                        <div class="form-padding">
+                        <div class="form-margin">
                             <h5>Description</h5>
                             {{form.description}}
                         </div>
-                        <div class="form-padding">
+                        <div class="form-margin">
                             <h5>Group</h5>
                             {{form.group}}
                         </div>
+
+                        <div class="form-margin">
+                            <h5>Starttime</h5>
+                            <div class="input-group clockpicker" data-placement="top" data-align="bottom" data-autoclose="true" id="startTime">
+                                <input type="text" class="form-control" value="Choose start time" id="startInput" onclick="resetClock()" required>
+                                <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-margin">
+                            <h5>Endtime</h5>
+                            <div class="input-group clockpicker" data-placement="top" data-align="bottom" data-autoclose="true" id="endTime" >
+                                <input type="text" class="form-control" value="Choose end time" id="endInput" onclick="editClock()" required>
+                                <span class="input-group-addon" i id="endTimeSpan">
+                                <span class="glyphicon glyphicon-time" ></span>
+                                </span>
+                            </div>
+                        </div>
+
                         {% if request.user.is_superuser %}
-                            <div class="form-padding">
+                            <div class="form-margin">
                                 <h5>Recurring</h5>
                                 <select class="form-control" id="recurringEvent">
                                     <option value="noRepeat" id="noRepeat">Does not repeat</option>
@@ -40,7 +60,7 @@
                         {% if user.is_authenticated and not request.user.is_superuser %}
                             {% user_in_hs user as user_in_hs %}
                             {% if user_in_hs %}
-                                <div class="form-padding">
+                                <div class="form-margin">
                                     <h5>Request Recurring</h5>
                                     <select class="form-control" id="recurringEvent">
                                         <option value="noRepeat" id="noRepeat">Does not repeat</option>
@@ -49,25 +69,6 @@
                                 </div>
                             {% endif %}
                         {% endif %}
-
-                        <div class="form-padding">
-                            <h5>Starttime</h5>
-                            <div class="input-group clockpicker" data-placement="left" data-align="bottom" data-autoclose="true" id="startTime">
-                                <input type="text" class="form-control" value="Choose start time" id="startInput" onclick="resetClock()" required>
-                                <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-time"></span>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="form-padding">
-                            <h5>Endtime</h5>
-                            <div class="input-group clockpicker" data-placement="left" data-align="bottom" data-autoclose="true" id="endTime" >
-                                <input type="text" class="form-control" value="Choose end time" id="endInput" onclick="editClock()" required>
-                                <span class="input-group-addon" i id="endTimeSpan">
-                                <span class="glyphicon glyphicon-time" ></span>
-                                </span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             {% endif %}
@@ -131,12 +132,11 @@
                     var newDate = start.replace(":", "");
                     var loc = global_list[0][i].location__name;
                     loc = document.getElementById(loc);
-                    var loc = global_list[0][i].location__name;
                     var queueNo = global_list[0][i].queueNo;
-                    loc = document.getElementById(loc);
+                    var group = global_list[0][i].group;
                     if(tempDay.id === date_format && data[i].location__name === loc.value && loc.checked === true) {
                         booking = []
-                        booking.push(newDate, start, data[i].end, data[i].title, data[i].person__first_name, queueNo);
+                        booking.push(newDate, start, data[i].end, data[i].title, data[i].person__first_name, queueNo, group);
                         list_of_bookings.push(booking)
                         list_of_bookings.sort(function(a, b){return a[0] - b[0]});
                     }
@@ -158,15 +158,20 @@
                             date.innerHTML = start_time + "-" + end_time;
                             var title = document.createElement("p");
                             title.className = "card-text";
-                            var b_title = list_of_bookings[I][3]
+                            var b_title = list_of_bookings[I][3];
                             title.innerHTML = b_title;
                             var name = document.createElement("h6");
-                            name.className = "card-subtitle mb-2 text-muted";
+                            name.className = "card-subtitle text-muted mb-2";
                             var b_name = list_of_bookings[I][4]
                             name.innerHTML = b_name;
+                            var group = document.createElement("h8");
+                            group.className = "card-subtitle";
+                            var b_group = list_of_bookings[I][6];
+                            group.innerHTML = b_group;
                             div3.appendChild(date);
                             div3.appendChild(title);
                             div3.appendChild(name);
+                            div3.appendChild(group);
                             div2.appendChild(div3);
                             div.appendChild(div2);
                             document.getElementById("booking-cards").appendChild(div);

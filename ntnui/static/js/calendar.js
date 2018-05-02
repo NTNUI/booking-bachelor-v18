@@ -132,7 +132,7 @@ function populate() {
                 $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date)[0]))) + " hours free");
             }
             else if(date_map.has(start_date) && loc.checked === false){
-                $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date)[0]))) + " hours free");
+                $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date)[0]))) + "\n" + " hours free");
             }
             // change the html in the calendar boxes with number of booked hours.
             else if(date_map.has(start_date) === false) {
@@ -342,8 +342,11 @@ function createMonth() {
     currentMonthText.innerHTML = monthNames[date.getMonth()] + " " + date.getFullYear();
 
     // Gives the current date a highligth
-    var current_day = getCurrentDay();
-    document.getElementById(current_day).className = "calendar-day today";
+    var todaysDate = new Date();
+    if(dateObject.getMonth() == todaysDate.getMonth()+1 && dateObject.getYear() == todaysDate.getYear()){
+        var currentDay = getCurrentDay();
+        document.getElementById(currentDay).className = "calendar-day today";
+    }
 }
 
 //Get the current day
@@ -351,12 +354,12 @@ function getCurrentDay() {
     var todaysDate = new Date();
     var today = todaysDate.getDate();
     // add 0 to single digit days
-    var today_formatted = minTwoDigits(today);
+    var todayFormatted = minTwoDigits(today);
     var currentMonth = todaysDate.getMonth();
     var currentYear = todaysDate.getFullYear();
     var currentMonthString = monthsAsString(currentMonth);
-    var current_day = (currentYear + "-" + currentMonthString + "-" + today_formatted).toString();
-    return current_day
+    var currentDay = (currentYear + "-" + currentMonthString + "-" + todayFormatted);
+    return currentDay
 }
 
 //Opens the modal with content */

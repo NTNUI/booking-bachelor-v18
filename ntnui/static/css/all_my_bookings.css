@@ -180,6 +180,14 @@ button#close {
     background: #00800000;
 }
 
+/* Label in form-field */
+label {
+    font-weight: 600;
+    font-size: 17px;
+}
+.form-margin {
+    margin-top: 5% !important;
+}
 
 /* Responsive design */
 /* Makes booking container bigger on smaller devices */

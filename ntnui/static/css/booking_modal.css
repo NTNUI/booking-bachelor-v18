@@ -89,7 +89,7 @@ h5 {
     font-size: 17px;
 }
 
-.form-padding {
+.form-margin {
     margin-top: 10%;
 }
 
@@ -107,12 +107,23 @@ h5 {
     overflow-y: auto;
 }
 
+.card-body {
+    padding: 7%;
+}
+
 .card {
     margin: 5px auto;
 }
 
 .card-title {
     text-align: center;
+}
+
+.card-text {
+    font-size: 17px;
+}
+h8, h6 {
+    font-size: 13px;
 }
 
 .empty {
@@ -122,13 +133,12 @@ h5 {
 }
 
 /* Responsive for different screens devices */
-@media only screen and (min-width: 1350px) {
-    .col-8, h6, p, select, input, .form-control{
+@media only screen and (min-width: 1400px) {
+    .col-8, p, select, input, .form-control{
         font-size: 110%;
     }
     #booking-cards-con {
         margin-right: 7%;
-        max-height: 600px;
     }
     #booking-fields {
         padding: 0% 4% 1% 4%;
@@ -136,14 +146,17 @@ h5 {
     #day-title  {
         font-size: 30px;
     }
-    .card-title {
+    .card-title, h5{
         font-size: 17px;
     }
-    h5 {
-        font-size: 17px;
+    h8, h6 {
+        font-size: 14px;
     }
     .booking-modal-contents {
         width: 60%;
+    }
+    #booking-cards {
+        max-height: 530px;
     }
 }
 
@@ -164,6 +177,10 @@ h5 {
 }
 
 @media only screen and (max-width: 990px) {
+    #booking-cards-con {
+        padding-left: 5%;
+        width: 90%;
+    }
     .col-8 {
         max-width: 90%;
         flex: 100%;
@@ -176,10 +193,7 @@ h5 {
         display: block;
         font-size: 20px;
     }
-    .card-title {
-        font-size: 17px;
-    }
-    h5 {
+    .card-title, h5{
         font-size: 17px;
     }
 }
@@ -187,6 +201,7 @@ h5 {
 @media only screen and (max-width: 480px) {
     #booking-cards-con {
         padding-left: 2%;
+        width: 90%;
     }
     .booking-modal-contents {
         width: 100%;
