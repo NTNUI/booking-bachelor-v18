@@ -87,4 +87,29 @@ function checkStartTime(){
     }
 
 }
-
+function minMaxDate(){
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+        if(dd<10){
+            dd='0'+dd
+        }
+        if(mm<10){
+            mm='0'+mm
+        }
+    today = yyyy+'-'+mm+'-'+dd;
+    var maxdd;
+    var maxmm;
+    if(mm <= 6){
+        maxmm = '0'+6;
+        maxdd = 10;
+    }
+    if(mm >= 8){
+        maxmm = 12;
+        maxdd = 21;
+    }
+    var maxDate = yyyy+'-'+maxmm+'-'+maxdd;
+    document.getElementById('datefield').setAttribute('min', today);
+    document.getElementById('datefield').setAttribute('max', maxDate);
+}

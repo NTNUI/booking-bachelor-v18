@@ -20,7 +20,7 @@
     var close = document.getElementById('close');
     var formattedDate = new Date(tempDay.id.substring(0,4), +tempDay.id.substring(5,7)-1, tempDay.id.substring(8,10));
     document.getElementById('dayTitle').innerHTML = dayOfWeekAsString(formattedDate.getDay())+' '+formattedDate.getDate()+
-    '. '+monthNames[formattedDate.getMonth()]+' '+formattedDate.getFullYear() + ' ' + 'at' + ' ' + locationString;
+    '. '+monthNames[formattedDate.getMonth()]+ '<h5>' + locationString + '</h5>';
     document.getElementById('weekly').innerHTML = 'Repeat every '+dayOfWeekAsString(formattedDate.getDay());
     function validateForm() {
         var description = document.forms["createform"]["id_description"];

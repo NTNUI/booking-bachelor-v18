@@ -4,6 +4,7 @@ var currentMonth;
 
 // Global list to store bookings. This list will be used to populate the calendar with data.
 var global_list = [];
+
 // Ajax setting to set caching to false.
 $.ajaxSetup ({
     cache: false
@@ -16,7 +17,7 @@ var tempDay;
 window.onload = function() {
     promise();
     triggerFilterAlert();
-}
+};
 
 // Allows us to navigate through months with the arrow keys
 document.onkeydown = function(evt) {
@@ -58,10 +59,8 @@ promised.done(function() {
 }
 //temporary cheat
 // var win = window.open('http://www.google.com');
-// console.log(window.location)
 // window.onbeforeunload = function(){populate()}
 var getTime = function(time){
-    // console.log("gettime : " +time)
     var timeArray = time.split(":");
     var hours = parseInt(timeArray[0]);
     var minutes = parseInt(timeArray[1]);
@@ -104,14 +103,15 @@ function populate() {
         loc = document.getElementById(loc);
         var location = global_list[0][i].location__name;
         var day = global_list[0][i].start;
+        var start_datetime = day.split("T");
+        var start_date = start_datetime[0];
         var date_format = day.slice(0, 10);
         if (qNo == 0){
-            if(loc.value === location && loc.checked === true){
-
+            if(loc.checked === true){
                 var start_datetime = day.split("T");
                 var start_date = start_datetime[0];
+                //.log("startdate: "+start_date.slice(0,10))
                 var start_time = start_datetime[1].replace("Z", "");
-
                 var end_datetime = global_list[0][i].end.split("T");
                 var end_time = end_datetime[1].replace("Z", "");
                 //find difference between end and start
@@ -129,8 +129,14 @@ function populate() {
                 else if(loc.value === location && loc.checked === true) {
                     date_map.set(start_date, ""+diff_hour+":"+diff_min)
                 }
-
-                $("#" + date_format + " h1").text(""+ (12 - parseInt(getTime(date_map.get(start_date)[0])))+" hours free");
+                $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date)[0]))) + " hours free");
+            }
+            else if(date_map.has(start_date) && loc.checked === false){
+                $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date)[0]))) + "\n" + " hours free");
+            }
+            // change the html in the calendar boxes with number of booked hours.
+            else if(date_map.has(start_date) === false) {
+                $("#" + date_format + " h1").text("12 hours free");
             }
 
         }
@@ -163,37 +169,6 @@ observer.observe(targetNode, config);
 function HandleDOM_Change () {
     populate();
 }
-
-// Event listener logic.
-// TODO: Replace with mutation observer.
-fireOnDomChange ('#calendar', HandleDOM_Change, 500);
-
-
-function fireOnDomChange (selector, actionFunction, delay) {
-
-    // observer.observe(targetNode, config);
-
-    // $(selector).on ('DOMSubtreeModified', fireOnDelay);
-
-    // function fireOnDelay () {
-    //     if (typeof this.Timer == "number") {
-    //         clearTimeout (this.Timer);
-    //     }
-    //     this.Timer  = setTimeout (  function() { fireActionFunction (); },
-    //                                 delay ? delay : 333
-    //                              );
-    // }
-
-    // function fireActionFunction () {
-    //     // observer.disconnect();
-
-    //     $(selector).off ('DOMSubtreeModified', fireOnDelay);
-
-    //     actionFunction ();
-    //     $(selector).on ('DOMSubtreeModified', fireOnDelay);
-    // }
-}
-
 // Converts day ids to the relevant string
 function dayOfWeekAsString(dayIndex) {
     return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][dayIndex];
@@ -245,16 +220,6 @@ function createCalendarDay(num, day, mon, year, available) {
         availability.innerHTML = "12 hours free";
         availability.style.color = "green";
     }
-
-    //console.log(parseInt(getTime(date_map.get(start_date)[0])));
-
-    //if(12 - parseInt(getTime(date_map.get(start_date)[0])) > 6){
-    //    availability.style.color = "green";
-    //}else if(12 - parseInt(getTime(date_map.get(start_date)[0])) > 2){
-    //    availability.style.color = "yellow";
-    //}else{
-    //    availability.style.color = "red";
-    //}
 
     newDay.className = "calendar-day";
     newDay.title = "Click to book";
@@ -377,8 +342,11 @@ function createMonth() {
     currentMonthText.innerHTML = monthNames[date.getMonth()] + " " + date.getFullYear();
 
     // Gives the current date a highligth
-    var current_day = getCurrentDay();
-    document.getElementById(current_day).className = "calendar-day today";
+    var todaysDate = new Date();
+    if(dateObject.getMonth() == todaysDate.getMonth()+1 && dateObject.getYear() == todaysDate.getYear()){
+        var currentDay = getCurrentDay();
+        document.getElementById(currentDay).className = "calendar-day today";
+    }
 }
 
 //Get the current day
@@ -386,12 +354,12 @@ function getCurrentDay() {
     var todaysDate = new Date();
     var today = todaysDate.getDate();
     // add 0 to single digit days
-    var today_formatted = minTwoDigits(today);
+    var todayFormatted = minTwoDigits(today);
     var currentMonth = todaysDate.getMonth();
     var currentYear = todaysDate.getFullYear();
     var currentMonthString = monthsAsString(currentMonth);
-    var current_day = (currentYear + "-" + currentMonthString + "-" + today_formatted).toString();
-    return current_day
+    var currentDay = (currentYear + "-" + currentMonthString + "-" + todayFormatted);
+    return currentDay
 }
 
 //Opens the modal with content */
@@ -439,16 +407,6 @@ function popup(e) {
     }
 }
 
-
-    // Dropdown for filtering
-    function dropdownFilters(event){
-        var toggleArrow = document.getElementById(event.target.id);
-        toggleArrow.classList.toggle("down");
-        var typeId = toggleArrow.nextSibling.nextSibling.id;
-        var toggleType = document.getElementById(typeId);
-        toggleType.style.display = toggleType.style.display == "block" ? "none" : "block";
-    };
-
 // Dropdown for filtering
 function dropdownFilters(event){
     var toggleArrow = document.getElementById(event.target.id);
@@ -460,7 +418,6 @@ function dropdownFilters(event){
 
 // Alerts
 function triggerFilterAlert(){
-
     swal({
         title: "Hey!",
         text: "You need to filter on location before seeing the calendar.",
@@ -470,7 +427,7 @@ function triggerFilterAlert(){
 
     document.getElementById("filtering-container").style.borderRadius = "5px";
 
-   // $(".alert-warning").slideDown(1000);
+    // $(".alert-warning").slideDown(1000);
     //document.getElementById("filter-alert").style.display = "block";
     $('.filter-cursors').click(function () {
         swal.close();
@@ -478,7 +435,6 @@ function triggerFilterAlert(){
         document.getElementById("filtering-container").style.borderRadius = "0px";
     });
 }
-
 
 var currentLocation;
 var locationString;
