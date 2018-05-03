@@ -1,3 +1,5 @@
+// Validates the input of the timepicker.
+
 function validateTime(){
     var errorMsg = document.getElementById("timeErrorMsg");
     var startTime = document.getElementById("startInput").value;
@@ -30,6 +32,8 @@ function validateTime(){
         return true;
     }
 }
+
+// Resets both timers if the user wants to change starttime
 function resetClock(){
     var clockTicks = document.getElementsByClassName('clockpicker-tick');
     var endTime = document.getElementById('endInput');
@@ -52,7 +56,7 @@ function resetClock(){
     }
 }
 
-
+// Edits the clockpicker so that invalid times cant be picked.
 function editClock(){
     var clockTicks = document.getElementsByClassName('clockpicker-tick');
     var startTime = document.getElementById('startInput');
@@ -74,6 +78,7 @@ function editClock(){
 
 }
 
+// Checks if starttime is picked before endtime is able to be picked
 function checkStartTime(){
     var startTime = document.getElementById('startInput');
     var endTime = document.getElementById('endInput');
@@ -87,10 +92,12 @@ function checkStartTime(){
     }
 
 }
+
+// Edits minimum date and maximum date of the timepicker. Stops at the end of the semester
 function minMaxDate(){
     var today = new Date();
     var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0!
+    var mm = today.getMonth()+1;
     var yyyy = today.getFullYear();
         if(dd<10){
             dd='0'+dd

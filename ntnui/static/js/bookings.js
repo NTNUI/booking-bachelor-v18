@@ -68,8 +68,38 @@ window.onclick = function(event) {
     if (event.target == modal || event.target == modal2 || event.target == close ) {
         $("#booking-modal").css("display", "none");
     }
+};
+
+window.onload = function() {
+    bookedTab();
 }
 
+function bookedTab() {
+    $( "tbody:contains('Queue')" ).css( "display", "None" );
+    $( "tbody:contains('Queue')" ).prev().css( "display", "None" );
+    $('tbody:not(:contains("Queue"))').css( "display", "contents" );
+    $('tbody:not(:contains("Queue"))').prev().css( "display", "contents" );
+}
 
+function queuedTab() {
+    $('tbody:not(:contains("Queue"))').css( "display", "None" );
+    $('tbody:not(:contains("Queue"))').prev().css( "display", "None" );
+    $( "tbody:contains('Queue')" ).css( "display", "contents" );
+    $( "tbody:contains('Queue')" ).prev().css( "display", "contents" );
+}
 
+function openCity(event, type) {
+    if(type=='Queued') {
+        queuedTab();
+    }
+    if(type=='Booked'){
+        bookedTab();
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    //document.getElementById(cityName).style.display = "block";
+    event.currentTarget.className += " active";
+}
 
