@@ -33,7 +33,7 @@
                     <div class="tb aBlock">
                         {% for type in types %}
                        <div>
-                            <p class="type-header">{{ type.0 }}</p>
+                            <p onclick="dropdownFilters(event)" class="type-header">{{ type.0 }}</p>
                             <div id="{{ type.0 }}" class="filter-arrow right" title="Click to see locations" onclick="dropdownFilters(event)"></div>
                             <div id="{{ forloop.counter }}" class="filter-type">
                                 {% for location in locations %}
@@ -88,6 +88,12 @@
 {% endblock content %}
 
 {% block script %}
+    <script>
+
+    $(".type-header").click( function(event) {
+        $( this ).next(event).trigger('click');
+    })
+    </script>
     <script src="http://malsup.github.com/jquery.form.js"></script>
     <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bookings.js' %}"></script>
