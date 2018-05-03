@@ -107,10 +107,14 @@
                             successMode: true,
                         }).then((willQueue) => {
                             if (willQueue) {
-                                swal("Great! Your booking is now in the queue.", {
+                                var span = document.createElement("span");
+                                span.innerHTML = "You can find your queued booking at " + '</br>' + " <a href=\"/booking/bookings_list\">My Bookings</a>";
+                                swal({
+                                    title: "" + "Great, you have queued a booking!" + "",
+                                    content: span,
                                     icon: "success",
                                     buttons: false,
-                                    timer: 3000,
+                                    timer: 4000,
                                 });
                                 var myForm = $('#createform');
                                 event.preventDefault()
@@ -137,10 +141,14 @@
                             }
                         });
                     } else {
-                        swal("Great! you just made a new booking", {
+                        var span = document.createElement("span");
+                        span.innerHTML = "You can find your booking at " + '</br>' + " <a href=\"/booking/bookings_list\">My Bookings</a>";
+                        swal({
+                            title: "" + "Great, you have made a booking!" + "",
+                            content: span,
                             icon: "success",
                             buttons: false,
-                            timer: 3000,
+                            timer: 4000,
                         });
                         var myForm = $('#createform');
                         event.preventDefault()

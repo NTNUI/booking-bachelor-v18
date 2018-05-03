@@ -1,0 +1,32 @@
+[
+  {
+    "model": "booking.location",
+    "pk": 1,
+    "fields": {
+      "name": "Dragvoll",
+      "address": "d",
+      "description": "d",
+      "type": "gym "
+    }
+  },
+  {
+    "model": "booking.location",
+    "pk": 2,
+    "fields": {
+      "name": "Gløshaugen",
+      "address": "d",
+      "description": "d",
+      "type": "football field"
+    }
+  },
+  {
+    "model": "booking.location",
+    "pk": 3,
+    "fields": {
+      "name": "Tyholt",
+      "address": "d",
+      "description": "d",
+      "type": "volleyball grounds"
+    }
+  }
+]
