@@ -30,6 +30,7 @@ a:hover {
     border-bottom: 1px solid #d1d1d1;
 }
 
+
 .link-with-icon {
     display: flex;
     flex-direction: column;
@@ -97,3 +98,16 @@ a:hover {
     border-radius: 10px;
 }
 
+
+/*
+ * 404 error page
+*/
+
+.errorImage{
+    width: 30rem;
+    margin-top: 40px;
+}
+
+.errorText{
+    margin-top: 40px;
+}
