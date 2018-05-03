@@ -12,6 +12,7 @@
     {% load widget_tweaks %}
     <div class="calendar-booking{% if field.errors %} has-error{% endif %}">
         {{form.person.as_hidden}}
+        {{form.day.as_hidden}}
         <h5>Location </h5>
         {{form.location}}
         <h5>Title</h5>
@@ -26,13 +27,13 @@
             <option value="noRepeat" id="noRepeat">Does not repeat</option>
             <option value="weekly" id="weekly">Repeat every</option>
         </select-->
-        <h5>Queue   </h5>
+        <!--h5>Queue   </h5>
         Should we queue your<br> booking if the time <br>is already taken?
         <select id="queueable" value="Should we queue your booking if the time is already taken?">
                 <option style="display:none">asdasd</option>
                 <option value="False" id="not_enqueue">Do not enqueue</option>
                 <option value="True" id="enqueue">Queue my booking</option>
-        </select>
+        </select-->
         <h5>Starttime</h5>
         <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="startTime">
             <input type="text" class="form-control" value="Choose start time" id="startInput" onclick="resetClock()" required>
@@ -48,8 +49,8 @@
             </span>
             </div>
         </div>
-        <input type="text" value="" id="dayID" style="display:none">
-        <p id="loc_getter">ttbar{{form.location.value|default_if_none:""}}</p>
+        
+        
     </div>
 {% endblock content %}
 
@@ -58,10 +59,10 @@
         var booking_data; //global variable for booking data
         var overlap = []; //put overlapping bookings here
         $(document).ready(function(){
+            document.getElementById("id_day").value=tempDay.children[1].innerHTML.trim();
         var $myForm = $('#createform')
         $myForm.submit(function(event){
             event.preventDefault()
-        
             if (overlap.length){
                 var qNo = 0;
                 for (i=0;i<overlap.length;i++){
@@ -73,7 +74,7 @@
                 var message = "You will become number " + q.toString() + " in line. Is this okay?"
                 confirm(message)
             }
-        
+            
             
             // append start date to post request
             var start_time = document.getElementById("startInput").value;
@@ -94,6 +95,7 @@
         });
         //check if booking overlaps when End time is deselected
         $('#endInput').on("blur", function(){
+            day_el = day;
             var start = document.getElementById("startInput").value;//get start value for this booking
             start = tempDay.id + "T" + start + "Z";
             var end = tempDay.id + "T" + this.value + "Z";
@@ -125,17 +127,7 @@
                     }
                 })
             }
-            //check if 
-
-            if (this.value == ''){
-                alert("End time required")
-            }
-
-            else {
-                $.each(booking_data, function(i, item){
-                    // console.log(booking_data[i])
-                })
-            }
+            
         })
         $("#startInput").blur(function(){
             console.log("blur")

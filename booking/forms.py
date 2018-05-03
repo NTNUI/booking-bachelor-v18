@@ -7,6 +7,7 @@ from groups.models import Membership
 #Form used for creating, editing and deleting bookings.
 class BookingForm(forms.ModelForm):
     
+    day = forms.CharField(max_length=3)
     repeat = forms.ChoiceField(choices=(("noRepeat", "Does not repeat"), ("weekly", "Repeat every")))
     # Add user groups to form
     def __init__(self, user, *args, **kwargs):

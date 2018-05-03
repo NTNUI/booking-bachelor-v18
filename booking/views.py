@@ -113,22 +113,67 @@ def get_my_bookings(request):
     my_bookings_list = Booking.objects.filter(person=user).filter(start__gte=now).order_by('start')
     return my_bookings_list
 
-def confirm_enqueue(request, form):
 
-    # return HttpResponse("tis is response")
-    return redirect(request, "booking/api.html")
+def repeatBooking(form):
+    location = form.cleaned_data['location']
+    start = form.cleaned_data['start']
+    end = form.cleaned_data['end']
+    if form.cleaned_data['repeat'] == "noRepeat":
+        repeat = False
+    elif form.cleaned_data['repeat'] == "weekly":
+        repeat = True
+    else:
+        repeat = False
+    
+    day_map = {"MON" : 0, "TUE":1, "WED":2, "THU" : 3, 
+        "FRI":4, "SAT":5, "SUN":6
+    }
+    dayofweek = day_map[form.cleaned_data['day'].upper()]
+    year = int(start.year)
+    month = int(start.month)
+    day = int(start.day)
+    loc = location
+    s_time = str(start)[-8:].replace("+", ":") #get time substring
+    e_time = str(end)[-8:].replace("+", ":")
+    title = form.cleaned_data['title']
+    descr = form.cleaned_data['description']
+    
+    
+    cal = Calendar()
+    ydcal = cal.yeardays2calendar(year, width=6)
+    if month > 5:
+        w = ydcal[1]
+    else:
+        w = ydcal[0]
+    for m in range(len(w)):
+        if m+1 < month:
+            continue #skip past months 
+        for k in range(len(w[m])):
+            for d in range(len(w[m][k])):
+                cal_day = w[m][k][d]
+                if (cal_day[0] <= day and m+1 == month) or cal_day[0]==0:
+                    continue
+                if cal_day[1]==dayofweek:
+                    if m <9: #format month
+                        cal_m = "0"+str(m+1)
+                    else:
+                        cal_m = str(m+1)
+                    if cal_day[0]<9: #format day
+                        cal_d = "0"+str(cal_day[0])
+                    else:
+                        cal_d = str(cal_day[0])
+                    date_format = str(year)+"-"+cal_m+"-"+cal_d 
+                    start_rec = date_format+" "+s_time
+                    end_rec = date_format+" "+e_time
+                    b = Booking(location=loc, start=start_rec, end=end_rec, title=title, description=descr)
+                    b.save(repeatable=True)
+
+
 
 def save_booking_form(request, form, template_name):
     data = dict()
     if request.method == 'POST':
-        if form.is_valid():
-            location = form.cleaned_data['location']
-            start = form.cleaned_data['start']
-            end = form.cleaned_data['end']
-            overlap = Booking.objects.filter(location=location, start__lt=end, end__gt=start)
-            if overlap != []:#TODO: send redirect if 
-                pass
-            
+        if form.is_valid():           
             form.save()
             data['form_is_valid'] = True
             my_bookings = get_my_bookings(request)
@@ -136,62 +181,10 @@ def save_booking_form(request, form, template_name):
             data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
                 'my_bookings_list': my_bookings
             })
+            if form.cleaned_data['repeat'] == "weekly":
+                repeatBooking(form)
             # messages.success(request, "Your booking request was successful")
             # confirmation_mail(request, )
-            #TODO: check if form has field recurringEvent
-            #get dayNr from request
-            #request.repeat
-            if form.cleaned_data['repeat'] == "noRepeat":
-                repeat = False
-            elif form.cleaned_data['repeat'] == "weekly":
-                repeat = True
-            else:
-                repeat = False
-            #TODO: replace with actual data from form 
-            day_map = {"MON" : 0, "TUE":1, "WED":2, "THU" : 3, 
-                "FRI":4, "SAT":5, "SUN":6
-            }
-            dayofweek = 0# day_map[form.cleaned_data['dayID'].upper()]
-            year = int(start.year)
-            month = int(start.month)
-            day = int(start.day)#[8:10])
-            loc = location
-            s_time = str(start)[-8:] #get time substring
-            e_time = str(end)[-8:]
-            title = form.cleaned_data['title']
-            descr = form.cleaned_data['description']
-            #TODO: skip past dates
-            if repeat:
-                cal = Calendar()
-                ydcal = cal.yeardays2calendar(year, width=6)
-                if month > 5:
-                    w = ydcal[1]
-                else:
-                    w = ydcal[0]
-                for m in range(len(w)):
-                    if m+1 < month:
-                        continue #skip past months 
-                    for k in range(len(w[m])):
-                        for d in range(len(w[m][k])):
-                            if d+1 < day:
-                                continue
-                            cal_day = w[m][k][d]
-                            if cal_day[1]==dayofweek:
-                                if m <9: #format month
-                                    cal_m = "0"+str(m+1)
-                                else:
-                                    cal_m = str(m+1)
-                                if d<9: #format day
-                                    cal_d = "0"+str(d+1)
-                                else:
-                                    cal_d = str(d+1)
-                                date_format = str(year)+cal_m+cal_d 
-                                start_rec = date_format+" "+s_time
-                                end_rec = date_format+" "+e_time
-                                b = Booking(location=loc, start=start_rec, end=end_rec, title=title, description=descr)
-                                b.save(repeatable=True)
-
-
         else:
             data['form_is_valid'] = False
     context = {'form': form}
