@@ -3,8 +3,12 @@ from .models import Booking
 from groups.models import SportsGroup
 from groups.models import Membership
 
+
 #Form used for creating, editing and deleting bookings.
 class BookingForm(forms.ModelForm):
+    
+    day = forms.CharField(max_length=3)
+    repeat = forms.ChoiceField(choices=(("noRepeat", "Does not repeat"), ("weekly", "Repeat every")))
     # Add user groups to form
     def __init__(self, user, *args, **kwargs):
         blank_choice = (('', '---------'),)
@@ -31,4 +35,15 @@ class BookingForm(forms.ModelForm):
         fields = ['person', 'location', 'start', 'end', 'title', 'description', 'group']
         # Hide person field because it will be automatically added.
         widgets = {'person': forms.HiddenInput()}
+        
+    # repeating = forms.BooleanField(required=False)
 
+    def clean(self):
+        #TODO:check time travel etc.
+        cleaned_data = super().clean()
+        s_date = cleaned_data.get('start')
+        loc = cleaned_data.get('location')
+        e_date = cleaned_data.get('end')
+        # booking = Booking.objects().filter(location=loc, start__lt=e_date, end__gt=s_date)
+
+        
