@@ -43,6 +43,7 @@
 
 #day-title, .modal-title{
     margin: 0 auto;
+    text-align:center;
 }
 
 .modal-header {
@@ -235,4 +236,7 @@ h8, h6 {
 
 .swal-modal {
     margin-bottom: 20%;
+    width: 378px;
+    padding: 1%;
 }
+
