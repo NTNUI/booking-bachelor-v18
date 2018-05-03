@@ -251,7 +251,7 @@ h8, h6 {
 
 .swal-title {
     font-weight:400;
-    margin-top: 1% !important;
+    margin-top: 7% !important;
 }
 
 .swal-text {
@@ -261,4 +261,26 @@ h8, h6 {
 .swal-content span a {
     color: #1d701d;
     border-bottom: 1px solid #1d701d;
+}
+
+@media only screen and (max-width: 990px) {
+    .swal-modal {
+        margin-top: 50%;
+        margin-bottom: 0;
+        width: 500px;
+    }
+}
+
+@media only screen and (max-width: 670px) {
+    .swal-modal {
+        margin-top: 60%;
+        width: 300px;
+    }
+    .swal-text{
+        font-size: 14px;
+    }
+    .swal-title{
+        font-size: 21px;
+    }
+
 }
