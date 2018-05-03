@@ -132,7 +132,7 @@ function populate() {
                 $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date)[0]))) + " hours free").css("color", "blue");
             }
             else if(date_map.has(start_date) && loc.checked === false){
-                $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date)[0]))) + "\n" + " hours free");
+                $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date)[0]))) + "\n" + " hours free").css("color", "blue");
             }
             // change the html in the calendar boxes with number of booked hours.
             else if(date_map.has(start_date) === false) {
