@@ -251,6 +251,7 @@ h8, h6 {
 
 .swal-title {
     font-weight:400;
+    margin-top: 1% !important;
 }
 
 .swal-text {
