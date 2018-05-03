@@ -102,6 +102,7 @@ button#close {
 /* Capitalize first letter of word in filterbox */
 p.type-header {
     text-transform: capitalize;
+    cursor: pointer;
 }
 /* Alerts */
 .booking-alert {
