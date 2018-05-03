@@ -430,7 +430,7 @@ function triggerFilterAlert(){
     $('.filter-cursors').click(function () {
         swal.close();
         document.getElementsByTagName("html")[0].style.overflow = "auto";
-        document.getElementById("top-navbar").style.zIndex="0";
+        document.getElementById("top-navbar").style.zIndex="10";
         document.getElementById("filter-box").style.zIndex="0";
         document.getElementById("filtering-container").style.borderRadius = "0px";
     });
