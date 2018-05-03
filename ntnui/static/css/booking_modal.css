@@ -12,6 +12,11 @@
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
+/* Booking-modal */
+#booking-modal {
+    z-index: 20000;
+}
+
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
@@ -43,6 +48,7 @@
 
 #day-title, .modal-title{
     margin: 0 auto;
+    text-align:center;
 }
 
 .modal-header {
@@ -218,7 +224,7 @@ h8, h6 {
     }
 }
 
-/* Sway css */
+/* Swal css */
 
 .swal-overlay--show-modal {
     opacity: 1;
@@ -235,4 +241,18 @@ h8, h6 {
 
 .swal-modal {
     margin-bottom: 20%;
+    width: 378px;
+    padding: 0% 1% 0% 1%;
+}
+
+.swal-title, .swal-text {
+    color: black;
+}
+
+.swal-title {
+    font-weight:400;
+}
+
+.swal-text {
+    margin-bottom: 7% !important;
 }
