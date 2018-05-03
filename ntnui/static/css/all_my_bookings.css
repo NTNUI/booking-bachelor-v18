@@ -63,7 +63,7 @@
     border-top: 2px solid black;
 }
 
-#id_location, #id_person, #id_title, #id_start {
+#id_location, #id_person, #id_title, #id_start, #id_group {
     width: 100%;
 }
 
