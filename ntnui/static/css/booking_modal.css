@@ -14,7 +14,7 @@
 
 /* Booking-modal */
 #booking-modal {
-    z-index: 20000;
+    z-index: 1000;
 }
 
 /* Modal Content/Box */
