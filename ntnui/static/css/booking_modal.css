@@ -256,3 +256,8 @@ h8, h6 {
 .swal-text {
     margin-bottom: 7% !important;
 }
+
+.swal-content span a {
+    color: #1d701d;
+    border-bottom: 1px solid #1d701d;
+}
