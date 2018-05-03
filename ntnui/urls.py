@@ -11,7 +11,7 @@ from django.contrib.auth import views as auth_views
 from accounts import views as accounts_views
 from groups import views as groups_views
 from booking import views as views
-from django.conf.urls import handler404, handler500
+from django.conf.urls import handler404
 
 
 
@@ -62,5 +62,5 @@ urlpatterns = [
 ]
 
 handler404 = 'booking.views.error_404'
-handler500 = 'booking.views.error_500'
+
 
