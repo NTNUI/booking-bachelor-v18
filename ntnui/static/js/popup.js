@@ -115,3 +115,4 @@ function minMaxDate(){
     document.getElementById('datefield').setAttribute('min', today);
     document.getElementById('datefield').setAttribute('max', maxDate);
 }
+
