@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load widget_tweaks %}
+{% load tags %}
 
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/clockpicker.css' %}">
@@ -50,6 +51,27 @@
             </span>
         </div>
     </div>
+    {% if request.user.is_superuser %}
+        <div class="form-margin">
+            <h5>Recurring</h5>
+            <select class="form-control" id="recurringEvent">
+                <option value="noRepeat" id="noRepeat">Does not repeat</option>
+                <option value="weekly" id="weekly">Repeat every</option>
+            </select>
+        </div>
+    {% endif %}
+    {% if user.is_authenticated and not request.user.is_superuser %}
+        {% user_in_hs user as user_in_hs %}
+        {% if user_in_hs %}
+            <div class="form-margin">
+                <h5>Request Recurring</h5>
+                <select class="form-control" id="recurringEvent">
+                    <option value="noRepeat" id="noRepeat">Does not repeat</option>
+                    <option value="weekly" id="weekly">Repeat every</option>
+                </select>
+            </div>
+        {% endif %}
+    {% endif %}
 {% endblock %}
 
 {% block script %}
