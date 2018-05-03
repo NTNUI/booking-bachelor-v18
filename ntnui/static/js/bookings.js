@@ -70,9 +70,7 @@ window.onclick = function(event) {
     }
 };
 
-window.onload = function() {
-    bookedTab();
-}
+bookedTab();
 
 function bookedTab() {
     $( "tbody:contains('Queue')" ).css( "display", "None" );
