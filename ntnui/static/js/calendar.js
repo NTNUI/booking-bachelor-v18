@@ -236,9 +236,20 @@ function createCalendarDay(num, day, mon, year, available) {
     btn.onclick = function (e) {
         popup(this, e);
     }
-
+    var maxMonth;
+    var maxDay;
+    var currentDate = new Date;
     // Restricts days that cant be booked
-    if (newDay.id < getCurrentDay()) {
+    if(currentDate.getMonth()+1 <= 6){
+        maxMonth = '0'+6;
+        maxDay = 10;
+    }
+    if(currentDate.getMonth()+1 >= 8){
+        maxMonth = 12;
+        maxDay = 20;
+    }
+    
+    if (newDay.id < currentDate || newDay.id > currentDate.getFullYear()+'-'+maxMonth+'-'+maxDay) {
         newDay.className = "calendar-day restricted";
     }
     return newDay
