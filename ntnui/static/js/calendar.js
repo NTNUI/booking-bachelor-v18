@@ -249,7 +249,7 @@ function createCalendarDay(num, day, mon, year, available) {
         maxDay = 20;
     }
     
-    if (newDay.id < currentDate || newDay.id > currentDate.getFullYear()+'-'+maxMonth+'-'+maxDay) {
+    if (newDay.id < getCurrentDay() || newDay.id > currentDate.getFullYear()+'-'+maxMonth+'-'+maxDay) {
         newDay.className = "calendar-day restricted";
     }
     return newDay
