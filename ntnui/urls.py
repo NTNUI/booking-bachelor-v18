@@ -10,7 +10,7 @@ from django.contrib.auth import views as auth_views
 
 from accounts import views as accounts_views
 from groups import views as groups_views
-from booking import views as views
+from booking import views
 from django.conf.urls import handler404
 
 
