@@ -436,6 +436,27 @@ function triggerFilterAlert(){
     });
 }
 
+// Disable arrow keys from changing the radio buttons
+$('input[type="radio"]').keydown(function(e)
+{
+    var arrowKeys = [37, 38, 39, 40];
+    if (arrowKeys.indexOf(e.which) !== -1)
+    {
+        $(this).blur();
+        if (e.which == 38)
+        {
+            var y = $(window).scrollTop();
+            $(window).scrollTop(y - 10);
+        }
+        else if (e.which == 40)
+        {
+            var y = $(window).scrollTop();
+            $(window).scrollTop(y + 10);
+        }
+        return false;
+    }
+});
+
 var currentLocation;
 var locationString;
 
