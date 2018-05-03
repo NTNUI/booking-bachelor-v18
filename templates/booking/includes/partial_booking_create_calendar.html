@@ -22,6 +22,7 @@
     document.getElementById('dayTitle').innerHTML = dayOfWeekAsString(formattedDate.getDay())+' '+formattedDate.getDate()+
     '. '+monthNames[formattedDate.getMonth()]+ '<h5>' + locationString + '</h5>';
     document.getElementById('weekly').innerHTML = 'Repeat every '+dayOfWeekAsString(formattedDate.getDay());
+
     function validateForm() {
         var description = document.forms["createform"]["id_description"];
         var title = document.forms["createform"]["id_title"];
@@ -63,5 +64,11 @@
             return false;
         }
 
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal || event.target == modal2 || event.target == close ) {
+            $("#booking-modal").css("display", "none");
+        }
     }
 </script>
