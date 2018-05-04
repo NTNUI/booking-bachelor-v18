@@ -8,6 +8,7 @@ from groups.models import Membership
 class BookingForm(forms.ModelForm):
     
     day = forms.CharField(max_length=3)
+    input_class = forms.TextInput(attrs={'class':''})
     repeat = forms.ChoiceField(choices=(("noRepeat", "Does not repeat"), ("weekly", "Repeat every")))
     # Add user groups to form
     def __init__(self, user, *args, **kwargs):
