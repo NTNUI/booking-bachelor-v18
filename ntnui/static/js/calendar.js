@@ -239,7 +239,7 @@ function createCalendarDay(num, day, mon, year, available) {
     var maxMonth;
     var maxDay;
     var currentDate = new Date;
-    // Restricts days that cant be booked
+    // Restricts days that cant be booked. Stops at 10. june in spring and 21. desember in autumn
     if(currentDate.getMonth()+1 <= 6){
         maxMonth = '0'+6;
         maxDay = 10;
@@ -410,7 +410,6 @@ function popup(e) {
 
         }
         else if (event.target == close) {
-            console.log("closed!")
             modal.style.display = "none"
             //location.reload();
 
