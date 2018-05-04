@@ -53,10 +53,7 @@
                             <div class="form-margin">
                                 <h5>Recurring</h5>
                                 {{form.repeat}}
-                                <!--select class="form-control" id="recurringEvent">
-                                    <option value="noRepeat" id="noRepeat">Does not repeat</option>
-                                    <option value="weekly" id="weekly">Repeat every</option>
-                                </select-->
+                                
                             </div>
                         {% endif %}
                         {% if user.is_authenticated and not request.user.is_superuser %}
@@ -65,10 +62,7 @@
                                 <div class="form-margin">
                                     <h5>Request Recurring</h5>
                                     {{form.repeat}}
-                                    <!--select class="form-control" id="recurringEvent">
-                                        <option value="noRepeat" id="noRepeat">Does not repeat</option>
-                                        <option value="weekly" id="weekly">Repeat every</option>
-                                    </select-->
+                                    
                                 </div>
                             {% endif %}
                         {% endif %}
@@ -77,45 +71,6 @@
             {% endif %}
         {% endif %}
     {% load widget_tweaks %}
-    <!--div class="calendar-booking{% if field.errors %} has-error{% endif %}">
-        {{form.person.as_hidden}}
-        {{form.day.as_hidden}}
-        <h5>Location </h5>
-        {{form.location}}
-        <h5>Title</h5>
-        {{form.title}}
-        <h5>Description</h5>
-        {{form.description}}
-        <h5>Group</h5>
-        {{form.group}}
-        <h5>Recurring</h5>
-        {{form.repeat}}
-        <!--select id="recurringEvent">
-            <option value="noRepeat" id="noRepeat">Does not repeat</option>
-            <option value="weekly" id="weekly">Repeat every</option>
-        </select-->
-        <!--h5>Queue   </h5>
-        Should we queue your<br> booking if the time <br>is already taken?
-        <select id="queueable" value="Should we queue your booking if the time is already taken?">
-                <option style="display:none">asdasd</option>
-                <option value="False" id="not_enqueue">Do not enqueue</option>
-                <option value="True" id="enqueue">Queue my booking</option>
-        </select-->
-        <!--h5>Starttime</h5>
-        <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="startTime">
-            <input type="text" class="form-control" value="Choose start time" id="startInput" onclick="resetClock()" required>
-            <span class="input-group-addon">
-            <span class="glyphicon glyphicon-time"></span>
-            </span>
-        </div>
-        <h5>Endtime</h5>
-        <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" id="endTime" >
-            <input type="text" class="form-control" value="Choose end time" id="endInput" onclick="editClock()" required>
-            <span class="input-group-addon" i id="endTimeSpan">
-            <span class="glyphicon glyphicon-time" ></span>
-            </span>
-            </div>
-        </div-->
         
         
     </div>
@@ -219,9 +174,9 @@
                 }
             });
         });
-        //check if booking overlaps when End time is deselected
+        //check if booking overlaps when End time is deselected.
+        // TODO: check if this function is actually necessary
         $('#endInput').on("blur", function(){
-            day_el = day;
             var start = document.getElementById("startInput").value;//get start value for this booking
             start = tempDay.id + "T" + start + "Z";
             var end = tempDay.id + "T" + this.value + "Z";
@@ -245,8 +200,6 @@
             if (loc_str && this.value.length && start.length){
                 $.each(booking_data, function(i, item){
                     var current = booking_data[i];
-                    // var start_format = current.start.replace("T", " ").replace("Z", "");
-                    // var end_format = current.end.replace("T", " ").replace("Z", "");
                     //TODO: check if start and end times have the same format
                     if (loc_str===current.location && current.start < end && current.end > start){
                         overlap.push(current);
@@ -324,6 +277,7 @@
                             var name = document.createElement("h6");
                             name.className = "card-subtitle text-muted mb-2";
                             var b_name = list_of_bookings[I][4]
+
                             name.innerHTML = b_name;
                             var group = document.createElement("h8");
                             group.className = "card-subtitle";

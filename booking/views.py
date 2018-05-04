@@ -144,12 +144,11 @@ def repeatBooking(form):
     month = int(start.month)
     day = int(start.day)
     loc = location
-    s_time = str(start)[-8:].replace("+", ":") #get time substring
-    e_time = str(end)[-8:].replace("+", ":")
+    s_time = str(start)[11:]#.replace("+", ":") #get time substring
+    e_time = str(end)[11:]#.replace("+", ":") #YYYY-MM-DDTHH:MMZ
     title = form.cleaned_data['title']
     descr = form.cleaned_data['description']
-    
-    
+    person = form.cleaned_data['person'] 
     cal = Calendar()
     ydcal = cal.yeardays2calendar(year, width=6)
     if month > 5:
@@ -176,7 +175,7 @@ def repeatBooking(form):
                     date_format = str(year)+"-"+cal_m+"-"+cal_d 
                     start_rec = date_format+" "+s_time
                     end_rec = date_format+" "+e_time
-                    b = Booking(location=loc, start=start_rec, end=end_rec, title=title, description=descr)
+                    b = Booking(location=loc, start=start_rec, end=end_rec, title=title, description=descr, person=person)
                     b.save(repeatable=True)
 
 
