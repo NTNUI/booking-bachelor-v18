@@ -74,7 +74,8 @@ class Booking(models.Model):
             temp = [maxval [i] for i in sorted(maxval.keys())]
             self.queueNo = int(temp[0])+1
             print("after save: ", self.queueNo)
-            # msg = "You are now number " + str(self.queueNo) + " in line for " + str(self.location)
+            if first[0] == self:
+                self.queueNo = first[0].queueNo
         else:
             self.queueNo = 0
         return super(Booking, self).save(*args, **kwargs)

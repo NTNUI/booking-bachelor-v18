@@ -4,6 +4,7 @@ var currentMonth;
 
 // Global list to store bookings. This list will be used to populate the calendar with data.
 var global_list = [];
+
 // Ajax setting to set caching to false.
 $.ajaxSetup ({
     cache: false
@@ -16,7 +17,7 @@ var tempDay;
 window.onload = function() {
     promise();
     triggerFilterAlert();
-}
+};
 
 // Allows us to navigate through months with the arrow keys
 document.onkeydown = function(evt) {
@@ -52,17 +53,14 @@ promised.done(function() {
             createMonth();
             global_list.push(promised.responseJSON);
             currentMonth = document.getElementById("current-month");
-            console.log(global_list)
             }
         )
     })
 }
 //temporary cheat
 // var win = window.open('http://www.google.com');
-// console.log(window.location)
 // window.onbeforeunload = function(){populate()}
 var getTime = function(time){
-    // console.log("gettime : " +time)
     var timeArray = time.split(":");
     var hours = parseInt(timeArray[0]);
     var minutes = parseInt(timeArray[1]);
@@ -79,20 +77,24 @@ $('#search-button').click(function () {
 });
 
 // Removes the calendar blur when filter is used
-$('.filter-cursors').click(function () {
-    populate()
-    $('#calendar-container').css({
-        'pointer-events': 'all',
-        '-webkit-filter': 'blur(0px)',
-        '-ms-filter': 'blur(0px)',
-        'filter': 'blur(0px)',
-    })
-});
+$('.filter-cursors').click(function (event) {
+        getLocation(event)
+        $('#calendar-container').css({
+          'pointer-events': 'all',
+          '-webkit-filter': 'blur(0px)',
+          '-ms-filter': 'blur(0px)',
+          'filter': 'blur(0px)',
+      })
 
-// Function used to populate the calendar with bookings from the database.
+   });
 
+// Removes the calendar blur when filter is used
+$('.type-header').click(function (e) {
+        dropdownFilters(e)
+   });
+
+// Function used to populate the calendar with bookings from the database and show available hours.
 function populate() {
-
     var date_map = new Map();
 
     for (i = 0; i < global_list[0].length; i++) {
@@ -101,14 +103,15 @@ function populate() {
         loc = document.getElementById(loc);
         var location = global_list[0][i].location__name;
         var day = global_list[0][i].start;
+        var start_datetime = day.split("T");
+        var start_date = start_datetime[0];
         var date_format = day.slice(0, 10);
         if (qNo == 0){
-            if(loc.value === location && loc.checked === true){
-
+            if(loc.checked === true){
                 var start_datetime = day.split("T");
                 var start_date = start_datetime[0];
+                //.log("startdate: "+start_date.slice(0,10))
                 var start_time = start_datetime[1].replace("Z", "");
-
                 var end_datetime = global_list[0][i].end.split("T");
                 var end_time = end_datetime[1].replace("Z", "");
                 //find difference between end and start
@@ -126,12 +129,16 @@ function populate() {
                 else if(loc.value === location && loc.checked === true) {
                     date_map.set(start_date, ""+diff_hour+":"+diff_min)
                 }
+                $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date))[0])) + " hours free").css("color", "#fc8307");
+            }
+            else if(date_map.has(start_date) && loc.checked === false){
+                $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date))[0])) + "\n" + " hours free").css("color", "#fc8307");
+            }
+            // change the html in the calendar boxes with number of booked hours.
+            else if(date_map.has(start_date) === false) {
+                $("#" + date_format + " h1").text("12 hours free").css("color", "green");
+            }
 
-                $("#" + date_format + " h1").text(""+ (12 - parseInt(getTime(date_map.get(start_date)[0])))+" hours free");
-            }
-            else if (loc.checked === false){
-                $("#" + date_format + " h1").text("12 hours free");
-            }
         }
     }
 
@@ -162,37 +169,6 @@ observer.observe(targetNode, config);
 function HandleDOM_Change () {
     populate();
 }
-
-// Event listener logic.
-// TODO: Replace with mutation observer.
-fireOnDomChange ('#calendar', HandleDOM_Change, 500);
-
-
-function fireOnDomChange (selector, actionFunction, delay) {
-
-    // observer.observe(targetNode, config);
-
-    // $(selector).on ('DOMSubtreeModified', fireOnDelay);
-
-    // function fireOnDelay () {
-    //     if (typeof this.Timer == "number") {
-    //         clearTimeout (this.Timer);
-    //     }
-    //     this.Timer  = setTimeout (  function() { fireActionFunction (); },
-    //                                 delay ? delay : 333
-    //                              );
-    // }
-
-    // function fireActionFunction () {
-    //     // observer.disconnect();
-
-    //     $(selector).off ('DOMSubtreeModified', fireOnDelay);
-
-    //     actionFunction ();
-    //     $(selector).on ('DOMSubtreeModified', fireOnDelay);
-    // }
-}
-
 // Converts day ids to the relevant string
 function dayOfWeekAsString(dayIndex) {
     return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][dayIndex];
@@ -245,16 +221,6 @@ function createCalendarDay(num, day, mon, year, available) {
         availability.style.color = "green";
     }
 
-    //console.log(parseInt(getTime(date_map.get(start_date)[0])));
-
-    //if(12 - parseInt(getTime(date_map.get(start_date)[0])) > 6){
-    //    availability.style.color = "green";
-    //}else if(12 - parseInt(getTime(date_map.get(start_date)[0])) > 2){
-    //    availability.style.color = "yellow";
-    //}else{
-    //    availability.style.color = "red";
-    //}
-
     newDay.className = "calendar-day";
     newDay.title = "Click to book";
     // Set ID of element as date formatted "8-January" etc
@@ -270,9 +236,20 @@ function createCalendarDay(num, day, mon, year, available) {
     btn.onclick = function (e) {
         popup(this, e);
     }
-
+    var maxMonth;
+    var maxDay;
+    var currentDate = new Date;
     // Restricts days that cant be booked
-    if (newDay.id < getCurrentDay()) {
+    if(currentDate.getMonth()+1 <= 6){
+        maxMonth = '0'+6;
+        maxDay = 10;
+    }
+    if(currentDate.getMonth()+1 >= 8){
+        maxMonth = 12;
+        maxDay = 20;
+    }
+    
+    if (newDay.id < getCurrentDay() || newDay.id > currentDate.getFullYear()+'-'+maxMonth+'-'+maxDay) {
         newDay.className = "calendar-day restricted";
     }
     return newDay
@@ -376,8 +353,11 @@ function createMonth() {
     currentMonthText.innerHTML = monthNames[date.getMonth()] + " " + date.getFullYear();
 
     // Gives the current date a highligth
-    var current_day = getCurrentDay();
-    document.getElementById(current_day).className = "calendar-day today";
+    var todaysDate = new Date();
+    if(dateObject.getMonth() == todaysDate.getMonth()+1 && dateObject.getYear() == todaysDate.getYear()){
+        var currentDay = getCurrentDay();
+        document.getElementById(currentDay).className = "calendar-day today";
+    }
 }
 
 //Get the current day
@@ -385,12 +365,12 @@ function getCurrentDay() {
     var todaysDate = new Date();
     var today = todaysDate.getDate();
     // add 0 to single digit days
-    var today_formatted = minTwoDigits(today);
+    var todayFormatted = minTwoDigits(today);
     var currentMonth = todaysDate.getMonth();
     var currentYear = todaysDate.getFullYear();
     var currentMonthString = monthsAsString(currentMonth);
-    var current_day = (currentYear + "-" + currentMonthString + "-" + today_formatted).toString();
-    return current_day
+    var currentDay = (currentYear + "-" + currentMonthString + "-" + todayFormatted);
+    return currentDay
 }
 
 //Opens the modal with content */
@@ -449,21 +429,54 @@ function dropdownFilters(event){
 
 // Alerts
 function triggerFilterAlert(){
-    $(".alert-warning").slideDown(1000);
-    document.getElementById("filter-alert").style.display = "block";
+    swal({
+        title: "Hey!",
+        text: "You need to filter on location before seeing the calendar.",
+        buttons: false,
+        closeOnClickOutside: false,
+    });
+    document.getElementById("top-navbar").style.zIndex="10001";
+    document.getElementById("filtering-container").style.borderRadius = "5px";
+    //document.getElementsByTagName("html")[0].style.overflow = "hidden";
     $('.filter-cursors').click(function () {
-         $(".alert-warning").slideUp(1000);
+        swal.close();
+        //document.getElementsByTagName("html")[0].style.overflow = "auto";
+        document.getElementById("top-navbar").style.zIndex="10";
+        document.getElementById("filter-box").style.zIndex="0";
+        document.getElementById("filtering-container").style.borderRadius = "0px";
     });
 }
 
-function triggerSuccessAlert(){
-    setTimeout(function () {
-        $(".alert-success").slideDown(1000);
-        document.getElementById("booking-success").style.display = "block";
-        setTimeout(function () {
-            $(".alert-success").slideUp(1000);
-        }, 5000);
-    }, 600);
-}
+// Disable arrow keys from changing the radio buttons
+$('input[type="radio"]').keydown(function(e)
+{
+    var arrowKeys = [37, 38, 39, 40];
+    if (arrowKeys.indexOf(e.which) !== -1)
+    {
+        $(this).blur();
+        if (e.which == 38)
+        {
+            var y = $(window).scrollTop();
+            $(window).scrollTop(y - 10);
+        }
+        else if (e.which == 40)
+        {
+            var y = $(window).scrollTop();
+            $(window).scrollTop(y + 10);
+        }
+        return false;
+    }
+});
 
+var currentLocation;
+var locationString;
+
+// populate calendar and get location of clicked filter type.
+function getLocation(event) {
+    populate();
+    var locationId = event.target.getAttribute('data-id');
+    var locationName = event.target.innerHTML;
+    this.currentLocation = locationId;
+    this.locationString = locationName;
+}
 

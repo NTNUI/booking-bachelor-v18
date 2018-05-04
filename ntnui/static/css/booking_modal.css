@@ -12,6 +12,11 @@
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
+/* Booking-modal */
+#booking-modal {
+    z-index: 1000;
+}
+
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
@@ -43,6 +48,7 @@
 
 #day-title, .modal-title{
     margin: 0 auto;
+    text-align:center;
 }
 
 .modal-header {
@@ -52,7 +58,8 @@
 .modal-body {
     margin: 0px auto;
     background: white;
-    padding: 3% 15% 1% 15%;
+    width: 100%;
+    padding: 3% 5% 1% 5%;
 }
 
 .full {
@@ -73,10 +80,9 @@
 /* Booking fields */
 #schedule-table {
     font-size:50%;
-    width: 25%;
+    width: 30%;
     display: flex;
     justify-content: left;
-    margin-top: 2%;
 }
 
 #booking-fields {
@@ -89,29 +95,41 @@ h5 {
     font-size: 17px;
 }
 
-.form-padding {
-    margin-top: 20px;
+.form-margin {
+    margin-top: 10%;
 }
 
 /* Cards for bookings */
 #booking-cards-con {
     display: flex;
     justify-content: center;
+    width: 50%;
+    margin: 0 auto;
 }
 
 #booking-cards {
-    max-height: 600px;
+    max-height: 500px;
     width: 100%;
     overflow-y: auto;
-    padding-left: 11%;
+}
+
+.card-body {
+    padding: 7%;
 }
 
 .card {
-    margin: 5px 0px 5px 0px;
+    margin: 5px auto;
 }
 
 .card-title {
     text-align: center;
+}
+
+.card-text {
+    font-size: 17px;
+}
+h8, h6 {
+    font-size: 13px;
 }
 
 .empty {
@@ -120,25 +138,60 @@ h5 {
     margin-left: -10%;
 }
 
-/* Make modal wider and text smaller on smaller devices */
-@media only screen and (max-width: 1125px) {
-    .col-8, h6, p, select, input, .form-control{
-        font-size: 90%;
+/* Responsive for different screens devices */
+@media only screen and (min-width: 1400px) {
+    .col-8, p, select, input, .form-control{
+        font-size: 110%;
     }
     #booking-cards-con {
         margin-right: 7%;
     }
     #booking-fields {
-        padding: 2% 7% 1% 7%;
+        padding: 0% 4% 1% 4%;
+    }
+    #day-title  {
+        font-size: 30px;
+    }
+    .card-title, h5{
+        font-size: 17px;
+    }
+    h8, h6 {
+        font-size: 14px;
     }
     .booking-modal-contents {
-        width: 80%;
+        width: 60%;
+    }
+    #booking-cards {
+        max-height: 530px;
+    }
+}
+
+@media only screen and (max-width: 1050px) {
+    .col-8, h6, p, select, input, .form-control{
+        font-size: 80%;
+    }
+    #booking-cards-con {
+        margin-right: 5%;
+        max-height: 450px;
+    }
+    #booking-fields {
+        padding: 0% 5% 1% 5%;
+    }
+    .booking-modal-contents {
+        width: 70%;
+    }
+    .form-margin {
+        margin-top: 5%;
     }
 }
 
 @media only screen and (max-width: 990px) {
+    #booking-cards-con {
+        padding-left: 5%;
+        width: 90%;
+    }
     .col-8 {
-        max-width: 100%;
+        max-width: 90%;
         flex: 100%;
     }
     #booking-fields {
@@ -149,10 +202,7 @@ h5 {
         display: block;
         font-size: 20px;
     }
-    .card-title {
-        font-size: 17px;
-    }
-    h5 {
+    .card-title, h5{
         font-size: 17px;
     }
 }
@@ -160,6 +210,7 @@ h5 {
 @media only screen and (max-width: 480px) {
     #booking-cards-con {
         padding-left: 2%;
+        width: 90%;
     }
     .booking-modal-contents {
         width: 100%;
@@ -171,4 +222,65 @@ h5 {
         padding: 3px 7px 3px 7px;
         font-size: 12px;
     }
+}
+
+/* Swal css */
+
+.swal-overlay--show-modal {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.swal-modal {
+    border-radius: 0px;
+}
+
+.col-lg-3 {
+    z-index: 10001;
+}
+
+.swal-modal {
+    margin-bottom: 20%;
+    width: 378px;
+    padding: 0% 1% 0% 1%;
+}
+
+.swal-title, .swal-text {
+    color: black;
+}
+
+.swal-title {
+    font-weight:400;
+    margin-top: 7% !important;
+}
+
+.swal-text {
+    margin-bottom: 7% !important;
+}
+
+.swal-content span a {
+    color: #1d701d;
+    border-bottom: 1px solid #1d701d;
+}
+
+@media only screen and (max-width: 990px) {
+    .swal-modal {
+        margin-top: 50%;
+        margin-bottom: 0;
+        width: 500px;
+    }
+}
+
+@media only screen and (max-width: 670px) {
+    .swal-modal {
+        margin-top: 60%;
+        width: 300px;
+    }
+    .swal-text{
+        font-size: 14px;
+    }
+    .swal-title{
+        font-size: 21px;
+    }
+
 }

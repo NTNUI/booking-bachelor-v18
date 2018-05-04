@@ -14,7 +14,7 @@
 
 {% block content %}
 
-    <div class="container" id="booking-container">
+    <div id="booking-container">
         <!-- Modal container -->
         <div id="booking-modal" class="modal-big">
             <div id="modal-booking">
@@ -27,55 +27,27 @@
         <div class="row">
             
             <!-- Filter content -->
-            <div class="col-lg-3">
+            <div class="col-lg-3" id="filter-box">
                 <div id="filtering-container" >
                     <div class="filter-header">Locations</div>
                     <div class="tb aBlock">
-                        <div>
-                            <p class="type-header">Gym</p>
-                            <div id="dropdown1" class="filter-arrow right" onclick="dropdownFilters(event)"></div>
-                            <div id="filter-type1" class="filter-type">
+                        {% for type in types %}
+                       <div>
+                            <p onclick="dropdownFilters(event)" class="type-header">{{ type.0 }}</p>
+                            <div id="{{ type.0 }}" class="filter-arrow right" title="Click to see locations" onclick="dropdownFilters(event)"></div>
+                            <div id="{{ forloop.counter }}" class="filter-type">
                                 {% for location in locations %}
-                                    {% if location.type == 'gym ' %}
+                                    {% if location.type == type.0 %}
                                         <div class="radio" style="display:block">
                                             <input type="radio" onclick="populate()" class="radio-inline" name="opradio" id="{{ location }}" value="{{ location }}">
-                                            <label class="filter-cursors" onchange="populate()" for="{{ location }}">{{ location }}</label>
+                                            <label class="filter-cursors" data-id="{{ forloop.counter }}" title="Click to filter" onchange="populate()" for="{{ location }}">{{ location }}</label>
                                             <p></p>
                                         </div>
                                     {% endif %}
                                 {% endfor %}
                             </div>
                         </div>
-                        <div>
-                            <p class="type-header">Football Field</p>
-                            <div id="dropdown2" class="filter-arrow right" onclick="dropdownFilters(event)"></div>
-                            <div id="filter-type2" class="filter-type">
-                                {% for location in locations %}
-                                    {% if location.type == 'football field' %}
-                                        <div class="radio" style="display:block">
-                                            <input type="radio" onclick="populate()" class="radio-inline" name="opradio" id="{{ location }}" value="{{ location }}">
-                                            <label class="filter-cursors" onchange="populate()" for="{{ location }}">{{ location }}</label>
-                                            <p></p>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                        <div>
-                            <p class="type-header">Volleyball Grounds</p>
-                            <div id="dropdown3" class="filter-arrow right" onclick="dropdownFilters(event)"></div>
-                            <div id="filter-type3" class="filter-type">
-                                {% for location in locations %}
-                                    {% if location.type == 'volleyball grounds' %}
-                                        <div class="radio" style="display:block">
-                                            <input type="radio" onclick="populate()" class="radio-inline" name="opradio" id="{{ location }}" value="{{ location }}">
-                                            <label class="filter-cursors" onchange="populate()" for="{{ location }}">{{ location }}</label>
-                                            <p></p>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
+                    {% endfor %}
                     </div>
                 </div>
             </div>
@@ -85,11 +57,11 @@
                 <div id="calendar-container">
                     <div id="control-box">
                         <p id="previous" class="label" title="Previous month" onclick="previousMonth()">
-                            <i class="fa fa-arrow-left"></i>
+                            <i class="fa fa-chevron-left"></i>
                         </p>
                         <p id="current-month" class="label"></p>
                         <p id="next" class="label" title="Next month" onclick="nextMonth()">
-                            <i class="fa fa-arrow-right"></i>
+                            <i class="fa fa-chevron-right"></i>
                         </p>
                     </div>
                     <div id="calendar-box">
@@ -101,8 +73,8 @@
             <!-- Alerts-->
             <div class="alert booking-alert alert-success" id="booking-success" role="alert">
                 <!-- Alert content -->
-                <strong id="alert-head">Congratzis!</strong>
-                <div id="alert-text">You have created a booking.</div>
+                <strong id="alert-head">Great!</strong>
+                <div id="alert-text">You have created a booking :D</div>
             </div>
 
             <div class="alert booking-alert alert-warning" id="filter-alert" role="alert">
@@ -116,6 +88,12 @@
 {% endblock content %}
 
 {% block script %}
+    <script>
+
+    $(".type-header").click( function(event) {
+        $( this ).next(event).trigger('click');
+    })
+    </script>
     <script src="http://malsup.github.com/jquery.form.js"></script>
     <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bookings.js' %}"></script>
@@ -135,4 +113,5 @@
         });
     </script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 {% endblock script %}

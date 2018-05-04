@@ -2,34 +2,34 @@
 <table class="table borderless" id="booking-table">
 
     {% for booking in my_group_bookings_list %}
+        <div>
+            <thead class="table-title">
+                <tr>
+                    <th>{{ booking.title }}</th>
+                </tr>
+            </thead>
 
-        <thead class="table-title">
             <tr>
-                <th>{{ booking.title }}</th>
+                <td><b>What:</b> {{ booking.description }}</td>
             </tr>
-        </thead>
-
-        <tr>
-            <td><b>What:</b> {{ booking.description }}</td>
-        </tr>
-        <tr>
-            <td><b>Location:</b> {{ booking.location }}</td>
-        </tr>
-        <tr>
-            <td><b>Date:</b> {{ booking.get_date.0 }}, {{ booking.get_date.1}}</td>
-        </tr>
-        <tr>
-            <td><b>Time:</b> {{ booking.get_date.2 }} - {{ booking.get_date.3 }}</td>
-        </tr>
-        <tr>
-            <td><b>Group:</b> {{ booking.group }}</td>
-        </tr>
-        <tr>
-            <td>
-                <hr>
-            </td>
-        </tr>
-
+            <tr>
+                <td><b>Location:</b> {{ booking.location }}</td>
+            </tr>
+            <tr>
+                <td><b>Date:</b> {{ booking.get_date.0 }}, {{ booking.get_date.1}}</td>
+            </tr>
+            <tr>
+                <td><b>Time:</b> {{ booking.get_date.2 }} - {{ booking.get_date.3 }}</td>
+            </tr>
+            <tr>
+                <td><b>Group:</b> {{ booking.group }}</td>
+            </tr>
+            <tr>
+                <td>
+                    <hr>
+                </td>
+            </tr>
+        </div>
 
         {% empty %}
             <h6 class="empty">Your groups have no bookings!</h6>
