@@ -3,7 +3,7 @@
     "model": "booking.location",
     "pk": 1,
     "fields": {
-      "name": "Dragvoll",
+      "name": "Gløshaugen (hall 1)",
       "address": "d",
       "description": "d",
       "type": "gym "
@@ -13,7 +13,57 @@
     "model": "booking.location",
     "pk": 2,
     "fields": {
-      "name": "Gløshaugen",
+      "name": "Gløshaugen (hall 2)",
+      "address": "d",
+      "description": "d",
+      "type": "gym "
+    }
+  },
+  {
+    "model": "booking.location",
+    "pk": 3,
+    "fields": {
+      "name": "Dragvoll (hall 1)",
+      "address": "d",
+      "description": "d",
+      "type": "gym "
+    }
+  },
+  {
+    "model": "booking.location",
+    "pk": 4,
+    "fields": {
+      "name": "Dragvoll (hall 2)",
+      "address": "d",
+      "description": "d",
+      "type": "gym "
+    }
+  },
+  {
+    "model": "booking.location",
+    "pk": 5,
+    "fields": {
+      "name": "Lade Idrettsanlegg (hall 1)",
+      "address": "d",
+      "description": "d",
+      "type": "gym "
+    }
+  },
+  {
+    "model": "booking.location",
+    "pk": 6,
+    "fields": {
+      "name": "Lade Idrettsanlegg (hall 2)",
+      "address": "d",
+      "description": "d",
+      "type": "gym "
+    }
+  },
+  {
+    "model": "booking.location",
+    "pk": 7,
+    "fields": {
+      "name": "Dødens dal",
       "address": "d",
       "description": "d",
       "type": "football field"
@@ -21,9 +71,29 @@
   },
   {
     "model": "booking.location",
-    "pk": 3,
+    "pk": 8,
     "fields": {
-      "name": "Tyholt",
+      "name": "Dødens dal (bane 1)",
+      "address": "d",
+      "description": "d",
+      "type": "volleyball grounds"
+    }
+  },
+  {
+    "model": "booking.location",
+    "pk": 9,
+    "fields": {
+      "name": "Dødens dal (bane 2)",
+      "address": "d",
+      "description": "d",
+      "type": "volleyball grounds"
+    }
+  },
+  {
+    "model": "booking.location",
+    "pk": 10,
+    "fields": {
+      "name": "Dødens dal (bane 3)",
       "address": "d",
       "description": "d",
       "type": "volleyball grounds"

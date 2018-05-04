@@ -35,10 +35,21 @@ $(function () {
                             $(".empty").css("display", "none");
                         }
                     });
+                    Swal();
+                    bookedTab();
+                    document.getElementById("queued-tab").className = "tablinks";
+                    document.getElementById("booked-tab").className = "tablinks active";
                 }
                 else {
                     $("#booking-modal .booking-modal-contents").html(data.html_form);
+                    Swal();
+                    bookedTab();
+                    document.getElementById("queued-tab").className = "tablinks";
+                    document.getElementById("booked-tab").className = "tablinks active";
                 }
+            },
+            complete: function (data) {
+
             }
         });
         return false;
@@ -59,6 +70,18 @@ $(function () {
 
 
 });
+
+function Swal() {
+    var span = document.createElement("span");
+    span.innerHTML = " " + '</br>' + " Your changes has been saved";
+    swal({
+        title: "" + "Good job!" + "",
+        content: span,
+        icon: "success",
+        buttons: false,
+        timer: 4000,
+    });
+}
 
 
 var modal = document.getElementById('booking-modal');

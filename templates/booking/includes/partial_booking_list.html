@@ -1,10 +1,9 @@
 {#list displaying bookings for user#}
 
+
+
 <table class="table borderless" id="person-booking-table">
-    <div class="tab">
-      <button class="tablinks active" onclick="openCity(event, 'Booked')">Booked</button>
-      <button class="tablinks" onclick="openCity(event, 'Queued')">Queued</button>
-    </div>
+
     {% for booking in my_bookings_list %}
         <thead class='table-title'>
             <tr>
@@ -53,3 +52,4 @@
     {% endfor %}
 </table>
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
