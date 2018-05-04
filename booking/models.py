@@ -74,8 +74,6 @@ class Booking(models.Model):
             temp = [maxval [i] for i in sorted(maxval.keys())]
             self.queueNo = int(temp[0])+1
             print("after save: ", self.queueNo)
-            print(first[0])
-            print(self)
             if first[0] == self:
                 self.queueNo = first[0].queueNo
         else:
