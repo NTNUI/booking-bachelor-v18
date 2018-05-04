@@ -11,6 +11,7 @@
             </thead>
         {% endif %}
 
+
         <tr>
             <td><b>What:</b> {{ booking.description }}</td>
         </tr>
@@ -26,6 +27,8 @@
         <tr>
             <td><b>Group:</b> {{ booking.group }}</td>
         </tr>
+
+
         <tr>
             <td>
                 <button type='button' class='btn col js-update-booking' data-url='{% url "booking_update" booking.id %}'>
@@ -34,6 +37,11 @@
                 <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url "booking_delete" booking.id %}'>
                     Delete
                 </button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <hr>
             </td>
         </tr>
         {% empty %}

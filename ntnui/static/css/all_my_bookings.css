@@ -7,8 +7,12 @@
     border:none;
 }
 
-.table thead th {
-    border-top: 1px solid white;
+.table thead th{
+    border: none;
+}
+
+hr{
+    border-top: 2px solid #8080803b;
 }
 
 #my-bookings-header {
@@ -221,6 +225,7 @@ label {
         margin-right: auto;
         width: 85%;
     }
+
     #filter-button{
         width: 47%;
         display: block;
