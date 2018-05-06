@@ -151,7 +151,7 @@ var config = {attributes: true, subtree: true, characterData:true};
 var callback = function(mutationsList){
     for (var mutation of mutationsList){
         if (mutation.type = "childList"){
-            populate();
+            console.log(mutation.type);
         }
         else if (mutation.type == 'attributes'){
             console.log('The ' + mutation.attributeName + ' attribute was modified');
@@ -268,6 +268,7 @@ function nextMonth() {
     clearCalendar();
     date.setMonth(date.getMonth() + 1);
     createMonth(date.getMonth());
+    populate();
 }
 
 // Clears the calendar and shows the previous month
@@ -276,7 +277,9 @@ function previousMonth() {
     date.setMonth(date.getMonth() - 1);
     var val = date.getMonth();
     createMonth(date.getMonth());
+    populate();
     return val
+
 }
 
 function daysInMonth(month, year) {
