@@ -27,6 +27,7 @@ $(function () {
             dataType: 'json',
             success: function (data) {
                 if (data.form_is_valid) {
+
                     $("#person-booking-table").html(data.html_booking_list);
                     $("#booking-modal").css("display", "none");
                     $(document).ready(function() {
@@ -36,9 +37,18 @@ $(function () {
                         }
                     });
                     Swal();
-                    bookedTab();
-                    document.getElementById("queued-tab").className = "tablinks";
-                    document.getElementById("booked-tab").className = "tablinks active";
+                    if ((form.context[3].value)>0) {
+                        queuedTab();
+                        document.getElementById("booked-tab").className = "tablinks";
+                        document.getElementById("queued-tab").className = "tablinks active";
+                    }
+                    else {
+                        bookedTab();
+                        document.getElementById("queued-tab").className = "tablinks";
+                        document.getElementById("booked-tab").className = "tablinks active";
+                    }
+
+
                 }
                 else {
                     $("#booking-modal .booking-modal-contents").html(data.html_form);
