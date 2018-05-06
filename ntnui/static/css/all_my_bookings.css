@@ -9,6 +9,8 @@
 
 .table thead th{
     border: none;
+    color: green;
+    font-size: 120%;
 }
 
 hr{
