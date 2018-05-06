@@ -102,7 +102,8 @@ h5 {
 /* Cards for bookings */
 #booking-cards-con {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-content: flex-start;
     width: 50%;
     margin: 0 auto;
 }
@@ -126,7 +127,9 @@ h5 {
 }
 
 .card-text {
-    font-size: 17px;
+    font-size: 19px;
+    color: green;
+    font-weight: 600;
 }
 h8, h6 {
     font-size: 13px;

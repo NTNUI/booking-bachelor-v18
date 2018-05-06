@@ -5,6 +5,7 @@
 {% block content %}
     <div id="content-container" class="row">
         <div class="col-lg-6" id="booking-cards-con">
+            <h5>Booked</h5>
             <div id="booking-cards">
             </div>
         </div>
@@ -199,9 +200,10 @@
                     loc = document.getElementById(loc);
                     var queueNo = global_list[0][i].queueNo;
                     var group = global_list[0][i].group;
+                    var personId = global_list[0][i].person__id;
                     if(tempDay.id === date_format && data[i].location__name === loc.value && loc.checked === true) {
                         booking = []
-                        booking.push(newDate, start, data[i].end, data[i].title, data[i].person__first_name, queueNo, group);
+                        booking.push(newDate, start, data[i].end, data[i].title, data[i].person__first_name, queueNo, group, personId);
                         list_of_bookings.push(booking)
                         list_of_bookings.sort(function(a, b){return a[0] - b[0]});
                     }
@@ -215,7 +217,7 @@
                             var div2 = document.createElement("div");
                             div2.className = "card";
                             var div3 = document.createElement("div");
-                            div3.className = "card-body";
+                            div3.className = "card-body" + " " + list_of_bookings[I][7];
                             var date = document.createElement("h5");
                             date.className = "card-title";
                             var start_time = list_of_bookings[I][1];
@@ -241,7 +243,20 @@
                             div.appendChild(div2);
                             document.getElementById("booking-cards").appendChild(div);
                         }
+                        var userId = {{ user.id }};
+                        if(userId == list_of_bookings[I][7]){
+                            div3.style.borderBottom = "2px solid orange";
+                            div3.style.cursor = "pointer";
+                            div3.title = "Click to see your booking"
+                            var myCards = document.getElementsByClassName(list_of_bookings[I][7])
+                            for(var i=0; i < myCards.length; i++){
+                                myCards[i].onclick = function(){
+                                    window.location = "/booking/bookings_list";
+                                }
+                            }
+                        }
                     }
+
                 }else {
                     var empty = document.createElement("h5");
                     empty.innerHTML = "No bookings today!";
@@ -250,6 +265,8 @@
                 }
             }
         });
+
+
     </script>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
