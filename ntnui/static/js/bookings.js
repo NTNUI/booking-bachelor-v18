@@ -37,14 +37,20 @@ $(function () {
                         }
                     });
                     Swal();
-                    if ((form.context[2].value)>0) {
+                    console.log((form.context[2].value));
+                    if ((form.context[2].value)>=1) {
+                        console.log("queued");
                         queuedTab();
                         document.getElementById("booked-tab").className = "tablinks";
                         document.getElementById("queued-tab").className = "tablinks active";
                     }
-                    bookedTab()
-                    document.getElementById("queued-tab").className = "tablinks";
-                    document.getElementById("booked-tab").className = "tablinks active";
+                    else {
+                        console.log("not queued");
+                        bookedTab();
+                        document.getElementById("queued-tab").className = "tablinks";
+                        document.getElementById("booked-tab").className = "tablinks active";
+                    }
+
 
                 }
                 else {

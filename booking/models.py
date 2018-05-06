@@ -67,21 +67,15 @@ class Booking(models.Model):
         
         bookings = Booking.objects.filter(location=self.location, start__lt=self.end, end__gt=self.start)
         first = bookings.filter(queueNo=0)
+        if self in bookings:
+            return super(Booking, self).save(*args, **kwargs)
         if list(first) != []:
             # print(bookings)
             print("before save: ", self.queueNo)
             maxval = bookings.aggregate(models.Max('queueNo'))
-            print(maxval)
-            print(kwargs)
-            if self not in list(first):
-                print("does not exist")
-            elif self != first[0]:
-                print("does exist")
-                temp = [maxval[i] for i in sorted(maxval.keys())]
-                self.queueNo = int(temp[0]) + 1
-            # for q in first:
-            #     if q == self:
-            #         self.queueNo = q.queueNo
+            temp = [maxval[i] for i in sorted(maxval.keys())]
+            self.queueNo = int(temp[0]) + 1
+            print("after save: ", self.queueNo)
         else:
             self.queueNo = 0
         return super(Booking, self).save(*args, **kwargs)
