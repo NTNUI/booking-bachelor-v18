@@ -129,10 +129,16 @@ function populate() {
                 else if(loc.value === location && loc.checked === true) {
                     date_map.set(start_date, ""+diff_hour+":"+diff_min)
                 }
-                $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date))[0])) + " hours free").css("color", "#fc8307");
+                if(12-parseInt(getTime(date_map.get(start_date))[0]) >= 1) {
+                    console.log("hours: "+(parseInt(getTime(date_map.get(start_date))[0])))
+                    $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date))[0])) + " hours free").css("color", "#fc8307");
+                }
+                else if(12-parseInt(getTime(date_map.get(start_date))[0]) < 1){
+                    $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date))[0])) + " hours free").css("color", "red");
+                }
             }
             else if(date_map.has(start_date) && loc.checked === false){
-                $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date))[0])) + "\n" + " hours free").css("color", "#fc8307");
+                $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date))[0])) + "\n" + " hours freeee").css("color", "#fc8307");
             }
             // change the html in the calendar boxes with number of booked hours.
             else if(date_map.has(start_date) === false) {
