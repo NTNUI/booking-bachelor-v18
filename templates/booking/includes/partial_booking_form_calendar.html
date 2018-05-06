@@ -17,6 +17,7 @@
                     <div class="col form-group {% if field.errors %} has-error{% endif %}">
                         {{form.person.as_hidden}}
                         {{form.location.as_hidden}}
+                        {{form.day.as_hidden}}
                         <div>
                             <h5>Title</h5>
                             {{form.title}}
@@ -29,7 +30,7 @@
                             <h5>Group</h5>
                             {{form.group}}
                         </div>
-
+                        
                         <div class="form-margin">
                             <h5>Starttime</h5>
                             <div class="input-group clockpicker" data-placement="top" data-align="bottom" data-autoclose="true" id="startTime">
@@ -52,10 +53,8 @@
                         {% if request.user.is_superuser %}
                             <div class="form-margin">
                                 <h5>Recurring</h5>
-                                <select class="form-control" id="recurringEvent">
-                                    <option value="noRepeat" id="noRepeat">Does not repeat</option>
-                                    <option value="weekly" id="weekly">Repeat every</option>
-                                </select>
+                                {{form.repeat}}
+                                
                             </div>
                         {% endif %}
                         {% if user.is_authenticated and not request.user.is_superuser %}
@@ -63,10 +62,8 @@
                             {% if user_in_hs %}
                                 <div class="form-margin">
                                     <h5>Request Recurring</h5>
-                                    <select class="form-control" id="recurringEvent">
-                                        <option value="noRepeat" id="noRepeat">Does not repeat</option>
-                                        <option value="weekly" id="weekly">Repeat every</option>
-                                    </select>
+                                    {{form.repeat}}
+                                    
                                 </div>
                             {% endif %}
                         {% endif %}
@@ -74,6 +71,9 @@
                 </div>
             {% endif %}
         {% endif %}
+    {% load widget_tweaks %}
+        
+        
     </div>
 {% endblock content %}
 
@@ -82,7 +82,12 @@
     <script>
         var list_of_bookings = []
         var chosenLocation = this.currentLocation;
+        var booking_data; //global variable for booking data
+        var overlap = []; //put overlapping bookings here
+        // document.getElementById("id_repeat").classList.add("input-group")
         $(document).ready(function(){
+            console.log("here")//6
+            document.getElementById("id_day").value=tempDay.children[1].innerHTML.trim();
             var btn = document.getElementById("submission");
             $(btn).click(function () {
                 if(validateForm()) {
@@ -134,6 +139,7 @@
                                         promised.done(function() {
                                             promised.then( function() {
                                                 global_list = []
+                                                console.log("promised")
                                                 global_list.push(promised.responseJSON);
                                             })
                                         })
@@ -178,6 +184,43 @@
                 }
             });
         });
+        //check if booking overlaps when End time is deselected.
+        // TODO: check if this function is actually necessary
+        $('#endInput').on("blur", function(){
+            var start = document.getElementById("startInput").value;//get start value for this booking
+            start = tempDay.id + "T" + start + "Z";
+            var end = tempDay.id + "T" + this.value + "Z";
+            var loc = document.getElementById("id_location");
+            var loc_val = loc.value; //get current value of lcoation
+            var loc_opt = loc.innerHTML.split("\n"); //get options as array
+            var loc_val_str = "value=\"" + loc_val + "\""; //format search parameter
+            var loc_str; //store name of location here
+            var regex = />.*</;
+            for (i=0; i<loc_opt.length;i++){
+                if (loc_opt[i].search(loc_val_str)> 0){
+                    loc_str = loc_opt[i];
+                    loc_str = loc_str.match(regex).toString();
+                    console.log(loc_str)
+                    var res = loc_str.substr(1, loc_str.lenght-2); //get ridd of ><brackets
+                    loc_str = res;
+                }
+            }
+
+            overlap = []; //put overlapping bookings here
+            if (loc_str && this.value.length && start.length){
+                $.each(booking_data, function(i, item){
+                    var current = booking_data[i];
+                    //TODO: check if start and end times have the same format
+                    if (loc_str===current.location && current.start < end && current.end > start){
+                        overlap.push(current);
+                    }
+                })
+            }
+            
+        })
+        $("#startInput").blur(function(){
+            console.log("blur")
+        })
         $.ajax({
             method: "GET",
             url: '/booking/api',
@@ -192,6 +235,7 @@
             },
             success: function(data) {
                 $.each(data, function(i, item) {
+                    booking_data = data;
                     var date = data[i].start;
                     var date_format = date.slice(0, 10);
                     var start = date.slice(11, 16);
@@ -201,11 +245,22 @@
                     var queueNo = global_list[0][i].queueNo;
                     var group = global_list[0][i].group;
                     var personId = global_list[0][i].person__id;
+                    var dayName = document.getElementById("id_day");
+                    dayName.value = tempDay.children[1].innerHTML.trim();                    
+                    
                     if(tempDay.id === date_format && data[i].location__name === loc.value && loc.checked === true) {
                         booking = []
                         booking.push(newDate, start, data[i].end, data[i].title, data[i].person__first_name, queueNo, group, personId);
                         list_of_bookings.push(booking)
                         list_of_bookings.sort(function(a, b){return a[0] - b[0]});
+                    }
+                    //TODO: check if overlapping booking exists in API:
+                    var booking = data[i]
+                    
+                    var s_time = document.getElementById("startTime").value
+                    var e_time = document.getElementById("endTime").value
+                    if (booking.start <= tempDay.end && booking.end >= tempDay.start){
+                        
                     }
                 })
                 if(list_of_bookings.length != 0){
@@ -230,6 +285,7 @@
                             var name = document.createElement("h6");
                             name.className = "card-subtitle text-muted mb-2";
                             var b_name = list_of_bookings[I][4]
+
                             name.innerHTML = b_name;
                             var group = document.createElement("h8");
                             group.className = "card-subtitle";
