@@ -130,7 +130,6 @@ function populate() {
                     date_map.set(start_date, ""+diff_hour+":"+diff_min)
                 }
                 if(12-parseInt(getTime(date_map.get(start_date))[0]) >= 1) {
-                    console.log("hours: "+(parseInt(getTime(date_map.get(start_date))[0])))
                     $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date))[0])) + " hours free").css("color", "#fc8307");
                 }
                 else if(12-parseInt(getTime(date_map.get(start_date))[0]) < 1){
@@ -245,7 +244,7 @@ function createCalendarDay(num, day, mon, year, available) {
     var maxMonth;
     var maxDay;
     var currentDate = new Date;
-    // Restricts days that cant be booked
+    // Restricts days that cant be booked. Stops at 10. june in spring and 21. desember in autumn
     if(currentDate.getMonth()+1 <= 6){
         maxMonth = '0'+6;
         maxDay = 10;
@@ -397,32 +396,23 @@ function popup(e) {
         },
         success: function (data) {
             $("#booking-modal .booking-modal-contents").html(data.html_form);
-
         }
 
     });
 
     //Set global tempDay variable to event that triggers the popup, ie the date.
     this.tempDay = e;
-
     var modal = document.getElementById('booking-modal');
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
     modal.style.display = "block";
     // When the user clicks anywhere outside of the modal, close it
-
     window.onclick = function (event) {
-
         if (event.target == modal) {
             modal.style.display = "none";
-
-
         }
         else if (event.target == close) {
-            console.log("closed!")
-            modal.style.display = "none"
-            //location.reload();
-
+            modal.style.display = "none";
         }
     }
 }
