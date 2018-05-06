@@ -77,13 +77,6 @@ hr{
 }
 
 /* Containers for list of bookings */
-.all-bookings {
-    width: 60%;
-    margin: 1rem auto;
-    word-break: break-word;
-    padding: 1rem;
-}
-
 .my-bookings {
     width: 100%;
     margin: 0rem auto;
@@ -298,6 +291,7 @@ label {
     transition: 0.3s;
     font-size: 17px;
     width: 100%;
+    border-bottom: 1px solid #c5c3c3;
 }
 
 /* Change background color of buttons on hover */
