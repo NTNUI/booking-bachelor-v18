@@ -74,15 +74,16 @@ class Booking(models.Model):
         #TODO: move queue up if preceding booking is updated and frees up space
         bookings = Booking.objects.filter(location=self.location, start__lt=self.end, end__gt=self.start)
         first = bookings.filter(queueNo=0)
-        for i in bookings:
-            self.overlapping = list(bookings)
-            # pass
+        
+        if self in bookings:
+            return super(Booking, self).save(*args, **kwargs)
+    
         if list(first) != []:
             maxval = bookings.aggregate(models.Max('queueNo'))
-            temp = [maxval [i] for i in sorted(maxval.keys())]
-            self.queueNo = int(temp[0])+1
-            # msg = "You are now number " + str(self.queueNo) + " in line for " + str(self.location)
-        else: #if updated and moved to free time
+            temp = [maxval[i] for i in sorted(maxval.keys())]
+            self.queueNo = int(temp[0]) + 1
+            print("after save: ", self.queueNo)
+        else:
             self.queueNo = 0
         return super(Booking, self).save(*args, **kwargs)
 

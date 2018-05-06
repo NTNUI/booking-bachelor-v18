@@ -1,16 +1,13 @@
-{#list displaying all bookings#}
+{#list displaying all requested bookings#}
+<table class="table borderless" id="booking-table">
+    <!-- remember to change from my group bookings -->
+    {% for booking in my_group_bookings_list %}
 
-<table class='table borderless' id='person-booking-table'>
-    {% for booking in filter.qs %}
-        {# Titles of bookings #}
-        {% if bookings %}
-            <thead class='table-title'>
-                <tr>
-                    <th>{{ booking.title }}</th>
-                </tr>
-            </thead>
-        {% endif %}
-
+        <thead class="table-title">
+            <tr>
+                <th>{{ booking.title }}</th>
+            </tr>
+        </thead>
 
         <tr>
             <td><b>What:</b> {{ booking.description }}</td>
@@ -27,15 +24,22 @@
         <tr>
             <td><b>Group:</b> {{ booking.group }}</td>
         </tr>
+        <tr>
+            <td><b>Requested by:</b> {{ booking.person }}</td>
+        </tr>
+        <tr>
+            <td><b>Recurring:</b> </td>
+        </tr>
 
 
         <tr>
             <td>
-                <button type='button' class='btn col js-update-booking' data-url='{% url "booking_update" booking.id %}'>
-                    Edit
+                <!--Remember to change from 'delete' to approve/disapprove -->
+                <button type='button' class='btn btn-success col js-delete-booking' data-url='{% url "booking_delete" booking.id %}'>
+                    Approve
                 </button>
                 <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url "booking_delete" booking.id %}'>
-                    Delete
+                    Disapprove
                 </button>
             </td>
         </tr>
@@ -44,8 +48,11 @@
                 <hr>
             </td>
         </tr>
+
         {% empty %}
-            <h6 class="empty">There are no bookings!</h6>
+            <h6 class="empty">You have no requested bookings!</h6>
+
     {% endfor %}
+
 </table>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

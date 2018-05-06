@@ -102,7 +102,8 @@ h5 {
 /* Cards for bookings */
 #booking-cards-con {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-content: flex-start;
     width: 50%;
     margin: 0 auto;
 }
@@ -126,7 +127,9 @@ h5 {
 }
 
 .card-text {
-    font-size: 17px;
+    font-size: 19px;
+    color: green;
+    font-weight: 600;
 }
 h8, h6 {
     font-size: 13px;
@@ -251,8 +254,36 @@ h8, h6 {
 
 .swal-title {
     font-weight:400;
+    margin-top: 7% !important;
 }
 
 .swal-text {
     margin-bottom: 7% !important;
+}
+
+.swal-content span a {
+    color: #1d701d;
+    border-bottom: 1px solid #1d701d;
+}
+
+@media only screen and (max-width: 990px) {
+    .swal-modal {
+        margin-top: 50%;
+        margin-bottom: 0;
+        width: 500px;
+    }
+}
+
+@media only screen and (max-width: 670px) {
+    .swal-modal {
+        margin-top: 60%;
+        width: 300px;
+    }
+    .swal-text{
+        font-size: 14px;
+    }
+    .swal-title{
+        font-size: 21px;
+    }
+
 }

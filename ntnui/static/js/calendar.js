@@ -128,14 +128,20 @@ function populate() {
                 else if(loc.value === location && loc.checked === true) {
                     date_map.set(start_date, ""+diff_hour+":"+diff_min)
                 }
-                $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date))[0])) + " hours free");
+                if(12-parseInt(getTime(date_map.get(start_date))[0]) >= 1) {
+                    console.log("hours: "+(parseInt(getTime(date_map.get(start_date))[0])))
+                    $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date))[0])) + " hours free").css("color", "#fc8307");
+                }
+                else if(12-parseInt(getTime(date_map.get(start_date))[0]) < 1){
+                    $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date))[0])) + " hours free").css("color", "red");
+                }
             }
             else if(date_map.has(start_date) && loc.checked === false){
-                $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date))[0])) + "\n" + " hours free");
+                $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date))[0])) + "\n" + " hours free").css("color", "#fc8307");
             }
             // change the html in the calendar boxes with number of booked hours.
             else if(date_map.has(start_date) === false) {
-                $("#" + date_format + " h1").text("12 hours free");
+                $("#" + date_format + " h1").text("12 hours free").css("color", "green");
             }
 
         }
@@ -151,7 +157,7 @@ var config = {attributes: false, subtree: true, characterData:true};
 var callback = function(mutationsList){
     for (var mutation of mutationsList){
         if (mutation.type = "childList"){
-            populate();
+            console.log(mutation.type);
         }
         else if (mutation.type == 'attributes'){
             console.log('The ' + mutation.attributeName + ' attribute was modified');
@@ -236,9 +242,20 @@ function createCalendarDay(num, day, mon, year, available) {
     btn.onclick = function (e) {
         popup(this, e);
     }
-
-    // Restricts days that cant be booked
-    if (newDay.id < getCurrentDay()) {
+    var maxMonth;
+    var maxDay;
+    var currentDate = new Date;
+    // Restricts days that cant be booked. Stops at 10. june in spring and 21. desember in autumn
+    if(currentDate.getMonth()+1 <= 6){
+        maxMonth = '0'+6;
+        maxDay = 10;
+    }
+    if(currentDate.getMonth()+1 >= 8){
+        maxMonth = 12;
+        maxDay = 20;
+    }
+    
+    if (newDay.id < getCurrentDay() || newDay.id > currentDate.getFullYear()+'-'+maxMonth+'-'+maxDay) {
         newDay.className = "calendar-day restricted";
     }
     return newDay
@@ -257,6 +274,7 @@ function nextMonth() {
     clearCalendar();
     date.setMonth(date.getMonth() + 1);
     createMonth(date.getMonth());
+    populate();
 }
 
 // Clears the calendar and shows the previous month
@@ -265,7 +283,9 @@ function previousMonth() {
     date.setMonth(date.getMonth() - 1);
     var val = date.getMonth();
     createMonth(date.getMonth());
+    populate();
     return val
+
 }
 
 function daysInMonth(month, year) {
@@ -377,32 +397,23 @@ function popup(e) {
         },
         success: function (data) {
             $("#booking-modal .booking-modal-contents").html(data.html_form);
-
         }
 
     });
 
     //Set global tempDay variable to event that triggers the popup, ie the date.
     this.tempDay = e;
-
     var modal = document.getElementById('booking-modal');
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
     modal.style.display = "block";
     // When the user clicks anywhere outside of the modal, close it
-
     window.onclick = function (event) {
-
         if (event.target == modal) {
             modal.style.display = "none";
-
-
         }
         else if (event.target == close) {
-            console.log("closed!")
-            modal.style.display = "none"
-            //location.reload();
-
+            modal.style.display = "none";
         }
     }
 }
@@ -426,10 +437,10 @@ function triggerFilterAlert(){
     });
     document.getElementById("top-navbar").style.zIndex="10001";
     document.getElementById("filtering-container").style.borderRadius = "5px";
-    document.getElementsByTagName("html")[0].style.overflow = "hidden";
+    //document.getElementsByTagName("html")[0].style.overflow = "hidden";
     $('.filter-cursors').click(function () {
         swal.close();
-        document.getElementsByTagName("html")[0].style.overflow = "auto";
+        //document.getElementsByTagName("html")[0].style.overflow = "auto";
         document.getElementById("top-navbar").style.zIndex="10";
         document.getElementById("filter-box").style.zIndex="0";
         document.getElementById("filtering-container").style.borderRadius = "0px";

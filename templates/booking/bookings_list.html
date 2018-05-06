@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-
 {% load static %}
 {% load tags %}
+
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
     <link rel="stylesheet" href="{% static 'css/all_my_bookings.css' %}">
@@ -22,6 +22,7 @@
         <h1 id="my-bookings-header">
             My bookings
         </h1>
+
         <div class="my-booking-box">
             <div class="flex-container">
                 {% if user.is_authenticated %}
@@ -29,6 +30,10 @@
                     {% if user_in_hs or request.user.is_superuser %}
                     <div class="my-bookings">
                         <p class="my-bookings-header-2">My bookings</p>
+                        <div class="tab">
+                            <button class="tablinks active" id="booked-tab" onclick="openCity(event, 'Booked')">Booked</button>
+                            <button class="tablinks" id="queued-tab" onclick="openCity(event, 'Queued')">Queued</button>
+                        </div>
                         <div class="replace">
                             {% include 'booking/includes/partial_booking_list.html' %}
                         </div>
@@ -44,6 +49,7 @@
 
                 <div class="group-bookings {% if user.is_authenticated and not user_in_hs and not request.user.is_superuser %} group-width {% endif %}">
                     <p class="my-bookings-header-2">Group bookings</p>
+
                     <div class="replace">
                         {% include 'booking/includes/partial_groupbooking_list.html' %}
                     </div>

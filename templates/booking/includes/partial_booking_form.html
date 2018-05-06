@@ -10,6 +10,7 @@
 
 {% block content %}
     {{form.person.as_hidden}}
+    {{form.queueNo.as_hidden}}
     <div>
         <h5>Title</h5>
         {{form.title}}
@@ -29,7 +30,7 @@
 
     <div class="form-margin">
         <label>Date</label>
-        <input type="date" id="date" class="form-control">
+        <input type="date" id="date" class="form-control" onclick="minMaxDate()">
         {{ form.start.as_hidden }}
         {{ form.end.as_hidden }}
     </div>

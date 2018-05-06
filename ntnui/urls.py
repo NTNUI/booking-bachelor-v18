@@ -11,6 +11,10 @@ from django.contrib.auth import views as auth_views
 from accounts import views as accounts_views
 from groups import views as groups_views
 from booking import views
+from django.conf.urls import handler404
+
+
+
 
 
 urlpatterns = [
@@ -56,3 +60,7 @@ urlpatterns = [
     url(r'^cron/accounts/lastday$', accounts_views.add_last_week_users_from_exeline,
         name='add_last_week_users_from_exeline'),
 ]
+
+handler404 = 'booking.views.error_404'
+
+
