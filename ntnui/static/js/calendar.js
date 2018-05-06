@@ -138,7 +138,7 @@ function populate() {
                 }
             }
             else if(date_map.has(start_date) && loc.checked === false){
-                $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date))[0])) + "\n" + " hours freeee").css("color", "#fc8307");
+                $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date))[0])) + "\n" + " hours free").css("color", "#fc8307");
             }
             // change the html in the calendar boxes with number of booked hours.
             else if(date_map.has(start_date) === false) {
