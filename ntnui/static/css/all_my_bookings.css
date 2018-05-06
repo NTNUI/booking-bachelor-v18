@@ -7,16 +7,6 @@
     border:none;
 }
 
-.table thead th{
-    border: none;
-    color: green;
-    font-size: 120%;
-}
-
-hr{
-    border-top: 2px solid #8080803b;
-}
-
 #my-bookings-header {
     margin-top: 2rem;
     margin-left: 1rem;
@@ -70,6 +60,7 @@ hr{
 
 .table-title {
     font-size: 18px;
+    border-top: 2px solid black;
 }
 
 #id_location, #id_person, #id_title, #id_start, #id_group {
@@ -77,6 +68,13 @@ hr{
 }
 
 /* Containers for list of bookings */
+.all-bookings {
+    width: 60%;
+    margin: 1rem auto;
+    word-break: break-word;
+    padding: 1rem;
+}
+
 .my-bookings {
     width: 100%;
     margin: 0rem auto;
@@ -220,7 +218,6 @@ label {
         margin-right: auto;
         width: 85%;
     }
-
     #filter-button{
         width: 47%;
         display: block;
@@ -268,49 +265,5 @@ label {
         margin-right: auto;
     }
 
-}
-
-/* Tabs */
-
-/* Style the tab */
-.tab {
-    overflow: hidden;
-    background-color: #f1f1f1;
-    display: flex;
-    justify-content: space-around;
-}
-
-/* Style the buttons inside the tab */
-.tab button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-    font-size: 17px;
-    width: 100%;
-    border-bottom: 1px solid #c5c3c3;
-}
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-    background-color: #ddd;
-}
-
-/* Create an active/current tablink class */
-.tab button.active {
-    background-color: #fff;
-    border: 1px solid #c5c3c3;
-    border-bottom: 1px solid white;
-}
-
-/* Style the tab content */
-.tabcontent {
-    display: none;
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    border-top: none;
 }
 

@@ -11,7 +11,6 @@
             </thead>
         {% endif %}
 
-
         <tr>
             <td><b>What:</b> {{ booking.description }}</td>
         </tr>
@@ -27,8 +26,6 @@
         <tr>
             <td><b>Group:</b> {{ booking.group }}</td>
         </tr>
-
-
         <tr>
             <td>
                 <button type='button' class='btn col js-update-booking' data-url='{% url "booking_update" booking.id %}'>
@@ -39,13 +36,7 @@
                 </button>
             </td>
         </tr>
-        <tr>
-            <td>
-                <hr>
-            </td>
-        </tr>
         {% empty %}
             <h6 class="empty">There are no bookings!</h6>
     {% endfor %}
 </table>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

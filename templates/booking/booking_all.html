@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% load static %}
 
 {% block extra_js%}
@@ -30,8 +31,8 @@
         <h1 id="my-bookings-header">
             Manage bookings
         </h1>
-
         <div class="my-booking-box">
+            <p class="my-bookings-header-2">Manage all bookings</p>
             <!-- Filter booking form -->
             <form id="filter-form" method='get'>
                 <table class='table borderless'>
@@ -42,31 +43,27 @@
                         <td><h5>Group: </h5>{{ filter.form.group }}</td>
                     </tr>
                 </table>
-                <button class="btn" id='filter-button' type='submit'>Search</button>
+                <button class="btn" id='filter-button' type='submit'>Filter</button>
             </form>
-            <div class="flex-container">
-                <div class="my-bookings">
-                    <p class="my-bookings-header-2">All bookings</p>
-                    <div class='replace'>
-                        {% include 'booking/includes/partial_booking_all.html' %}
-                    </div>
-                    <p>
-                        <button type='button' id="create-booking"class='btn btn-success col js-create-booking' data-url='{% url 'booking_create' %}'>
-                            <span class='glyphicon glyphicon-plus'></span>
-                            Create a new booking
-                        </button>
-                    </p>
+            <div class="all-bookings">
+                <div class='replace'>
+                    {% include 'booking/includes/partial_booking_all.html' %}
                 </div>
-                <!-- Requested bookings (recurring, etc.) (rememeber to change from Group bookings -->
-                <div class="my-bookings">
-                    <p class="my-bookings-header-2">Requested bookings</p>
-                    <div class="replace">
-                        {% include 'booking/includes/partial_booking_all_requested.html' %}
-                    </div>
-                </div>
+                <p>
+                    <button type='button' id="create-booking"class='btn btn-success col js-create-booking' data-url='{% url 'booking_create' %}'>
+                        <span class='glyphicon glyphicon-plus'></span>
+                        Create a new booking
+                    </button>
+                </p>
             </div>
         </div>
 
+        <!-- Alerts-->
+        <div class="alert booking-alert alert-success" id="booking-success" role="alert">
+            <!-- Alert content -->
+            <strong id="alert-head">Congratzis!</strong>
+            <div id="alert-text">You have created a booking.</div>
+        </div>
     </div>
 {% endblock content %}
 

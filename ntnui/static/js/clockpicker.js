@@ -130,7 +130,20 @@
 			
 			var amPmButtons = $(amPmButtonsTemplate);
 			//amPmButtons.appendTo(plate);
-
+			
+			////Not working b/c they are not shown when this runs
+			//$('clockpicker-am-button')
+			//    .on("click", function() {
+			//        self.amOrPm = "AM";
+			//        $('.clockpicker-span-am-pm').empty().append('AM');
+			//    });
+			//    
+			//$('clockpicker-pm-button')
+			//    .on("click", function() {
+			//         self.amOrPm = "PM";
+			//        $('.clockpicker-span-am-pm').empty().append('PM');
+			//    });
+	
 			$('<button type="button" class="btn btn-sm btn-default clockpicker-button am-button">' + "AM" + '</button>')
 				.on("click", function() {
 					self.amOrPm = "AM";

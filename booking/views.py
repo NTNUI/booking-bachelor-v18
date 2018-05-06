@@ -17,12 +17,6 @@ from datetime import time
 from calendar import Calendar
 from groups.models import SportsGroup, Membership
 from django.utils import timezone
-from django.shortcuts import render
-
-
-def error_404(request):
-    data = {}
-    return render(request, 'booking/error_404.html', data)
 
 @login_required
 def index(request):
@@ -36,7 +30,7 @@ def index(request):
 
 def api(request, **kwargs):
     model = Booking
-    bookings = model.objects.all().values('title', 'description', 'start', 'end', 'location__name', 'person__first_name', 'queueNo', 'group', 'person__id')
+    bookings = model.objects.all().values('title', 'description', 'start', 'end', 'location__name', 'person__first_name', 'queueNo', 'group')
     booking_list = list(bookings)
     return JsonResponse(booking_list, safe=False)
 
