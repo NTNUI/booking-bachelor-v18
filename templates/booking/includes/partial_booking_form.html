@@ -97,7 +97,6 @@
             });
             console.log($form_data);
             console.log("hallo?");
-            var form = $(this);
             $.ajax({
                 method: "POST",
                 url: '/booking/bookings_list/create/',
@@ -108,16 +107,6 @@
                     modal.style.display = "none";
                     $("#person-booking-table").html(data.html_booking_list);
                     Swal();
-                     if ((form.context[3].value)>0) {
-                        queuedTab();
-                        document.getElementById("booked-tab").className = "tablinks";
-                        document.getElementById("queued-tab").className = "tablinks active";
-                    }
-                    else {
-                        bookedTab();
-                        document.getElementById("queued-tab").className = "tablinks";
-                        document.getElementById("booked-tab").className = "tablinks active";
-                    }
                 },
             })
         })

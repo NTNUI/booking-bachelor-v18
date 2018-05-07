@@ -20,9 +20,22 @@ $(function () {
 
     var saveForm = function () {
         var form = $(this);
+        var start_time = document.getElementById("startInput").value.toString();
+        var end_time = document.getElementById("endInput").value.toString();
+        var dates = document.getElementById("date").value.toString();
+        form.context[11].value = dates + " " + start_time;
+        var newForm = form.serializeArray()
+        newForm.forEach(function (item) {
+            if (item.name === 'start') {
+                item.value = dates + " " + start_time;
+                }
+            if (item.name === 'end') {
+                item.value = dates + " " + end_time;
+            }
+        });
         $.ajax({
             url: form.attr("action"),
-            data: form.serialize(),
+            data: newForm,
             type: form.attr("method"),
             dataType: 'json',
             success: function (data) {
