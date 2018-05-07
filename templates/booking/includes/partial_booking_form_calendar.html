@@ -202,9 +202,9 @@
                     var group = global_list[0][i].group;
                     var personId = global_list[0][i].person__id;
                     if(tempDay.id === date_format && data[i].location__name === loc.value && loc.checked === true) {
-                        booking = []
+                        booking = [];
                         booking.push(newDate, start, data[i].end, data[i].title, data[i].person__first_name, queueNo, group, personId);
-                        list_of_bookings.push(booking)
+                        list_of_bookings.push(booking);
                         list_of_bookings.sort(function(a, b){return a[0] - b[0]});
                     }
                 })
