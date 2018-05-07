@@ -78,24 +78,46 @@
 {% block script %}
 <script>
     $(document).ready(function(){
-        var $myForm = $('#createform');
-        $myForm.submit(function(event){
+        var $Form = $('#createform');
+        $Form.submit(function(event){
             event.preventDefault()
             // append start date to post request
-            var start_time = document.getElementById("startInput").value;
-            var end_time = document.getElementById("endInput").value;
-            var dates = document.getElementById("date").value
-            console.log(dates)
-            var $form_data = $(this).serialize()+"&start="+dates + " " + start_time + "&end="+dates + " " + end_time
-            console.log($form_data)
+            var start_time = document.getElementById("startInput").value.toString();
+            var end_time = document.getElementById("endInput").value.toString();
+            var dates = document.getElementById("date").value.toString();
+            console.log(dates + start_time)
+            var $form_data = $("#createform").serializeArray();
+            $form_data.forEach(function (item) {
+                if (item.name === 'start') {
+                    item.value = dates + " " + start_time;
+                }
+                if (item.name === 'end') {
+                    item.value = dates + " " + end_time;
+                }
+            });
+            console.log($form_data);
+            console.log("hallo?");
+            var form = $(this);
             $.ajax({
                 method: "POST",
-                url: '/booking/bookings_list/create_calendar/',
+                url: '/booking/bookings_list/create/',
                 data: $form_data,
                 // close popup on success
                 success: function(data) {
                     var modal = document.getElementById('booking-modal');
                     modal.style.display = "none";
+                    $("#person-booking-table").html(data.html_booking_list);
+                    Swal();
+                     if ((form.context[3].value)>0) {
+                        queuedTab();
+                        document.getElementById("booked-tab").className = "tablinks";
+                        document.getElementById("queued-tab").className = "tablinks active";
+                    }
+                    else {
+                        bookedTab();
+                        document.getElementById("queued-tab").className = "tablinks";
+                        document.getElementById("booked-tab").className = "tablinks active";
+                    }
                 },
             })
         })
