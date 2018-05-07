@@ -14,6 +14,7 @@
             <td><b>Queue:</b> {{ booking.queueNo}}</td>
         </tr>
     {% endif %}
+    <tbody id="person-body">
     <tr>
         <td><b>What:</b> {{ booking.description }}</td>
     </tr>
@@ -49,6 +50,7 @@
             <hr>
         </td>
     </tr>
+    </tbody>
 
     {% empty %}
         <h6 class="empty">You have no bookings!</h6>
