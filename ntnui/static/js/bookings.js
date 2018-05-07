@@ -6,13 +6,14 @@ $(function () {
             url: btn.attr("data-url"),
             type: 'get',
             dataType: 'json',
-            beforeSend: function () {
+            beforeSend: function (data) {
                 $("#booking-modal .booking-modal-contents").html("");
                 $('#booking-modal').fadeTo(100, function() {
                     $(this).css("display", "inline-block");
                 }).fadeTo(300, 1);
             },
             success: function (data) {
+                console.log(data)
                 $("#booking-modal .booking-modal-contents").html(data.html_form);
             },
         });
@@ -23,7 +24,6 @@ $(function () {
         var start_time = document.getElementById("startInput").value.toString();
         var end_time = document.getElementById("endInput").value.toString();
         var dates = document.getElementById("date").value.toString();
-        form.context[11].value = dates + " " + start_time;
         var newForm = form.serializeArray()
         newForm.forEach(function (item) {
             if (item.name === 'start') {
