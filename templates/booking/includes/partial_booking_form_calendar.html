@@ -17,6 +17,7 @@
                     <div class="col form-group {% if field.errors %} has-error{% endif %}">
                         {{form.person.as_hidden}}
                         {{form.location.as_hidden}}
+                        {{ form.queueNo.as_hidden }}
                         <div>
                             <h5>Title</h5>
                             {{form.title}}
@@ -128,6 +129,7 @@
                                     url: '/booking/bookings_list/create_calendar/',
                                     data: $form_data,
                                     complete: function(data) {
+                                        console.log("success")
                                         var modal = document.getElementById('booking-modal');
                                         modal.style.display = "none";
                                         var promised = promiseTest();
@@ -162,6 +164,7 @@
                             url: '/booking/bookings_list/create_calendar/',
                             data: $form_data,
                             complete: function(data) {
+                                console.log("success")
                                 var modal = document.getElementById('booking-modal');
                                 modal.style.display = "none";
                                 var promised = promiseTest();

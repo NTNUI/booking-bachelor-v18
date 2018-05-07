@@ -74,6 +74,10 @@ function checkStartTime(){
     }
 }
 
+function formatStartTime(start) {
+    console.log(start)
+}
+
 // Edits minimum date and maximum date of the timepicker. Stops at the end of the semester
 function minMaxDate(){
     var today = new Date();

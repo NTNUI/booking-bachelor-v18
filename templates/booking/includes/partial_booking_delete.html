@@ -10,7 +10,7 @@
         <p class="lead">Are you sure you want to delete the booking <strong>{{ book.title }}</strong>?</p>
     </div>
     <div class="modal-footer">
-        <button title="Click to delete" type="submit" class="btn btn-danger">Delete booking</button>
+        <button title="Click to delete" data-id={{ book.queueNo }} type="submit" class="btn btn-danger">Delete booking</button>
     </div>
 </form>
 
