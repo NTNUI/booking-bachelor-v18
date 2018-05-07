@@ -19,28 +19,38 @@ $(function () {
         });
     };
 
-    var saveForm = function () {
+    var saveForm = function (event) {
+        console.log("hello")
         var form = $(this);
-        var start_time = document.getElementById("startInput").value.toString();
-        var end_time = document.getElementById("endInput").value.toString();
-        var dates = document.getElementById("date").value.toString();
-        var newForm = form.serializeArray()
-        newForm.forEach(function (item) {
+        console.log(event.target.className)
+        if (event.target.className == "js-booking-update-form") {
+            console.log("yes")
+            var start_time = document.getElementById("startInput").value.toString();
+            var end_time = document.getElementById("endInput").value.toString();
+            var dates = document.getElementById("date").value.toString();
+            var newForm = form.serializeArray()
+            newForm.forEach(function (item) {
             if (item.name === 'start') {
                 item.value = dates + " " + start_time;
                 }
             if (item.name === 'end') {
                 item.value = dates + " " + end_time;
-            }
-        });
+                }
+            });
+        }
+        else {
+             var newForm = form.serializeArray()
+        }
         $.ajax({
             url: form.attr("action"),
             data: newForm,
             type: form.attr("method"),
             dataType: 'json',
+            beforeSend: function (data) {
+                console.log(data.html_form)
+            },
             success: function (data) {
                 if (data.form_is_valid) {
-                    console.log(data)
                     $("#person-booking-table").html(data.html_booking_list);
                     $("#booking-modal").css("display", "none");
                     $(document).ready(function() {
@@ -146,4 +156,3 @@ function openCity(event, type) {
     //document.getElementById(cityName).style.display = "block";
     event.currentTarget.className += " active";
 }
-

@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
-from booking.filters import AdminFilter
+from booking.filters import AdminFilter, MyBookFilter
 from .models import Booking, Location
 from django.http import JsonResponse
 from django.template.loader import render_to_string
@@ -123,13 +123,16 @@ def confirmation_mail(request, pk):
 
 def booking_list(request):
     model = Booking
-    bookings = model.objects.all()
+    user = request.user
+    now = timezone.now()
+    bookings = model.objects.filter(person=user).filter(start__gte=now).order_by('start')
     user = request.user
     now = timezone.now()
     my_bookings_list = get_my_bookings(request)
     my_groups = get_my_groups(request)
     my_group_bookings_list = []
     group_list = Booking.objects.none()
+    booking_filter = MyBookFilter(request.GET, queryset=bookings)
     for group in my_groups:
         booking = Booking.objects.filter(group=group).exclude(person=user).filter(start__gte=now).order_by('start')
         group_list = booking | group_list
@@ -138,7 +141,8 @@ def booking_list(request):
     return render(request, 'booking/bookings_list.html', {
         'my_bookings_list': my_bookings_list,
         'my_group_bookings_list': group_list,
-        'bookings': bookings
+        'bookings': bookings,
+        'filter': booking_filter
     })
 
 def get_my_bookings(request):

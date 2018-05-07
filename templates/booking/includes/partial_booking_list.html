@@ -3,7 +3,7 @@
 
 
 <table class="table borderless" id="person-booking-table">
-    {% for booking in my_bookings_list %}
+    {% for booking in filter.qs %}
     <thead class='table-title'>
         <tr>
             <th>{{ booking.title }}</th>
