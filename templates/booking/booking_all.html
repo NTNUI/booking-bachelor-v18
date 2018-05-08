@@ -34,18 +34,18 @@
         <div class="my-booking-box">
             <!-- Filter booking form -->
             <form id="filter-form" method='get'>
-                <table class='table borderless'>
+                <table class='table borderless filter-table'>
                     <tr>
+                        <td><h5>Group: </h5>{{ filter.form.group }}</td>
                         <td><h5>Location: </h5>{{ filter.form.location }}</td>
                         <td><h5>Person: </h5>{{ filter.form.person }}</td>
                         <td><h5>Title: </h5>{{ filter.form.title }}</td>
-                        <td><h5>Group: </h5>{{ filter.form.group }}</td>
                     </tr>
                 </table>
                 <button class="btn" id='filter-button' type='submit'>Search</button>
             </form>
             <div class="flex-container">
-                <div class="my-bookings">
+                <div class="all-bookings">
                     <p class="my-bookings-header-2">All bookings</p>
                     <div class='replace'>
                         {% include 'booking/includes/partial_booking_all.html' %}
@@ -58,7 +58,7 @@
                     </p>
                 </div>
                 <!-- Requested bookings (recurring, etc.) (rememeber to change from Group bookings -->
-                <div class="my-bookings">
+                <div class="request-bookings">
                     <p class="my-bookings-header-2">Requested bookings</p>
                     <div class="replace">
                         {% include 'booking/includes/partial_booking_all_requested.html' %}
