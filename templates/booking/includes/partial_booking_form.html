@@ -108,6 +108,9 @@
                     modal.style.display = "none";
                     $("#person-booking-table").html(data.html_booking_list);
                     Swal();
+                    bookedTab()
+                    document.getElementById("queued-tab").className = "tablinks";
+                    document.getElementById("booked-tab").className = "tablinks active";
                 },
             })
         })
