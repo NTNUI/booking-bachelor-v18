@@ -476,6 +476,7 @@ function getLocation(event) {
     var locationId = event.target.getAttribute('data-id');
     var locationName = event.target.innerHTML;
     var locationTitle = event.target.title;
+    var locationAdr = document.getElementById("adr").innerText;
     this.currentLocation = locationId;
     this.locationString = locationName;
     var tooltip = document.createElement("div");
@@ -484,7 +485,7 @@ function getLocation(event) {
     var tooltipText = document.createElement("span");
     tooltip.appendChild(tooltipText);
     tooltipText.className = "tooltip-text";
-    tooltipText.innerHTML = locationTitle;
+    tooltipText.innerHTML = locationTitle + "<br>" + "ADDR: " + locationAdr;
     document.getElementById("current-location").innerHTML = locationName;
     document.getElementById("current-location").appendChild(tooltip);
 }

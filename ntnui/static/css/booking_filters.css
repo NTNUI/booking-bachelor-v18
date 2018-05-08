@@ -110,6 +110,9 @@
     font-size: 20px;
 }
 
+#adr {
+    display: none;
+}
 /* Tooltip */
 .tooltip-info {
     position: relative;
