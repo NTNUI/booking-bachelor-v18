@@ -27,7 +27,6 @@
             <!-- Filter booking form -->
             <form id="filter-form" method='get'>
                 <table class='table borderless'>
-                    <h2>Search for booking</h2>
                     <tr>
                         <td><h5>Title: </h5>{{ filter.form.title }}</td>
                         <td><h5>Group: </h5>{{ filter.form.group }}</td>
@@ -45,8 +44,10 @@
                             <button class="tablinks active" id="booked-tab" onclick="openCity(event, 'Booked')">Booked</button>
                             <button class="tablinks" id="queued-tab" onclick="openCity(event, 'Queued')">Queued</button>
                         </div>
-                        <div class="replace" id="books">
-                            {% include 'booking/includes/partial_booking_list.html' %}
+                        <div class="scroll-content">
+                            <div class="replace" id="books">
+                                {% include 'booking/includes/partial_booking_list.html' %}
+                            </div>
                         </div>
                         <p>
                             <button type="button" class="btn btn-success col js-create-booking" data-url="{% url 'booking_create' %}">
@@ -60,7 +61,6 @@
 
                 <div class="group-bookings {% if user.is_authenticated and not user_in_hs and not request.user.is_superuser %} group-width {% endif %}">
                     <p class="my-bookings-header-2">Group bookings</p>
-
                     <div class="replace">
                         {% include 'booking/includes/partial_groupbooking_list.html' %}
                     </div>

@@ -77,16 +77,16 @@ hr{
 }
 
 /* Containers for list of bookings */
-.my-bookings {
+.my-bookings, .group-bookings, .all-bookings, .request-bookings {
     width: 100%;
     margin: 0rem auto;
-    padding: 1rem 3rem 3rem 3rem;
+    padding: 1rem 3rem 1rem 3rem;
 }
-
-.group-bookings {
-    width: 100%;
-    margin: 0rem auto;
-    padding: 1rem 3rem 3rem 3rem;
+.replace {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    max-height: 600px;
+    overflow-y: auto;
 }
 
 .group-width {
@@ -206,9 +206,7 @@ label {
     .booking-container {
         width: 90%
     }
-    .my-bookings,.group-bookings, .all-bookings, form {
-        width: 100%;
-        margin: 0px auto;
+    .my-bookings, .group-bookings, .all-bookings, .request-bookings, form {
         padding: 0.8rem;
     }
     .flex-container {
@@ -247,14 +245,11 @@ label {
     .booking-container {
         width: 80%
     }
-    .my-bookings,.group-bookings, .all-bookings, form {
-        width: 100%;
-        margin: 0px auto;
-        padding: 0.8rem;
-    }
 }
 @media only screen and (max-width: 1250px){
-
+    .my-bookings, .group-bookings, .all-bookings, .request-bookings, form {
+        padding: 1rem;
+    }
     td, .table-title{
         display: block;
         margin-left: auto;
