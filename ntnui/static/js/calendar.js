@@ -356,11 +356,9 @@ function createMonth() {
         count += 1;
     }
 
-    // Set the text to the correct month and location
+    // Set the text to the correct month
     var currentMonthText = document.getElementById("current-month");
     currentMonthText.innerHTML = monthNames[date.getMonth()] + " " + date.getFullYear();
-    var currentLocationText = document.getElementById("current-location");
-    currentLocationText.innerHTML = currentLocation;;
 
     // Gives the current date a highligth
     var todaysDate = new Date();
@@ -479,5 +477,7 @@ function getLocation(event) {
     var locationName = event.target.innerHTML;
     this.currentLocation = locationId;
     this.locationString = locationName;
+    var currentLocationText = document.getElementById("current-location");
+    currentLocationText.innerHTML = locationName;
 }
 

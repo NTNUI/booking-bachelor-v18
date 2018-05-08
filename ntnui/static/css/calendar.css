@@ -29,38 +29,41 @@
 }
 .label {
     background-color: #fff;
-    padding: 20px;
     line-height: 2px;
     font-size: 1.6rem;
+
 }
 #previous {
     box-shadow: 0 2px 4px rgba(50, 50, 93, 0.2);
     cursor: pointer;
     border: solid 1px #fff;
+    padding: 20px;
 }
 #next {
     box-shadow: 0 2px 4px rgba(50, 50, 93, 0.2);
     cursor: pointer;
     border: solid 1px #fff;
+    padding: 20px;
 }
 #current-month {
     cursor: default;
+    margin-bottom: 0px;
+    padding: 16px;
 }
-
 #current-location {
     font-size: 19px;
+    padding: 16px;
 }
-
 #previous:hover {
     background: #f7f4f4;
 }
 #next:hover {
     background: #f7f4f4;
 }
-
 #label-titles {
-    display: block;
-    line-height: 50%;
+    display: flex;
+    align-content: center;
+    flex-direction: column;
 }
 
 /*Calendar days*/
