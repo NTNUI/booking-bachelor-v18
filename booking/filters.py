@@ -17,21 +17,3 @@ class AdminFilter(FilterSet):
                 },
             }
         }
-
-class MyBookFilter(FilterSet):
-    class Meta:
-        model = Booking
-        fields = ['group', 'title']
-        filter_overrides = {
-            models.CharField: {
-                'filter_class': CharFilter,
-                'extra': lambda f: {
-                    'lookup_expr': 'icontains',
-                },
-            }
-        }
-
-class UserFilter(FilterSet):
-    class Meta:
-        model = User
-        fields = {'first_name'}
