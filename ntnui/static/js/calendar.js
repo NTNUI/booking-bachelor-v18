@@ -470,7 +470,7 @@ $('input[type="radio"]').keydown(function(e)
 var currentLocation;
 var locationString;
 
-// populate calendar and get location of clicked filter type.
+// populate calendar and get location of filter type.
 function getLocation(event) {
     populate();
     var locationId = event.target.getAttribute('data-id');
