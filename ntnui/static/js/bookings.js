@@ -6,13 +6,14 @@ $(function () {
             url: btn.attr("data-url"),
             type: 'get',
             dataType: 'json',
-            beforeSend: function () {
+            beforeSend: function (data) {
                 $("#booking-modal .booking-modal-contents").html("");
                 $('#booking-modal').fadeTo(100, function() {
                     $(this).css("display", "inline-block");
                 }).fadeTo(300, 1);
             },
             success: function (data) {
+                console.log(data)
                 $("#booking-modal .booking-modal-contents").html(data.html_form);
             },
         });
@@ -20,14 +21,25 @@ $(function () {
 
     var saveForm = function () {
         var form = $(this);
+        var start_time = document.getElementById("startInput").value.toString();
+        var end_time = document.getElementById("endInput").value.toString();
+        var dates = document.getElementById("date").value.toString();
+        var newForm = form.serializeArray()
+        newForm.forEach(function (item) {
+            if (item.name === 'start') {
+                item.value = dates + " " + start_time;
+                }
+            if (item.name === 'end') {
+                item.value = dates + " " + end_time;
+            }
+        });
         $.ajax({
             url: form.attr("action"),
-            data: form.serialize(),
+            data: newForm,
             type: form.attr("method"),
             dataType: 'json',
             success: function (data) {
                 if (data.form_is_valid) {
-
                     $("#person-booking-table").html(data.html_booking_list);
                     $("#booking-modal").css("display", "none");
                     $(document).ready(function() {

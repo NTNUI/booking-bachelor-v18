@@ -24,14 +24,14 @@
                             {{form.title}}
                         </div>
                         <div class="form-margin">
-                            <h5>Description</h5>
-                            {{form.description}}
-                        </div>
-                        <div class="form-margin">
                             <h5>Group</h5>
                             {{form.group}}
                         </div>
-                        
+                        <div class="form-margin">
+                            <h5>Description</h5>
+                            {{form.description}}
+                        </div>
+                  
                         <div class="form-margin">
                             <h5>Starttime</h5>
                             <div class="input-group clockpicker" data-placement="top" data-align="bottom" data-autoclose="true" id="startTime">
@@ -213,12 +213,15 @@
                     var group = global_list[0][i].group;
                     var personId = global_list[0][i].person__id;
                     var dayName = document.getElementById("id_day");
-                    dayName.value = tempDay.children[1].innerHTML.trim();                    
-                    
+                    dayName.value = tempDay.children[1].innerHTML.trim();                   
+                    var mail = global_list[0][i].person__email;
+                    var fName = global_list[0][i].person__first_name;
+                    var lName = global_list[0][i].person__last_name;
+
                     if(tempDay.id === date_format && data[i].location__name === loc.value && loc.checked === true) {
-                        booking = []
-                        booking.push(newDate, start, data[i].end, data[i].title, data[i].person__first_name, queueNo, group, personId);
-                        list_of_bookings.push(booking)
+                        booking = [];
+                        booking.push(newDate, start, data[i].end, data[i].title, fName, queueNo, group, personId, lName, mail);
+                        list_of_bookings.push(booking);
                         list_of_bookings.sort(function(a, b){return a[0] - b[0]});
                     }
                     //TODO: check if overlapping booking exists in API:
@@ -242,33 +245,41 @@
                             div3.className = "card-body" + " " + list_of_bookings[I][7];
                             var date = document.createElement("h5");
                             date.className = "card-title";
+
                             var start_time = list_of_bookings[I][1];
                             var end_time = list_of_bookings[I][2].slice(11, 16);
                             date.innerHTML = start_time + "-" + end_time;
+
                             var title = document.createElement("p");
                             title.className = "card-text";
-                            var b_title = list_of_bookings[I][3];
-                            title.innerHTML = b_title;
-                            var name = document.createElement("h6");
-                            name.className = "card-subtitle text-muted mb-2";
-                            var b_name = list_of_bookings[I][4]
+                            title.innerHTML = list_of_bookings[I][3];
 
-                            name.innerHTML = b_name;
                             var group = document.createElement("h8");
                             group.className = "card-subtitle";
-                            var b_group = list_of_bookings[I][6];
-                            group.innerHTML = b_group;
+                            group.innerHTML = list_of_bookings[I][6];
+
+                            var name = document.createElement("h6");
+                            name.className = "card-subtitle text-muted mb-2";
+                            var f_name = list_of_bookings[I][4]
+                            var l_name = list_of_bookings[I][8];
+                            name.innerHTML = f_name + " " + l_name;
+
+                            var mail = document.createElement("h6");
+                            mail.className = "card-subtitle";
+                            mail.innerHTML = list_of_bookings[I][9];
+
                             div3.appendChild(date);
                             div3.appendChild(title);
-                            div3.appendChild(name);
                             div3.appendChild(group);
+                            div3.appendChild(name);
+                            div3.appendChild(mail);
                             div2.appendChild(div3);
                             div.appendChild(div2);
                             document.getElementById("booking-cards").appendChild(div);
                         }
                         var userId = {{ user.id }};
                         if(userId == list_of_bookings[I][7] && list_of_bookings[I][5] == 0){
-                            div3.style.borderBottom = "2px solid orange";
+                            div3.style.borderBottom = "2px solid darkslategrey";
                             div3.style.cursor = "pointer";
                             div3.title = "Click to see your booking";
                             var myCards = document.getElementsByClassName(list_of_bookings[I][7])

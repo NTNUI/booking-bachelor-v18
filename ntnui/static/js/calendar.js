@@ -129,7 +129,6 @@ function populate() {
                     date_map.set(start_date, ""+diff_hour+":"+diff_min)
                 }
                 if(12-parseInt(getTime(date_map.get(start_date))[0]) >= 1) {
-                    console.log("hours: "+(parseInt(getTime(date_map.get(start_date))[0])))
                     $("#" + date_format + " h1").text("" + (12 - parseInt(getTime(date_map.get(start_date))[0])) + " hours free").css("color", "#fc8307");
                 }
                 else if(12-parseInt(getTime(date_map.get(start_date))[0]) < 1){

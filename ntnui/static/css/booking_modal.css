@@ -130,6 +130,13 @@ h5 {
     font-size: 19px;
     color: green;
     font-weight: 600;
+    margin-bottom: 0px;
+}
+h8 {
+    margin-top: 0px;
+}
+.text-muted{
+    margin-top: 2px;
 }
 h8, h6 {
     font-size: 13px;

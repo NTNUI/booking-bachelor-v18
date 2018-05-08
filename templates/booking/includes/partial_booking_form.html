@@ -21,12 +21,12 @@
         {{form.location}}
     </div>
     <div class="form-margin">
-        <h5>Description</h5>
-        {{form.description}}
-    </div>
-    <div class="form-margin">
         <h5>Group</h5>
         {{form.group}}
+    </div>
+    <div class="form-margin">
+        <h5>Description</h5>
+        {{form.description}}
     </div>
 
     <div class="form-margin">
@@ -84,20 +84,30 @@
             var weekday = date.getDay();
             document.getElementById("id_day").value = weekdays[weekday];
             // append start date to post request
-            var start_time = document.getElementById("startInput").value;
-            var end_time = document.getElementById("endInput").value;
-            var dates = document.getElementById("date").value;
-            document.getElementById("id_start").value = dates + " " + start_time;
-            document.getElementById("id_end").value = dates + " " + end_time;
-            var $form_data = $(this).serialize();
+            var start_time = document.getElementById("startInput").value.toString();
+            var end_time = document.getElementById("endInput").value.toString();
+            var dates = document.getElementById("date").value.toString();
+            console.log(dates + start_time)
+            var $form_data = $("#createform").serializeArray();
+            $form_data.forEach(function (item) {
+                if (item.name === 'start') {
+                    item.value = dates + " " + start_time;
+                }
+                if (item.name === 'end') {
+                    item.value = dates + " " + end_time;
+                }
+            });
+
             $.ajax({
                 method: "POST",
-                url: '/booking/bookings_list/create_calendar/',
+                url: '/booking/bookings_list/create/',
                 data: $form_data,
                 // close popup on success
                 success: function(data) {
                     var modal = document.getElementById('booking-modal');
                     modal.style.display = "none";
+                    $("#person-booking-table").html(data.html_booking_list);
+                    Swal();
                 },
             })
         })
