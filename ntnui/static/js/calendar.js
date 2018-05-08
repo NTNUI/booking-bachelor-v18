@@ -475,9 +475,17 @@ function getLocation(event) {
     populate();
     var locationId = event.target.getAttribute('data-id');
     var locationName = event.target.innerHTML;
+    var locationTitle = event.target.title;
     this.currentLocation = locationId;
     this.locationString = locationName;
-    var currentLocationText = document.getElementById("current-location");
-    currentLocationText.innerHTML = locationName;
+    var tooltip = document.createElement("div");
+    tooltip.innerHTML = "&#9432;";
+    tooltip.className = "tooltip-info";
+    var tooltipText = document.createElement("span");
+    tooltip.appendChild(tooltipText);
+    tooltipText.className = "tooltip-text";
+    tooltipText.innerHTML = locationTitle;
+    document.getElementById("current-location").innerHTML = locationName;
+    document.getElementById("current-location").appendChild(tooltip);
 }
 
