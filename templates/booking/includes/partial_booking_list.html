@@ -9,11 +9,14 @@
             <th>{{ booking.title }}</th>
         </tr>
     </thead>
+            <tbody class="{{ booking.queueNo }}">
+
     {% if booking.queueNo > 0 %}
         <tr>
-            <td class="queue"><b>Queue:</b> {{ booking.queueNo}}</td>
+            <td><b>Queue:</b> {{ booking.queueNo}}</td>
         </tr>
     {% endif %}
+
 
     <tr>
         <td><b>What:</b> {{ booking.description }}</td>

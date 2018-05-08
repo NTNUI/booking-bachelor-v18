@@ -137,11 +137,16 @@ window.onclick = function(event) {
 bookedTab();
 
 function bookedTab() {
-
-    $( "tbody:contains('Queue')" ).css( "display", "None" );
-    $( "tbody:contains('Queue')" ).prev().css( "display", "None" );
-    $('tbody:not(:contains("Queue"))').css( "display", "contents" );
-    $('tbody:not(:contains("Queue"))').prev().css( "display", "contents" );
+    var list = document.getElementsByTagName('tbody');
+    for(var i = 0; i<list.length; i++) {
+        console.log(list[i])
+        if(list[i].className > 0) {
+            list[i].style.display = "none"
+        }
+    }
+   else {
+        list[i].style.display = "contents"
+    }
 }
 
 function queuedTab() {
