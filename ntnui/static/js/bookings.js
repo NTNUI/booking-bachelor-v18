@@ -42,6 +42,9 @@ $(function () {
             data: newForm,
             type: form.attr("method"),
             dataType: 'json',
+            beforeSend: function (data) {
+                console.log(data.html_form)
+            },
             success: function (data) {
                 if (data.form_is_valid) {
                     $("#person-booking-table").html(data.html_booking_list);
@@ -201,4 +204,3 @@ function openCity(event, type) {
     //document.getElementById(cityName).style.display = "block";
     event.currentTarget.className += " active";
 }
-
