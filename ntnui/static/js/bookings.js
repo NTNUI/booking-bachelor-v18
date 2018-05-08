@@ -13,18 +13,14 @@ $(function () {
                 }).fadeTo(300, 1);
             },
             success: function (data) {
-                console.log(data)
                 $("#booking-modal .booking-modal-contents").html(data.html_form);
             },
         });
     };
 
     var saveForm = function (event) {
-        console.log("hello")
         var form = $(this);
-        console.log(event.target.className)
         if (event.target.className == "js-booking-update-form") {
-            console.log("yes")
             var start_time = document.getElementById("startInput").value.toString();
             var end_time = document.getElementById("endInput").value.toString();
             var dates = document.getElementById("date").value.toString();
@@ -60,18 +56,30 @@ $(function () {
                         }
                     });
                     Swal();
-                    if ((form.context[3].value)>0) {
-                        queuedTab();
-                        document.getElementById("booked-tab").className = "tablinks";
-                        document.getElementById("queued-tab").className = "tablinks active";
+                    if (event.target.className == 'js-booking-delete-form') {
+                        if (form[0].id > 0) {
+                            queuedTab();
+                            document.getElementById("booked-tab").className = "tablinks";
+                            document.getElementById("queued-tab").className = "tablinks active";
+                        }
+                        else {
+                            bookedTab();
+                            document.getElementById("queued-tab").className = "tablinks";
+                            document.getElementById("booked-tab").className = "tablinks active";
+                        }
                     }
                     else {
-                        bookedTab();
-                        document.getElementById("queued-tab").className = "tablinks";
-                        document.getElementById("booked-tab").className = "tablinks active";
+                        if ((form.context[3].value)>0) {
+                            queuedTab();
+                            document.getElementById("booked-tab").className = "tablinks";
+                            document.getElementById("queued-tab").className = "tablinks active";
+                        }
+                        else {
+                            bookedTab();
+                            document.getElementById("queued-tab").className = "tablinks";
+                            document.getElementById("booked-tab").className = "tablinks active";
+                        }
                     }
-
-
                 }
                 else {
                     $("#booking-modal .booking-modal-contents").html(data.html_form);
@@ -129,17 +137,57 @@ window.onclick = function(event) {
 bookedTab();
 
 function bookedTab() {
-    $( "tbody:contains('Queue')" ).css( "display", "None" );
-    $( "tbody:contains('Queue')" ).prev().css( "display", "None" );
-    $('tbody:not(:contains("Queue"))').css( "display", "contents" );
-    $('tbody:not(:contains("Queue"))').prev().css( "display", "contents" );
+    var list = document.getElementsByTagName('thead');
+    for(var i = 0; i<list.length; i++) {
+        if(list[i].getAttribute('data-no')) {
+            if(list[i].getAttribute('data-no') > 0) {
+                list[i].style.display = "none";
+            }
+            else {
+                list[i].style.display = "contents";
+            }
+        }
+    };
+    var list = document.getElementsByTagName('tbody');
+    for(var i = 0; i<list.length; i++) {
+        if(list[i].className) {
+            if(list[i].className > 0) {
+                list[i].style.display = "none";
+            }
+            else {
+                list[i].style.display = "contents";
+            }
+        }
+    };
 }
 
 function queuedTab() {
-    $('tbody:not(:contains("Queue"))').css( "display", "None" );
-    $('tbody:not(:contains("Queue"))').prev().css( "display", "None" );
-    $( "tbody:contains('Queue')" ).css( "display", "contents" );
-    $( "tbody:contains('Queue')" ).prev().css( "display", "contents" );
+    var list = document.getElementsByTagName('thead');
+    for(var i = 0; i<list.length; i++) {
+        if(list[i].getAttribute('data-no')) {
+            if(list[i].getAttribute('data-no') > 0) {
+                list[i].style.display = "contents";
+
+            }
+            else {
+                list[i].style.display = "none";
+
+            }
+        }
+    };
+    var list = document.getElementsByTagName('tbody');
+    for(var i = 0; i<list.length; i++) {
+        if(list[i].className) {
+            if(list[i].className > 0) {
+                list[i].style.display = "contents";
+
+            }
+            else {
+                list[i].style.display = "none";
+
+            }
+        }
+    };
 }
 
 function openCity(event, type) {

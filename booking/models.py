@@ -32,6 +32,8 @@ class Booking(models.Model):
     start = models.DateTimeField(_(u'Start'), blank=True)
     end = models.DateTimeField(_(u'End'), blank=True)
     queueNo = models.IntegerField(default=0)
+    #repeatable = models.
+    #overlapping = models.ManyToManyField("self", blank=True, null=True)
 
     try:
         tu = tuple(SportsGroup.objects.all().values_list('name', 'name'))
@@ -54,8 +56,12 @@ class Booking(models.Model):
     def get_absolute_url(self):
         return reverse('booking_edit', kwargs={'pk': self.pk})
 
-    
-    def save(self, *args, **kwargs):
+    def move_queue(self, queue, i):
+        for b in queue:
+            b.queueNo += i
+            super(Booking, b).save()
+
+    def save(self, repeatable=False, *args, **kwargs):
         #TODO: editing causes interference with its own old qNo value
         # compare to all with qNo=0
         # a|----| b|----|
@@ -64,14 +70,15 @@ class Booking(models.Model):
         # c overlaps with a and b, put c.qNo = 1
         # d overlaps with b, put d.qNo = 1
         # e overlaps with d, put eqNo = 0
-        
+        #TODO: prioritize repeatable=True
+        #TODO: move queue up if preceding booking is updated and frees up space
         bookings = Booking.objects.filter(location=self.location, start__lt=self.end, end__gt=self.start)
         first = bookings.filter(queueNo=0)
+        
         if self in bookings:
             return super(Booking, self).save(*args, **kwargs)
+    
         if list(first) != []:
-            # print(bookings)
-            print("before save: ", self.queueNo)
             maxval = bookings.aggregate(models.Max('queueNo'))
             temp = [maxval[i] for i in sorted(maxval.keys())]
             self.queueNo = int(temp[0]) + 1
@@ -92,7 +99,6 @@ class Booking(models.Model):
             if later[i].queueNo > 0:
                 c = later[i]
                 c.queueNo -= 1
-                print("reduced: ", c.queueNo)
                 super(Booking, c).save()
                 # if c.queueNo == 0:
                     # msg = "You have now booked " + c.location+ ", from "+ c.start+ " to "+ c.end
