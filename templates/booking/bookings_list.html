@@ -26,10 +26,13 @@
         <div class="my-booking-box">
             <!-- Filter booking form -->
             <form id="filter-form" method='get'>
+                <table class='table borderless'>
+                    <h2>Search for booking</h2>
                     <tr>
                         <td><h5>Title: </h5>{{ filter.form.title }}</td>
                         <td><h5>Group: </h5>{{ filter.form.group }}</td>
                     </tr>
+                </table>
                 <button class="btn" id='filter-button' type='submit'>Search</button>
             </form>
             <div class="flex-container">
