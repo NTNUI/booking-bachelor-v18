@@ -21,7 +21,7 @@
     var formattedDate = new Date(tempDay.id.substring(0,4), +tempDay.id.substring(5,7)-1, tempDay.id.substring(8,10));
     document.getElementById('dayTitle').innerHTML = dayOfWeekAsString(formattedDate.getDay())+' '+formattedDate.getDate()+
     '. '+monthNames[formattedDate.getMonth()]+ '<h5>' + locationString + '</h5>';
-    document.getElementById('weekly').innerHTML = 'Repeat every '+dayOfWeekAsString(formattedDate.getDay());
+    
 
     function validateForm() {
         var description = document.forms["createform"]["id_description"];
@@ -71,4 +71,7 @@
             $("#booking-modal").css("display", "none");
         }
     }
+    console.log("YOSAOD")
+    var weekly = document.getElementById("id_repeat").children[1];
+    weekly.innerHTML = 'Repeat every '+dayOfWeekAsString(formattedDate.getDay());
 </script>

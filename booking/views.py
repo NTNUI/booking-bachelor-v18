@@ -1,18 +1,21 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.core.urlresolvers import reverse_lazy
+from django.contrib.auth.decorators import login_required, user_passes_test
+from booking.filters import UserFilter, AdminFilter#, LocationFilter,
 from django.contrib.auth.decorators import login_required
-from booking.filters import AdminFilter
 from .models import Booking, Location
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
 from .forms import BookingForm
 from django.contrib.auth.decorators import user_passes_test
 
-from django.contrib import messages
-from datetime import time
-from groups.models import SportsGroup
-from groups.models import Membership
 from .models import LOCATION_TYPES
+from django.contrib import messages #TODO: check if actually used
+from datetime import time
+from calendar import Calendar
+from groups.models import SportsGroup, Membership
 from django.utils import timezone
 from django.shortcuts import render
 
@@ -33,37 +36,16 @@ def index(request):
 
 def api(request, **kwargs):
     model = Booking
-    bookings = model.objects.all().values('title', 'description', 'start', 'end', 'location__name', 'person__first_name', 'queueNo', 'group', 'person__id')
+    bookings = model.objects.all().values('title', 'description', 'start', 'end', 'location__name',
+                                          'person__first_name', 'queueNo', 'group', 'person__id',
+                                          'person__email', 'person__last_name')
     booking_list = list(bookings)
     return JsonResponse(booking_list, safe=False)
 
 def api2(request, **kwargs):
     #DEPRECATED
-    b = Booking.objects.all()#.values('title', 'description', 'start', 'end', 'location__name'     )
-    hours = Booking.objects.raw('SELECT id, start, end FROM booking_Booking WHERE queueNo = 0')
-    b2 = Booking.objects.raw('SELECT id, start, end FROM booking_Booking WHERE SUBSTR(start, 1, 10) = "2018-05-05"')
-    print("HELLO")
-    dates = {}
-    for b in hours:
-        date = b.start
-        d = b.end-b.start
-        date_key = str(date.year)+str(date.month)+str(date.month)
-        if date_key in dates.keys():
-            dates[date_key]+= d
-        else:
-            dates[date_key]=d
-    #convert to rounded integer
-    for k in dates.keys():
-        s = dates[k].total_seconds()
-        h = s//3600
-        m = (s-h)//60
-        if m > 30:
-            dates[k] = h
-        else:
-            dates[k] = h+1
-    b2_list = list(b2)
-    hours_list = [(i, j) for i, j in zip(dates.keys(), dates.values())]
-    return JsonResponse(hours_list+b2_list, safe=False)
+    pass
+
 
 def locationApi(request, **kwargs):
     model = Location
@@ -85,6 +67,7 @@ class BookingList(ListView):
             'locations': locations,
             'bookings': bookings, })
 
+@login_required
 @user_passes_test(lambda u: u.is_superuser)
 def booking_all(request):
     book = []
@@ -149,10 +132,66 @@ def get_my_bookings(request):
     my_bookings_list = Booking.objects.filter(person=user).filter(start__gte=now).order_by('start')
     return my_bookings_list
 
+
+def repeatBooking(form):
+    location = form.cleaned_data['location']
+    start = form.cleaned_data['start']
+    end = form.cleaned_data['end']
+    if form.cleaned_data['repeat'] == "noRepeat":
+        repeat = False
+    elif form.cleaned_data['repeat'] == "weekly":
+        repeat = True
+    else:
+        repeat = False
+    
+    day_map = {"MON" : 0, "TUE":1, "WED":2, "THU" : 3, 
+        "FRI":4, "SAT":5, "SUN":6
+    }
+    dayofweek = day_map[form.cleaned_data['day'].upper()]
+    year = int(start.year)
+    month = int(start.month)
+    day = int(start.day)
+    loc = location
+    s_time = str(start)[11:]#.replace("+", ":") #get time substring
+    e_time = str(end)[11:]#.replace("+", ":") #YYYY-MM-DDTHH:MMZ
+    title = form.cleaned_data['title']
+    descr = form.cleaned_data['description']
+    person = form.cleaned_data['person'] 
+    cal = Calendar()
+    ydcal = cal.yeardays2calendar(year, width=6)
+    if month > 5:
+        w = ydcal[1]
+    else:
+        w = ydcal[0]
+    for m in range(len(w)):
+        if m+1 < month:
+            continue #skip past months 
+        for k in range(len(w[m])):
+            for d in range(len(w[m][k])):
+                cal_day = w[m][k][d]
+                if (cal_day[0] <= day and m+1 == month) or cal_day[0]==0:
+                    continue
+                if cal_day[1]==dayofweek:
+                    if m <9: #format month
+                        cal_m = "0"+str(m+1)
+                    else:
+                        cal_m = str(m+1)
+                    if cal_day[0]<9: #format day
+                        cal_d = "0"+str(cal_day[0])
+                    else:
+                        cal_d = str(cal_day[0])
+                    date_format = str(year)+"-"+cal_m+"-"+cal_d 
+                    start_rec = date_format+" "+s_time
+                    end_rec = date_format+" "+e_time
+                    b = Booking(location=loc, start=start_rec, end=end_rec, title=title, description=descr, person=person)
+                    b.save(repeatable=True)
+
+
+
 def save_booking_form(request, form, template_name):
     data = dict()
     if request.method == 'POST':
-        if form.is_valid():
+        if form.is_valid():           
             form.save()
             data['form_is_valid'] = True
             my_bookings = get_my_bookings(request)
@@ -160,6 +199,10 @@ def save_booking_form(request, form, template_name):
             data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
                 'my_bookings_list': my_bookings
             })
+            if form.cleaned_data['repeat'] == "weekly":
+                repeatBooking(form)
+            # messages.success(request, "Your booking request was successful")
+            # confirmation_mail(request, )
         else:
             data['form_is_valid'] = False
     context = {'form': form}
@@ -194,6 +237,7 @@ def booking_create_from_calendar(request):
     else:
         user = request.user
         form = BookingForm(user, initial={'person': request.user})
+        print(form)
     return save_booking_form(request, form, 'booking/includes/partial_booking_create_calendar.html')
 
 def booking_update(request, pk):
@@ -230,3 +274,5 @@ def booking_delete(request, pk):
         )
     return JsonResponse(data)
 
+def show_form(request):
+    return render(request, "booking/booking_form.html")

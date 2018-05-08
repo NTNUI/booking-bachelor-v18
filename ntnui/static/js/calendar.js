@@ -57,9 +57,8 @@ promised.done(function() {
         )
     })
 }
-//temporary cheat
-// var win = window.open('http://www.google.com');
-// window.onbeforeunload = function(){populate()}
+
+//convert "HH:MM" to [H, M]
 var getTime = function(time){
     var timeArray = time.split(":");
     var hours = parseInt(timeArray[0]);
@@ -78,6 +77,7 @@ $('#search-button').click(function () {
 
 // Removes the calendar blur when filter is used
 $('.filter-cursors').click(function (event) {
+        
         getLocation(event)
         $('#calendar-container').css({
           'pointer-events': 'all',
@@ -95,8 +95,7 @@ $('.type-header').click(function (e) {
 
 // Function used to populate the calendar with bookings from the database and show available hours.
 function populate() {
-    var date_map = new Map();
-
+    var date_map = new Map();//store sum of hours and minutes for a date
     for (i = 0; i < global_list[0].length; i++) {
         var qNo = global_list[0][i].queueNo;
         var loc = global_list[0][i].location__name;
@@ -110,7 +109,7 @@ function populate() {
             if(loc.checked === true){
                 var start_datetime = day.split("T");
                 var start_date = start_datetime[0];
-                //.log("startdate: "+start_date.slice(0,10))
+
                 var start_time = start_datetime[1].replace("Z", "");
                 var end_datetime = global_list[0][i].end.split("T");
                 var end_time = end_datetime[1].replace("Z", "");
@@ -151,7 +150,8 @@ function populate() {
 
 //Mutation Observer
 var targetNode = document.getElementById("calendar");
-var config = {attributes: true, subtree: true, characterData:true};
+
+var config = {attributes: false, subtree: true, characterData:true};
 //callback function to execute when mutations are observed
 var callback = function(mutationsList){
     for (var mutation of mutationsList){
