@@ -356,9 +356,11 @@ function createMonth() {
         count += 1;
     }
 
-    // Set the text to the correct month
+    // Set the text to the correct month and location
     var currentMonthText = document.getElementById("current-month");
     currentMonthText.innerHTML = monthNames[date.getMonth()] + " " + date.getFullYear();
+    var currentLocationText = document.getElementById("current-location");
+    currentLocationText.innerHTML = currentLocation;;
 
     // Gives the current date a highligth
     var todaysDate = new Date();

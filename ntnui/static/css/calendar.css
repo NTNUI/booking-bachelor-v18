@@ -47,11 +47,20 @@
     cursor: default;
 }
 
+#current-location {
+    font-size: 19px;
+}
+
 #previous:hover {
     background: #f7f4f4;
 }
 #next:hover {
     background: #f7f4f4;
+}
+
+#label-titles {
+    display: block;
+    line-height: 50%;
 }
 
 /*Calendar days*/
@@ -103,6 +112,7 @@ p.type-header {
     text-transform: capitalize;
     cursor: pointer;
 }
+
 /* Alerts */
 .booking-alert {
     position: fixed;
