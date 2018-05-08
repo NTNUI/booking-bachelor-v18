@@ -4,17 +4,17 @@
 
 <table class="table borderless" id="person-booking-table">
     {% for booking in my_bookings_list %}
-    <thead class='table-title'>
+    <thead class='table-title' data-no="{{ booking.queueNo }}">
         <tr>
             <th>{{ booking.title }}</th>
         </tr>
     </thead>
     {% if booking.queueNo > 0 %}
         <tr>
-            <td><b>Queue:</b> {{ booking.queueNo}}</td>
+            <td class="queue"><b>Queue:</b> {{ booking.queueNo}}</td>
         </tr>
     {% endif %}
-    <tbody id="person-body">
+
     <tr>
         <td><b>What:</b> {{ booking.description }}</td>
     </tr>

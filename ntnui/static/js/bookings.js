@@ -56,7 +56,7 @@ $(function () {
                         }
                     });
                     Swal();
-                    if (form[0].id) {
+                    if (event.target.className == 'js-booking-delete-form') {
                         if (form[0].id > 0) {
                             queuedTab();
                             document.getElementById("booked-tab").className = "tablinks";
@@ -67,17 +67,17 @@ $(function () {
                             document.getElementById("queued-tab").className = "tablinks";
                             document.getElementById("booked-tab").className = "tablinks active";
                         }
-                    };
-                    if (form.context[3].value) {
-                        if ((form.context[3].value)>0) {
-                        queuedTab();
-                        document.getElementById("booked-tab").className = "tablinks";
-                        document.getElementById("queued-tab").className = "tablinks active";
-                        }
+                    }
                     else {
-                        bookedTab();
-                        document.getElementById("queued-tab").className = "tablinks";
-                        document.getElementById("booked-tab").className = "tablinks active";
+                        if ((form.context[3].value)>0) {
+                            queuedTab();
+                            document.getElementById("booked-tab").className = "tablinks";
+                            document.getElementById("queued-tab").className = "tablinks active";
+                        }
+                        else {
+                            bookedTab();
+                            document.getElementById("queued-tab").className = "tablinks";
+                            document.getElementById("booked-tab").className = "tablinks active";
                         }
                     }
                 }
@@ -137,17 +137,18 @@ window.onclick = function(event) {
 bookedTab();
 
 function bookedTab() {
-    $( "tbody#person-body:contains('Queue')" ).css( "display", "None" );
-    $( "tbody#person-body:contains('Queue')" ).prev().css( "display", "None" );
-    $('tbody#person-body:not(:contains("Queue"))').css( "display", "contents" );
-    $('tbody#person-body:not(:contains("Queue"))').prev().css( "display", "contents" );
+
+    $( "tbody:contains('Queue')" ).css( "display", "None" );
+    $( "tbody:contains('Queue')" ).prev().css( "display", "None" );
+    $('tbody:not(:contains("Queue"))').css( "display", "contents" );
+    $('tbody:not(:contains("Queue"))').prev().css( "display", "contents" );
 }
 
 function queuedTab() {
-    $('tbody#person-body:not(:contains("Queue"))').css( "display", "None" );
-    $('tbody#person-body:not(:contains("Queue"))').prev().css( "display", "None" );
-    $( "tbody#person-body:contains('Queue')" ).css( "display", "contents" );
-    $( "tbody#person-body:contains('Queue')" ).prev().css( "display", "contents" );
+    $('tbody:not(:contains("Queue"))').css( "display", "None" );
+    $('tbody:not(:contains("Queue"))').prev().css( "display", "None" );
+    $( "tbody:contains('Queue')" ).css( "display", "contents" );
+    $( "tbody:contains('Queue')" ).prev().css( "display", "contents" );
 }
 
 function openCity(event, type) {
