@@ -24,10 +24,11 @@
         <tr>
             <td><b>Time:</b> {{ booking.get_date.2 }} - {{ booking.get_date.3 }}</td>
         </tr>
-        <tr>
-            <td><b>Group:</b> {{ booking.group }}</td>
-        </tr>
-
+        {% if booking.group %}
+            <tr>
+                <td><b>Group:</b> {{ booking.group }}</td>
+            </tr>
+        {% endif %}
 
         <tr>
             <td>

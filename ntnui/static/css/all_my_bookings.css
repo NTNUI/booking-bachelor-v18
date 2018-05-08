@@ -1,5 +1,4 @@
 /*CSS for my bookings and all bookings page*/
-
 .booking-container {
     width: 60%;
 }
@@ -81,7 +80,9 @@ hr{
     width: 100%;
     margin: 0rem auto;
     padding: 1rem 3rem 1rem 3rem;
+    line-height: 14px;
 }
+
 .replace {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -103,8 +104,17 @@ form {
     margin: 0px auto;
 }
 
+.filter-table td {
+    margin-top: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
 #filter-form {
     width: 80%;
+    margin-bottom: 0px;
+    margin-top: 10px;
+    line-height: 17px;
 }
 
 #filter-button {
