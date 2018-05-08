@@ -84,9 +84,8 @@
         var chosenLocation = this.currentLocation;
         var booking_data; //global variable for booking data
         var overlap = []; //put overlapping bookings here
-        // document.getElementById("id_repeat").classList.add("input-group")
         $(document).ready(function(){
-            console.log("here")//6
+            
             document.getElementById("id_day").value=tempDay.children[1].innerHTML.trim();
             var btn = document.getElementById("submission");
             $(btn).click(function () {
@@ -184,40 +183,7 @@
                 }
             });
         });
-        //check if booking overlaps when End time is deselected.
-        // TODO: check if this function is actually necessary
-        $('#endInput').on("blur", function(){
-            var start = document.getElementById("startInput").value;//get start value for this booking
-            start = tempDay.id + "T" + start + "Z";
-            var end = tempDay.id + "T" + this.value + "Z";
-            var loc = document.getElementById("id_location");
-            var loc_val = loc.value; //get current value of lcoation
-            var loc_opt = loc.innerHTML.split("\n"); //get options as array
-            var loc_val_str = "value=\"" + loc_val + "\""; //format search parameter
-            var loc_str; //store name of location here
-            var regex = />.*</;
-            for (i=0; i<loc_opt.length;i++){
-                if (loc_opt[i].search(loc_val_str)> 0){
-                    loc_str = loc_opt[i];
-                    loc_str = loc_str.match(regex).toString();
-                    console.log(loc_str)
-                    var res = loc_str.substr(1, loc_str.lenght-2); //get ridd of ><brackets
-                    loc_str = res;
-                }
-            }
-
-            overlap = []; //put overlapping bookings here
-            if (loc_str && this.value.length && start.length){
-                $.each(booking_data, function(i, item){
-                    var current = booking_data[i];
-                    //TODO: check if start and end times have the same format
-                    if (loc_str===current.location && current.start < end && current.end > start){
-                        overlap.push(current);
-                    }
-                })
-            }
-            
-        })
+        
         $("#startInput").blur(function(){
             console.log("blur")
         })
