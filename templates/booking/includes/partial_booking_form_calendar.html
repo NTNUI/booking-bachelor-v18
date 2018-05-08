@@ -17,6 +17,9 @@
                     <div class="col form-group {% if field.errors %} has-error{% endif %}">
                         {{form.person.as_hidden}}
                         {{form.location.as_hidden}}
+                        {{form.day.as_hidden}}
+                        {{form.queueNo.as_hidden}}
+
                         <div>
                             <h5>Title</h5>
                             {{form.title}}
@@ -29,7 +32,7 @@
                             <h5>Description</h5>
                             {{form.description}}
                         </div>
-
+                  
                         <div class="form-margin">
                             <h5>Starttime</h5>
                             <div class="input-group clockpicker" data-placement="top" data-align="bottom" data-autoclose="true" id="startTime">
@@ -52,10 +55,8 @@
                         {% if request.user.is_superuser %}
                             <div class="form-margin">
                                 <h5>Recurring</h5>
-                                <select class="form-control" id="recurringEvent">
-                                    <option value="noRepeat" id="noRepeat">Does not repeat</option>
-                                    <option value="weekly" id="weekly">Repeat every</option>
-                                </select>
+                                {{form.repeat}}
+                                
                             </div>
                         {% endif %}
                         {% if user.is_authenticated and not request.user.is_superuser %}
@@ -63,10 +64,8 @@
                             {% if user_in_hs %}
                                 <div class="form-margin">
                                     <h5>Request Recurring</h5>
-                                    <select class="form-control" id="recurringEvent">
-                                        <option value="noRepeat" id="noRepeat">Does not repeat</option>
-                                        <option value="weekly" id="weekly">Repeat every</option>
-                                    </select>
+                                    {{form.repeat}}
+                                    
                                 </div>
                             {% endif %}
                         {% endif %}
@@ -74,6 +73,9 @@
                 </div>
             {% endif %}
         {% endif %}
+    {% load widget_tweaks %}
+        
+        
     </div>
 {% endblock content %}
 
@@ -82,7 +84,11 @@
     <script>
         var list_of_bookings = []
         var chosenLocation = this.currentLocation;
+        var booking_data; //global variable for booking data
+        var overlap = []; //put overlapping bookings here
         $(document).ready(function(){
+            
+            document.getElementById("id_day").value=tempDay.children[1].innerHTML.trim();
             var btn = document.getElementById("submission");
             $(btn).click(function () {
                 if(validateForm()) {
@@ -128,12 +134,14 @@
                                     url: '/booking/bookings_list/create_calendar/',
                                     data: $form_data,
                                     complete: function(data) {
+                                        console.log("success")
                                         var modal = document.getElementById('booking-modal');
                                         modal.style.display = "none";
                                         var promised = promiseTest();
                                         promised.done(function() {
                                             promised.then( function() {
                                                 global_list = []
+                                                console.log("promised")
                                                 global_list.push(promised.responseJSON);
                                             })
                                         })
@@ -162,6 +170,7 @@
                             url: '/booking/bookings_list/create_calendar/',
                             data: $form_data,
                             complete: function(data) {
+                                console.log("success")
                                 var modal = document.getElementById('booking-modal');
                                 modal.style.display = "none";
                                 var promised = promiseTest();
@@ -178,6 +187,10 @@
                 }
             });
         });
+        
+        $("#startInput").blur(function(){
+            console.log("blur")
+        })
         $.ajax({
             method: "GET",
             url: '/booking/api',
@@ -192,6 +205,7 @@
             },
             success: function(data) {
                 $.each(data, function(i, item) {
+                    booking_data = data;
                     var date = data[i].start;
                     var date_format = date.slice(0, 10);
                     var start = date.slice(11, 16);
@@ -201,14 +215,25 @@
                     var queueNo = global_list[0][i].queueNo;
                     var group = global_list[0][i].group;
                     var personId = global_list[0][i].person__id;
+                    var dayName = document.getElementById("id_day");
+                    dayName.value = tempDay.children[1].innerHTML.trim();                   
                     var mail = global_list[0][i].person__email;
                     var fName = global_list[0][i].person__first_name;
                     var lName = global_list[0][i].person__last_name;
+
                     if(tempDay.id === date_format && data[i].location__name === loc.value && loc.checked === true) {
                         booking = [];
                         booking.push(newDate, start, data[i].end, data[i].title, fName, queueNo, group, personId, lName, mail);
                         list_of_bookings.push(booking);
                         list_of_bookings.sort(function(a, b){return a[0] - b[0]});
+                    }
+                    //TODO: check if overlapping booking exists in API:
+                    var booking = data[i]
+                    
+                    var s_time = document.getElementById("startTime").value
+                    var e_time = document.getElementById("endTime").value
+                    if (booking.start <= tempDay.end && booking.end >= tempDay.start){
+                        
                     }
                 })
                 if(list_of_bookings.length != 0){
