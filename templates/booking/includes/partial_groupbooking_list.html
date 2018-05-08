@@ -10,7 +10,10 @@
             </thead>
 
             <tr>
-                <td><b>What:</b> {{ booking.description }}</td>
+                <td><b>Description:</b> {{ booking.description }}</td>
+            </tr>
+            <tr>
+                <td><b>Group:</b> {{ booking.group }}</td>
             </tr>
             <tr>
                 <td><b>Location:</b> {{ booking.location }}</td>
@@ -20,9 +23,6 @@
             </tr>
             <tr>
                 <td><b>Time:</b> {{ booking.get_date.2 }} - {{ booking.get_date.3 }}</td>
-            </tr>
-            <tr>
-                <td><b>Group:</b> {{ booking.group }}</td>
             </tr>
             <tr>
                 <td>

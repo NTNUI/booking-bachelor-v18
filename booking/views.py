@@ -33,7 +33,9 @@ def index(request):
 
 def api(request, **kwargs):
     model = Booking
-    bookings = model.objects.all().values('title', 'description', 'start', 'end', 'location__name', 'person__first_name', 'queueNo', 'group', 'person__id')
+    bookings = model.objects.all().values('title', 'description', 'start', 'end', 'location__name',
+                                          'person__first_name', 'queueNo', 'group', 'person__id',
+                                          'person__email', 'person__last_name')
     booking_list = list(bookings)
     return JsonResponse(booking_list, safe=False)
 
