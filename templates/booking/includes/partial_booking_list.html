@@ -4,7 +4,7 @@
 
 <table class="table borderless" id="person-booking-table">
     {% for booking in filter.qs %}
-    <thead class='table-title'>
+    <thead class='table-title' data-no="{{ booking.queueNo }}">
         <tr>
             <th>{{ booking.title }}</th>
         </tr>
