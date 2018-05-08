@@ -19,11 +19,8 @@ $(function () {
     };
 
     var saveForm = function (event) {
-        console.log("hello")
         var form = $(this);
-        console.log(event.target.className)
         if (event.target.className == "js-booking-update-form") {
-            console.log("yes")
             var start_time = document.getElementById("startInput").value.toString();
             var end_time = document.getElementById("endInput").value.toString();
             var dates = document.getElementById("date").value.toString();
@@ -45,6 +42,9 @@ $(function () {
             data: newForm,
             type: form.attr("method"),
             dataType: 'json',
+            beforeSend: function (data) {
+                console.log(data.html_form)
+            },
             success: function (data) {
                 if (data.form_is_valid) {
                     $("#person-booking-table").html(data.html_booking_list);
@@ -204,4 +204,3 @@ function openCity(event, type) {
     //document.getElementById(cityName).style.display = "block";
     event.currentTarget.className += " active";
 }
-

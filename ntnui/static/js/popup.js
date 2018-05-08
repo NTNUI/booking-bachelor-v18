@@ -27,14 +27,14 @@ function resetClock(){
     var endTime = document.getElementById('endInput');
     for(var i=0;i<clockTicks.length; i++){
         if(clockTicks.length == 28)
-            if(clockTicks[i].innerHTML > 10 && clockTicks[i].innerHTML < 23 || (clockTicks[i].innerHTML == '00' && i>(+clockTicks.length - 4))){
+            if(clockTicks[i].innerHTML >= 10 && clockTicks[i].innerHTML < 23 || (clockTicks[i].innerHTML == '00' && i>(+clockTicks.length - 4))){
                 clockTicks[i].style.color = "black";
                 clockTicks[i].style.pointerEvents = "auto";
                 endTime.value = 'Choose end time';
                 endTime.disabled = true;
             }
         if(clockTicks.length == 56){
-            if(clockTicks[i].innerHTML > 10 && clockTicks[i].innerHTML < 23 || (clockTicks[i].innerHTML == '00' && i>(+clockTicks.length - 36   ))){
+            if(clockTicks[i].innerHTML >= 10 && clockTicks[i].innerHTML < 23 || (clockTicks[i].innerHTML == '00' && i>(+clockTicks.length - 36   ))){
                 clockTicks[i].style.color = "black";
                 clockTicks[i].style.pointerEvents = "auto";
                 endTime.value = 'Choose end time';
