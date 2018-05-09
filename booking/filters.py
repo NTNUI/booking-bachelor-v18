@@ -6,6 +6,7 @@ from booking.models import Booking
 
 class AdminFilter(FilterSet):
     person = ModelChoiceFilter(queryset=User.objects.all())
+
     class Meta:
         model = Booking
         fields = ['location', 'person', 'title', 'start', 'group']

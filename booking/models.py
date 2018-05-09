@@ -13,7 +13,7 @@ LOCATION_TYPES = (
 )
 
 
-#Location model
+# Location model
 class Location(models.Model):
     name = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
@@ -23,7 +23,8 @@ class Location(models.Model):
     def __str__(self):
         return self.name
 
-#Booking model
+
+# Booking model
 class Booking(models.Model):
     person = models.ForeignKey('accounts.User', on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=400, default='')
@@ -32,9 +33,8 @@ class Booking(models.Model):
     start = models.DateTimeField(_(u'Start'), blank=True)
     end = models.DateTimeField(_(u'End'), blank=True)
     queueNo = models.IntegerField(default=0)
-    #repeatable = models.
-    #overlapping = models.ManyToManyField("self", blank=True, null=True)
-
+    # repeatable = models.
+    # overlapping = models.ManyToManyField("self", blank=True, null=True)
     try:
         tu = tuple(SportsGroup.objects.all().values_list('name', 'name'))
         if not tu:
@@ -43,13 +43,12 @@ class Booking(models.Model):
             )
         else:
             tu = tuple(SportsGroup.objects.all().values_list('name', 'name'))
-
     except OperationalError:
         tu = (
             ('', '---------'),
         )
-
     group = models.CharField(max_length=200, blank=True)
+
     def __str__(self):
         return self.title
 
@@ -57,28 +56,16 @@ class Booking(models.Model):
         return reverse('booking_edit', kwargs={'pk': self.pk})
 
     def move_queue(self, queue, i):
-        for b in queue:
-            b.queueNo += i
-            super(Booking, b).save()
+        for booking in queue:
+            booking.queueNo += i
+            super(Booking, booking).save()
 
     def save(self, repeatable=False, *args, **kwargs):
-        #TODO: editing causes interference with its own old qNo value
-        # compare to all with qNo=0
-        # a|----| b|----|
-        #    c|-----| d|---|
-        #               e|----|
-        # c overlaps with a and b, put c.qNo = 1
-        # d overlaps with b, put d.qNo = 1
-        # e overlaps with d, put eqNo = 0
-        #TODO: prioritize repeatable=True
-        #TODO: move queue up if preceding booking is updated and frees up space
         bookings = Booking.objects.filter(location=self.location, start__lt=self.end, end__gt=self.start)
         first = bookings.filter(queueNo=0)
-        
         if self in bookings:
             return super(Booking, self).save(*args, **kwargs)
-    
-        if list(first) != []:
+        if list(first):
             maxval = bookings.aggregate(models.Max('queueNo'))
             temp = [maxval[i] for i in sorted(maxval.keys())]
             self.queueNo = int(temp[0]) + 1
@@ -87,40 +74,22 @@ class Booking(models.Model):
             self.queueNo = 0
         return super(Booking, self).save(*args, **kwargs)
 
-
-    
     def delete(self, *args, **kwargs):
-        qNo = self.queueNo
-        #find overlapping bookings
+        q_no = self.queueNo
         bookings = Booking.objects.filter(location=self.location, start__lt=self.end, end__gt=self.start)
-        #find bookings which are later in queue
-        later = bookings.filter(queueNo__gt=qNo)
+        later = bookings.filter(queueNo__gt=q_no)
         for i in range(len(later)):
             if later[i].queueNo > 0:
                 c = later[i]
                 c.queueNo -= 1
                 super(Booking, c).save()
-                # if c.queueNo == 0:
-                    # msg = "You have now booked " + c.location+ ", from "+ c.start+ " to "+ c.end
-                    # #sendMail(msg)
-                    # print(msg)
-                # else:
-                    # msg = "You are now number "+ c.queueNo+ " in line for "+ c.location+ " starting "+ c.start
-                    # #sendMail(msg)
-                    # print(msg)
-            #later[i].save()
-        # user = "user"
-        # msg = "your booking for "+ self.location+ " starting "+ self.start+ " has been deleted by "+ user
-        # #sendmail(msg)
-        # print("your booking for "+ self.location+ " starting "+ self.start+ " has been deleted by "+ user)
         return super(Booking, self).delete(*args, **kwargs)
-    
 
     def get_groups(self):
         memberships = Membership.objects.filter(person=self.person).values_list('group', flat=True)
         my_groups = []
-        for m in memberships:
-            sport_groups = SportsGroup.objects.get(id=m).name
+        for member in memberships:
+            sport_groups = SportsGroup.objects.get(id=member).name
             my_groups.append(sport_groups)
         return my_groups
 
