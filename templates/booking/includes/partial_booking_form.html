@@ -55,21 +55,9 @@
                 </span>
             </div>
         </div>
-        {% if request.user.is_superuser %}
-            <div class="form-margin">
-                <h5>Recurring</h5>
-                {{form.repeat}}
-            </div>
-        {% endif %}
-        {% if user.is_authenticated and not request.user.is_superuser %}
-            {% user_in_hs user as user_in_hs %}
-            {% if user_in_hs %}
-                <div class="form-margin">
-                    <h5>Request Recurring</h5>
-                    {{form.repeat}}
-                </div>
-            {% endif %}
-        {% endif %}
+        <div class="repeat">
+            {{form.repeat}}
+        </div>
     </div>
 {% endblock %}
 
@@ -78,19 +66,13 @@
     $(document).ready(function(){
         var $myForm = $('#createform');
         document.getElementById("id_day").value = "MON"; //placeholder
+        console.log(document.getElementById("id_day"))
         $myForm.submit(function(event){
             event.preventDefault()
             //change day from placeholder to actual value
-            var weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-            var input = document.getElementById("date");
-            var date = new Date(input.value);
-            var weekday = date.getDay();
-            document.getElementById("id_day").value = weekdays[weekday];
-            // append start date to post request
             var start_time = document.getElementById("startInput").value.toString();
             var end_time = document.getElementById("endInput").value.toString();
             var dates = document.getElementById("date").value.toString();
-            console.log(dates + start_time)
             var $form_data = $("#createform").serializeArray();
             $form_data.forEach(function (item) {
                 if (item.name === 'start') {
