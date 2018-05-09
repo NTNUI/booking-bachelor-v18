@@ -67,7 +67,6 @@
         }
         var arrStart = start.value.split(':'), hourStart = arrStart[0], minStart = arrStart[1];
         var arrEnd = end.value.split(':'), hourEnd = arrEnd[0], minEnd = arrEnd[1];
-        console.log(hourStart, minStart, hourEnd, minEnd);
         if((hourEnd < hourStart) || (hourEnd == hourStart && minStart > minEnd)){
             start.style.border = "1px solid red";
             end.style.border = "1px solid red"
@@ -129,5 +128,5 @@
     }
     var weekly = document.getElementById("id_repeat").children[1];
     weekly.innerHTML = 'Repeat every '+dayOfWeekAsString(formattedDate.getDay());
-    console.log(weekly)
+   
 </script>
