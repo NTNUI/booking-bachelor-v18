@@ -109,7 +109,6 @@ def booking_list(request):
         booking = Booking.objects.filter(group=group).exclude(person=user).filter(start__gte=now).order_by('start')
         group_list = booking | group_list
         my_group_bookings_list.append(booking)
-
     return render(request, 'booking/bookings_list.html', {
         'my_bookings_list': my_bookings_list,
         'my_group_bookings_list': group_list,
@@ -143,6 +142,7 @@ def repeatBooking(form):
     month = int(start.month)
     day = int(start.day)
     loc = location
+    group = form.cleaned_data['group']
     s_time = str(start)[11:]#.replace("+", ":") #get time substring
     e_time = str(end)[11:]#.replace("+", ":") #YYYY-MM-DDTHH:MMZ
     title = form.cleaned_data['title']
@@ -174,7 +174,7 @@ def repeatBooking(form):
                     date_format = str(year)+"-"+cal_m+"-"+cal_d 
                     start_rec = date_format+" "+s_time
                     end_rec = date_format+" "+e_time
-                    b = Booking(location=loc, start=start_rec, end=end_rec, title=title, description=descr, person=person)
+                    b = Booking(location=loc, start=start_rec, group=group, end=end_rec, title=title, description=descr, person=person)
                     b.save(repeatable=True)
 
 
@@ -228,7 +228,6 @@ def booking_create_from_calendar(request):
     else:
         user = request.user
         form = BookingForm(user, initial={'person': request.user})
-        print(form)
     return save_booking_form(request, form, 'booking/includes/partial_booking_create_calendar.html')
 
 def booking_update(request, pk):
