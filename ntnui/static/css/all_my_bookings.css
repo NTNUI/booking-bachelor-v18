@@ -80,7 +80,11 @@ hr{
     width: 100%;
     margin: 0rem auto;
     padding: 1rem 3rem 1rem 3rem;
-    line-height: 14px;
+    line-height: 17px;
+}
+
+.my-bookings, .group-bookings , .all-bookings, .request-bookings {
+    line-height: 24px;
 }
 
 .replace {
@@ -110,11 +114,10 @@ form {
     padding-bottom: 0px;
 }
 
-#filter-form {
+#filter-form td {
     width: 80%;
     margin-bottom: 0px;
     margin-top: 10px;
-    line-height: 17px;
 }
 
 #filter-button {

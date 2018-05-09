@@ -30,6 +30,7 @@ class BookingForm(forms.ModelForm):
         self.fields['description'].widget.attrs['class'] = 'form-control'
         self.fields['location'].widget.attrs['class'] = 'form-control'
         self.fields['group'].widget.attrs['class'] = 'form-control'
+        self.fields['repeat'].widget.attrs['class'] = 'form-control'
 
     class Meta:
         model = Booking
