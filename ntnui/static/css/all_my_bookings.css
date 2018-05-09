@@ -13,7 +13,8 @@
 }
 
 hr{
-    border-top: 2px solid #8080803b;
+    border-top: 2px solid #c5c3c3;
+    margin: 0rem;
 }
 
 #my-bookings-header {
@@ -22,13 +23,13 @@ hr{
     text-transform: uppercase;
     color: green;
     font-size: 1.5rem;
-    /*max-width: 80%;*/
     max-width: 50%;
     display: inline-block;
 }
 
 .my-bookings-header-2 {
-    margin: 1rem;
+    margin-bottom: 2.2rem;
+    margin-top: 1rem;
     text-align: center;
     font-size: 1.6rem;
 }
