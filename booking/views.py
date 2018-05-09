@@ -124,7 +124,6 @@ def booking_list(request):
 
 def get_my_bookings(request):
     model = Booking
-    bookings = model.objects.all()
     user = request.user
     now = timezone.now()
     my_bookings_list = Booking.objects.filter(person=user).filter(start__gte=now).order_by('start')
@@ -179,9 +178,9 @@ def repeat_booking(form):
                     date_format = str(year) + "-" + cal_m + "-" + cal_d
                     start_rec = date_format + " " + s_time
                     end_rec = date_format + " " + e_time
-                    b = Booking(location=location, start=start_rec, group=group, end=end_rec, title=title,
-                                description=descr, person=person)
-                    b.save(repeatable=True)
+                    booking = Booking(location=location, start=start_rec, group=group, end=end_rec, title=title,
+                                      description=descr, person=person)
+                    booking.save(repeatable=True)
 
 
 def save_booking_form(request, form, template_name):
@@ -197,7 +196,6 @@ def save_booking_form(request, form, template_name):
             })
             if form.cleaned_data['repeat'] == "weekly":
                 repeat_booking(form)
-            # messages.success(request, "Your booking request was successful")
         else:
             data['form_is_valid'] = False
     context = {'form': form}
