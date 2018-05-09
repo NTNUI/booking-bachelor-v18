@@ -24,16 +24,6 @@
         </h1>
 
         <div class="my-booking-box">
-            <!-- Filter booking form -->
-            <form id="filter-form" method='get'>
-                <table class='table borderless filter-table'>
-                    <tr>
-                        <td><h5>Group: </h5>{{ filter.form.group }}</td>
-                        <td><h5>Title: </h5>{{ filter.form.title }}</td>
-                    </tr>
-                </table>
-                <button class="btn" id='filter-button' type='submit'>Search</button>
-            </form>
             <div class="flex-container">
                 {% if user.is_authenticated %}
                     {% user_in_hs user as user_in_hs %}
@@ -68,20 +58,6 @@
             </div>
         </div>
 
-
-        <div id="booking-modal" class="modal-big">
-            <div id="modal-booking">
-                <div class="booking-modal-contents">
-                </div>
-            </div>
-
-        <!-- Alerts-->
-        <div class="alert booking-alert alert-success" id="booking-success" role="alert">
-            <!-- Alert content -->
-            <strong id="alert-head">Congratzis!</strong>
-            <div id="alert-text">You have created a booking.</div>
-
-        </div>
     </div>
 {% endblock %}
 

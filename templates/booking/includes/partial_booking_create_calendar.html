@@ -1,4 +1,6 @@
 {#form used for creating new bookings#}
+{% load static %}
+{% load tags %}
 
 <form method="post" id="createform" class="js-booking-create-form" onmouseover="checkStartTime()">
     {% csrf_token %}
@@ -10,7 +12,13 @@
         {% include 'booking/includes/partial_booking_form_calendar.html' %}
     </div>
     <div class="modal-footer">
-        <button title="Click to create booking" id="submission" onclick="return validateForm()" type="submit" class="btn btn-success">Create booking</button>
+        {% if user.is_authenticated %}
+            {% user_in_hs user as user_in_hs %}
+            {% if user_in_hs or request.user.is_superuser %}
+                {% load widget_tweaks %}
+                <button title="Click to create booking" id="submission" onclick="return validateForm()" type="submit" class="btn btn-success">Create booking</button>
+            {% endif %}
+        {% endif %}
     </div>
 </form>
 
@@ -59,7 +67,6 @@
         }
         var arrStart = start.value.split(':'), hourStart = arrStart[0], minStart = arrStart[1];
         var arrEnd = end.value.split(':'), hourEnd = arrEnd[0], minEnd = arrEnd[1];
-        console.log(hourStart, minStart, hourEnd, minEnd);
         if((hourEnd < hourStart) || (hourEnd == hourStart && minStart > minEnd)){
             start.style.border = "1px solid red";
             end.style.border = "1px solid red"
@@ -121,4 +128,5 @@
     }
     var weekly = document.getElementById("id_repeat").children[1];
     weekly.innerHTML = 'Repeat every '+dayOfWeekAsString(formattedDate.getDay());
+   
 </script>

@@ -1,20 +1,13 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.core.urlresolvers import reverse_lazy
-from django.contrib.auth.decorators import login_required, user_passes_test
-from booking.filters import UserFilter, AdminFilter#, LocationFilter,
 from django.contrib.auth.decorators import login_required
-from booking.filters import AdminFilter, MyBookFilter
+from booking.filters import AdminFilter
 from .models import Booking, Location
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.template.loader import render_to_string
 from .forms import BookingForm
 from django.contrib.auth.decorators import user_passes_test
-
 from .models import LOCATION_TYPES
-from django.contrib import messages #TODO: check if actually used
-from datetime import time
 from calendar import Calendar
 from groups.models import SportsGroup, Membership
 from django.utils import timezone
@@ -106,27 +99,19 @@ def confirmation_mail(request, pk):
     return mails
 
 def booking_list(request):
-    model = Booking
-    user = request.user
-    now = timezone.now()
-    bookings = model.objects.filter(person=user).filter(start__gte=now).order_by('start')
     user = request.user
     now = timezone.now()
     my_bookings_list = get_my_bookings(request)
     my_groups = get_my_groups(request)
     my_group_bookings_list = []
     group_list = Booking.objects.none()
-    booking_filter = MyBookFilter(request.GET, queryset=bookings)
     for group in my_groups:
         booking = Booking.objects.filter(group=group).exclude(person=user).filter(start__gte=now).order_by('start')
         group_list = booking | group_list
         my_group_bookings_list.append(booking)
-
     return render(request, 'booking/bookings_list.html', {
         'my_bookings_list': my_bookings_list,
         'my_group_bookings_list': group_list,
-        'bookings': bookings,
-        'filter': booking_filter
     })
 
 def get_my_bookings(request):
@@ -157,6 +142,7 @@ def repeatBooking(form):
     month = int(start.month)
     day = int(start.day)
     loc = location
+    group = form.cleaned_data['group']
     s_time = str(start)[11:]#.replace("+", ":") #get time substring
     e_time = str(end)[11:]#.replace("+", ":") #YYYY-MM-DDTHH:MMZ
     title = form.cleaned_data['title']
@@ -188,7 +174,7 @@ def repeatBooking(form):
                     date_format = str(year)+"-"+cal_m+"-"+cal_d 
                     start_rec = date_format+" "+s_time
                     end_rec = date_format+" "+e_time
-                    b = Booking(location=loc, start=start_rec, end=end_rec, title=title, description=descr, person=person)
+                    b = Booking(location=loc, start=start_rec, group=group, end=end_rec, title=title, description=descr, person=person)
                     b.save(repeatable=True)
 
 
@@ -242,7 +228,6 @@ def booking_create_from_calendar(request):
     else:
         user = request.user
         form = BookingForm(user, initial={'person': request.user})
-        print(form)
     return save_booking_form(request, form, 'booking/includes/partial_booking_create_calendar.html')
 
 def booking_update(request, pk):

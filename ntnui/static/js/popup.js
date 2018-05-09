@@ -65,10 +65,13 @@ function checkStartTime(){
     var startTime = document.getElementById('startInput');
     var endTime = document.getElementById('endInput');
     var endTimeSpan = document.getElementById('endTimeSpan');
-    if(startTime.value == 'Choose start time'){
-        endTime.disabled = true;
-        endTimeSpan.style.pointerEvents = "none";
-    }if(startTime.value != 'Choose start time'){
+    if(startTime) {
+        if(startTime.value == 'Choose start time'){
+            endTime.disabled = true;
+            endTimeSpan.style.pointerEvents = "none";
+        }
+    }
+    if(startTime.value != 'Choose start time'){
         endTime.disabled = false;
         endTimeSpan.style.pointerEvents = "auto";
     }
