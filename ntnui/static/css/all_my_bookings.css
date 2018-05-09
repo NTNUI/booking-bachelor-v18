@@ -80,10 +80,10 @@ hr{
     width: 100%;
     margin: 0rem auto;
     padding: 1rem 3rem 1rem 3rem;
-    line-height: 17px;
+    line-height: 15px;
 }
 
-.my-bookings, .group-bookings , .all-bookings, .request-bookings {
+.my-bookings th, .group-bookings th, .all-bookings th, .request-bookings th {
     line-height: 24px;
 }
 
@@ -104,20 +104,14 @@ hr{
 }
 
 /* Filters on all booking */
-form {
-    margin: 0px auto;
+#filter-form {
+    width: 80%;
+    margin: 10px auto;
 }
 
 .filter-table td {
-    margin-top: 5px;
     padding-top: 0px;
     padding-bottom: 0px;
-}
-
-#filter-form td {
-    width: 80%;
-    margin-bottom: 0px;
-    margin-top: 10px;
 }
 
 #filter-button {
