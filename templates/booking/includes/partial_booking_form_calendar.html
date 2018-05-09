@@ -86,8 +86,7 @@
         var booking_data; //global variable for booking data
         var overlap = []; //put overlapping bookings here
         $(document).ready(function(){
-            
-            document.getElementById("id_day").value=tempDay.children[1].innerHTML.trim();
+            document.getElementById("id_day").value= new Date(tempDay.id.substring(0,4), +tempDay.id.substring(5,7)-1, tempDay.id.substring(8,10)).toString().slice(0,3);
             var btn = document.getElementById("submission");
             $(btn).click(function () {
                 if(validateForm()) {
@@ -214,8 +213,8 @@
                     var queueNo = global_list[0][i].queueNo;
                     var group = global_list[0][i].group;
                     var personId = global_list[0][i].person__id;
-                    var dayName = document.getElementById("id_day");
-                    dayName.value = tempDay.children[1].innerHTML.trim();                   
+                    var dayName = new Date(tempDay.id.substring(0,4), +tempDay.id.substring(5,7)-1, tempDay.id.substring(8,10)).toString().slice(0,3);
+                    dayName.value = tempDay.children[1].innerHTML.trim();
                     var mail = global_list[0][i].person__email;
                     var fName = global_list[0][i].person__first_name;
                     var lName = global_list[0][i].person__last_name;
@@ -228,11 +227,9 @@
                     }
                     //TODO: check if overlapping booking exists in API:
                     var booking = data[i]
-                    
-                    var s_time = document.getElementById("startTime").value
-                    var e_time = document.getElementById("endTime").value
+
                     if (booking.start <= tempDay.end && booking.end >= tempDay.start){
-                        
+
                     }
                 })
                 if(list_of_bookings.length != 0){
