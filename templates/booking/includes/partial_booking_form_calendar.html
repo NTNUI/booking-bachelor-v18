@@ -138,9 +138,9 @@
                                         var promised = promiseTest();
                                         promised.done(function() {
                                             promised.then( function() {
-                                                global_list = []
+                                                globalList = []
                                                 console.log("promised")
-                                                global_list.push(promised.responseJSON);
+                                                globalList.push(promised.responseJSON);
                                             })
                                         })
                                     },
@@ -174,8 +174,8 @@
                                 var promised = promiseTest();
                                 promised.done(function() {
                                     promised.then( function() {
-                                        global_list = []
-                                        global_list.push(promised.responseJSON);
+                                        globalList = []
+                                        globalList.push(promised.responseJSON);
                                         populate();
                                     })
                                 })
@@ -192,8 +192,8 @@
                 var promised = promiseTest();
                     promised.done(function() {
                         promised.then( function() {
-                            global_list = []
-                            global_list.push(promised.responseJSON);
+                            globalList = []
+                            globalList.push(promised.responseJSON);
                     })
                 })
             },
@@ -204,16 +204,16 @@
                     var date_format = date.slice(0, 10);
                     var start = date.slice(11, 16);
                     var newDate = start.replace(":", "");
-                    var loc = global_list[0][i].location__name;
+                    var loc = globalList[0][i].location__name;
                     loc = document.getElementById(loc);
-                    var queueNo = global_list[0][i].queueNo;
-                    var group = global_list[0][i].group;
-                    var personId = global_list[0][i].person__id;
+                    var queueNo = globalList[0][i].queueNo;
+                    var group = globalList[0][i].group;
+                    var personId = globalList[0][i].person__id;
                     var dayName = new Date(tempDay.id.substring(0,4), +tempDay.id.substring(5,7)-1, tempDay.id.substring(8,10)).toString().slice(0,3);
                     dayName.value = tempDay.children[1].innerHTML.trim();
-                    var mail = global_list[0][i].person__email;
-                    var fName = global_list[0][i].person__first_name;
-                    var lName = global_list[0][i].person__last_name;
+                    var mail = globalList[0][i].person__email;
+                    var fName = globalList[0][i].person__first_name;
+                    var lName = globalList[0][i].person__last_name;
 
                     if(tempDay.id === date_format && data[i].location__name === loc.value && loc.checked === true) {
                         booking = [];

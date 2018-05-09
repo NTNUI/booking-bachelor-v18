@@ -21,16 +21,16 @@ $(function () {
     var saveForm = function (event) {
         var form = $(this);
         if (event.target.className == "js-booking-update-form") {
-            var start_time = document.getElementById("startInput").value.toString();
-            var end_time = document.getElementById("endInput").value.toString();
+            var startTime = document.getElementById("startInput").value.toString();
+            var endTime = document.getElementById("endInput").value.toString();
             var dates = document.getElementById("date").value.toString();
             var newForm = form.serializeArray()
             newForm.forEach(function (item) {
             if (item.name === 'start') {
-                item.value = dates + " " + start_time;
+                item.value = dates + " " + startTime;
                 }
             if (item.name === 'end') {
-                item.value = dates + " " + end_time;
+                item.value = dates + " " + endTime;
                 }
             });
         }
@@ -42,9 +42,6 @@ $(function () {
             data: newForm,
             type: form.attr("method"),
             dataType: 'json',
-            beforeSend: function (data) {
-                console.log(data.html_form)
-            },
             success: function (data) {
                 if (data.form_is_valid) {
                     $("#person-booking-table").html(data.html_booking_list);

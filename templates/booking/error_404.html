@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
-{% block content %}
-    {% load static %}
+{% load static %}
 
-<img src="{% static 'img/run.png' %}" class="errorImage" alt="404 image" />
-    <h1 class="errorText">404 Error</h1>
+{% block content %}
+
+    <img src="{% static 'img/run.png' %}" class="error-image" alt="404 image" />
+    <h1 class="error-text">404 Error</h1>
     <h4> Looks like the page you wanted has gone for a run.</h4>
 
 {% endblock %}

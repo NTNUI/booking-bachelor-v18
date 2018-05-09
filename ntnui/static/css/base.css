@@ -103,11 +103,11 @@ a:hover {
  * 404 error page
 */
 
-.errorImage{
+.error-image{
     width: 30rem;
     margin-top: 40px;
 }
 
-.errorText{
+.error-text{
     margin-top: 40px;
 }

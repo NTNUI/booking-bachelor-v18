@@ -3,7 +3,7 @@ var date = new Date();
 var currentMonth;
 
 // Global list to store bookings. This list will be used to populate the calendar with data.
-var global_list = [];
+var globalList = [];
 
 // Ajax setting to set caching to false.
 $.ajaxSetup ({
@@ -45,13 +45,13 @@ function promiseTest() {
     })
 }
 
-// Function used to resolve promise object. When object is resolved, call createMonth and push data to global_list.
+// Function used to resolve promise object. When object is resolved, call createMonth and push data to globalList.
 var promised = promiseTest();
 var promise = function () {
 promised.done(function() {
     promised.then( function() {
             createMonth();
-            global_list.push(promised.responseJSON);
+            globalList.push(promised.responseJSON);
             currentMonth = document.getElementById("current-month");
             }
         )
@@ -96,12 +96,12 @@ $('.type-header').click(function (e) {
 // Function used to populate the calendar with bookings from the database and show available hours.
 function populate() {
     var date_map = new Map();//store sum of hours and minutes for a date
-    for (i = 0; i < global_list[0].length; i++) {
-        var qNo = global_list[0][i].queueNo;
-        var loc = global_list[0][i].location__name;
+    for (i = 0; i < globalList[0].length; i++) {
+        var qNo = globalList[0][i].queueNo;
+        var loc = globalList[0][i].location__name;
         loc = document.getElementById(loc);
-        var location = global_list[0][i].location__name;
-        var day = global_list[0][i].start;
+        var location = globalList[0][i].location__name;
+        var day = globalList[0][i].start;
         var start_datetime = day.split("T");
         var start_date = start_datetime[0];
         var date_format = day.slice(0, 10);
@@ -111,7 +111,7 @@ function populate() {
                 var start_date = start_datetime[0];
 
                 var start_time = start_datetime[1].replace("Z", "");
-                var end_datetime = global_list[0][i].end.split("T");
+                var end_datetime = globalList[0][i].end.split("T");
                 var end_time = end_datetime[1].replace("Z", "");
                 //find difference between end and start
                 var start_array = getTime(start_time);
