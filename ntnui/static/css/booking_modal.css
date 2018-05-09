@@ -108,6 +108,15 @@ h5 {
     margin: 0 auto;
 }
 
+/* Center bookings */
+.col-sm-10 {
+    margin: 0 auto;
+}
+
+h5#booked-title {
+    padding-left: 13%;
+}
+
 #booking-cards {
     max-height: 500px;
     width: 100%;

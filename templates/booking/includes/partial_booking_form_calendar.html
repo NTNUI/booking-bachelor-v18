@@ -5,7 +5,7 @@
 {% block content %}
     <div id="content-container" class="row">
         <div class="col-lg-6" id="booking-cards-con">
-            <h5>Booked</h5>
+            <h5 id="booked-title">Booked</h5>
             <div id="booking-cards">
             </div>
         </div>
@@ -81,13 +81,14 @@
 {% block script %}
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
-        var list_of_bookings = []
+        var list_of_bookings = [];
         var chosenLocation = this.currentLocation;
         var booking_data; //global variable for booking data
         var overlap = []; //put overlapping bookings here
         $(document).ready(function(){
-            
-            document.getElementById("id_day").value=tempDay.children[1].innerHTML.trim();
+            if ($('#id_day').length){
+                document.getElementById("id_day").value= new Date(tempDay.id.substring(0,4), +tempDay.id.substring(5,7)-1, tempDay.id.substring(8,10)).toString().slice(0,3);
+            };
             var btn = document.getElementById("submission");
             $(btn).click(function () {
                 if(validateForm()) {
@@ -186,10 +187,6 @@
                 }
             });
         });
-        
-        $("#startInput").blur(function(){
-            console.log("blur")
-        })
         $.ajax({
             method: "GET",
             url: '/booking/api',
@@ -214,8 +211,8 @@
                     var queueNo = global_list[0][i].queueNo;
                     var group = global_list[0][i].group;
                     var personId = global_list[0][i].person__id;
-                    var dayName = document.getElementById("id_day");
-                    dayName.value = tempDay.children[1].innerHTML.trim();                   
+                    var dayName = new Date(tempDay.id.substring(0,4), +tempDay.id.substring(5,7)-1, tempDay.id.substring(8,10)).toString().slice(0,3);
+                    dayName.value = tempDay.children[1].innerHTML.trim();
                     var mail = global_list[0][i].person__email;
                     var fName = global_list[0][i].person__first_name;
                     var lName = global_list[0][i].person__last_name;
@@ -226,19 +223,12 @@
                         list_of_bookings.push(booking);
                         list_of_bookings.sort(function(a, b){return a[0] - b[0]});
                     }
-                    //TODO: check if overlapping booking exists in API:
-                    var booking = data[i]
-                    
-                    var s_time = document.getElementById("startTime").value
-                    var e_time = document.getElementById("endTime").value
-                    if (booking.start <= tempDay.end && booking.end >= tempDay.start){
-                        
-                    }
-                })
+                });
                 if(list_of_bookings.length != 0){
                     for (var I = 0; I < list_of_bookings.length; I++) {
                         var queueNo = list_of_bookings[I][5];
                         if (queueNo == 0) {
+                            console.log("booking")
                             var div = document.createElement("div");
                             div.className = "col-sm-10";
                             var div2 = document.createElement("div");
@@ -304,7 +294,6 @@
 
 
     </script>
-
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script type="text/javascript" src="{% static 'js/popup.js' %}"></script>
