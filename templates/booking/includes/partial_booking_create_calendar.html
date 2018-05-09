@@ -1,4 +1,6 @@
 {#form used for creating new bookings#}
+{% load static %}
+{% load tags %}
 
 <form method="post" id="createform" class="js-booking-create-form" onmouseover="checkStartTime()">
     {% csrf_token %}
@@ -10,7 +12,13 @@
         {% include 'booking/includes/partial_booking_form_calendar.html' %}
     </div>
     <div class="modal-footer">
-        <button title="Click to create booking" id="submission" onclick="return validateForm()" type="submit" class="btn btn-success">Create booking</button>
+        {% if user.is_authenticated %}
+            {% user_in_hs user as user_in_hs %}
+            {% if user_in_hs or request.user.is_superuser %}
+                {% load widget_tweaks %}
+                <button title="Click to create booking" id="submission" onclick="return validateForm()" type="submit" class="btn btn-success">Create booking</button>
+            {% endif %}
+        {% endif %}
     </div>
 </form>
 
