@@ -64,34 +64,7 @@ var getTime = function(time){
     var hours = parseInt(timeArray[0]);
     var minutes = parseInt(timeArray[1]);
     return new Array(hours, minutes)
-}
-// Removes the calendar blur when filter is used
-$('#search-button').click(function () {
-    $('#calendar-container').css({
-        'pointer-events': 'all',
-        '-webkit-filter': 'blur(0px)',
-        '-ms-filter': 'blur(0px)',
-        'filter': 'blur(0px)',
-    })
-});
-
-// Removes the calendar blur when filter is used
-$('.filter-cursors').click(function (event) {
-        
-        getLocation(event)
-        $('#calendar-container').css({
-          'pointer-events': 'all',
-          '-webkit-filter': 'blur(0px)',
-          '-ms-filter': 'blur(0px)',
-          'filter': 'blur(0px)',
-      })
-
-   });
-
-// Removes the calendar blur when filter is used
-$('.type-header').click(function (e) {
-        dropdownFilters(e)
-   });
+};
 
 // Function used to populate the calendar with bookings from the database and show available hours.
 function populate() {
@@ -191,21 +164,6 @@ var monthNames = ["January", "February", "March", "April", "May", "June",
 // Add 0 to single digit numbers.
 function minTwoDigits(n) {
     return (n < 10 ? '0' : '') + n;
-}
-
-// Legacy popup.
-function createPopup() {
-    var popupTag = document.createElement("div");
-    var popupContent = document.createElement("div");
-    var popupSpan = document.createElement("span");
-    popupTag.className = "modal-large";
-    popupContent.className = "modal-content";
-    popupContent.appendChild(popupSpan);
-    popupTag.appendChild(popupContent);
-    var modal = document.getElementsByClassName(popupTag.className);
-    var span = document.getElementById(popupSpan.id);
-    modal.style.display = "block";
-    $('.modal-content').load('new',function(){}).hide().fadeIn();
 }
 
 // Creates a day element
@@ -416,76 +374,22 @@ function popup(e) {
     }
 }
 
-// Dropdown for filtering
-function dropdownFilters(event){
-    var toggleArrow = document.getElementById(event.target.id);
-    toggleArrow.classList.toggle("down");
-    var typeId = toggleArrow.nextSibling.nextSibling.id;
-    var toggleType = document.getElementById(typeId);
-    toggleType.style.display = toggleType.style.display == "block" ? "none" : "block";
+var formattedDate = new Date(tempDay.id.substring(0,4), +tempDay.id.substring(5,7)-1, tempDay.id.substring(8,10));
+    document.getElementById('dayTitle').innerHTML = dayOfWeekAsString(formattedDate.getDay())+' '+formattedDate.getDate()+
+    '. '+monthNames[formattedDate.getMonth()]+ '<h5>' + locationString + '</h5>';
+
+window.onclick = function(event) {
+    if (event.target == modal || event.target == modal2 || event.target == close ) {
+        $("#booking-modal").css("display", "none");
+    }
 };
 
-// Alerts
-function triggerFilterAlert(){
-    swal({
-        title: "Hey!",
-        text: "You need to filter on location before seeing the calendar.",
-        buttons: false,
-        closeOnClickOutside: false,
-    });
-    document.getElementById("top-navbar").style.zIndex="10001";
-    document.getElementById("filtering-container").style.borderRadius = "5px";
-    //document.getElementsByTagName("html")[0].style.overflow = "hidden";
-    $('.filter-cursors').click(function () {
-        swal.close();
-        //document.getElementsByTagName("html")[0].style.overflow = "auto";
-        document.getElementById("top-navbar").style.zIndex="10";
-        document.getElementById("filter-box").style.zIndex="0";
-        document.getElementById("filtering-container").style.borderRadius = "0px";
-    });
-}
+var weekly = document.getElementById("id_repeat").children[1];
+weekly.innerHTML = 'Repeat every '+dayOfWeekAsString(formattedDate.getDay());
 
-// Disable arrow keys from changing the radio buttons
-$('input[type="radio"]').keydown(function(e)
-{
-    var arrowKeys = [37, 38, 39, 40];
-    if (arrowKeys.indexOf(e.which) !== -1)
-    {
-        $(this).blur();
-        if (e.which == 38)
-        {
-            var y = $(window).scrollTop();
-            $(window).scrollTop(y - 10);
-        }
-        else if (e.which == 40)
-        {
-            var y = $(window).scrollTop();
-            $(window).scrollTop(y + 10);
-        }
-        return false;
-    }
+$( function() {
+    $( "#datepicker" ).datepicker();
+} );
+    $(document).ready(function(){
+    $('input.timepicker').timepicker({});
 });
-
-var currentLocation;
-var locationString;
-
-// populate calendar and get location of filter type.
-function getLocation(event) {
-    populate();
-    var locationId = event.target.getAttribute('data-id');
-    var locationName = event.target.innerHTML;
-    var locationTitle = event.target.title;
-    var locationAdr = document.getElementById("adr").innerText;
-    this.currentLocation = locationId;
-    this.locationString = locationName;
-    var tooltip = document.createElement("div");
-    tooltip.innerHTML = "&#9432;";
-    tooltip.className = "tooltip-info";
-    var tooltipText = document.createElement("span");
-    tooltip.appendChild(tooltipText);
-    tooltipText.className = "tooltip-text";
-    tooltipText.innerHTML = locationTitle + "<br>" + "ADDR: " + locationAdr;
-    document.getElementById("current-location").innerHTML = locationName;
-    document.getElementById("current-location").appendChild(tooltip);
-}
-

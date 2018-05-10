@@ -1,4 +1,5 @@
 {#list displaying all bookings#}
+{% load static %}
 
 <table class='table borderless' id='person-booking-table'>
     {% for booking in filter.qs %}
@@ -49,4 +50,4 @@
             <h6 class="empty">There are no bookings!</h6>
     {% endfor %}
 </table>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript" src="{% static 'js/sweetalert.min.js' %}"></script>

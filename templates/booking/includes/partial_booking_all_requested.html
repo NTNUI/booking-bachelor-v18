@@ -1,4 +1,6 @@
 {#list displaying all requested bookings#}
+{% load static %}
+
 <table class="table borderless" id="booking-table">
     <!-- remember to change from my group bookings -->
     {% for booking in my_group_bookings_list %}
@@ -55,4 +57,4 @@
     {% endfor %}
 
 </table>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript" src="{% static 'js/sweetalert.min.js' %}"></script>

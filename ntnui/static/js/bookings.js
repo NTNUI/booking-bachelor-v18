@@ -104,9 +104,7 @@ $(function () {
       // Delete book
     $("#person-booking-table").on("click", ".js-delete-booking", loadForm);
     $("#booking-modal").on("submit", ".js-booking-delete-form", saveForm);
-
-
-
+    
 });
 
 function Swal() {
