@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from booking.filters import UserFilter, AdminFilter#, LocationFilter,
 from django.contrib.auth.decorators import login_required
 from .models import Booking, Location, Request
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
 from .forms import BookingForm
 from django.contrib.auth.decorators import user_passes_test
@@ -18,6 +18,7 @@ from calendar import Calendar
 from groups.models import SportsGroup, Membership
 from django.utils import timezone
 from django.shortcuts import render
+
 
 
 def error_404(request):
@@ -211,8 +212,6 @@ def save_booking_form(request, form, template_name):
 def booking_confirm(request, pk):
     if request.method == 'POST':
         req = get_object_or_404(Request, pk=pk)
-
-
         data = {
             'location': req.booking.location,
             'person': req.booking.person,
@@ -222,14 +221,20 @@ def booking_confirm(request, pk):
             'title': req.booking.title,
             'description': req.booking.description,
             'day': req.weekday,
-            'request': req
+            'repeat': "weekly",
+            'request': req,
+
             }
         repeatBooking(data)
+        return HttpResponseRedirect('/booking/all')
 
 def delete_request(request, pk):
     if request.method == 'POST':
         req = get_object_or_404(Request, pk=pk)
         req.delete()
+
+        return HttpResponseRedirect('/booking/all')
+
 
 def booking_create(request):
     if request.method == 'POST':

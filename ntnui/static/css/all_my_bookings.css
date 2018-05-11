@@ -314,3 +314,9 @@ label {
     border-top: none;
 }
 
+/* request buttons */
+
+input#approve, input#disapprove {
+    width: 100%;
+}
+

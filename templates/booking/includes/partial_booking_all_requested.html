@@ -3,7 +3,7 @@
     <!-- remember to change from my group bookings -->
     {% for request in requested %}
 
-        <thead class="table-title">
+        <thead id="{{ request.id }}" class="table-title">
             <tr>
                 <th>{{ request.booking.title }}</th>
             </tr>
@@ -27,20 +27,31 @@
         <tr>
             <td><b>Requested by:</b> {{ request.booking.person }}</td>
         </tr>
+
         <tr>
             <td><b>Recurring:</b> Every {{request.weekday}} </td>
         </tr>
 
 
+
         <tr>
             <td>
-                <!--Remember to change from 'delete' to approve/disapprove -->
-                <button type='button' class='btn btn-success col js-confirm-booking' data-url='{% url "booking_confirm" request.id %}'>
-                    Approve
-                </button>
-                <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url "delete_request" request.id %}'>
-                    Disapprove
-                </button>
+
+                <form id="confirm-booking" action='{% url "booking_confirm" request.id %}' method = "post">
+                    {% csrf_token %}
+                    <input type="button"  class="btn btn-success" id="{{ request.id }}" value="Approve" />
+                </form>
+                <form id="reject-booking" action='{% url "delete_request" request.id %}' method = "post">
+                    {% csrf_token %}
+                    <input type="button" class="btn btn-danger" id="{{ request.id }}" value="Disapprove" />
+                </form>
+{#                <button type='button' class='btn btn-success col js-confirm-booking' data-url='{% url "booking_confirm" request.booking.id %}'>#}
+{#                    Approve#}
+{#                </button>#}
+{#                <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url "booking_delete" request.booking.id %}'>#}
+{#                    Disapprove#}
+{#                </button>#}
+
             </td>
         </tr>
         <tr>
@@ -55,4 +66,37 @@
     {% endfor %}
 
 </table>
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    $(document).ready(function(e){
+        var btn = document.getElementsByClassName("btn");
+        var reject = document.getElementById("disapprove");
+        $(btn).click(function () {
+            var form = $(this).parents('form');
+            swal({
+                title: "This is a recurring request",
+                text: "Do you want to accept this reccuring request?",
+                buttons: ["No", "Yes"],
+                successMode: true,
+            }).then((yes) => {
+                if (yes) {
+                    form.submit()
+                }
+            })
+        })
+        $(reject).click(function () {
+            var form = $(this).parents('form');
+            swal({
+                title: "This is a recurring request",
+                text: "Do you want to accept this reccuring request?",
+                buttons: ["No", "Yes"],
+                successMode: true,
+            }).then((yes) => {
+                if (yes) {
+                    form.submit()
+                }
+            })
+        })
+    })
+</script>
