@@ -214,8 +214,6 @@ def save_booking_form(request, form, template_name):
 def booking_confirm(request, pk):
     if request.method == 'POST':
         req = get_object_or_404(Request, pk=pk)
-
-
         data = {
             'location': req.booking.location,
             'person': req.booking.person,
@@ -224,9 +222,11 @@ def booking_confirm(request, pk):
             'group': req.booking.group,
             'title': req.booking.title,
             'description': req.booking.description,
-            'day': req.day
+            'day': req.weekday,
+            'repeat': "weekly"
             }
         repeatBooking(data)
+    return render(request, 'booking/booking_all.html')
 
 def delete_request(request):
     pass
