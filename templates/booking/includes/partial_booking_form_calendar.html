@@ -96,10 +96,8 @@
                     var date_format = date.slice(0, 10);
                     var start = date.slice(11, 16);
                     var newDate = start.replace(":", "");
-                    //console.log("d: "+data[i].location__name);
-                    //console.log("g: "+globalList[0][i].location__name)
-                    var loc = data[i].location__name;
-                    loc = document.getElementById(loc);
+                    var locId = data[i].location__name;
+                    var loc = document.getElementById(locId);
                     var queueNo = data[i].queueNo;
                     var group = data[i].group;
                     var personId = data[i].person__id;

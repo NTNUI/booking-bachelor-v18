@@ -103,7 +103,6 @@ function validateForm() {
             end.style.border = "1px solid rgba(0,0,0,.15)";
         });
     }
-    console.log(minEnd);
     if((minEnd != 00 && minEnd != 15 && minEnd != 30 && minEnd != 45) ||
             (minStart != 00 && minStart != 15 && minStart != 30 && minStart != 45)){
         start.style.border = "1px solid red";
