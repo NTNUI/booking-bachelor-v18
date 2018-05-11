@@ -60,28 +60,28 @@ class Booking(models.Model):
             b.queueNo += i
             super(Booking, b).save()
 
-    def save(self, repeatable=False, *args, **kwargs):
-        #TODO: editing causes interference with its own old qNo value
+    def save(self, *args, **kwargs):
         # compare to all with qNo=0
         # a|----| b|----|
         #    c|-----| d|---|
         #               e|----|
         # c overlaps with a and b, put c.qNo = 1
         # d overlaps with b, put d.qNo = 1
-        # e overlaps with d, put eqNo = 0
-        #TODO: prioritize repeatable=True
+        # e overlaps with d, put e.qNo = 0 
+        #TODO: editing causes interference with its own old qNo value               
         #TODO: move queue up if preceding booking is updated and frees up space
         bookings = Booking.objects.filter(location=self.location, start__lt=self.end, end__gt=self.start)
         first = bookings.filter(queueNo=0)
         
+
+        #if booking is updated, keep queue placement
         if self in bookings:
             return super(Booking, self).save(*args, **kwargs)
     
         if list(first) != []:
             maxval = bookings.aggregate(models.Max('queueNo'))
             temp = [maxval[i] for i in sorted(maxval.keys())]
-            self.queueNo = int(temp[0]) + 1
-            print("after save: ", self.queueNo)
+            self.queueNo = int(temp[0]) + 1            
         else:
             self.queueNo = 0
         return super(Booking, self).save(*args, **kwargs)
@@ -99,19 +99,6 @@ class Booking(models.Model):
                 c = later[i]
                 c.queueNo -= 1
                 super(Booking, c).save()
-                # if c.queueNo == 0:
-                    # msg = "You have now booked " + c.location+ ", from "+ c.start+ " to "+ c.end
-                    # #sendMail(msg)
-                    # print(msg)
-                # else:
-                    # msg = "You are now number "+ c.queueNo+ " in line for "+ c.location+ " starting "+ c.start
-                    # #sendMail(msg)
-                    # print(msg)
-            #later[i].save()
-        # user = "user"
-        # msg = "your booking for "+ self.location+ " starting "+ self.start+ " has been deleted by "+ user
-        # #sendmail(msg)
-        # print("your booking for "+ self.location+ " starting "+ self.start+ " has been deleted by "+ user)
         return super(Booking, self).delete(*args, **kwargs)
     
 

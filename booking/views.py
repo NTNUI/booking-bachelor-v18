@@ -40,9 +40,6 @@ def api(request, **kwargs):
     booking_list = list(bookings)
     return JsonResponse(booking_list, safe=False)
 
-def api2(request, **kwargs):
-    #DEPRECATED
-    pass
 
 
 def locationApi(request, **kwargs):
@@ -185,7 +182,7 @@ def repeatBooking(data):
                     end_rec = date_format+" "+e_time
                     b = Booking(location=loc, start=start_rec, end=end_rec, title=title, description=descr, person=person)
                     b.save(repeatable=True)
-    data['rec'].delete()
+    data['request'].delete()
 
 
 def save_booking_form(request, form, template_name):
@@ -299,5 +296,4 @@ def booking_delete(request, pk):
         )
     return JsonResponse(data)
 
-def show_form(request):
-    return render(request, "booking/booking_form.html")
+
