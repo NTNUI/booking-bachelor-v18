@@ -87,17 +87,16 @@
             var weekday = date.getDay();
             document.getElementById("id_day").value = weekdays[weekday];
             // append start date to post request
-            var start_time = document.getElementById("startInput").value.toString();
-            var end_time = document.getElementById("endInput").value.toString();
+            var startTime = document.getElementById("startInput").value.toString();
+            var endTime = document.getElementById("endInput").value.toString();
             var dates = document.getElementById("date").value.toString();
-            console.log(dates + start_time)
             var $form_data = $("#createform").serializeArray();
             $form_data.forEach(function (item) {
                 if (item.name === 'start') {
-                    item.value = dates + " " + start_time;
+                    item.value = dates + " " + startTime;
                 }
                 if (item.name === 'end') {
-                    item.value = dates + " " + end_time;
+                    item.value = dates + " " + endTime;
                 }
             });
 

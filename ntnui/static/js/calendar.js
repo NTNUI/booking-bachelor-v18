@@ -40,7 +40,7 @@ function promiseTest() {
         type: "GET",
         cache: false,
         success: function() {
-            console.log("refresh")
+            console.log("");
         }
     })
 }
@@ -387,9 +387,3 @@ window.onclick = function(event) {
 var weekly = document.getElementById("id_repeat").children[1];
 weekly.innerHTML = 'Repeat every '+dayOfWeekAsString(formattedDate.getDay());
 
-$( function() {
-    $( "#datepicker" ).datepicker();
-} );
-    $(document).ready(function(){
-    $('input.timepicker').timepicker({});
-});
