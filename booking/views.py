@@ -230,8 +230,11 @@ def booking_confirm(request, pk):
         repeatBooking(data)
         return HttpResponseRedirect('/booking/all')
 
-def delete_request(request):
-    pass
+def delete_request(request, pk):
+    if request.method == 'POST':
+        req = get_object_or_404(Request, pk=pk)
+        req.delete()
+        return HttpResponseRedirect('/booking/all')
 
 def booking_create(request):
     if request.method == 'POST':

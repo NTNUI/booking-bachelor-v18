@@ -36,7 +36,11 @@
             <td>
                 <form id="confirm-booking" action='{% url "booking_confirm" request.id %}' method = "post">
                     {% csrf_token %}
-                    <input type="button" data-id="{{ request.id }}" id="approve" value="submit" />
+                    <input type="button"  class="btn btn-success" data-id="{{ request.id }}" id="approve" value="Approve" />
+                </form>
+                <form id="reject-booking" action='{% url "delete_request" request.id %}' method = "post">
+                    {% csrf_token %}
+                    <input type="button" class="btn btn-danger" data-id="{{ request.id }}" id="disapprove" value="Disapprove" />
                 </form>
 {#                <button type='button' class='btn btn-success col js-confirm-booking' data-url='{% url "booking_confirm" request.booking.id %}'>#}
 {#                    Approve#}
@@ -63,8 +67,22 @@
 <script>
     $(document).ready(function(e){
         var btn = document.getElementById("approve");
+        var reject = document.getElementById("disapprove");
         var requestId = btn.getAttribute("data-id");
         $(btn).click(function () {
+            var form = $(this).parents('form');
+            swal({
+                title: "This is a recurring request",
+                text: "Do you want to accept this reccuring request?",
+                buttons: ["No", "Yes"],
+                successMode: true,
+            }).then((yes) => {
+                if (yes) {
+                    form.submit()
+                }
+            })
+        })
+        $(reject).click(function () {
             var form = $(this).parents('form');
             swal({
                 title: "This is a recurring request",

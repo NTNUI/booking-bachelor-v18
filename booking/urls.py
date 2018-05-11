@@ -15,5 +15,6 @@ urlpatterns = [
     url(r'^books/(?P<pk>\d+)/update/$', views.booking_update, name='booking_update'),
     url(r'^books/(?P<pk>\d+)/delete/$', views.booking_delete, name='booking_delete'),
     url(r'^booking_confirm/(?P<pk>\d+)/', views.booking_confirm, name='booking_confirm'),
+    url(r'^delete_request/(?P<pk>\d+)/', views.delete_request, name='delete_request'),
     url(r'^test_form$', views.show_form, name="show_form")
 ]
