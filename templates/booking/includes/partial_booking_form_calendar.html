@@ -51,6 +51,8 @@
                             </div>
                         </div>
 
+
+
                         {% if request.user.is_superuser %}
                             <div class="form-margin">
                                 <h5>Recurring</h5>
@@ -66,6 +68,7 @@
                                 </div>
                             {% endif %}
                         {% endif %}
+                        <p id="errorMessage"></p>
                     </div>
                 </div>
             {% endif %}

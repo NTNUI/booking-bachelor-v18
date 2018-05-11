@@ -54,21 +54,9 @@
                 </span>
             </div>
         </div>
-        {% if request.user.is_superuser %}
-            <div class="form-margin">
-                <h5>Recurring</h5>
-                {{form.repeat}}
-            </div>
-        {% endif %}
-        {% if user.is_authenticated and not request.user.is_superuser %}
-            {% user_in_hs user as user_in_hs %}
-            {% if user_in_hs %}
-                <div class="form-margin">
-                    <h5>Request Recurring</h5>
-                    {{form.repeat}}
-                </div>
-            {% endif %}
-        {% endif %}
+        <div class="repeat">
+            {{form.repeat}}
+        </div>
     </div>
 {% endblock %}
 
@@ -123,3 +111,4 @@
     <script type="text/javascript" src="{% static 'js/clockpicker.js' %}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 {% endblock script %}
+

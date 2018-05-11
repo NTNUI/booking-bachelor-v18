@@ -39,7 +39,7 @@ class BookingForm(forms.ModelForm):
         model = Booking
         fields = ['person', 'location', 'start', 'end', 'title', 'description', 'group', 'queueNo']
         # Hide person field because it will be automatically added.
-        widgets = {'person': forms.HiddenInput()}
+        widgets = {'person': forms.HiddenInput(), 'repeat': 'noRepeat'}
         
     # repeating = forms.BooleanField(required=False)
 
