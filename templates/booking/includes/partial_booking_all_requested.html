@@ -2,7 +2,6 @@
 {% load static %}
 
 <table class="table borderless" id="booking-table">
-    <!-- remember to change from my group bookings -->
     {% for booking in my_group_bookings_list %}
         <thead class="table-title">
             <tr>
@@ -32,7 +31,6 @@
         </tr>
         <tr>
             <td>
-                <!--Remember to change from 'delete' to approve/disapprove -->
                 <button type='button' class='btn btn-success col js-delete-booking' data-url='{% url "booking_delete" booking.id %}'>
                     Approve
                 </button>
