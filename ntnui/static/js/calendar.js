@@ -184,12 +184,13 @@ function createCalendarDay(num, day, mon, year, available) {
     newDay.appendChild(dayElement);
     newDay.appendChild(availability);
     currentCalendar.appendChild(newDay);
-    var btn = document.getElementById(newDay.id);
+    var dayBtn = document.getElementById(newDay.id);
 
-    // call popup function and pass event.target.
-    btn.onclick = function (e) {
+    // call popup function and pass event.target and modalTitle to fill inn title.
+    dayBtn.onclick = function (e) {
         popup(this, e);
     };
+
     var maxMonth;
     var maxDay;
     var currentDate = new Date;
@@ -346,12 +347,39 @@ function popup(e) {
         }
 
     });
-
     // Set global tempDay variable to event that triggers the popup, ie the date.
     this.tempDay = e;
     var modal = document.getElementById('booking-modal');
     modal.style.display = "block";
 }
+
+// Gets date and week for calendar form
+var currentLocation;
+var locationString;
+
+// populate calendar and get location of filter type.
+function getLocation(event){
+    populate();
+    var locationId = event.target.getAttribute('data-id');
+    var locationName = event.target.innerHTML;
+    var locationTitle = event.target.title;
+    var locationAdr = document.getElementById("adr").innerText;
+    this.currentLocation = locationId;
+    this.locationString = locationName;
+    // Creating tooltip element
+    var tooltip = document.createElement("div");
+    tooltip.innerHTML = "&#9432;";
+    tooltip.className = "tooltip-info";
+    var tooltipText = document.createElement("span");
+    tooltip.appendChild(tooltipText);
+    tooltipText.className = "tooltip-text";
+    tooltipText.innerHTML = locationTitle + "<br>" + "ADDR: " + locationAdr;
+    // Adding locationName and tooltip to calendar header
+    document.getElementById("current-location").innerHTML = locationName;
+    document.getElementById("current-location").appendChild(tooltip);
+}
+
+
 
 
 
