@@ -73,9 +73,9 @@ def booking_all(request):
     for booking in list(Booking.objects.filter()):
         book.append(booking)
 
-    requested = Request.objects.all()
     bookings = Booking.objects.all().filter(start__gte=now).order_by('start')
     booking_filter = AdminFilter(request.GET, queryset=bookings)
+    requested = Request.objects.filter(booking__id__in=booking_filter.qs)
     return render(request, 'booking/booking_all.html', {
         'filter': booking_filter,
         'bookings': book,
@@ -152,8 +152,8 @@ def repeatBooking(data):
     month = int(start.month)
     day = int(start.day)
     loc = location
-    s_time = str(start)[11:]#.replace("+", ":") #get time substring
-    e_time = str(end)[11:]#.replace("+", ":") #YYYY-MM-DDTHH:MMZ
+    s_time = str(start)[11:] #get time substring
+    e_time = str(end)[11:] #YYYY-MM-DDTHH:MMZ
     title = data['title']
     descr = data['description']
     person = data['person'] 
@@ -185,7 +185,7 @@ def repeatBooking(data):
                     end_rec = date_format+" "+e_time
                     b = Booking(location=loc, start=start_rec, end=end_rec, title=title, description=descr, person=person)
                     b.save(repeatable=True)
-
+    data['rec'].delete()
 
 
 def save_booking_form(request, form, template_name):
@@ -202,7 +202,7 @@ def save_booking_form(request, form, template_name):
             if form.cleaned_data['repeat'] == "weekly" and request.user.is_superuser:
                 repeatBooking(form.cleaned_data)
             elif form.cleaned_data['repeat'] == "weekly":
-                Request.objects.create(booking=form.instance, weekday=form.cleaned_data['day'])
+                Request.objects.create(booking=form.instance, weekday=form.cleaned_data['day'].upper())
             # messages.success(request, "Your booking request was successful")
             # confirmation_mail(request, )
         else:
@@ -224,12 +224,15 @@ def booking_confirm(request, pk):
             'group': req.booking.group,
             'title': req.booking.title,
             'description': req.booking.description,
-            'day': req.day
+            'day': req.weekday,
+            'request': req
             }
         repeatBooking(data)
 
-def delete_request(request):
-    pass
+def delete_request(request, pk):
+    if request.method == 'POST':
+        req = get_object_or_404(Request, pk=pk)
+        req.delete()
 
 def booking_create(request):
     if request.method == 'POST':

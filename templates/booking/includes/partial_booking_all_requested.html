@@ -28,17 +28,17 @@
             <td><b>Requested by:</b> {{ request.booking.person }}</td>
         </tr>
         <tr>
-            <td><b>Recurring:</b> </td>
+            <td><b>Recurring:</b> Every {{request.weekday}} </td>
         </tr>
 
 
         <tr>
             <td>
                 <!--Remember to change from 'delete' to approve/disapprove -->
-                <button type='button' class='btn btn-success col js-confirm-booking' data-url='{% url "booking_confirm" request.booking.id %}'>
+                <button type='button' class='btn btn-success col js-confirm-booking' data-url='{% url "booking_confirm" request.id %}'>
                     Approve
                 </button>
-                <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url "booking_delete" request.booking.id %}'>
+                <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url "delete_request" request.id %}'>
                     Disapprove
                 </button>
             </td>
