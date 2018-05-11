@@ -34,16 +34,16 @@
 
         <tr>
             <td>
-                <form id="confirm-booking" action = "{% url "booking_confirm" request.id %}" method = "post">
+                <form id="confirm-booking" action='{% url "booking_confirm" request.id %}' method = "post">
                     {% csrf_token %}
-                    <input type="submit" id="approve" value="submit" />
+                    <input type="button" data-id="{{ request.id }}" id="approve" value="submit" />
                 </form>
-                <button type='button' class='btn btn-success col js-confirm-booking' data-url='{% url "booking_confirm" request.booking.id %}'>
-                    Approve
-                </button>
-                <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url "booking_delete" request.booking.id %}'>
-                    Disapprove
-                </button>
+{#                <button type='button' class='btn btn-success col js-confirm-booking' data-url='{% url "booking_confirm" request.booking.id %}'>#}
+{#                    Approve#}
+{#                </button>#}
+{#                <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url "booking_delete" request.booking.id %}'>#}
+{#                    Disapprove#}
+{#                </button>#}
             </td>
         </tr>
         <tr>
@@ -61,9 +61,11 @@
 <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function(e){
         var btn = document.getElementById("approve");
+        var requestId = btn.getAttribute("data-id");
         $(btn).click(function () {
+            var form = $(this).parents('form');
             swal({
                 title: "This is a recurring request",
                 text: "Do you want to accept this reccuring request?",
@@ -71,18 +73,7 @@
                 successMode: true,
             }).then((yes) => {
                 if (yes) {
-                    var approve = $('#confirm-booking');
-
-                    approve.submit(function(event){
-                        $.ajax({
-                            method: "POST",
-                            url: $(this).attr("action"),
-                            // close popup on success
-                            success: function(data) {
-                                console.log("success")
-                            },
-                        })
-                    })
+                    form.submit()
                 }
             })
         })
