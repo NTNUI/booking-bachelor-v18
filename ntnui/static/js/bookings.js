@@ -1,4 +1,4 @@
-
+// Script for making bookings
 $(function () {
     var loadForm = function () {
         var btn = $(this);
@@ -20,31 +20,24 @@ $(function () {
 
     var saveForm = function (event) {
         var form = $(this);
-        if (event.target.className == "js-booking-update-form") {
-            var start_time = document.getElementById("startInput").value.toString();
-            var end_time = document.getElementById("endInput").value.toString();
+        var newForm = form.serializeArray();
+        if (event.target.className == "js-booking-update-form"){
+            var startTime = document.getElementById("startInput").value.toString();
+            var endTime = document.getElementById("endInput").value.toString();
             var dates = document.getElementById("date").value.toString();
-            var newForm = form.serializeArray()
             newForm.forEach(function (item) {
-            if (item.name === 'start') {
-                item.value = dates + " " + start_time;
-                }
-            if (item.name === 'end') {
-                item.value = dates + " " + end_time;
+                if (item.name === 'start'){
+                    item.value = dates + " " + startTime;
+                } else if (item.name === 'end'){
+                    item.value = dates + " " + endTime;
                 }
             });
-        }
-        else {
-             var newForm = form.serializeArray()
         }
         $.ajax({
             url: form.attr("action"),
             data: newForm,
             type: form.attr("method"),
             dataType: 'json',
-            beforeSend: function (data) {
-                console.log(data.html_form)
-            },
             success: function (data) {
                 if (data.form_is_valid) {
                     $("#person-booking-table").html(data.html_booking_list);
@@ -61,20 +54,17 @@ $(function () {
                             queuedTab();
                             document.getElementById("booked-tab").className = "tablinks";
                             document.getElementById("queued-tab").className = "tablinks active";
-                        }
-                        else {
+                        } else {
                             bookedTab();
                             document.getElementById("queued-tab").className = "tablinks";
                             document.getElementById("booked-tab").className = "tablinks active";
                         }
-                    }
-                    else {
+                    } else {
                         if ((form.context[3].value)>0) {
                             queuedTab();
                             document.getElementById("booked-tab").className = "tablinks";
                             document.getElementById("queued-tab").className = "tablinks active";
-                        }
-                        else {
+                        } else {
                             bookedTab();
                             document.getElementById("queued-tab").className = "tablinks";
                             document.getElementById("booked-tab").className = "tablinks active";
@@ -89,9 +79,7 @@ $(function () {
                     document.getElementById("booked-tab").className = "tablinks active";
                 }
             },
-            complete: function (data) {
-
-            }
+            complete: function (data) {}
         });
         return false;
     };
@@ -107,20 +95,18 @@ $(function () {
       // Delete book
     $("#person-booking-table").on("click", ".js-delete-booking", loadForm);
     $("#booking-modal").on("submit", ".js-booking-delete-form", saveForm);
-
-
-
+    
 });
 
 function Swal() {
     var span = document.createElement("span");
-    span.innerHTML = " " + '</br>' + " Your changes has been saved";
+    span.innerHTML = " " + '</br>' + "Your changes has been saved";
     swal({
         title: "" + "Good job!" + "",
         content: span,
         icon: "success",
         buttons: false,
-        timer: 4000,
+        timer: 4000
     });
 }
 

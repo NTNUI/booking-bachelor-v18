@@ -1,5 +1,4 @@
 {#form that is called when creating a new booking#}
-
 {% load static %}
 {% load widget_tweaks %}
 {% load tags %}
@@ -65,20 +64,26 @@
 <script>
     $(document).ready(function(){
         var $myForm = $('#createform');
-        document.getElementById("id_day").value = "MON"; //placeholder
+        document.getElementById("id_day").value = "MON"; // Placeholder
         $myForm.submit(function(event){
-            event.preventDefault()
-            //change day from placeholder to actual value
-            var start_time = document.getElementById("startInput").value.toString();
-            var end_time = document.getElementById("endInput").value.toString();
+            event.preventDefault();
+            // Change day from placeholder to actual value
+            var weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            var input = document.getElementById("date");
+            var date = new Date(input.value);
+            var weekday = date.getDay();
+            document.getElementById("id_day").value = weekdays[weekday];
+            // Append start date to post request
+            var startTime = document.getElementById("startInput").value.toString();
+            var endTime = document.getElementById("endInput").value.toString();
             var dates = document.getElementById("date").value.toString();
             var $form_data = $("#createform").serializeArray();
-            $form_data.forEach(function (item) {
+            $form_data.forEach(function (item){
                 if (item.name === 'start') {
-                    item.value = dates + " " + start_time;
+                    item.value = dates + " " + startTime;
                 }
-                if (item.name === 'end') {
-                    item.value = dates + " " + end_time;
+                if (item.name === 'end'){
+                    item.value = dates + " " + endTime;
                 }
             });
 
@@ -95,7 +100,7 @@
                     bookedTab()
                     document.getElementById("queued-tab").className = "tablinks";
                     document.getElementById("booked-tab").className = "tablinks active";
-                },
+                }
             })
         })
     })
@@ -105,5 +110,5 @@
     <script type="text/javascript" src="{% static 'js/popup.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/clockpicker.js' %}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
 {% endblock script %}
+

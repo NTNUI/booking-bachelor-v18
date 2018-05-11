@@ -13,7 +13,6 @@
 {% endblock %}
 
 {% block content %}
-
     <div id="booking-container">
         <!-- Modal container -->
         <div id="booking-modal" class="modal-big">
@@ -86,32 +85,19 @@
                 </div>
             </div>
 
-            <!-- Alerts-->
-            <div class="alert booking-alert alert-success" id="booking-success" role="alert">
-                <!-- Alert content -->
-                <strong id="alert-head">Great!</strong>
-                <div id="alert-text">You have created a booking :D</div>
-            </div>
-
-            <div class="alert booking-alert alert-warning" id="filter-alert" role="alert">
-                <!-- Alert content -->
-                <strong id="alert-head">Hey!</strong>
-                <div id="alert-text">You need to filter on location before seeing the calendar.</div>
-            </div>
-
         </div>
     </div>
 {% endblock content %}
 
 {% block script %}
     <script>
-
-    $(".type-header").click( function(event) {
-        $( this ).next(event).trigger('click');
-    })
+        $(".type-header").click( function(event) {
+            $( this ).next(event).trigger('click');
+        })
     </script>
     <script src="http://malsup.github.com/jquery.form.js"></script>
     <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/calendar_filters.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bookings.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/expand_group_card.js' %}"></script>
     <script
@@ -121,5 +107,5 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/sweetalert.min.js' %}"></script>
 {% endblock script %}

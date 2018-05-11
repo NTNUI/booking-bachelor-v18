@@ -82,107 +82,111 @@
 {% block script %}
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
-        var list_of_bookings = [];
+        var bookings = [];
         var chosenLocation = this.currentLocation;
-        var booking_data; //global variable for booking data
-        var overlap = []; //put overlapping bookings here
+        var booking_data; // Global variable for booking data
         $(document).ready(function(){
             if ($('#id_day').length){
-                document.getElementById("id_day").value= new Date(tempDay.id.substring(0,4), +tempDay.id.substring(5,7)-1, tempDay.id.substring(8,10)).toString().slice(0,3);
+                document.getElementById("id_day").value = new Date(tempDay.id.substring(0, 4), +
+                        tempDay.id.substring(5,7) - 1, tempDay.id.substring(8, 10)).toString().slice(0, 3);
             };
             var btn = document.getElementById("submission");
-            $(btn).click(function () {
-                if(validateForm()) {
+            $(btn).click(function(){
+                if(validateForm()){
                     var count = 0;
-                    $( list_of_bookings ).each(function( index ) {
-                        if (list_of_bookings[index][5] == 0) {
+                    $( bookings ).each(function( index ) {
+                        if (bookings[index][5] == 0) {
                             var start_time = document.getElementById("startInput").value;
                             var end_time = document.getElementById("endInput").value;
-                            var s = list_of_bookings[index][1].replace(":", "");
-                            var e = list_of_bookings[index][2].slice(11, 16).replace(":", "");
+                            var s = bookings[index][1].replace(":", "");
+                            var e = bookings[index][2].slice(11, 16).replace(":", "");
                             var s0 = start_time.slice(0, 5).replace(":", "");
                             var e0 = end_time.slice(0, 5).replace(":", "");
+                            // Checking if times are overlapping with other bookings on that day
                             if ((s <= s0 && e > s0) || (s > s0 && s < e0) || (s < s0 && e > e0)) {
                                 count += 1;
                             }
                         }
                     });
-                    if (count != 0) {
+                    if(count != 0){
                         swal({
                             title: "Ops! Looks like a booking already exists on that time range",
                             text: "Do you want to enqueue your booking?",
                             buttons: ["No", "Yes"],
                             successMode: true,
                         }).then((willQueue) => {
-                            if (willQueue) {
+                            if(willQueue){
                                 var span = document.createElement("span");
-                                span.innerHTML = "You can find your queued booking at " + '</br>' + " <a href=\"/booking/bookings_list\">My Bookings</a>";
+                                span.innerHTML = "You can find your queued booking at " + '</br>' +
+                                    "<a href=\"/booking/bookings_list\">My Bookings</a>";
                                 swal({
                                     title: "" + "Great, you have queued a booking!" + "",
                                     content: span,
                                     icon: "success",
                                     buttons: false,
-                                    timer: 4000,
+                                    timer: 4000
                                 });
                                 var myForm = $('#createform');
-                                event.preventDefault()
+                                event.preventDefault();
                                 // append start date to post request
                                 var start_time = document.getElementById("startInput").value;
                                 var end_time = document.getElementById("endInput").value;
-                                var $form_data = $(myForm).serialize()+"&start="+tempDay.id.toString() + " " + start_time + "&end="+tempDay.id.toString() + " " + end_time + "&location=" + " " + chosenLocation;
+                                var $form_data = $(myForm).serialize() + "&start=" + tempDay.id.toString() +
+                                    " " + start_time + "&end=" + tempDay.id.toString() + " " +
+                                    end_time + "&location=" + " " + chosenLocation;
                                 $.ajax({
                                     method: "POST",
                                     url: '/booking/bookings_list/create_calendar/',
                                     data: $form_data,
                                     complete: function(data) {
-                                        console.log("success")
                                         var modal = document.getElementById('booking-modal');
                                         modal.style.display = "none";
                                         var promised = promiseTest();
-                                        promised.done(function() {
-                                            promised.then( function() {
-                                                global_list = []
-                                                console.log("promised")
-                                                global_list.push(promised.responseJSON);
+                                        promised.done(function(){
+                                            promised.then( function(){
+                                                globalList = [];
+                                                globalList.push(promised.responseJSON);
                                             })
                                         })
-                                    },
+                                    }
                                 })
                             }
                         });
                     } else {
                         var span = document.createElement("span");
-                        span.innerHTML = "You can find your booking at " + '</br>' + " <a href=\"/booking/bookings_list\">My Bookings</a>";
+                        span.innerHTML = "You can find your booking at " + '</br>' +
+                            "<a href=\"/booking/bookings_list\">My Bookings</a>";
                         swal({
                             title: "" + "Great, you have made a booking!" + "",
                             content: span,
                             icon: "success",
                             buttons: false,
-                            timer: 4000,
+                            timer: 4000
                         });
                         var myForm = $('#createform');
-                        event.preventDefault()
+                        event.preventDefault();
                         // append start date to post request
                         var start_time = document.getElementById("startInput").value;
                         var end_time = document.getElementById("endInput").value;
-                        var $form_data = $(myForm).serialize()+"&start="+tempDay.id.toString() + " " + start_time + "&end="+tempDay.id.toString() + " " + end_time + "&location=" + " " + chosenLocation;
+                        var $form_data = $(myForm).serialize() + "&start=" + tempDay.id.toString() +
+                            " " + start_time + "&end=" + tempDay.id.toString() + " " + end_time +
+                            "&location=" + " " + chosenLocation;
                         $.ajax({
                             method: "POST",
                             url: '/booking/bookings_list/create_calendar/',
                             data: $form_data,
-                            complete: function(data) {
-                                console.log("success")
+                            complete: function(data){
                                 var modal = document.getElementById('booking-modal');
                                 modal.style.display = "none";
                                 var promised = promiseTest();
-                                promised.done(function() {
+                                promised.done(function(){
                                     promised.then( function() {
-                                        global_list = []
-                                        global_list.push(promised.responseJSON);
+                                        globalList = [];
+                                        globalList.push(promised.responseJSON);
                                         populate();
                                     })
                                 })
-                            },
+                            }
                         })
                     }
                 }
@@ -193,73 +197,74 @@
             url: '/booking/api',
             beforeSend: function(){
                 var promised = promiseTest();
-                    promised.done(function() {
-                        promised.then( function() {
-                            global_list = []
-                            global_list.push(promised.responseJSON);
+                promised.done(function() {
+                    promised.then( function() {
+                        globalList = [];
+                        globalList.push(promised.responseJSON);
                     })
                 })
             },
             success: function(data) {
-                $.each(data, function(i, item) {
+                $.each(data, function(i, item){
                     booking_data = data;
                     var date = data[i].start;
                     var date_format = date.slice(0, 10);
                     var start = date.slice(11, 16);
                     var newDate = start.replace(":", "");
-                    var loc = global_list[0][i].location__name;
+                    var loc = globalList[0][i].location__name;
                     loc = document.getElementById(loc);
-                    var queueNo = global_list[0][i].queueNo;
-                    var group = global_list[0][i].group;
-                    var personId = global_list[0][i].person__id;
-                    var dayName = new Date(tempDay.id.substring(0,4), +tempDay.id.substring(5,7)-1, tempDay.id.substring(8,10)).toString().slice(0,3);
+                    var queueNo = globalList[0][i].queueNo;
+                    var group = globalList[0][i].group;
+                    var personId = globalList[0][i].person__id;
+                    var dayName = new Date(tempDay.id.substring(0,4), +tempDay.id.substring(5,7)-1,
+                        tempDay.id.substring(8,10)).toString().slice(0,3);
                     dayName.value = tempDay.children[1].innerHTML.trim();
-                    var mail = global_list[0][i].person__email;
-                    var fName = global_list[0][i].person__first_name;
-                    var lName = global_list[0][i].person__last_name;
-
-                    if(tempDay.id === date_format && data[i].location__name === loc.value && loc.checked === true) {
-                        booking = [];
-                        booking.push(newDate, start, data[i].end, data[i].title, fName, queueNo, group, personId, lName, mail);
-                        list_of_bookings.push(booking);
-                        list_of_bookings.sort(function(a, b){return a[0] - b[0]});
+                    var mail = globalList[0][i].person__email;
+                    var fName = globalList[0][i].person__first_name;
+                    var lName = globalList[0][i].person__last_name;
+                    if(tempDay.id === date_format && data[i].location__name === loc.value && loc.checked === true){
+                        var booking = [];
+                        booking.push(newDate, start, data[i].end, data[i].title,
+                            fName, queueNo, group, personId, lName, mail);
+                        bookings.push(booking);
+                        bookings.sort(function(a, b){return a[0] - b[0]});
                     }
                 });
-                if(list_of_bookings.length != 0){
-                    for (var I = 0; I < list_of_bookings.length; I++) {
-                        var queueNo = list_of_bookings[I][5];
+                // Filling out modal with bookings cards
+                if(bookings.length != 0){
+                    for (var I = 0; I < bookings.length; I++) {
+                        var queueNo = bookings[I][5];
                         if (queueNo == 0) {
-                            console.log("booking")
                             var div = document.createElement("div");
                             div.className = "col-sm-10";
                             var div2 = document.createElement("div");
                             div2.className = "card";
                             var div3 = document.createElement("div");
-                            div3.className = "card-body" + " " + list_of_bookings[I][7];
+                            div3.className = "card-body" + " " + bookings[I][7];
                             var date = document.createElement("h5");
                             date.className = "card-title";
 
-                            var start_time = list_of_bookings[I][1];
-                            var end_time = list_of_bookings[I][2].slice(11, 16);
+                            var start_time = bookings[I][1];
+                            var end_time = bookings[I][2].slice(11, 16);
                             date.innerHTML = start_time + "-" + end_time;
 
                             var title = document.createElement("p");
                             title.className = "card-text";
-                            title.innerHTML = list_of_bookings[I][3];
+                            title.innerHTML = bookings[I][3];
 
                             var group = document.createElement("h8");
                             group.className = "card-subtitle";
-                            group.innerHTML = list_of_bookings[I][6];
+                            group.innerHTML = bookings[I][6];
 
                             var name = document.createElement("h6");
                             name.className = "card-subtitle text-muted mb-2";
-                            var f_name = list_of_bookings[I][4];
-                            var l_name = list_of_bookings[I][8];
+                            var f_name = bookings[I][4];
+                            var l_name = bookings[I][8];
                             name.innerHTML = f_name + " " + l_name;
 
                             var mail = document.createElement("h6");
                             mail.className = "card-subtitle";
-                            mail.innerHTML = list_of_bookings[I][9];
+                            mail.innerHTML = bookings[I][9];
 
                             div3.appendChild(date);
                             div3.appendChild(title);
@@ -270,12 +275,13 @@
                             div.appendChild(div2);
                             document.getElementById("booking-cards").appendChild(div);
                         }
+                        // Making the users cards marked and clickable
                         var userId = {{ user.id }};
-                        if(userId == list_of_bookings[I][7] && list_of_bookings[I][5] == 0){
+                        if(userId == bookings[I][7] && bookings[I][5] == 0){
                             div3.style.borderBottom = "2px solid darkslategrey";
                             div3.style.cursor = "pointer";
                             div3.title = "Click to see your booking";
-                            var myCards = document.getElementsByClassName(list_of_bookings[I][7])
+                            var myCards = document.getElementsByClassName(bookings[I][7]);
                             for(var i=0; i < myCards.length; i++){
                                 myCards[i].onclick = function(){
                                     window.location = "/booking/bookings_list";
@@ -284,7 +290,7 @@
                         }
                     }
 
-                }else {
+                }else{
                     var empty = document.createElement("h5");
                     empty.innerHTML = "No bookings today!";
                     empty.className = "empty";
@@ -292,13 +298,12 @@
                 }
             }
         });
-
-
     </script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script type="text/javascript" src="{% static 'js/popup.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/clockpicker.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/form_validator.js' %}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/sweetalert.min.js' %}"></script>
 {% endblock script %}

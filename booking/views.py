@@ -18,6 +18,7 @@ def error_404(request):
     data = {}
     return render(request, 'booking/error_404.html', data)
 
+
 @login_required
 def index(request):
     model = Location
@@ -28,7 +29,7 @@ def index(request):
         'types': type_list})
 
 
-def api(request, **kwargs):
+def api(request):
     model = Booking
     bookings = model.objects.all().values('title', 'description', 'start', 'end', 'location__name',
                                           'person__first_name', 'queueNo', 'group', 'person__id',
@@ -36,16 +37,18 @@ def api(request, **kwargs):
     booking_list = list(bookings)
     return JsonResponse(booking_list, safe=False)
 
-def api2(request, **kwargs):
-    #DEPRECATED
+
+def api2(request):
+    # DEPRECATED
     pass
 
 
-def locationApi(request, **kwargs):
+def location_api(request):
     model = Location
     locations = model.objects.all().values('name', 'address', 'description', 'type')
     location_list = list(locations)
     return JsonResponse(location_list, safe=False)
+
 
 class BookingList(ListView):
     model = Booking
@@ -60,6 +63,7 @@ class BookingList(ListView):
         return render(request, 'booking/booking_list.html', {
             'locations': locations,
             'bookings': bookings, })
+
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
@@ -76,6 +80,7 @@ def booking_all(request):
         'bookings': book
     })
 
+
 def get_my_groups(request):
     user = request.user
     groups = Membership.objects.filter(person=user).values_list('group', flat=True)
@@ -84,6 +89,7 @@ def get_my_groups(request):
         group = SportsGroup.objects.get(id=g).name
         my_groups.append(group)
     return my_groups
+
 
 def confirmation_mail(request, pk):
     name = request.user.first_name
@@ -97,6 +103,7 @@ def confirmation_mail(request, pk):
     queued = 'Hey ' + name + ', you have queued for a booking on ' + day + ', ' + date
     mails = (new_booking, updated, deleted, overwritten, queued)
     return mails
+
 
 def booking_list(request):
     user = request.user
@@ -114,16 +121,16 @@ def booking_list(request):
         'my_group_bookings_list': group_list,
     })
 
+
 def get_my_bookings(request):
     model = Booking
-    bookings = model.objects.all()
     user = request.user
     now = timezone.now()
     my_bookings_list = Booking.objects.filter(person=user).filter(start__gte=now).order_by('start')
     return my_bookings_list
 
 
-def repeatBooking(form):
+def repeat_booking(form):
     location = form.cleaned_data['location']
     start = form.cleaned_data['start']
     end = form.cleaned_data['end']
@@ -133,18 +140,15 @@ def repeatBooking(form):
         repeat = True
     else:
         repeat = False
-    
-    day_map = {"MON" : 0, "TUE":1, "WED":2, "THU" : 3, 
-        "FRI":4, "SAT":5, "SUN":6
-    }
+    day_map = {"MON": 0, "TUE": 1, "WED": 2, "THU": 3,
+               "FRI": 4, "SAT": 5, "SUN": 6}
     dayofweek = day_map[form.cleaned_data['day'].upper()]
     year = int(start.year)
     month = int(start.month)
     day = int(start.day)
-    loc = location
     group = form.cleaned_data['group']
-    s_time = str(start)[11:]#.replace("+", ":") #get time substring
-    e_time = str(end)[11:]#.replace("+", ":") #YYYY-MM-DDTHH:MMZ
+    s_time = str(start)[11:]  # .replace("+", ":") get time substring
+    e_time = str(end)[11:]  # .replace("+", ":") YYYY-MM-DDTHH:MMZ
     title = form.cleaned_data['title']
     descr = form.cleaned_data['description']
     person = form.cleaned_data['person'] 
@@ -156,27 +160,27 @@ def repeatBooking(form):
         w = ydcal[0]
     for m in range(len(w)):
         if m+1 < month:
-            continue #skip past months 
+            continue  # skip past months
         for k in range(len(w[m])):
             for d in range(len(w[m][k])):
                 cal_day = w[m][k][d]
                 if (cal_day[0] <= day and m+1 == month) or cal_day[0]==0:
                     continue
-                if cal_day[1]==dayofweek:
-                    if m <9: #format month
-                        cal_m = "0"+str(m+1)
+                if cal_day[1] == dayofweek:
+                    if m < 9:  # format month
+                        cal_m = "0" + str(m+1)
                     else:
                         cal_m = str(m+1)
-                    if cal_day[0]<9: #format day
-                        cal_d = "0"+str(cal_day[0])
+                    if cal_day[0] < 9:  # format day
+                        cal_d = "0" + str(cal_day[0])
                     else:
                         cal_d = str(cal_day[0])
-                    date_format = str(year)+"-"+cal_m+"-"+cal_d 
-                    start_rec = date_format+" "+s_time
-                    end_rec = date_format+" "+e_time
-                    b = Booking(location=loc, start=start_rec, group=group, end=end_rec, title=title, description=descr, person=person)
-                    b.save(repeatable=True)
-
+                    date_format = str(year) + "-" + cal_m + "-" + cal_d
+                    start_rec = date_format + " " + s_time
+                    end_rec = date_format + " " + e_time
+                    booking = Booking(location=location, start=start_rec, group=group, end=end_rec, title=title,
+                                      description=descr, person=person)
+                    booking.save(repeatable=True)
 
 
 def save_booking_form(request, form, template_name):
@@ -191,14 +195,13 @@ def save_booking_form(request, form, template_name):
                 'my_bookings_list': my_bookings
             })
             if form.cleaned_data['repeat'] == "weekly":
-                repeatBooking(form)
-            # messages.success(request, "Your booking request was successful")
-            # confirmation_mail(request, )
+                repeat_booking(form)
         else:
             data['form_is_valid'] = False
     context = {'form': form}
     data['html_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)
+
 
 def booking_create(request):
     if request.method == 'POST':
@@ -215,6 +218,7 @@ def booking_create(request):
         form = BookingForm(user, initial={'person': request.user})
     return save_booking_form(request, form, 'booking/includes/partial_booking_create.html')
 
+
 def booking_create_from_calendar(request):
     if request.method == 'POST':
         user = request.user
@@ -230,6 +234,7 @@ def booking_create_from_calendar(request):
         form = BookingForm(user, initial={'person': request.user})
     return save_booking_form(request, form, 'booking/includes/partial_booking_create_calendar.html')
 
+
 def booking_update(request, pk):
     mails = confirmation_mail(request, pk)
     book = get_object_or_404(Booking, pk=pk)
@@ -242,6 +247,7 @@ def booking_update(request, pk):
         user = request.user
         form = BookingForm(user, instance=book)
     return save_booking_form(request, form, 'booking/includes/partial_booking_update.html')
+
 
 def booking_delete(request, pk):
     mails = confirmation_mail(request, pk)
@@ -258,11 +264,9 @@ def booking_delete(request, pk):
         print(deleted)
     else:
         context = {'book': book}
-        data['html_form'] = render_to_string('booking/includes/partial_booking_delete.html',
-            context,
-            request=request,
-        )
+        data['html_form'] = render_to_string('booking/includes/partial_booking_delete.html', context, request=request, )
     return JsonResponse(data)
+
 
 def show_form(request):
     return render(request, "booking/booking_form.html")
