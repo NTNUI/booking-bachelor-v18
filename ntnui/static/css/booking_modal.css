@@ -162,53 +162,8 @@ h8, h6 {
 }
 
 /* Responsive for different screens devices */
-@media only screen and (min-width: 1400px) {
-    .col-8, p, select, input, .form-control{
-        font-size: 110%;
-    }
-    #booking-cards-con {
-        margin-right: 7%;
-    }
-    #booking-fields {
-        padding: 0% 4% 1% 4%;
-    }
-    #day-title  {
-        font-size: 30px;
-    }
-    .card-title, h5{
-        font-size: 17px;
-    }
-    h8, h6 {
-        font-size: 14px;
-    }
-    .booking-modal-contents {
-        width: 60%;
-    }
-    #booking-cards {
-        max-height: 530px;
-    }
-}
 
-@media only screen and (max-width: 1050px) {
-    .col-8, h6, p, select, input, .form-control{
-        font-size: 80%;
-    }
-    #booking-cards-con {
-        margin-right: 5%;
-        max-height: 450px;
-    }
-    #booking-fields {
-        padding: 0% 5% 1% 5%;
-    }
-    .booking-modal-contents {
-        width: 70%;
-    }
-    .form-margin {
-        margin-top: 5%;
-    }
-}
-
-@media only screen and (max-width: 990px) {
+@media only screen and (max-width: 1400px) {
     #booking-cards-con {
         padding-left: 5%;
         width: 90%;
