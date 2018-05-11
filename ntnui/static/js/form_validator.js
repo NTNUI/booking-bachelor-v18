@@ -1,5 +1,4 @@
 // Validation for the form
-
 function validateForm(){
     var description = document.forms["createform"]["id_description"];
     var title = document.forms["createform"]["id_title"];

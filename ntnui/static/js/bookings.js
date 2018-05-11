@@ -1,4 +1,4 @@
-
+// Script for making bookings
 $(function () {
     var loadForm = function () {
         var btn = $(this);
@@ -20,22 +20,18 @@ $(function () {
 
     var saveForm = function (event) {
         var form = $(this);
-        if (event.target.className == "js-booking-update-form") {
+        var newForm = form.serializeArray();
+        if (event.target.className == "js-booking-update-form"){
             var startTime = document.getElementById("startInput").value.toString();
             var endTime = document.getElementById("endInput").value.toString();
             var dates = document.getElementById("date").value.toString();
-            var newForm = form.serializeArray()
             newForm.forEach(function (item) {
-            if (item.name === 'start') {
-                item.value = dates + " " + startTime;
-                }
-            if (item.name === 'end') {
-                item.value = dates + " " + endTime;
+                if (item.name === 'start'){
+                    item.value = dates + " " + startTime;
+                } else if (item.name === 'end'){
+                    item.value = dates + " " + endTime;
                 }
             });
-        }
-        else {
-             var newForm = form.serializeArray()
         }
         $.ajax({
             url: form.attr("action"),
@@ -58,20 +54,17 @@ $(function () {
                             queuedTab();
                             document.getElementById("booked-tab").className = "tablinks";
                             document.getElementById("queued-tab").className = "tablinks active";
-                        }
-                        else {
+                        } else {
                             bookedTab();
                             document.getElementById("queued-tab").className = "tablinks";
                             document.getElementById("booked-tab").className = "tablinks active";
                         }
-                    }
-                    else {
+                    } else {
                         if ((form.context[3].value)>0) {
                             queuedTab();
                             document.getElementById("booked-tab").className = "tablinks";
                             document.getElementById("queued-tab").className = "tablinks active";
-                        }
-                        else {
+                        } else {
                             bookedTab();
                             document.getElementById("queued-tab").className = "tablinks";
                             document.getElementById("booked-tab").className = "tablinks active";
@@ -86,9 +79,7 @@ $(function () {
                     document.getElementById("booked-tab").className = "tablinks active";
                 }
             },
-            complete: function (data) {
-
-            }
+            complete: function (data) {}
         });
         return false;
     };
@@ -109,13 +100,13 @@ $(function () {
 
 function Swal() {
     var span = document.createElement("span");
-    span.innerHTML = " " + '</br>' + " Your changes has been saved";
+    span.innerHTML = " " + '</br>' + "Your changes has been saved";
     swal({
         title: "" + "Good job!" + "",
         content: span,
         icon: "success",
         buttons: false,
-        timer: 4000,
+        timer: 4000
     });
 }
 
