@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from booking.filters import UserFilter, AdminFilter#, LocationFilter,
 from django.contrib.auth.decorators import login_required
 from .models import Booking, Location, Request
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
 from .forms import BookingForm
 from django.contrib.auth.decorators import user_passes_test
@@ -18,6 +18,7 @@ from calendar import Calendar
 from groups.models import SportsGroup, Membership
 from django.utils import timezone
 from django.shortcuts import render
+
 
 
 def error_404(request):
@@ -185,7 +186,7 @@ def repeatBooking(data):
                     end_rec = date_format+" "+e_time
                     b = Booking(location=loc, start=start_rec, end=end_rec, title=title, description=descr, person=person)
                     b.save(repeatable=True)
-
+    data['request'].delete()
 
 
 def save_booking_form(request, form, template_name):
@@ -223,10 +224,11 @@ def booking_confirm(request, pk):
             'title': req.booking.title,
             'description': req.booking.description,
             'day': req.weekday,
-            'repeat': "weekly"
+            'repeat': "weekly",
+            'request': req,
             }
         repeatBooking(data)
-    return render(request, 'booking/booking_all.html')
+        return HttpResponseRedirect('/booking/all')
 
 def delete_request(request):
     pass
