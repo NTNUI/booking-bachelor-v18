@@ -105,3 +105,17 @@ function minMaxDate(){
     document.getElementById('date').setAttribute('max', maxDate);
 }
 
+// Gets date and week for calendar form
+var formattedDate = new Date(tempDay.id.substring(0,4), + tempDay.id.substring(5,7)-1, tempDay.id.substring(8,10));
+document.getElementById('dayTitle').innerHTML = dayOfWeekAsString(formattedDate.getDay()) + ' '
+    + formattedDate.getDate() + '. ' + monthNames[formattedDate.getMonth()] + '<h5>' + locationString + '</h5>';
+
+var weekly = document.getElementById("id_repeat").children[1];
+weekly.innerHTML = 'Repeat every '+dayOfWeekAsString(formattedDate.getDay());
+
+// Closes modal when clicking outside
+window.onclick = function(event) {
+    if (event.target == modal || event.target == modal2 || event.target == close ) {
+        $("#booking-modal").css("display", "none");
+    }
+};
