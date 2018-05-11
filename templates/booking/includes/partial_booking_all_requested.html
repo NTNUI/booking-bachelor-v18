@@ -1,31 +1,31 @@
 {#list displaying all requested bookings#}
 <table class="table borderless" id="booking-table">
     <!-- remember to change from my group bookings -->
-    {% for booking in my_group_bookings_list %}
+    {% for request in requested %}
 
         <thead class="table-title">
             <tr>
-                <th>{{ booking.title }}</th>
+                <th>{{ request.booking.title }}</th>
             </tr>
         </thead>
 
         <tr>
-            <td><b>What:</b> {{ booking.description }}</td>
+            <td><b>What:</b> {{ request.booking.description }}</td>
         </tr>
         <tr>
-            <td><b>Location:</b> {{ booking.location }}</td>
+            <td><b>Location:</b> {{ request.booking.location }}</td>
         </tr>
         <tr>
-            <td><b>Date:</b> {{ booking.get_date.0 }}, {{ booking.get_date.1}}</td>
+            <td><b>Date:</b> {{ request.booking.get_date.0 }}, {{ request.booking.get_date.1}}</td>
         </tr>
         <tr>
-            <td><b>Time:</b> {{ booking.get_date.2 }} - {{ booking.get_date.3 }}</td>
+            <td><b>Time:</b> {{ request.booking.get_date.2 }} - {{ request.booking.get_date.3 }}</td>
         </tr>
         <tr>
-            <td><b>Group:</b> {{ booking.group }}</td>
+            <td><b>Group:</b> {{ request.booking.group }}</td>
         </tr>
         <tr>
-            <td><b>Requested by:</b> {{ booking.person }}</td>
+            <td><b>Requested by:</b> {{ request.booking.person }}</td>
         </tr>
         <tr>
             <td><b>Recurring:</b> </td>
@@ -35,10 +35,10 @@
         <tr>
             <td>
                 <!--Remember to change from 'delete' to approve/disapprove -->
-                <button type='button' class='btn btn-success col js-delete-booking' data-url='{% url "booking_delete" booking.id %}'>
+                <button type='button' class='btn btn-success col js-confirm-booking' data-url='{% url "booking_confirm" request.booking.id %}'>
                     Approve
                 </button>
-                <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url "booking_delete" booking.id %}'>
+                <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url "booking_delete" request.booking.id %}'>
                     Disapprove
                 </button>
             </td>
