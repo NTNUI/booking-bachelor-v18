@@ -211,17 +211,19 @@
                     var date_format = date.slice(0, 10);
                     var start = date.slice(11, 16);
                     var newDate = start.replace(":", "");
-                    var loc = globalList[0][i].location__name;
+                    //console.log("d: "+data[i].location__name);
+                    //console.log("g: "+globalList[0][i].location__name)
+                    var loc = data[i].location__name;
                     loc = document.getElementById(loc);
-                    var queueNo = globalList[0][i].queueNo;
-                    var group = globalList[0][i].group;
-                    var personId = globalList[0][i].person__id;
+                    var queueNo = data[i].queueNo;
+                    var group = data[i].group;
+                    var personId = data[i].person__id;
                     var dayName = new Date(tempDay.id.substring(0,4), +tempDay.id.substring(5,7)-1,
                         tempDay.id.substring(8,10)).toString().slice(0,3);
                     dayName.value = tempDay.children[1].innerHTML.trim();
-                    var mail = globalList[0][i].person__email;
-                    var fName = globalList[0][i].person__first_name;
-                    var lName = globalList[0][i].person__last_name;
+                    var mail = data[i].person__email;
+                    var fName = data[i].person__first_name;
+                    var lName = data[i].person__last_name;
                     if(tempDay.id === date_format && data[i].location__name === loc.value && loc.checked === true){
                         var booking = [];
                         booking.push(newDate, start, data[i].end, data[i].title,
