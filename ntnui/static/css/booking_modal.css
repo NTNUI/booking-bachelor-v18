@@ -240,6 +240,9 @@ h8, h6 {
     color: #1d701d;
     border-bottom: 1px solid #1d701d;
 }
+#errorMessage{
+    color: red;
+}
 
 @media only screen and (max-width: 990px) {
     .swal-modal {
