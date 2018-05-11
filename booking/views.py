@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
@@ -116,6 +117,12 @@ def booking_list(request):
         booking = Booking.objects.filter(group=group).exclude(person=user).filter(start__gte=now).order_by('start')
         group_list = booking | group_list
         my_group_bookings_list.append(booking)
+    query = request.GET.get('q')
+    if query:
+        my_bookings_list = my_bookings_list.filter(
+            Q(group__icontains=query) |
+            Q(title__icontains=query)
+        )
     return render(request, 'booking/bookings_list.html', {
         'my_bookings_list': my_bookings_list,
         'my_group_bookings_list': group_list,
