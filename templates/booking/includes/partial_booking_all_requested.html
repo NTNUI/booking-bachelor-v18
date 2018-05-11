@@ -33,11 +33,11 @@
             <td>
                 <form id="confirm-booking" action='{% url "booking_confirm" request.id %}' method = "post">
                     {% csrf_token %}
-                    <input type="button"  class="btn btn-success" data-id="{{ request.id }}" id="approve" value="Approve" />
+                    <input type="button"  class="btn btn-success" id="{{ request.id }}" value="Approve" />
                 </form>
                 <form id="reject-booking" action='{% url "delete_request" request.id %}' method = "post">
                     {% csrf_token %}
-                    <input type="button" class="btn btn-danger" data-id="{{ request.id }}" id="disapprove" value="Disapprove" />
+                    <input type="button" class="btn btn-danger" id="{{ request.id }}" value="Disapprove" />
                 </form>
 {#                <button type='button' class='btn btn-success col js-confirm-booking' data-url='{% url "booking_confirm" request.booking.id %}'>#}
 {#                    Approve#}
@@ -63,9 +63,8 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
     $(document).ready(function(e){
-        var btn = document.getElementById("approve");
+        var btn = document.getElementsByClassName("btn");
         var reject = document.getElementById("disapprove");
-        var requestId = btn.getAttribute("data-id");
         $(btn).click(function () {
             var form = $(this).parents('form');
             swal({
