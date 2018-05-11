@@ -28,9 +28,15 @@
             <td><b>Requested by:</b> {{ request.booking.person }}</td>
         </tr>
 
+        <tr>
+            <td><b>Recurring:</b> Every {{request.weekday}} </td>
+        </tr>
+
+
 
         <tr>
             <td>
+
                 <form id="confirm-booking" action='{% url "booking_confirm" request.id %}' method = "post">
                     {% csrf_token %}
                     <input type="button"  class="btn btn-success" id="{{ request.id }}" value="Approve" />
@@ -45,6 +51,7 @@
 {#                <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url "booking_delete" request.booking.id %}'>#}
 {#                    Disapprove#}
 {#                </button>#}
+
             </td>
         </tr>
         <tr>
