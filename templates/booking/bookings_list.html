@@ -1,3 +1,4 @@
+{# My bookings container #}
 {% extends 'base.html' %}
 {% load static %}
 {% load tags %}
@@ -10,7 +11,7 @@
 
 {% block content %}
     <div class="booking-container">
-        <!-- Modal container -->
+        {# Modal container #}
         <div id="booking-modal" class="modal-big">
             <div id="modal-booking">
                 <div class="booking-modal-contents">
@@ -18,13 +19,14 @@
             </div>
         </div>
 
-        <!-- My bookings and group bookings -->
+        {# My bookings and group bookings #}
         <h1 id="my-bookings-header">
             My bookings
         </h1>
 
         <div class="my-booking-box">
             <div class="flex-container">
+                {# My bookings #}
                 {% if user.is_authenticated %}
                     {% user_in_hs user as user_in_hs %}
                     {% if user_in_hs or request.user.is_superuser %}
@@ -43,6 +45,7 @@
                     {% endif %}
                 {% endif %}
 
+                {# Group bookings #}
                 <div class="group-bookings {% if user.is_authenticated and not user_in_hs and not request.user.is_superuser %} group-width {% endif %}">
                     <p class="my-bookings-header-2">Group bookings</p>
                     <div class="replace">

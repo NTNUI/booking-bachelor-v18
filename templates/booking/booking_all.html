@@ -1,3 +1,4 @@
+{# Manage bookings container #}
 {% extends 'base.html' %}
 {% load static %}
 
@@ -18,7 +19,7 @@
 
 {% block content %}
     <div class="booking-container">
-        <!-- Modal container -->
+        {# Modal container #}
         <div id="booking-modal" class="modal-big">
             <div id="modal-booking">
                 <div class="booking-modal-contents">
@@ -26,13 +27,13 @@
             </div>
         </div>
 
-        <!-- Manage bookings -->
+        {# Manage bookings, all bookings and requested recurring #}
         <h1 id="my-bookings-header">
             Manage bookings
         </h1>
 
         <div class="my-booking-box">
-            <!-- Filter booking form -->
+            {# Search booking form #}
             <form id="filter-form" method='get'>
                 <table class='table borderless filter-table'>
                     <tr>
@@ -45,6 +46,7 @@
                 <button class="btn" id='filter-button' type='submit'>Search</button>
             </form>
             <div class="flex-container">
+                {# All bookings #}
                 <div class="all-bookings">
                     <p class="my-bookings-header-2">All bookings</p>
                     <div class='replace'>
@@ -57,7 +59,7 @@
                         </button>
                     </p>
                 </div>
-                <!-- Requested bookings (recurring, etc.) (rememeber to change from Group bookings -->
+                {# Requested bookings #}
                 <div class="request-bookings">
                     <p class="my-bookings-header-2">Requested bookings</p>
                     <div class="replace">

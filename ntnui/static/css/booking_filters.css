@@ -20,6 +20,7 @@
     cursor: pointer;
 }
 
+
 /* Radio buttons */
 [type="radio"]:checked,
 [type="radio"]:not(:checked) {
@@ -72,7 +73,9 @@
     transform: scale(1);
 }
 
-/*Dropdown filter */
+
+/*Dropdown location filters */
+/* Filter design */
 .type-header {
     font-size: 110%;
     display: inline-block;
@@ -113,6 +116,40 @@
 #adr {
     display: none;
 }
+
+/* Collapse and expand filters menu */
+.tb {
+    margin:10px 0;
+}
+.aBlock table td {
+     padding-left:15px;
+}
+.tb span+span, .collapsible {
+    display:none;
+}
+.tb input[type="checkbox"]:checked ~ span {
+    display:none;
+}
+.tb input[type="checkbox"]:checked ~ span+span{
+    display:inline;
+}
+.tb input[type="checkbox"]:checked ~ .collapsible {
+    display:table;
+}
+
+/* Dropdown for time select */
+select {
+    width: 100%;
+}
+#time-select {
+    width: 100%;
+}
+
+/*Search button */
+#search-button {
+    bottom: 20px;
+}
+
 /* Tooltip */
 .tooltip-info {
     position: relative;
@@ -151,39 +188,6 @@
 .tooltip-info:hover .tooltip-text {
     visibility: visible;
     opacity: 1;
-}
-
-/* Collapse and expand filters menu */
-.tb {
-    margin:10px 0;
-}
-.aBlock table td {
-     padding-left:15px;
-}
-.tb span+span, .collapsible {
-    display:none;
-}
-.tb input[type="checkbox"]:checked ~ span {
-    display:none;
-}
-.tb input[type="checkbox"]:checked ~ span+span{
-    display:inline;
-}
-.tb input[type="checkbox"]:checked ~ .collapsible {
-    display:table;
-}
-
-/* Dropdown for time select */
-select {
-    width: 100%;
-}
-#time-select {
-    width: 100%;
-}
-
-/*Search button */
-#search-button {
-    bottom: 20px;
 }
 
 /*Responsive design*/

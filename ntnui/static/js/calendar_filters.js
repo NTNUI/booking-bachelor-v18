@@ -42,30 +42,6 @@ $('input[type="radio"]').keydown(function(e){
     }
 });
 
-var currentLocation;
-var locationString;
-
-// populate calendar and get location of filter type.
-function getLocation(event){
-    populate();
-    var locationId = event.target.getAttribute('data-id');
-    var locationName = event.target.innerHTML;
-    var locationTitle = event.target.title;
-    var locationAdr = document.getElementById("adr").innerText;
-    this.currentLocation = locationId;
-    // Creating tooltip element
-    var tooltip = document.createElement("div");
-    tooltip.innerHTML = "&#9432;";
-    tooltip.className = "tooltip-info";
-    var tooltipText = document.createElement("span");
-    tooltip.appendChild(tooltipText);
-    tooltipText.className = "tooltip-text";
-    tooltipText.innerHTML = locationTitle + "<br>" + "ADDR: " + locationAdr;
-    // Adding locationName and tooltip to calendar header
-    document.getElementById("current-location").innerHTML = locationName;
-    document.getElementById("current-location").appendChild(tooltip);
-}
-
 // Removes the calendar blur when filter is used
 $('#search-button').click(function (){
     $('#calendar-container').css({

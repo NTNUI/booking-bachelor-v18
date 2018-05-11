@@ -1,55 +1,54 @@
-{#list displaying bookings for user#}
+{# List displaying bookings for user #}
 {% load static %}
-
 <table class="table borderless" id="person-booking-table">
     {% for booking in my_bookings_list %}
-    <thead class='table-title' data-no="{{ booking.queueNo }}">
-        <tr>
-            <th>{{ booking.title }}</th>
-        </tr>
-    </thead>
-    <tbody class="{{ booking.queueNo }}">
-        {% if booking.queueNo > 0 %}
+        <thead class='table-title' data-no="{{ booking.queueNo }}">
             <tr>
-                <td><b>Queue:</b> {{ booking.queueNo}}</td>
+                <th>{{ booking.title }}</th>
             </tr>
-        {% endif %}
-        <tr>
-            <td><b>Description:</b> {{ booking.description }}</td>
-        </tr>
-        {% if booking.group %}
+        </thead>
+        <tbody class="{{ booking.queueNo }}">
+            {% if booking.queueNo > 0 %}
+                <tr>
+                    <td><b>Queue:</b> {{ booking.queueNo}}</td>
+                </tr>
+            {% endif %}
             <tr>
-                <td><b>Group:</b> {{ booking.group }}</td>
+                <td><b>Description:</b> {{ booking.description }}</td>
             </tr>
-        {% endif %}
-        <tr>
-            <td><b>Location:</b> {{ booking.location }}</td>
-        </tr>
-        <tr>
-            <td><b>Date:</b> {{ booking.get_date.0 }}, {{ booking.get_date.1}}</td>
-        </tr>
-        <tr>
-            <td><b>Time:</b> {{ booking.get_date.2 }} - {{ booking.get_date.3 }}</td>
-        </tr>
-        <tr>
-            <td>
-                <button type='button' class='btn col js-update-booking' data-url='{% url "booking_update" booking.id %}'>
-                    Edit
-                </button>
-                <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url "booking_delete" booking.id %}'>
-                    Delete
-                </button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <hr>
-            </td>
-        </tr>
-    </tbody>
+            {% if booking.group %}
+                <tr>
+                    <td><b>Group:</b> {{ booking.group }}</td>
+                </tr>
+            {% endif %}
+            <tr>
+                <td><b>Location:</b> {{ booking.location }}</td>
+            </tr>
+            <tr>
+                <td><b>Date:</b> {{ booking.get_date.0 }}, {{ booking.get_date.1}}</td>
+            </tr>
+            <tr>
+                <td><b>Time:</b> {{ booking.get_date.2 }} - {{ booking.get_date.3 }}</td>
+            </tr>
+            <tr>
+                <td>
+                    <button type='button' class='btn col js-update-booking' data-url='{% url "booking_update" booking.id %}'>
+                        Edit
+                    </button>
+                    <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url "booking_delete" booking.id %}'>
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <hr>
+                </td>
+            </tr>
+        </tbody>
 
-    {% empty %}
-        <h6 class="empty">You have no bookings!</h6>
+        {% empty %}
+            <h6 class="empty">You have no bookings!</h6>
 
     {% endfor %}
 </table>

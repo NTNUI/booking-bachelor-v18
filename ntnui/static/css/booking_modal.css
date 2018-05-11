@@ -162,7 +162,6 @@ h8, h6 {
 }
 
 /* Responsive for different screens devices */
-
 @media only screen and (max-width: 1400px) {
     #booking-cards-con {
         padding-left: 5%;
