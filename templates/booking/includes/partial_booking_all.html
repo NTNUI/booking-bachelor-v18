@@ -1,6 +1,5 @@
-{#list displaying all bookings#}
+{# List displaying all bookings #}
 {% load static %}
-
 <table class='table borderless' id='person-booking-table'>
     {% for booking in filter.qs %}
         {# Titles of bookings #}
@@ -11,8 +10,6 @@
                 </tr>
             </thead>
         {% endif %}
-
-
         <tr>
             <td><b>What:</b> {{ booking.description }}</td>
         </tr>
@@ -30,7 +27,6 @@
                 <td><b>Group:</b> {{ booking.group }}</td>
             </tr>
         {% endif %}
-
         <tr>
             <td>
                 <button type='button' class='btn col js-update-booking' data-url='{% url "booking_update" booking.id %}'>

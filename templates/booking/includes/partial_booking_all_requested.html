@@ -1,16 +1,14 @@
-{#list displaying all requested bookings#}
+{# List displaying all requested bookings #}
 {% load static %}
 
 <table class="table borderless" id="booking-table">
     <!-- remember to change from my group bookings -->
     {% for booking in my_group_bookings_list %}
-
         <thead class="table-title">
             <tr>
                 <th>{{ booking.title }}</th>
             </tr>
         </thead>
-
         <tr>
             <td><b>What:</b> {{ booking.description }}</td>
         </tr>
@@ -32,8 +30,6 @@
         <tr>
             <td><b>Recurring:</b> </td>
         </tr>
-
-
         <tr>
             <td>
                 <!--Remember to change from 'delete' to approve/disapprove -->
