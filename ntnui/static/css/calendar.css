@@ -116,30 +116,6 @@ p.type-header {
     cursor: pointer;
 }
 
-/* Alerts */
-.booking-alert {
-    position: fixed;
-    left: 0px;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    width: 30%;
-    z-index: 1;
-}
-.alert-success {
-    display: none;
-    bottom: 0px !important;
-    margin-bottom: 5%;
-    padding: 3%;
-}
-
-.alert-warning {
-    display: none;
-    top: 0px !important;
-    margin-top: 10%;
-    padding: 4%;
-}
-
 /* Responsive for different screens devices */
 @media only screen and (min-width: 1500px) {
     #booking-container {
