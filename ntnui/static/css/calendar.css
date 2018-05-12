@@ -100,10 +100,6 @@
     border-bottom: solid 2px darkslategrey;
 }
 
-.text-orange {
-    color: #fc8307;
-}
-
 /* Restrictions for booking */
 .restricted {
     opacity: .6;
