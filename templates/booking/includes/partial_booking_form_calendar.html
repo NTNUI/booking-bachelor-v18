@@ -81,6 +81,31 @@
 {% block script %}
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
+        function ajaxForm() {
+            var myForm = $('#createform');
+            event.preventDefault()
+            var start_time = document.getElementById("startInput").value;
+            var end_time = document.getElementById("endInput").value;
+            var $form_data = $(myForm).serialize()+"&start="+tempDay.id.toString() + " " + start_time + "&end="+tempDay.id.toString() + " " + end_time + "&location=" + " " + chosenLocation;
+            $.ajax({
+                method: "POST",
+                url: '/booking/bookings_list/create_calendar/',
+                data: $form_data,
+                complete: function(data) {
+                    var modal = document.getElementById('booking-modal');
+                    modal.style.display = "none";
+                    var promised = promiseTest();
+                    promised.done(function() {
+                        promised.then( function() {
+                            global_list = []
+                            console.log("promised")
+                            global_list.push(promised.responseJSON);
+                        })
+                    })
+                },
+            })
+        }
+
         var list_of_bookings = []
         var chosenLocation = this.currentLocation;
         var booking_data; //global variable for booking data
@@ -113,81 +138,83 @@
                             successMode: true,
                         }).then((willQueue) => {
                             if (willQueue) {
-                                var span = document.createElement("span");
-                                span.innerHTML = "You can find your queued booking at " + '</br>' + " <a href=\"/booking/bookings_list\">My Bookings</a>";
-                                swal({
-                                    title: "" + "Great, you have queued a booking!" + "",
-                                    content: span,
-                                    icon: "success",
-                                    buttons: false,
-                                    timer: 4000,
-                                });
-                                var myForm = $('#createform');
-                                event.preventDefault()
-                                // append start date to post request
-                                var start_time = document.getElementById("startInput").value;
-                                var end_time = document.getElementById("endInput").value;
-                                var $form_data = $(myForm).serialize()+"&start="+tempDay.id.toString() + " " + start_time + "&end="+tempDay.id.toString() + " " + end_time + "&location=" + " " + chosenLocation;
-                                $.ajax({
-                                    method: "POST",
-                                    url: '/booking/bookings_list/create_calendar/',
-                                    data: $form_data,
-                                    complete: function(data) {
-                                        var modal = document.getElementById('booking-modal');
-                                        modal.style.display = "none";
-                                        var promised = promiseTest();
-                                        promised.done(function() {
-                                            promised.then( function() {
-                                                global_list = []
-                                                console.log("promised")
-                                                global_list.push(promised.responseJSON);
-                                            })
-                                        })
-                                    },
-                                })
+                                var recurringRequest = document.getElementById("id_repeat");
+                                if (recurringRequest.value != "noRepeat") {
+                                    console.log("recurring")
+                                    swal({
+                                        title: "Do you want to request a recurring booking?",
+                                        text: "This request will be reviewed by NTNUi staff",
+                                        buttons: ["No", "Yes"],
+                                        successMode: true,
+                                    }).then((Request) => {
+                                        if(Request) {
+                                            var span = document.createElement("span");
+                                            span.innerHTML = "You can find your queued booking at " + '</br>' + " <a href=\"/booking/bookings_list\">My Bookings</a>";
+                                            swal({
+                                                title: "" + "Great, you have queued a booking!" + "",
+                                                content: span,
+                                                icon: "success",
+                                                buttons: false,
+                                                timer: 4000,
+                                            });
+                                            ajaxForm()
+                                        }
+                                    })
+                                }
+                                else {
+                                    var span = document.createElement("span");
+                                    span.innerHTML = "You can find your queued booking at " + '</br>' + " <a href=\"/booking/bookings_list\">My Bookings</a>";
+                                    swal({
+                                        title: "" + "Great, you have queued a booking!" + "",
+                                        content: span,
+                                        icon: "success",
+                                        buttons: false,
+                                        timer: 4000,
+                                    });
+                                    ajaxForm()
+                                }
                             }
                         });
                     } else {
-                        var span = document.createElement("span");
-                        span.innerHTML = "You can find your booking at " + '</br>' + " <a href=\"/booking/bookings_list\">My Bookings</a>";
-                        swal({
-                            title: "" + "Great, you have made a booking!" + "",
-                            content: span,
-                            icon: "success",
-                            buttons: false,
-                            timer: 4000,
-                        });
-                        var myForm = $('#createform');
-                        event.preventDefault()
-                        // append start date to post request
-                        var start_time = document.getElementById("startInput").value;
-                        var end_time = document.getElementById("endInput").value;
-                        var $form_data = $(myForm).serialize()+"&start="+tempDay.id.toString() + " " + start_time + "&end="+tempDay.id.toString() + " " + end_time + "&location=" + " " + chosenLocation;
-                        $.ajax({
-                            method: "POST",
-                            url: '/booking/bookings_list/create_calendar/',
-                            data: $form_data,
-                            complete: function(data) {
-                                var modal = document.getElementById('booking-modal');
-                                modal.style.display = "none";
-                                var promised = promiseTest();
-                                promised.done(function() {
-                                    promised.then( function() {
-                                        global_list = []
-                                        global_list.push(promised.responseJSON);
-                                        populate();
+                        var recurringRequest = document.getElementById("id_repeat");
+                        if (recurringRequest.value != "noRepeat") {
+                                    swal({
+                                        title: "Do you want to request a recurring booking?",
+                                        text: "This request will be reviewed by NTNUi staff?",
+                                        buttons: ["No", "Yes"],
+                                        successMode: true,
+                                    }).then((Request) => {
+                                        if(Request) {
+                                            var span = document.createElement("span");
+                                            span.innerHTML = "You can find your booking at " + '</br>' + " <a href=\"/booking/bookings_list\">My Bookings</a>";
+                                            swal({
+                                                title: "" + "Great, you have made a booking!" + "",
+                                                content: span,
+                                                icon: "success",
+                                                buttons: false,
+                                                timer: 4000,
+                                            });
+                                            ajaxForm()
+                                        }
                                     })
-                                })
-                            },
-                        })
+                                }
+                        else {
+                            var span = document.createElement("span");
+                            span.innerHTML = "You can find your booking at " + '</br>' + " <a href=\"/booking/bookings_list\">My Bookings</a>";
+                            swal({
+                                title: "" + "Great, you have made a booking!" + "",
+                                content: span,
+                                icon: "success",
+                                buttons: false,
+                                timer: 4000,
+                            });
+                            ajaxForm()
+                        }
                     }
                 }
             });
         });
-        
-        $("#startInput").blur(function(){
-            console.log("blur")
-        })
+
         $.ajax({
             method: "GET",
             url: '/booking/api',
