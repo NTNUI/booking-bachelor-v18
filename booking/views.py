@@ -91,7 +91,6 @@ def confirmation_mail(request):
     new_booking = 'Hey ' + name + ', you have created a new booking!'
     updated = 'Hey ' + name + ', your booking has been updated!'
     deleted = 'Hey ' + name + ', your booking has been deleted!'
-    overwritten = 'Hey ' + name + ', your booking has been overwritten!'
     queued = 'Hey ' + name + ', you have queued for a booking!'
     mails = (new_booking, updated, deleted, overwritten, queued)
     return mails
@@ -176,7 +175,6 @@ def repeat_booking(form):
 
 def save_booking_form(request, form, template_name):
     data = dict()
-    mails = confirmation_mail(request)
     if request.method == 'POST':
         if form.is_valid():           
             form.save()
@@ -185,13 +183,6 @@ def save_booking_form(request, form, template_name):
             data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
                 'my_bookings_list': my_bookings
             })
-            booking = Booking.objects.all().last()
-            if booking.queueNo == 0:
-                (new_booking, updated, deleted, overwritten, queued) = mails
-                print(new_booking)
-            else:
-                (new_booking, updated, deleted, overwritten, queued) = mails
-                print(queued)
             if form.cleaned_data['repeat'] == "weekly":
                 repeat_booking(form)
         else:
@@ -202,9 +193,18 @@ def save_booking_form(request, form, template_name):
 
 
 def booking_create(request):
+    mails = confirmation_mail(request)
     if request.method == 'POST':
         user = request.user
         form = BookingForm(user, request.POST)
+        if form.is_valid():
+            booking = Booking.objects.all().last()
+            if booking.queueNo == 0:
+                (new_booking, updated, deleted, overwritten, queued) = mails
+                print(new_booking)
+            else:
+                (new_booking, updated, deleted, overwritten, queued) = mails
+                print(queued)
     else:
         user = request.user
         form = BookingForm(user, initial={'person': request.user})
@@ -212,9 +212,18 @@ def booking_create(request):
 
 
 def booking_create_from_calendar(request):
+    mails = confirmation_mail(request)
     if request.method == 'POST':
         user = request.user
         form = BookingForm(user, request.POST)
+        if form.is_valid():
+            booking = Booking.objects.all().last()
+            if booking.queueNo == 0:
+                (new_booking, updated, deleted, overwritten, queued) = mails
+                print(new_booking)
+            else:
+                (new_booking, updated, deleted, overwritten, queued) = mails
+                print(queued)
     else:
         user = request.user
         form = BookingForm(user, initial={'person': request.user})
@@ -222,13 +231,16 @@ def booking_create_from_calendar(request):
 
 
 def booking_update(request, pk):
-    mails = confirmation_mail(request, pk)
+    mails = confirmation_mail(request)
     book = get_object_or_404(Booking, pk=pk)
     if request.method == 'POST':
         user = request.user
         form = BookingForm(user, request.POST, instance=book)
-        (new_booking, updated, deleted, overwritten, queued) = mails
+        updated = 'Hey ' + str(user) + ', a booking has been updated!'
         print(updated)
+        if str(user) != str(book.person):
+            overwritten = 'Hey ' + str(book.person) + ', your booking has been overwritten!'
+            print(overwritten)
     else:
         user = request.user
         form = BookingForm(user, instance=book)
@@ -236,18 +248,22 @@ def booking_update(request, pk):
 
 
 def booking_delete(request, pk):
-    mails = confirmation_mail(request, pk)
+    mails = confirmation_mail(request)
     book = get_object_or_404(Booking, pk=pk)
     data = dict()
     if request.method == 'POST':
         book.delete()
+        user = request.user
         data['form_is_valid'] = True  # This is just to play along with the existing code
         bookings = get_my_bookings(request)
         data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
             'my_bookings_list': bookings
         })
-        (new_booking, updated, deleted, overwritten, queued) = mails
+        deleted = 'Hey ' + str(user) + ', a booking has been deleted!'
         print(deleted)
+        if str(user) != str(book.person):
+            overwritten = 'Hey ' + str(book.person) + ', your booking has been overwritten!'
+            print(overwritten)
     else:
         context = {'book': book}
         data['html_form'] = render_to_string('booking/includes/partial_booking_delete.html', context, request=request, )
