@@ -96,24 +96,24 @@ function populate() {
                     dateMap.set(startDate, "" + diffHour + ":" + diffMin);
                 }
                 // Change the html in the calendar boxes with number of booked hours.
+                if(12-parseInt(getTime(dateMap.get(startDate))[0]) >= 0){
+                    text.innerHTML = (12 - parseInt(getTime(dateMap.get(startDate))[0])).toString()
+                        + "<br />" + "hours free";
+                }
+                // Add color depending on how many hours free
                 if(12-parseInt(getTime(dateMap.get(startDate))[0]) >= 9) {
-                    text.innerHTML = (12 - parseInt(getTime(dateMap.get(startDate))[0])).toString() + "<br />" + "hours free";
                     text.style.color = "#fc8307";
                 }else if(12-parseInt(getTime(dateMap.get(startDate))[0]) >= 5) {
-                    text.innerHTML = (12 - parseInt(getTime(dateMap.get(startDate))[0])).toString() + "<br />" + "hours free";
                     text.style.color = "#fc5908";
                 }else if(12-parseInt(getTime(dateMap.get(startDate))[0]) >= 1){
-                    text.innerHTML = (12 - parseInt(getTime(dateMap.get(startDate))[0])).toString() + "<br />" + "hours free";
                     text.style.color = "#f73717";
                 }else if(12-parseInt(getTime(dateMap.get(startDate))[0]) < 1){
-                    text.innerHTML = (12 - parseInt(getTime(dateMap.get(startDate))[0])).toString() + "<br />" + "hours free";
                     text.style.color = "red";
                 }
             }else if(dateMap.has(startDate) === false) {
                 text.innerHTML = (12).toString() + "<br />" + "hours free";
                 text.style.color = "green";
             }
-
         }
     }
 
