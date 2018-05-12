@@ -60,7 +60,7 @@ class Booking(models.Model):
             b.queueNo += i
             super(Booking, b).save()
 
-    def save(self, *args, **kwargs):
+    def save(self, repeatable=False, *args, **kwargs):
         # compare to all with qNo=0
         # a|----| b|----|
         #    c|-----| d|---|

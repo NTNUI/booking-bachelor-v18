@@ -316,7 +316,7 @@ label {
 
 /* request buttons */
 
-input#approve, input#disapprove {
+.approve, .disapprove {
     width: 100%;
 }
 
