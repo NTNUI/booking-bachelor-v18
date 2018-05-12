@@ -38,11 +38,6 @@ def api(request):
     return JsonResponse(booking_list, safe=False)
 
 
-def api2(request):
-    # DEPRECATED
-    pass
-
-
 def location_api(request):
     model = Location
     locations = model.objects.all().values('name', 'address', 'description', 'type')
@@ -67,7 +62,7 @@ class BookingList(ListView):
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
-def booking_all(request):
+def booking_manage(request):
     book = []
     now = timezone.now()
     for booking in list(Booking.objects.filter()):
@@ -75,7 +70,7 @@ def booking_all(request):
 
     bookings = Booking.objects.all().filter(start__gte=now).order_by('start')
     booking_filter = AdminFilter(request.GET, queryset=bookings)
-    return render(request, 'booking/booking_all.html', {
+    return render(request, 'booking/bookings_manage.html', {
         'filter': booking_filter,
         'bookings': book
     })
