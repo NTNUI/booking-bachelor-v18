@@ -183,7 +183,7 @@ def repeat_booking(data):
                     date_format = str(year) + "-" + cal_m + "-" + cal_d
                     start_rec = date_format + " " + s_time
                     end_rec = date_format + " " + e_time
-                    booking = Booking(location=location, start=start_rec, group=group, end=end_rec, title=title,
+                    booking = Booking(location=location, start=start_rec, end=end_rec, title=title,
                                       description=descr, person=person)
                     booking.save(repeatable=True)
           
@@ -202,7 +202,7 @@ def save_booking_form(request, form, template_name):
                 'my_bookings_list': my_bookings
             })
             if form.cleaned_data['repeat'] == "weekly" and request.user.is_superuser:
-                repeatBooking(form.cleaned_data)
+                repeat_booking(form.cleaned_data)
             elif form.cleaned_data['repeat'] == "weekly":
                 Request.objects.create(booking=form.instance, weekday=form.cleaned_data['day'].upper())
 
@@ -229,7 +229,7 @@ def booking_confirm(request, pk):
             'request': req,
 
             }
-        repeatBooking(data)
+        repeat_booking(data)
         return HttpResponseRedirect('/booking/all')
 
 def delete_request(request, pk):
