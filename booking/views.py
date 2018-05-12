@@ -77,7 +77,7 @@ def booking_manage(request):
     bookings = Booking.objects.all().filter(start__gte=now).order_by('start')
     booking_filter = AdminFilter(request.GET, queryset=bookings)
     requested = Request.objects.filter(booking__id__in=booking_filter.qs)
-    return render(request, 'booking/booking_all.html', {
+    return render(request, 'booking/bookings_manage.html', {
         'filter': booking_filter,
         'bookings': book,
         'requested': requested,
@@ -225,14 +225,14 @@ def booking_confirm(request, pk):
 
             }
         repeat_booking(data)
-        return HttpResponseRedirect('/booking/all')
+        return HttpResponseRedirect('/booking/bookings_manage')
 
 def delete_request(request, pk):
     if request.method == 'POST':
         req = get_object_or_404(Request, pk=pk)
         req.delete()
 
-        return HttpResponseRedirect('/booking/all')
+        return HttpResponseRedirect('/booking/bookings_manage')
 
 
 def booking_create(request):
@@ -243,10 +243,10 @@ def booking_create(request):
         if form.is_valid():
             booking = Booking.objects.all().last()
             if booking.queueNo == 0:
-                (new_booking, updated, deleted, overwritten, queued) = mails
+                (new_booking, updated, deleted, queued) = mails
                 print(new_booking)
             else:
-                (new_booking, updated, deleted, overwritten, queued) = mails
+                (new_booking, updated, deleted, queued) = mails
                 print(queued)
     else:
         user = request.user
@@ -262,10 +262,10 @@ def booking_create_from_calendar(request):
         if form.is_valid():
             booking = Booking.objects.all().last()
             if booking.queueNo == 0:
-                (new_booking, updated, deleted, overwritten, queued) = mails
+                (new_booking, updated, deleted, queued) = mails
                 print(new_booking)
             else:
-                (new_booking, updated, deleted, overwritten, queued) = mails
+                (new_booking, updated, deleted, queued) = mails
                 print(queued)
     else:
         user = request.user
