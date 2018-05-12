@@ -324,3 +324,9 @@ label {
 }
 
 
+/* request buttons */
+
+.approve, .disapprove {
+    width: 100%;
+}
+

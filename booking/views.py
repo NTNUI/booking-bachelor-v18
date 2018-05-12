@@ -1,9 +1,9 @@
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
+from .models import Booking, Location, Request
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from booking.filters import AdminFilter
-from .models import Booking, Location
-from django.http import JsonResponse
 from django.template.loader import render_to_string
 from .forms import BookingForm
 from django.contrib.auth.decorators import user_passes_test
@@ -12,6 +12,7 @@ from calendar import Calendar
 from groups.models import SportsGroup, Membership
 from django.utils import timezone
 from django.shortcuts import render
+
 
 
 def error_404(request):
@@ -37,12 +38,11 @@ def api(request):
     booking_list = list(bookings)
     return JsonResponse(booking_list, safe=False)
 
-
 def api2(request):
     # DEPRECATED
     pass
 
-
+  
 def location_api(request):
     model = Location
     locations = model.objects.all().values('name', 'address', 'description', 'type')
@@ -75,9 +75,11 @@ def booking_all(request):
 
     bookings = Booking.objects.all().filter(start__gte=now).order_by('start')
     booking_filter = AdminFilter(request.GET, queryset=bookings)
+    requested = Request.objects.filter(booking__id__in=booking_filter.qs)
     return render(request, 'booking/booking_all.html', {
         'filter': booking_filter,
-        'bookings': book
+        'bookings': book,
+        'requested': requested,
     })
 
 
@@ -130,28 +132,30 @@ def get_my_bookings(request):
     return my_bookings_list
 
 
-def repeat_booking(form):
-    location = form.cleaned_data['location']
-    start = form.cleaned_data['start']
-    end = form.cleaned_data['end']
-    if form.cleaned_data['repeat'] == "noRepeat":
+def repeat_booking(data):
+    location = data['location']
+    start = data['start']
+    end = data['end']
+    if data['repeat'] == "noRepeat":
         repeat = False
-    elif form.cleaned_data['repeat'] == "weekly":
+    elif data['repeat'] == "weekly":
         repeat = True
     else:
         repeat = False
-    day_map = {"MON": 0, "TUE": 1, "WED": 2, "THU": 3,
-               "FRI": 4, "SAT": 5, "SUN": 6}
-    dayofweek = day_map[form.cleaned_data['day'].upper()]
+    
+    day_map = {"MON" : 0, "TUE":1, "WED":2, "THU" : 3, 
+        "FRI":4, "SAT":5, "SUN":6
+    }
+    dayofweek = day_map[data['day'].upper()]
     year = int(start.year)
     month = int(start.month)
     day = int(start.day)
-    group = form.cleaned_data['group']
-    s_time = str(start)[11:]  # .replace("+", ":") get time substring
-    e_time = str(end)[11:]  # .replace("+", ":") YYYY-MM-DDTHH:MMZ
-    title = form.cleaned_data['title']
-    descr = form.cleaned_data['description']
-    person = form.cleaned_data['person'] 
+    loc = location
+    s_time = str(start)[11:] #get time substring
+    e_time = str(end)[11:] #YYYY-MM-DDTHH:MMZ
+    title = data['title']
+    descr = data['description']
+    person = data['person'] 
     cal = Calendar()
     ydcal = cal.yeardays2calendar(year, width=6)
     if month > 5:
@@ -175,12 +179,15 @@ def repeat_booking(form):
                         cal_d = "0" + str(cal_day[0])
                     else:
                         cal_d = str(cal_day[0])
+                        
                     date_format = str(year) + "-" + cal_m + "-" + cal_d
                     start_rec = date_format + " " + s_time
                     end_rec = date_format + " " + e_time
                     booking = Booking(location=location, start=start_rec, group=group, end=end_rec, title=title,
                                       description=descr, person=person)
                     booking.save(repeatable=True)
+          
+    data['request'].delete()
 
 
 def save_booking_form(request, form, template_name):
@@ -194,13 +201,43 @@ def save_booking_form(request, form, template_name):
             data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
                 'my_bookings_list': my_bookings
             })
-            if form.cleaned_data['repeat'] == "weekly":
-                repeat_booking(form)
+            if form.cleaned_data['repeat'] == "weekly" and request.user.is_superuser:
+                repeatBooking(form.cleaned_data)
+            elif form.cleaned_data['repeat'] == "weekly":
+                Request.objects.create(booking=form.instance, weekday=form.cleaned_data['day'].upper())
+
         else:
             data['form_is_valid'] = False
     context = {'form': form}
     data['html_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)
+
+
+def booking_confirm(request, pk):
+    if request.method == 'POST':
+        req = get_object_or_404(Request, pk=pk)
+        data = {
+            'location': req.booking.location,
+            'person': req.booking.person,
+            'start': req.booking.start,
+            'end': req.booking.end,
+            'group': req.booking.group,
+            'title': req.booking.title,
+            'description': req.booking.description,
+            'day': req.weekday,
+            'repeat': "weekly",
+            'request': req,
+
+            }
+        repeatBooking(data)
+        return HttpResponseRedirect('/booking/all')
+
+def delete_request(request, pk):
+    if request.method == 'POST':
+        req = get_object_or_404(Request, pk=pk)
+        req.delete()
+
+        return HttpResponseRedirect('/booking/all')
 
 
 def booking_create(request):
@@ -267,6 +304,6 @@ def booking_delete(request, pk):
         data['html_form'] = render_to_string('booking/includes/partial_booking_delete.html', context, request=request, )
     return JsonResponse(data)
 
-
+  
 def show_form(request):
     return render(request, "booking/booking_form.html")

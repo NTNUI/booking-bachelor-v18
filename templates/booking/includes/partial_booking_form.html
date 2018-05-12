@@ -8,56 +8,67 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col form-group">
-        {{form.person.as_hidden}}
-        {{form.queueNo.as_hidden}}
-        {{form.day.as_hidden}}
-        <div>
-            <h5>Title</h5>
-            {{form.title}}
-        </div>
-        <div class="form-margin">
-            <h5>Location </h5>
-            {{form.location}}
-        </div>
-        <div class="form-margin">
-            <h5>Group</h5>
-            {{form.group}}
-        </div>
-        <div class="form-margin">
-            <h5>Description</h5>
-            {{form.description}}
-        </div>
-
-        <div class="form-margin">
-            <label>Date</label>
-            <input type="date" id="date" class="form-control" onclick="minMaxDate()" value="{{ form.start.value|date:"Y-m-d" }}">
-            {{ form.start.as_hidden }}
-            {{ form.end.as_hidden }}
-        </div>
-        <div class="form-margin">
-            <label>Starttime</label>
-            <div class="input-group clockpicker" data-placement="top" data-align="bottom" data-autoclose="true" id="startTime">
-                {{  form.start.date|date:"H:i:s"  }}
-                <input type="text" class="form-control" value="{{ form.start.value|date:"H:i:s" }}" id="startInput" onclick="resetClock()" required>
-                <span class="input-group-addon" onclick="resetClock()">
-                <span class="glyphicon glyphicon-time"></span>
-                </span>
-            </div>
-        </div>
-        <div class="form-margin">
-            <label>Endtime</label>
-            <div class="input-group clockpicker" data-placement="top" data-align="bottom" data-autoclose="true" id="endTime" >
-                <input type="text" class="form-control" value="{{ form.end.value|date:"H:i:s" }}" id="endInput" onclick="editClock()" required>
-                <span class="input-group-addon" id="endTimeSpan">
-                <span class="glyphicon glyphicon-time"></span>
-                </span>
-            </div>
-        </div>
-        <div class="repeat">
-            {{form.repeat}}
+    
+    {{form.person.as_hidden}}
+    {{form.queueNo.as_hidden}}
+    {{form.day.as_hidden}}
+    <div>
+        <h5>Title</h5>
+        {{form.title}}
+    </div>
+    <div class="form-margin">
+        <h5>Location </h5>
+        {{form.location}}
+    </div>
+    <div class="form-margin">
+        <h5>Description</h5>
+        {{form.description}}
+    </div>
+    <div class="form-margin">
+        <h5>Group</h5>
+        {{form.group}}
+    </div>
+    <div class="form-margin">
+        <label>Date</label>
+        <input type="date" id="date" class="form-control" onclick="minMaxDate()" value="{{ form.start.value|date:"Y-m-d" }}">
+        {{ form.start.as_hidden }}
+        {{ form.end.as_hidden }}
+    </div>
+    <div class="form-margin">
+        <label>Starttime</label>
+        <div class="input-group clockpicker" data-placement="top" data-align="bottom" data-autoclose="true" id="startTime">
+            {{  form.start.date|date:"H:i:s"  }}
+            <input type="text" class="form-control" value="{{ form.start.value|date:"H:i:s" }}" id="startInput" onclick="resetClock()" required>
+            <span class="input-group-addon" onclick="resetClock()">
+            <span class="glyphicon glyphicon-time"></span>
+            </span>
         </div>
     </div>
+    <div class="form-margin">
+        <label>Endtime</label>
+        <div class="input-group clockpicker" data-placement="top" data-align="bottom" data-autoclose="true" id="endTime" >
+            <input type="text" class="form-control" value="{{ form.end.value|date:"H:i:s" }}" id="endInput" onclick="editClock()" required>
+            <span class="input-group-addon" id="endTimeSpan">
+            <span class="glyphicon glyphicon-time"></span>
+            </span>
+        </div>
+    </div>
+    {% if request.user.is_superuser %}
+        <div class="form-margin">
+            <h5>Request Recurring</h5>
+            {{form.repeat}}
+       </div>
+    {% endif %}
+    {% if user.is_authenticated and not request.user.is_superuser %}
+        {% user_in_hs user as user_in_hs %}
+        {% if user_in_hs %}
+            <div class="form-margin">
+                <h5>Request Recurring</h5>
+                {{form.repeat}}
+            </div>
+        {% endif %}
+    {% endif %}
+
 {% endblock %}
 
 {% block script %}
