@@ -92,7 +92,7 @@ def confirmation_mail(request):
     updated = 'Hey ' + name + ', your booking has been updated!'
     deleted = 'Hey ' + name + ', your booking has been deleted!'
     queued = 'Hey ' + name + ', you have queued for a booking!'
-    mails = (new_booking, updated, deleted, overwritten, queued)
+    mails = (new_booking, updated, deleted, queued)
     return mails
 
 
