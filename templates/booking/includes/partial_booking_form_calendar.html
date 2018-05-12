@@ -74,7 +74,6 @@
 {% endblock content %}
 
 {% block script %}
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         $.ajax({
             method: "GET",
@@ -90,6 +89,7 @@
             },
             success: function(data) {
                 // Making list of bookings
+                var bookings = []
                 $.each(data, function(i, item){
                     booking_data = data;
                     var date = data[i].start;

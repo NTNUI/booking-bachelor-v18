@@ -17,7 +17,7 @@ function validateForm() {
     }if(description.value === "") {
         description.style.border = "1px solid red";
         error += "description ";
-        errorMessage.innerHTML += "<br> Description cannot be empty.";
+        errorMessage.innerHTML += "<br /> Description cannot be empty.";
         $(description).click(function () {
             description.style.border = "1px solid rgba(0,0,0,.15)"
         })
@@ -25,7 +25,7 @@ function validateForm() {
     if(start.value === "Choose start time") {
         start.style.border = "1px solid red";
         error += "start ";
-        errorMessage.innerHTML += "<br> Must choose start time.";
+        errorMessage.innerHTML += "<br /> Must choose start time.";
         $(start).click(function () {
             start.style.border = "1px solid rgba(0,0,0,.15)"
         });
@@ -33,7 +33,7 @@ function validateForm() {
     if(end.value === "Choose end time") {
         end.style.border = "1px solid red";
         error += "end ";
-        errorMessage.innerHTML += "<br> Must choose end time.";
+        errorMessage.innerHTML += "<br /> Must choose end time.";
         $(end).click(function () {
             end.style.border = "1px solid rgba(0,0,0,.15)";
         });
@@ -45,7 +45,7 @@ function validateForm() {
         start.style.border = "1px solid red";
         end.style.border = "1px solid red";
         error += "endBeforeStart ";
-        errorMessage.innerHTML += "<br> Endtime cannot be before starttime.";
+        errorMessage.innerHTML += "<br /> Endtime cannot be before starttime.";
         $(start).click(function () {
             start.style.border = "1px solid rgba(0,0,0,.15)";
         });
@@ -59,7 +59,7 @@ function validateForm() {
         start.style.border = "1px solid red";
         end.style.border = "1px solid red";
         error += "tooShort ";
-        errorMessage.innerHTML += "<br> Cannot book less than 45min.";
+        errorMessage.innerHTML += "<br /> Cannot book less than 45min.";
         $(start).click(function () {
             start.style.border = "1px solid rgba(0,0,0,.15)";
         });
@@ -71,7 +71,7 @@ function validateForm() {
         start.style.border = "1px solid red";
         end.style.border = "1px solid red";
         error += "tooLong ";
-        errorMessage.innerHTML += "<br> Cannot book more than 3 hours.";
+        errorMessage.innerHTML += "<br /> Cannot book more than 3 hours.";
         $(start).click(function () {
             start.style.border = "1px solid rgba(0,0,0,.15)";
         });
@@ -83,7 +83,7 @@ function validateForm() {
         start.style.border = "1px solid red";
         end.style.border = "1px solid red";
         error += "tooLate ";
-        errorMessage.innerHTML += "<br> Cannot book later than 22:00.";
+        errorMessage.innerHTML += "<br /> Cannot book later than 22:00.";
         $(start).click(function (){
             start.style.border = "1px solid rgba(0,0,0,.15)";
         });
@@ -95,7 +95,7 @@ function validateForm() {
         start.style.border = "1px solid red";
         end.style.border = "1px solid red";
         error += "tooEarly ";
-        errorMessage.innerHTML += "<br> Cannot book earlier than 10:00.";
+        errorMessage.innerHTML += "<br /> Cannot book earlier than 10:00.";
         $(start).click(function (){
             start.style.border = "1px solid rgba(0,0,0,.15)";
         });
@@ -108,7 +108,7 @@ function validateForm() {
         start.style.border = "1px solid red";
         end.style.border = "1px solid red";
         error += "wrongFormat ";
-        errorMessage.innerHTML += "<br> Can only book quarter-hourly time periods.";
+        errorMessage.innerHTML += "<br /> Can only book quarter-hourly time periods.";
         $(start).click(function (){
             start.style.border = "1px solid rgba(0,0,0,.15)";
         });

@@ -33,8 +33,7 @@ class Booking(models.Model):
     start = models.DateTimeField(_(u'Start'), blank=True)
     end = models.DateTimeField(_(u'End'), blank=True)
     queueNo = models.IntegerField(default=0)
-    # repeatable = models.
-    # overlapping = models.ManyToManyField("self", blank=True, null=True)
+
     try:
         tu = tuple(SportsGroup.objects.all().values_list('name', 'name'))
         if not tu:
@@ -68,8 +67,7 @@ class Booking(models.Model):
         if list(first):
             maxval = bookings.aggregate(models.Max('queueNo'))
             temp = [maxval[i] for i in sorted(maxval.keys())]
-            self.queueNo = int(temp[0]) + 1
-            print("after save: ", self.queueNo)
+            self.queueNo = int(temp[0]) + 1            
         else:
             self.queueNo = 0
         return super(Booking, self).save(*args, **kwargs)
@@ -102,3 +100,9 @@ class Booking(models.Model):
         end_time = end.strftime("%H:%M")
         dates = (day, date, start_time, end_time)
         return dates
+
+class Request(models.Model):
+    booking = models.ForeignKey(Booking)
+    weekday = models.CharField(max_length=3)
+
+    

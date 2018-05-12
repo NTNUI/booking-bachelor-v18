@@ -117,7 +117,6 @@ function populate() {
 
         }
     }
-
 }
 
 //Mutation Observer
