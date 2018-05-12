@@ -4,8 +4,8 @@
     "pk": 1,
     "fields": {
       "name": "Gløshaugen (hall 1)",
-      "address": "d",
-      "description": "d",
+      "address": "Address 11, Gløs",
+      "description": "Gløshaugen gymsal, hall 1",
       "type": "gym "
     }
   },
@@ -14,8 +14,8 @@
     "pk": 2,
     "fields": {
       "name": "Gløshaugen (hall 2)",
-      "address": "d",
-      "description": "d",
+      "address": "Address 12, Gløs",
+      "description": "Gløshaugen gymsal, hall 2",
       "type": "gym "
     }
   },
@@ -24,8 +24,8 @@
     "pk": 3,
     "fields": {
       "name": "Dragvoll (hall 1)",
-      "address": "d",
-      "description": "d",
+      "address": "Address 11, Dragvoll",
+      "description": "Dragvoll idrettshall, hall 1",
       "type": "gym "
     }
   },
@@ -34,8 +34,8 @@
     "pk": 4,
     "fields": {
       "name": "Dragvoll (hall 2)",
-      "address": "d",
-      "description": "d",
+      "address": "Address 11, Dragvoll",
+      "description": "Dragvoll idrettshall, hall 2",
       "type": "gym "
     }
   },
@@ -44,8 +44,8 @@
     "pk": 5,
     "fields": {
       "name": "Lade Idrettsanlegg (hall 1)",
-      "address": "d",
-      "description": "d",
+      "address": "Address 11, Lade",
+      "description": "Lade idrettshall, hall 1",
       "type": "gym "
     }
   },
@@ -54,8 +54,8 @@
     "pk": 6,
     "fields": {
       "name": "Lade Idrettsanlegg (hall 2)",
-      "address": "d",
-      "description": "d",
+      "address": "Address 13, Lade",
+      "description": "Lade idrettshall, hall 2",
       "type": "gym "
     }
   },
@@ -64,8 +64,8 @@
     "pk": 7,
     "fields": {
       "name": "Dødens dal",
-      "address": "d",
-      "description": "d",
+      "address": "Address 11, Dødens dal",
+      "description": "Dødens dal, football field",
       "type": "football field"
     }
   },
@@ -73,9 +73,9 @@
     "model": "booking.location",
     "pk": 8,
     "fields": {
-      "name": "Dødens dal (bane 1)",
-      "address": "d",
-      "description": "d",
+      "name": "Dødens dal (court 1)",
+      "address": "Address 13, Dødens dal",
+      "description": "Dødens dal volleyball ground, court 1",
       "type": "volleyball grounds"
     }
   },
@@ -83,9 +83,9 @@
     "model": "booking.location",
     "pk": 9,
     "fields": {
-      "name": "Dødens dal (bane 2)",
-      "address": "d",
-      "description": "d",
+      "name": "Dødens dal (court 2)",
+      "address": "Address 14, Dødens dal",
+      "description": "Dødens dal volleyball ground, court 2",
       "type": "volleyball grounds"
     }
   },
@@ -93,9 +93,9 @@
     "model": "booking.location",
     "pk": 10,
     "fields": {
-      "name": "Dødens dal (bane 3)",
-      "address": "d",
-      "description": "d",
+      "name": "Dødens dal (court 3)",
+      "address": "Address 15, Dødens dal",
+      "description": "Dødens dal volleyball ground, court 3",
       "type": "volleyball grounds"
     }
   }

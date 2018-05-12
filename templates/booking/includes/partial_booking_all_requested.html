@@ -1,14 +1,13 @@
-{#list displaying all requested bookings#}
-<table class="table borderless" id="booking-table">
-    <!-- remember to change from my group bookings -->
-    {% for request in requested %}
+{# List displaying all requested bookings #}
+{% load static %}
 
+<table class="table borderless" id="booking-table">
+    {% for request in requested %}
         <thead id="{{ request.id }}" class="table-title">
             <tr>
                 <th>{{ request.booking.title }}</th>
             </tr>
         </thead>
-
         <tr>
             <td><b>What:</b> {{ request.booking.description }}</td>
         </tr>
@@ -31,12 +30,8 @@
         <tr>
             <td><b>Recurring:</b> Every {{request.weekday}} </td>
         </tr>
-
-
-
         <tr>
             <td>
-
                 <form id="confirm-booking" action='{% url "booking_confirm" request.id %}' method = "post">
                     {% csrf_token %}
                     <input type="button"  class="btn approve btn-success" id="{{ request.id }}" value="Approve" />
@@ -45,13 +40,6 @@
                     {% csrf_token %}
                     <input type="button" class="btn disapprove btn-danger" id="{{ request.id }}" value="Disapprove" />
                 </form>
-{#                <button type='button' class='btn btn-success col js-confirm-booking' data-url='{% url "booking_confirm" request.booking.id %}'>#}
-{#                    Approve#}
-{#                </button>#}
-{#                <button type='button' class='btn btn-danger col js-delete-booking' data-url='{% url "booking_delete" request.booking.id %}'>#}
-{#                    Disapprove#}
-{#                </button>#}
-
             </td>
         </tr>
         <tr>
@@ -66,6 +54,7 @@
     {% endfor %}
 
 </table>
+  
 <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
@@ -100,3 +89,5 @@
         })
     })
 </script>
+<script type="text/javascript" src="{% static 'js/sweetalert.min.js' %}"></script>
+

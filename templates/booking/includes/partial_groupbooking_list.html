@@ -1,6 +1,5 @@
-{#list displaying all bookings#}
+{# List displaying group bookings #}
 <table class="table borderless" id="booking-table">
-
     {% for booking in my_group_bookings_list %}
         <div>
             <thead class="table-title">
@@ -10,7 +9,10 @@
             </thead>
 
             <tr>
-                <td><b>What:</b> {{ booking.description }}</td>
+                <td><b>Description:</b> {{ booking.description }}</td>
+            </tr>
+            <tr>
+                <td><b>Group:</b> {{ booking.group }}</td>
             </tr>
             <tr>
                 <td><b>Location:</b> {{ booking.location }}</td>
@@ -22,9 +24,6 @@
                 <td><b>Time:</b> {{ booking.get_date.2 }} - {{ booking.get_date.3 }}</td>
             </tr>
             <tr>
-                <td><b>Group:</b> {{ booking.group }}</td>
-            </tr>
-            <tr>
                 <td>
                     <hr>
                 </td>
@@ -32,8 +31,7 @@
         </div>
 
         {% empty %}
-            <h6 class="empty">Your groups have no bookings!</h6>
+            <h6 class="empty-group">Your groups have no bookings!</h6>
 
     {% endfor %}
-
 </table>

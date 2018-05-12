@@ -1,3 +1,4 @@
+{# My bookings container #}
 {% extends 'base.html' %}
 {% load static %}
 {% load tags %}
@@ -10,7 +11,7 @@
 
 {% block content %}
     <div class="booking-container">
-        <!-- Modal container -->
+        {# Modal container #}
         <div id="booking-modal" class="modal-big">
             <div id="modal-booking">
                 <div class="booking-modal-contents">
@@ -18,13 +19,14 @@
             </div>
         </div>
 
-        <!-- My bookings and group bookings -->
+        {# My bookings and group bookings #}
         <h1 id="my-bookings-header">
             My bookings
         </h1>
 
         <div class="my-booking-box">
             <div class="flex-container">
+                {# My bookings #}
                 {% if user.is_authenticated %}
                     {% user_in_hs user as user_in_hs %}
                     {% if user_in_hs or request.user.is_superuser %}
@@ -34,22 +36,18 @@
                             <button class="tablinks active" id="booked-tab" onclick="openCity(event, 'Booked')">Booked</button>
                             <button class="tablinks" id="queued-tab" onclick="openCity(event, 'Queued')">Queued</button>
                         </div>
-                        <div class="replace">
-                            {% include 'booking/includes/partial_booking_list.html' %}
+                        <div class="scroll-content">
+                            <div class="replace" id="books">
+                                {% include 'booking/includes/partial_booking_list.html' %}
+                            </div>
                         </div>
-                        <p>
-                            <button type="button" class="btn btn-success col js-create-booking" data-url="{% url 'booking_create' %}">
-                                <span class="glyphicon glyphicon-plus"></span>
-                                Create a new booking
-                            </button>
-                        </p>
                     </div>
                     {% endif %}
                 {% endif %}
 
+                {# Group bookings #}
                 <div class="group-bookings {% if user.is_authenticated and not user_in_hs and not request.user.is_superuser %} group-width {% endif %}">
                     <p class="my-bookings-header-2">Group bookings</p>
-
                     <div class="replace">
                         {% include 'booking/includes/partial_groupbooking_list.html' %}
                     </div>
@@ -57,20 +55,6 @@
             </div>
         </div>
 
-
-        <div id="booking-modal" class="modal-big">
-            <div id="modal-booking">
-                <div class="booking-modal-contents">
-                </div>
-            </div>
-
-        <!-- Alerts-->
-        <div class="alert booking-alert alert-success" id="booking-success" role="alert">
-            <!-- Alert content -->
-            <strong id="alert-head">Congratzis!</strong>
-            <div id="alert-text">You have created a booking.</div>
-
-        </div>
     </div>
 {% endblock %}
 

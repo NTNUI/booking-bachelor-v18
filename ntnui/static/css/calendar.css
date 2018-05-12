@@ -3,7 +3,7 @@
 /* Container for the booking page */
 #booking-container {
     height: auto;
-    width: 60%;
+    width: 70%;
     padding: 1.5% 0% 2.5% 0%;
 }
 
@@ -29,29 +29,41 @@
 }
 .label {
     background-color: #fff;
-    padding: 20px;
     line-height: 2px;
     font-size: 1.6rem;
+
 }
 #previous {
     box-shadow: 0 2px 4px rgba(50, 50, 93, 0.2);
     cursor: pointer;
     border: solid 1px #fff;
+    padding: 20px;
 }
 #next {
     box-shadow: 0 2px 4px rgba(50, 50, 93, 0.2);
     cursor: pointer;
     border: solid 1px #fff;
+    padding: 20px;
 }
 #current-month {
     cursor: default;
+    margin-bottom: 0px;
+    padding: 16px;
 }
-
+#current-location {
+    font-size: 19px;
+    padding: 16px;
+}
 #previous:hover {
     background: #f7f4f4;
 }
 #next:hover {
     background: #f7f4f4;
+}
+#label-titles {
+    display: flex;
+    align-content: center;
+    flex-direction: column;
 }
 
 /*Calendar days*/
@@ -85,8 +97,7 @@
 
 /*Highlights today*/
 .today {
-    border-bottom: solid 2px #EC1E24;
-    color: #EC1E24;
+    border-bottom: solid 2px darkslategrey;
 }
 
 /* Restrictions for booking */
@@ -103,29 +114,6 @@ button#close {
 p.type-header {
     text-transform: capitalize;
     cursor: pointer;
-}
-/* Alerts */
-.booking-alert {
-    position: fixed;
-    left: 0px;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    width: 30%;
-    z-index: 1;
-}
-.alert-success {
-    display: none;
-    bottom: 0px !important;
-    margin-bottom: 5%;
-    padding: 3%;
-}
-
-.alert-warning {
-    display: none;
-    top: 0px !important;
-    margin-top: 10%;
-    padding: 4%;
 }
 
 /* Responsive for different screens devices */
@@ -147,7 +135,7 @@ p.type-header {
 }
 @media only screen and (min-width: 1350px) {
     #booking-container {
-        width: 65% !important;
+        width: 75% !important;
     }
     .alert-warning {
         padding: 3%;
@@ -166,7 +154,7 @@ p.type-header {
 }
 @media only screen and (min-width: 1000px) {
     #booking-container {
-        width: 65%;
+        width: 70%;
     }
     .alert-warning {
         padding: 3%;

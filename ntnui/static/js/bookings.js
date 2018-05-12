@@ -1,4 +1,4 @@
-
+// Script for making bookings
 $(function () {
     var loadForm = function () {
         var btn = $(this);
@@ -6,7 +6,7 @@ $(function () {
             url: btn.attr("data-url"),
             type: 'get',
             dataType: 'json',
-            beforeSend: function () {
+            beforeSend: function (data) {
                 $("#booking-modal .booking-modal-contents").html("");
                 $('#booking-modal').fadeTo(100, function() {
                     $(this).css("display", "inline-block");
@@ -18,16 +18,28 @@ $(function () {
         });
     };
 
-    var saveForm = function () {
+    var saveForm = function (event) {
         var form = $(this);
+        var newForm = form.serializeArray();
+        if (event.target.className == "js-booking-update-form"){
+            var startTime = document.getElementById("startInput").value.toString();
+            var endTime = document.getElementById("endInput").value.toString();
+            var dates = document.getElementById("date").value.toString();
+            newForm.forEach(function (item) {
+                if (item.name === 'start'){
+                    item.value = dates + " " + startTime;
+                } else if (item.name === 'end'){
+                    item.value = dates + " " + endTime;
+                }
+            });
+        }
         $.ajax({
             url: form.attr("action"),
-            data: form.serialize(),
+            data: newForm,
             type: form.attr("method"),
             dataType: 'json',
             success: function (data) {
                 if (data.form_is_valid) {
-
                     $("#person-booking-table").html(data.html_booking_list);
                     $("#booking-modal").css("display", "none");
                     $(document).ready(function() {
@@ -37,18 +49,27 @@ $(function () {
                         }
                     });
                     Swal();
-                    if ((form.context[3].value)>0) {
-                        queuedTab();
-                        document.getElementById("booked-tab").className = "tablinks";
-                        document.getElementById("queued-tab").className = "tablinks active";
+                    if (event.target.className == 'js-booking-delete-form') {
+                        if (form[0].id > 0) {
+                            queuedTab();
+                            document.getElementById("booked-tab").className = "tablinks";
+                            document.getElementById("queued-tab").className = "tablinks active";
+                        } else {
+                            bookedTab();
+                            document.getElementById("queued-tab").className = "tablinks";
+                            document.getElementById("booked-tab").className = "tablinks active";
+                        }
+                    } else {
+                        if ((form.context[3].value)>0) {
+                            queuedTab();
+                            document.getElementById("booked-tab").className = "tablinks";
+                            document.getElementById("queued-tab").className = "tablinks active";
+                        } else {
+                            bookedTab();
+                            document.getElementById("queued-tab").className = "tablinks";
+                            document.getElementById("booked-tab").className = "tablinks active";
+                        }
                     }
-                    else {
-                        bookedTab();
-                        document.getElementById("queued-tab").className = "tablinks";
-                        document.getElementById("booked-tab").className = "tablinks active";
-                    }
-
-
                 }
                 else {
                     $("#booking-modal .booking-modal-contents").html(data.html_form);
@@ -58,9 +79,7 @@ $(function () {
                     document.getElementById("booked-tab").className = "tablinks active";
                 }
             },
-            complete: function (data) {
-
-            }
+            complete: function (data) {}
         });
         return false;
     };
@@ -76,20 +95,18 @@ $(function () {
       // Delete book
     $("#person-booking-table").on("click", ".js-delete-booking", loadForm);
     $("#booking-modal").on("submit", ".js-booking-delete-form", saveForm);
-
-
-
+    
 });
 
 function Swal() {
     var span = document.createElement("span");
-    span.innerHTML = " " + '</br>' + " Your changes has been saved";
+    span.innerHTML = " " + '</br>' + "Your changes has been saved";
     swal({
         title: "" + "Good job!" + "",
         content: span,
         icon: "success",
         buttons: false,
-        timer: 4000,
+        timer: 4000
     });
 }
 
@@ -106,17 +123,57 @@ window.onclick = function(event) {
 bookedTab();
 
 function bookedTab() {
-    $( "tbody:contains('Queue')" ).css( "display", "None" );
-    $( "tbody:contains('Queue')" ).prev().css( "display", "None" );
-    $('tbody:not(:contains("Queue"))').css( "display", "contents" );
-    $('tbody:not(:contains("Queue"))').prev().css( "display", "contents" );
+    var list = document.getElementsByTagName('thead');
+    for(var i = 0; i<list.length; i++) {
+        if(list[i].getAttribute('data-no')) {
+            if(list[i].getAttribute('data-no') > 0) {
+                list[i].style.display = "none";
+            }
+            else {
+                list[i].style.display = "contents";
+            }
+        }
+    };
+    var list = document.getElementsByTagName('tbody');
+    for(var i = 0; i<list.length; i++) {
+        if(list[i].className) {
+            if(list[i].className > 0) {
+                list[i].style.display = "none";
+            }
+            else {
+                list[i].style.display = "contents";
+            }
+        }
+    };
 }
 
 function queuedTab() {
-    $('tbody:not(:contains("Queue"))').css( "display", "None" );
-    $('tbody:not(:contains("Queue"))').prev().css( "display", "None" );
-    $( "tbody:contains('Queue')" ).css( "display", "contents" );
-    $( "tbody:contains('Queue')" ).prev().css( "display", "contents" );
+    var list = document.getElementsByTagName('thead');
+    for(var i = 0; i<list.length; i++) {
+        if(list[i].getAttribute('data-no')) {
+            if(list[i].getAttribute('data-no') > 0) {
+                list[i].style.display = "contents";
+
+            }
+            else {
+                list[i].style.display = "none";
+
+            }
+        }
+    };
+    var list = document.getElementsByTagName('tbody');
+    for(var i = 0; i<list.length; i++) {
+        if(list[i].className) {
+            if(list[i].className > 0) {
+                list[i].style.display = "contents";
+
+            }
+            else {
+                list[i].style.display = "none";
+
+            }
+        }
+    };
 }
 
 function openCity(event, type) {
@@ -133,4 +190,3 @@ function openCity(event, type) {
     //document.getElementById(cityName).style.display = "block";
     event.currentTarget.className += " active";
 }
-

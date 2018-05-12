@@ -1,6 +1,6 @@
-{#form used for deleting bookings#}
+{# Form used for deleting bookings #}
 
-<form method="post" action="{% url 'booking_delete' book.id %}" class="js-booking-delete-form">
+<form method="post" id="{{ book.queueNo }}" action="{% url 'booking_delete' book.id %}" class="js-booking-delete-form">
     {% csrf_token %}
     <div class="modal-header">
         <h4 class="modal-title">Confirm booking deletion</h4>
@@ -13,7 +13,3 @@
         <button title="Click to delete" type="submit" class="btn btn-danger">Delete booking</button>
     </div>
 </form>
-
-<script>
-    var close = document.getElementById('close');
-</script>

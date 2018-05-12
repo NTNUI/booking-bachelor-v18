@@ -1,5 +1,5 @@
-{#list displaying all bookings#}
-
+{# List displaying all bookings #}
+{% load static %}
 <table class='table borderless' id='person-booking-table'>
     {% for booking in filter.qs %}
         {# Titles of bookings #}
@@ -10,8 +10,7 @@
                 </tr>
             </thead>
         {% endif %}
-
-
+        {# Booking content #}
         <tr>
             <td><b>What:</b> {{ booking.description }}</td>
         </tr>
@@ -24,11 +23,11 @@
         <tr>
             <td><b>Time:</b> {{ booking.get_date.2 }} - {{ booking.get_date.3 }}</td>
         </tr>
-        <tr>
-            <td><b>Group:</b> {{ booking.group }}</td>
-        </tr>
-
-
+        {% if booking.group %}
+            <tr>
+                <td><b>Group:</b> {{ booking.group }}</td>
+            </tr>
+        {% endif %}
         <tr>
             <td>
                 <button type='button' class='btn col js-update-booking' data-url='{% url "booking_update" booking.id %}'>
@@ -48,4 +47,4 @@
             <h6 class="empty">There are no bookings!</h6>
     {% endfor %}
 </table>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript" src="{% static 'js/sweetalert.min.js' %}"></script>

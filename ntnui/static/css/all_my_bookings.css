@@ -1,5 +1,4 @@
-/*CSS for my bookings and all bookings page*/
-
+/* CSS for my bookings and all bookings page */
 .booking-container {
     width: 60%;
 }
@@ -14,24 +13,67 @@
 }
 
 hr{
-    border-top: 2px solid #8080803b;
+    border-top: 2px solid #c5c3c3;
+    margin: 0rem;
 }
 
+
+/* Headers */
 #my-bookings-header {
     margin-top: 2rem;
     margin-left: 1rem;
     text-transform: uppercase;
     color: green;
     font-size: 1.5rem;
-    /*max-width: 80%;*/
     max-width: 50%;
     display: inline-block;
 }
 
 .my-bookings-header-2 {
-    margin: 1rem;
+    margin-bottom: 2.2rem;
+    margin-top: 1rem;
     text-align: center;
     font-size: 1.6rem;
+}
+
+
+/* Overwriting modal css */
+.modal-body {
+    padding: 3% 15% 1% 15% !important;
+}
+
+.booking-modal-contents {
+    width: 50% !important;
+}
+
+
+/* Bookings */
+/* Containers for list of bookings */
+.my-bookings, .group-bookings, .all-bookings, .request-bookings {
+    width: 100%;
+    margin: 0rem auto;
+    padding: 1rem 3rem 1rem 3rem;
+    line-height: 15px;
+}
+
+.my-bookings th, .group-bookings th, .all-bookings th, .request-bookings th {
+    line-height: 24px;
+}
+
+.replace {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.group-width {
+    width: 60%;
+}
+
+#create-booking {
+    width: 100%;
+    margin: 0px auto;
 }
 
 .my-booking-box {
@@ -76,35 +118,16 @@ hr{
     width: 100%;
 }
 
-/* Containers for list of bookings */
-.my-bookings {
-    width: 100%;
-    margin: 0rem auto;
-    padding: 1rem 3rem 3rem 3rem;
-}
 
-.group-bookings {
-    width: 100%;
-    margin: 0rem auto;
-    padding: 1rem 3rem 3rem 3rem;
-}
-
-.group-width {
-    width: 60%;
-}
-
-#create-booking {
-    width: 100%;
-    margin: 0px auto;
-}
-
-/* Filters on all booking */
-form {
-    margin: 0px auto;
-}
-
+/* Search/Filters */
 #filter-form {
     width: 80%;
+    margin: 10px auto;
+}
+
+.filter-table td {
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
 
 #filter-button {
@@ -121,13 +144,48 @@ form {
     word-break: break-word;
 }
 
-/* Overwriting modal css */
-.modal-body {
-    padding: 3% 15% 1% 15% !important;
+
+/* Tabs */
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: space-around;
 }
 
-.booking-modal-contents {
-    width: 50% !important;
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+    width: 100%;
+    border-bottom: 1px solid #c5c3c3;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #fff;
+    border: 1px solid #c5c3c3;
+    border-bottom: 1px solid white;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
 }
 
 
@@ -206,9 +264,7 @@ label {
     .booking-container {
         width: 90%
     }
-    .my-bookings,.group-bookings, .all-bookings, form {
-        width: 100%;
-        margin: 0px auto;
+    .my-bookings, .group-bookings, .all-bookings, .request-bookings, form {
         padding: 0.8rem;
     }
     .flex-container {
@@ -247,14 +303,11 @@ label {
     .booking-container {
         width: 80%
     }
-    .my-bookings,.group-bookings, .all-bookings, form {
-        width: 100%;
-        margin: 0px auto;
-        padding: 0.8rem;
-    }
 }
 @media only screen and (max-width: 1250px){
-
+    .my-bookings, .group-bookings, .all-bookings, .request-bookings, form {
+        padding: 1rem;
+    }
     td, .table-title{
         display: block;
         margin-left: auto;
@@ -270,49 +323,6 @@ label {
 
 }
 
-/* Tabs */
-
-/* Style the tab */
-.tab {
-    overflow: hidden;
-    background-color: #f1f1f1;
-    display: flex;
-    justify-content: space-around;
-}
-
-/* Style the buttons inside the tab */
-.tab button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-    font-size: 17px;
-    width: 100%;
-    border-bottom: 1px solid #c5c3c3;
-}
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-    background-color: #ddd;
-}
-
-/* Create an active/current tablink class */
-.tab button.active {
-    background-color: #fff;
-    border: 1px solid #c5c3c3;
-    border-bottom: 1px solid white;
-}
-
-/* Style the tab content */
-.tabcontent {
-    display: none;
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    border-top: none;
-}
 
 /* request buttons */
 
