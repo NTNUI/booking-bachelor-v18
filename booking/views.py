@@ -86,16 +86,13 @@ def get_my_groups(request):
     return my_groups
 
 
-def confirmation_mail(request, pk):
+def confirmation_mail(request):
     name = request.user.first_name
-    booking = get_object_or_404(Booking, pk=pk)
-    date = booking.get_date()
-    (day, date, start_time, end_time) = date
-    new_booking = 'Hey ' + name + ', you have created a new booking on ' + day + ', ' + date
-    updated = 'Hey ' + name + ', your booking on ' + day + ', ' + date + ' has been updated!'
-    deleted = 'Hey ' + name + ', your booking on ' + day + ', ' + date + ' has been deleted!'
-    overwritten = 'Hey ' + name + ', your booking on ' + day + ', ' + date + ' has been overwritten!'
-    queued = 'Hey ' + name + ', you have queued for a booking on ' + day + ', ' + date
+    new_booking = 'Hey ' + name + ', you have created a new booking!'
+    updated = 'Hey ' + name + ', your booking has been updated!'
+    deleted = 'Hey ' + name + ', your booking has been deleted!'
+    overwritten = 'Hey ' + name + ', your booking has been overwritten!'
+    queued = 'Hey ' + name + ', you have queued for a booking!'
     mails = (new_booking, updated, deleted, overwritten, queued)
     return mails
 
@@ -118,7 +115,6 @@ def booking_list(request):
 
 
 def get_my_bookings(request):
-    model = Booking
     user = request.user
     now = timezone.now()
     my_bookings_list = Booking.objects.filter(person=user).filter(start__gte=now).order_by('start')
@@ -180,15 +176,22 @@ def repeat_booking(form):
 
 def save_booking_form(request, form, template_name):
     data = dict()
+    mails = confirmation_mail(request)
     if request.method == 'POST':
         if form.is_valid():           
             form.save()
             data['form_is_valid'] = True
             my_bookings = get_my_bookings(request)
-
             data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
                 'my_bookings_list': my_bookings
             })
+            booking = Booking.objects.all().last()
+            if booking.queueNo == 0:
+                (new_booking, updated, deleted, overwritten, queued) = mails
+                print(new_booking)
+            else:
+                (new_booking, updated, deleted, overwritten, queued) = mails
+                print(queued)
             if form.cleaned_data['repeat'] == "weekly":
                 repeat_booking(form)
         else:
@@ -202,12 +205,6 @@ def booking_create(request):
     if request.method == 'POST':
         user = request.user
         form = BookingForm(user, request.POST)
-        if form.is_valid():
-            start = form.cleaned_data['start']
-            day = start.strftime("%A")
-            date = start.strftime("%d %B")
-            new_booking = 'Hey ' + user.first_name + ', you have created a new booking on ' + day + ', ' + date
-            print(new_booking)
     else:
         user = request.user
         form = BookingForm(user, initial={'person': request.user})
@@ -218,12 +215,6 @@ def booking_create_from_calendar(request):
     if request.method == 'POST':
         user = request.user
         form = BookingForm(user, request.POST)
-        if form.is_valid():
-            start = form.cleaned_data['start']
-            day = start.strftime("%A")
-            date = start.strftime("%d %B")
-            new_booking = 'Hey ' + user.first_name + ', you have created a new booking on ' + day + ', ' + date
-            print(new_booking)
     else:
         user = request.user
         form = BookingForm(user, initial={'person': request.user})
