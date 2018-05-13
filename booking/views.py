@@ -172,11 +172,6 @@ def repeat_booking(data):
                     booking = Booking(location=location, start=start_rec, end=end_rec, title=title,
                                       description=descr, person=person)
                     booking.save(repeatable=True)
-    req_recurring = 'Hey ' + str(person) + ', you have requested a recurring booking!'
-    send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
-                         'key-f90e4c24dcfdb08ea58481344645d540',
-                         str(person.email),
-                         req_recurring)
     data['request'].delete()
 
 
@@ -194,9 +189,15 @@ def save_booking_form(request, form, template_name):
                 repeat_booking(form.cleaned_data)
             elif form.cleaned_data['repeat'] == "weekly":
                 Request.objects.create(booking=form.instance, weekday=form.cleaned_data['day'].upper())
-
             # Sending create and queue mails
-            if inspect.stack()[1][3] != 'booking_update':
+            if request.POST['repeat'] == 'weekly':
+                name = request.user
+                req_recurring = 'Hey ' + str(name) + ', you have requested a recurring booking!'
+                send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
+                                     'key-f90e4c24dcfdb08ea58481344645d540',
+                                     str(name.email),
+                                     req_recurring)
+            elif inspect.stack()[1][3] != 'booking_update':
                 booking = Booking.objects.all().last()
                 name = request.user
                 if booking.queueNo == 0:
@@ -233,18 +234,18 @@ def booking_confirm(request, pk):
             'repeat': "weekly",
             'request': req,
         }
-        repeat_booking(data)
         # Sending accepted mails
         accept = 'Hey ' + str(request.user) + ', you have accepted a recurring booking!'
         send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
                              'key-f90e4c24dcfdb08ea58481344645d540',
                              str(request.user.email),
                              accept)
-        req_accept = 'Hey ' + str(req.user.email) + ', your recurring booking has been accepted!'
+        req_accept = 'Hey ' + str(req.booking.person) + ', your recurring booking has been accepted!'
         send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
                              'key-f90e4c24dcfdb08ea58481344645d540',
-                             str(req.user.email),
+                             str(req.booking.person.email),
                              req_accept)
+        repeat_booking(data)
         return HttpResponseRedirect('/booking/bookings_manage')
 
 
@@ -272,6 +273,7 @@ def booking_create(request):
     if request.method == 'POST':
         user = request.user
         form = BookingForm(user, request.POST)
+
     else:
         user = request.user
         form = BookingForm(user, initial={'person': request.user})
@@ -282,7 +284,6 @@ def booking_create_from_calendar(request):
     if request.method == 'POST':
         user = request.user
         form = BookingForm(user, request.POST)
-
     else:
         user = request.user
         form = BookingForm(user, initial={'person': request.user})
