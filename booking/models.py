@@ -101,8 +101,7 @@ class Booking(models.Model):
         dates = (day, date, start_time, end_time)
         return dates
 
+
 class Request(models.Model):
     booking = models.ForeignKey(Booking)
     weekday = models.CharField(max_length=3)
-
-    
