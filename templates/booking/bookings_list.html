@@ -73,20 +73,22 @@
           var th = table.getElementsByTagName("th");
           var tbody = table.getElementsByTagName("tbody");
           // Loop through all table rows, and hide those who don't match the search query
-          for (i = 0; i< tbody.length; i++) {
-            for(var j = 0; j<tbody[i].childNodes.length; j++) {
-                if (tbody[i].childNodes[j].innerText) {
-                    if(tbody[i].childNodes[j].innerText.toUpperCase().search(filter)) {
-                        tbody[i].style.display = "";
-                    }
-                    else {
-                        tbody[i].style.display = "none";
-                    }
-                }
+          //$("#person-booking-table").find("tr");
+          //console.log($("#person-booking-table").find("tr"))
 
-            }
+          var list = $("#person-booking-table").children("tbody").children("tr");
+          for(var i = 0; i<list.length; i++) {
+              var div = list[i].innerText
+              if($(list[i]).text().toUpperCase().indexOf(filter) != -1) {
+                  $("#person-booking-table").children("tbody")[i].style.display = "";
+                  $("#person-booking-table").children("tbody")[i].previousElementSibling.style.display = "";
+              }
+              else {
+                  $("#person-booking-table").children("tbody")[i].style.display = "none";
+                  $("#person-booking-table").children("tbody")[i].previousElementSibling.style.display = "none";
+              }
+          }
         }
-      }
           {#for (i = 0; i < tr.length; i++) {#}
           {#  td = tr[i].getElementsByTagName("td")[0];#}
           {#  if (td) {#}

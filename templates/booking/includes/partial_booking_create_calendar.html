@@ -34,7 +34,6 @@
             + formattedDate.getDate() + '. ' + monthNames[formattedDate.getMonth()] + '<h5>' + locationString + '</h5>';
 
         if ($('#id_repeat').length){
-            console.log("exists");
             var weekly = document.getElementById("id_repeat").children[1];
             weekly.innerHTML = 'Repeat every '+ dayOfWeekAsString(formattedDate.getDay());
         }
