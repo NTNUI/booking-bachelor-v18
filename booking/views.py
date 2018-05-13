@@ -150,7 +150,8 @@ def repeat_booking(data):
     e_time = str(end)[11:] #YYYY-MM-DDTHH:MMZ
     title = data['title']
     descr = data['description']
-    person = data['person'] 
+    person = data['person']
+    group = data['group']
     cal = Calendar()
     ydcal = cal.yeardays2calendar(year, width=6)
     if month > 5:
@@ -178,7 +179,7 @@ def repeat_booking(data):
                     date_format = str(year) + "-" + cal_m + "-" + cal_d
                     start_rec = date_format + " " + s_time
                     end_rec = date_format + " " + e_time
-                    booking = Booking(location=location, start=start_rec, end=end_rec, title=title,
+                    booking = Booking(location=location, start=start_rec, group=group, end=end_rec, title=title,
                                       description=descr, person=person)
                     booking.save(repeatable=True)
           
