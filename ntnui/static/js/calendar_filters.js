@@ -1,10 +1,12 @@
 // Dropdown for filtering
 function dropdownFilters(event){
     var toggleArrow = document.getElementById(event.target.id);
-    toggleArrow.classList.toggle("down");
-    var typeId = toggleArrow.nextSibling.nextSibling.id;
-    var toggleType = document.getElementById(typeId);
-    toggleType.style.display = toggleType.style.display == "block" ? "none" : "block";
+    if ($(toggleArrow).length) {
+        toggleArrow.classList.toggle("down");
+        var typeId = toggleArrow.nextSibling.nextSibling.id;
+        var toggleType = document.getElementById(typeId);
+        toggleType.style.display = toggleType.style.display == "block" ? "none" : "block";
+    }
 }
 
 // Alerts
