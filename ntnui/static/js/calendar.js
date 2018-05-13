@@ -36,9 +36,6 @@ function promiseTest() {
         dataType: "json",
         type: "GET",
         cache: false,
-        success: function() {
-            console.log("");
-        }
     })
 }
 

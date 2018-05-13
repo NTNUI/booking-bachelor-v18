@@ -141,7 +141,8 @@ def repeat_booking(data):
     e_time = str(end)[11:] #YYYY-MM-DDTHH:MMZ
     title = data['title']
     descr = data['description']
-    person = data['person'] 
+    person = data['person']
+    group = data['group']
     cal = Calendar()
     ydcal = cal.yeardays2calendar(year, width=6)
     if month > 5:
@@ -169,7 +170,7 @@ def repeat_booking(data):
                     date_format = str(year) + "-" + cal_m + "-" + cal_d
                     start_rec = date_format + " " + s_time
                     end_rec = date_format + " " + e_time
-                    booking = Booking(location=location, start=start_rec, end=end_rec, title=title,
+                    booking = Booking(location=location, start=start_rec, group=group, end=end_rec, title=title,
                                       description=descr, person=person)
                     booking.save(repeatable=True)
     data['request'].delete()
@@ -178,7 +179,7 @@ def repeat_booking(data):
 def save_booking_form(request, form, template_name):
     data = dict()
     if request.method == 'POST':
-        if form.is_valid():           
+        if form.is_valid():
             form.save()
             data['form_is_valid'] = True
             my_bookings = get_my_bookings(request)
@@ -245,6 +246,7 @@ def booking_confirm(request, pk):
                              'key-f90e4c24dcfdb08ea58481344645d540',
                              str(req.booking.person.email),
                              req_accept)
+
         repeat_booking(data)
         return HttpResponseRedirect('/booking/bookings_manage')
 

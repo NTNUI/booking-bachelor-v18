@@ -330,3 +330,7 @@ label {
     width: 100%;
 }
 
+form#reject-booking, form#confirm-booking {
+    padding: 0;
+}
+

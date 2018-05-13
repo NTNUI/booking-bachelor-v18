@@ -3,7 +3,7 @@
 <table class="table borderless" id="person-booking-table">
     {% for booking in my_bookings_list %}
         <thead class='table-title' data-no="{{ booking.queueNo }}">
-            <tr>
+            <tr class="title">
                 <th>{{ booking.title }}</th>
             </tr>
         </thead>

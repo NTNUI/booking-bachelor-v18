@@ -33,8 +33,10 @@
         document.getElementById('dayTitle').innerHTML = dayOfWeekAsString(formattedDate.getDay()) + ' '
             + formattedDate.getDate() + '. ' + monthNames[formattedDate.getMonth()] + '<h5>' + locationString + '</h5>';
 
-        var weekly = document.getElementById("id_repeat").children[1];
-        weekly.innerHTML = 'Repeat every '+ dayOfWeekAsString(formattedDate.getDay());
+        if ($('#id_repeat').length){
+            var weekly = document.getElementById("id_repeat").children[1];
+            weekly.innerHTML = 'Repeat every '+ dayOfWeekAsString(formattedDate.getDay());
+        }
     }
     setModalTitles();
 </script>

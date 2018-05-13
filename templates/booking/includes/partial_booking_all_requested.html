@@ -34,11 +34,11 @@
             <td>
                 <form id="confirm-booking" action='{% url "booking_confirm" request.id %}' method = "post">
                     {% csrf_token %}
-                    <input type="button"  class="btn approve btn-success" id="{{ request.id }}" value="Approve" />
+                    <input type="button"  class="btn approve btn-success" id="{{ request.id }}" value="Accept" />
                 </form>
                 <form id="reject-booking" action='{% url "delete_request" request.id %}' method = "post">
                     {% csrf_token %}
-                    <input type="button" class="btn disapprove btn-danger" id="{{ request.id }}" value="Disapprove" />
+                    <input type="button" class="btn disapprove btn-danger" id="{{ request.id }}" value="Decline" />
                 </form>
             </td>
         </tr>
@@ -49,7 +49,7 @@
         </tr>
 
         {% empty %}
-            <h6 class="empty">You have no requested bookings!</h6>
+            <h6 class="empty-requested">You have no requested bookings!</h6>
 
     {% endfor %}
 
