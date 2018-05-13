@@ -260,13 +260,17 @@ def booking_create_from_calendar(request):
         user = request.user
         form = BookingForm(user, request.POST)
         if form.is_valid():
-            booking = Booking.objects.all().last()
-            if booking.queueNo == 0:
-                (new_booking, updated, deleted, queued) = mails
-                print(new_booking)
+            if Booking.objects.all():
+                booking = Booking.objects.all().last()
+                if booking.queueNo == 0:
+                    (new_booking, updated, deleted, queued) = mails
+                    print(new_booking)
+                else:
+                    (new_booking, updated, deleted, queued) = mails
+                    print(queued)
             else:
                 (new_booking, updated, deleted, queued) = mails
-                print(queued)
+                print(new_booking)
     else:
         user = request.user
         form = BookingForm(user, initial={'person': request.user})
