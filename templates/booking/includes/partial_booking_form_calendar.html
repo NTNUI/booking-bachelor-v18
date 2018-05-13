@@ -131,7 +131,9 @@
         var booking_data; //global variable for booking data
         var overlap = []; //put overlapping bookings here
         $(document).ready(function(){
-            document.getElementById("id_day").value=tempDay.children[1].innerHTML.trim();
+            if ($('#id_day').length){
+                document.getElementById("id_day").value= new Date(tempDay.id.substring(0,4), +tempDay.id.substring(5,7)-1, tempDay.id.substring(8,10)).toString().slice(0,3);
+            };
             var btn = document.getElementById("submission");
             $(btn).click(function () {
                 if(validateForm()) {
@@ -215,82 +217,90 @@
                 })
             },
             success: function(data) {
-                $.each(data, function(i, item) {
-                    booking_data = data;
-                    var date = data[i].start;
-                    var date_format = date.slice(0, 10);
-                    var start = date.slice(11, 16);
-                    var newDate = start.replace(":", "");
-                    var loc = globalList[0][i].location__name;
-                    loc = document.getElementById(loc);
-                    var queueNo = globalList[0][i].queueNo;
-                    var group = globalList[0][i].group;
-                    var personId = globalList[0][i].person__id;
-                    var dayName = document.getElementById("id_day");
-                    dayName.value = tempDay.children[1].innerHTML.trim();
-
-                    if(tempDay.id === date_format && data[i].location__name === loc.value && loc.checked === true) {
-                        booking = []
-                        booking.push(newDate, start, data[i].end, data[i].title, data[i].person__first_name, queueNo, group, personId);
-                        list_of_bookings.push(booking)
-                        list_of_bookings.sort(function(a, b){return a[0] - b[0]});
-                    }
-
-                });
-                if(list_of_bookings.length != 0){
-                    for (var I = 0; I < list_of_bookings.length; I++) {
-                        var queueNo = list_of_bookings[I][5];
-                        if (queueNo == 0) {
-                            var div = document.createElement("div");
-                            div.className = "col-sm-10";
-                            var div2 = document.createElement("div");
-                            div2.className = "card";
-                            var div3 = document.createElement("div");
-                            div3.className = "card-body" + " " + list_of_bookings[I][7];
-                            var date = document.createElement("h5");
-                            date.className = "card-title";
-                            var start_time = list_of_bookings[I][1];
-                            var end_time = list_of_bookings[I][2].slice(11, 16);
-                            date.innerHTML = start_time + "-" + end_time;
-                            var title = document.createElement("p");
-                            title.className = "card-text";
-                            var b_title = list_of_bookings[I][3];
-                            title.innerHTML = b_title;
-                            var name = document.createElement("h6");
-                            name.className = "card-subtitle text-muted mb-2";
-                            var b_name = list_of_bookings[I][4]
-                            name.innerHTML = b_name;
-                            var group = document.createElement("h8");
-                            group.className = "card-subtitle";
-                            var b_group = list_of_bookings[I][6];
-                            group.innerHTML = b_group;
-                            div3.appendChild(date);
-                            div3.appendChild(title);
-                            div3.appendChild(name);
-                            div3.appendChild(group);
-                            div2.appendChild(div3);
-                            div.appendChild(div2);
-                            document.getElementById("booking-cards").appendChild(div);
-                        }
-                        var userId = {{ user.id }};
-                        if(userId == list_of_bookings[I][7] && list_of_bookings[I][5] == 0){
-                            div3.style.borderBottom = "2px solid orange";
-                            div3.style.cursor = "pointer";
-                            div3.title = "Click to see your booking";
-                            var myCards = document.getElementsByClassName(list_of_bookings[I][7])
-                            for(var i=0; i < myCards.length; i++){
-                                myCards[i].onclick = function(){
-                                    window.location = "/booking/bookings_list";
+                var promised = promiseTest();
+                    promised.done(function() {
+                        promised.then( function() {
+                            globalList = []
+                            globalList.push(promised.responseJSON);
+                            $.each(data, function(i, item) {
+                                booking_data = data;
+                                var date = data[i].start;
+                                var date_format = date.slice(0, 10);
+                                var start = date.slice(11, 16);
+                                var newDate = start.replace(":", "");
+                                var loc = globalList[0][i].location__name;
+                                loc = document.getElementById(loc);
+                                var queueNo = globalList[0][i].queueNo;
+                                var group = globalList[0][i].group;
+                                var personId = globalList[0][i].person__id;
+                                if ($('#id_day').length){
+                                    var dayName = document.getElementById("id_day");
+                                    dayName.value = tempDay.children[1].innerHTML.trim();
+                                };
+                                if(tempDay.id === date_format && data[i].location__name === loc.value && loc.checked === true) {
+                                    booking = []
+                                    booking.push(newDate, start, data[i].end, data[i].title, data[i].person__first_name, queueNo, group, personId);
+                                    list_of_bookings.push(booking)
+                                    list_of_bookings.sort(function(a, b){return a[0] - b[0]});
                                 }
+
+                            });
+                            if(list_of_bookings.length != 0){
+                                for (var I = 0; I < list_of_bookings.length; I++) {
+                                    var queueNo = list_of_bookings[I][5];
+                                    if (queueNo == 0) {
+                                        var div = document.createElement("div");
+                                        div.className = "col-sm-10";
+                                        var div2 = document.createElement("div");
+                                        div2.className = "card";
+                                        var div3 = document.createElement("div");
+                                        div3.className = "card-body" + " " + list_of_bookings[I][7];
+                                        var date = document.createElement("h5");
+                                        date.className = "card-title";
+                                        var start_time = list_of_bookings[I][1];
+                                        var end_time = list_of_bookings[I][2].slice(11, 16);
+                                        date.innerHTML = start_time + "-" + end_time;
+                                        var title = document.createElement("p");
+                                        title.className = "card-text";
+                                        var b_title = list_of_bookings[I][3];
+                                        title.innerHTML = b_title;
+                                        var name = document.createElement("h6");
+                                        name.className = "card-subtitle text-muted mb-2";
+                                        var b_name = list_of_bookings[I][4]
+                                        name.innerHTML = b_name;
+                                        var group = document.createElement("h8");
+                                        group.className = "card-subtitle";
+                                        var b_group = list_of_bookings[I][6];
+                                        group.innerHTML = b_group;
+                                        div3.appendChild(date);
+                                        div3.appendChild(title);
+                                        div3.appendChild(name);
+                                        div3.appendChild(group);
+                                        div2.appendChild(div3);
+                                        div.appendChild(div2);
+                                        document.getElementById("booking-cards").appendChild(div);
+                                    }
+                                    var userId = {{ user.id }};
+                                    if(userId == list_of_bookings[I][7] && list_of_bookings[I][5] == 0){
+                                        div3.style.borderBottom = "2px solid orange";
+                                        div3.style.cursor = "pointer";
+                                        div3.title = "Click to see your booking";
+                                        var myCards = document.getElementsByClassName(list_of_bookings[I][7])
+                                        for(var i=0; i < myCards.length; i++){
+                                            myCards[i].onclick = function(){
+                                                window.location = "/booking/bookings_list";
+                                            }
+                                        }
+                                    }
+                                }
+                            }else {
+                                var empty = document.createElement("h5");
+                                empty.innerHTML = "No bookings today!";
+                                empty.className = "empty";
+                                document.getElementById("booking-cards").appendChild(empty);
                             }
-                        }
-                    }
-                }else {
-                    var empty = document.createElement("h5");
-                    empty.innerHTML = "No bookings today!";
-                    empty.className = "empty";
-                    document.getElementById("booking-cards").appendChild(empty);
-                }
+                                })
+                            })
             }
         });
     </script>
