@@ -27,7 +27,7 @@ document.onkeydown = function(evt) {
             nextMonth();
             break;
     }
-}
+};
 
 // Promise object used to fetch data from our API.
 function promiseTest() {
@@ -195,8 +195,7 @@ function createCalendarDay(num, day, mon, year, available) {
     var currentDate = new Date;
     // Restricts days that cant be booked. Stops at 10. june in spring and 21. desember in autumn
     if(currentDate.getMonth()+1 <= 6){
-        maxMonth = '0'+6;
-        maxDay = 10;
+        maxMonth = '0' + 6;
     }
     if(currentDate.getMonth()+1 >= 8){
         maxMonth = 12;
