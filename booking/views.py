@@ -118,7 +118,7 @@ def get_my_bookings(request):
     return my_bookings_list
 
 
-def repeat_booking(data):
+def repeat_booking(data, request):
     location = data['location']
     start = data['start']
     end = data['end']
@@ -172,7 +172,10 @@ def repeat_booking(data):
                     booking = Booking(location=location, start=start_rec, end=end_rec, title=title,
                                       description=descr, person=person)
                     booking.save(repeatable=True)
-          
+
+    # Sending accepted mails
+    print('Hey ' + str(request.user) + ', you have accepted a recurring booking!')
+    print('Hey ' + str(person) + ', your recurring booking has been accepted!')
     data['request'].delete()
 
 
@@ -191,8 +194,7 @@ def save_booking_form(request, form, template_name):
             elif form.cleaned_data['repeat'] == "weekly":
                 Request.objects.create(booking=form.instance, weekday=form.cleaned_data['day'].upper())
 
-            # Sending mails
-            print(inspect.stack()[1][3])
+            # Sending create and queue mails
             if inspect.stack()[1][3] != 'booking_update':
                 booking = Booking.objects.all().last()
                 name = request.user
@@ -222,7 +224,7 @@ def booking_confirm(request, pk):
             'repeat': "weekly",
             'request': req,
         }
-        repeat_booking(data)
+        repeat_booking(data, request)
         return HttpResponseRedirect('/booking/bookings_manage')
 
 
@@ -230,6 +232,9 @@ def delete_request(request, pk):
     if request.method == 'POST':
         req = get_object_or_404(Request, pk=pk)
         req.delete()
+        # Sending declined mails
+        print('Hey ' + str(request.user) + ', you have declined a recurring booking!')
+        print('Hey ' + str(req.booking.person) + ', your recurring booking has been declined!')
         return HttpResponseRedirect('/booking/bookings_manage')
 
 
