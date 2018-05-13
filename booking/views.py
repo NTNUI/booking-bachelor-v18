@@ -182,14 +182,13 @@ def repeat_booking(data):
                     booking = Booking(location=location, start=start_rec, group=group, end=end_rec, title=title,
                                       description=descr, person=person)
                     booking.save(repeatable=True)
-          
     data['request'].delete()
 
 
 def save_booking_form(request, form, template_name):
     data = dict()
     if request.method == 'POST':
-        if form.is_valid():           
+        if form.is_valid():
             form.save()
             data['form_is_valid'] = True
             my_bookings = get_my_bookings(request)
@@ -224,6 +223,7 @@ def booking_confirm(request, pk):
             'request': req,
 
             }
+
         repeat_booking(data)
         return HttpResponseRedirect('/booking/bookings_manage')
 

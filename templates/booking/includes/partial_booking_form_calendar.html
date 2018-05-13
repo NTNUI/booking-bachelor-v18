@@ -92,7 +92,7 @@
                     var promised = promiseTest();
                     promised.done(function() {
                         promised.then( function() {
-                            globalList = []
+                            globalList = [];
                             globalList.push(promised.responseJSON);
                             populate();
                         })
