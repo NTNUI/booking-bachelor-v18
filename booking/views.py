@@ -12,8 +12,7 @@ from calendar import Calendar
 from groups.models import SportsGroup, Membership
 from django.utils import timezone
 from django.shortcuts import render
-
-
+import requests
 
 def error_404(request):
     data = {}
@@ -319,3 +318,13 @@ def booking_delete(request, pk):
   
 def show_form(request):
     return render(request, "booking/booking_form.html")
+
+
+def send_mailgun_message(API_BASE_URL, API_KEY, user, subject, text):
+    return requests.post(
+        API_BASE_URL,
+        auth=("api", API_KEY),
+        data={"from": "support@ntnui.no",
+              "to": [user],
+              "subject": subject,
+              "text": text})
