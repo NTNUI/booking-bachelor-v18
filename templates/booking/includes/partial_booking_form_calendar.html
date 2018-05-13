@@ -102,7 +102,31 @@
             })
         }
 
-        var list_of_bookings = []
+        function successModal() {
+            var span = document.createElement("span");
+            span.innerHTML = "You can find your booking at " + '</br>' + " <a href=\"/booking/bookings_list\">My Bookings</a>";
+            swal({
+                title: "" + "Great, you have made a booking!" + "",
+                content: span,
+                icon: "success",
+                buttons: false,
+                timer: 4000,
+            });
+        }
+
+        function queueModal() {
+            var span = document.createElement("span");
+            span.innerHTML = "You can find your queued booking at " + '</br>' + " <a href=\"/booking/bookings_list\">My Bookings</a>";
+            swal({
+                title: "" + "Great, you have queued a booking!" + "",
+                content: span,
+                icon: "success",
+                buttons: false,
+                timer: 4000,
+            });
+        }
+
+        var list_of_bookings = [];
         var chosenLocation = this.currentLocation;
         var booking_data; //global variable for booking data
         var overlap = []; //put overlapping bookings here
@@ -143,29 +167,13 @@
                                         successMode: true,
                                     }).then((Request) => {
                                         if(Request) {
-                                            var span = document.createElement("span");
-                                            span.innerHTML = "You can find your queued booking at " + '</br>' + " <a href=\"/booking/bookings_list\">My Bookings</a>";
-                                            swal({
-                                                title: "" + "Great, you have queued a booking!" + "",
-                                                content: span,
-                                                icon: "success",
-                                                buttons: false,
-                                                timer: 4000,
-                                            });
+                                            queueModal();
                                             ajaxForm()
                                         }
                                     })
                                 }
                                 else {
-                                    var span = document.createElement("span");
-                                    span.innerHTML = "You can find your queued booking at " + '</br>' + " <a href=\"/booking/bookings_list\">My Bookings</a>";
-                                    swal({
-                                        title: "" + "Great, you have queued a booking!" + "",
-                                        content: span,
-                                        icon: "success",
-                                        buttons: false,
-                                        timer: 4000,
-                                    });
+                                    queueModal()
                                     ajaxForm()
                                 }
                             }
@@ -180,29 +188,13 @@
                                         successMode: true,
                                     }).then((Request) => {
                                         if(Request) {
-                                            var span = document.createElement("span");
-                                            span.innerHTML = "You can find your booking at " + '</br>' + " <a href=\"/booking/bookings_list\">My Bookings</a>";
-                                            swal({
-                                                title: "" + "Great, you have made a booking!" + "",
-                                                content: span,
-                                                icon: "success",
-                                                buttons: false,
-                                                timer: 4000,
-                                            });
+                                            successModal()
                                             ajaxForm()
                                         }
                                     })
                                 }
                         else {
-                            var span = document.createElement("span");
-                            span.innerHTML = "You can find your booking at " + '</br>' + " <a href=\"/booking/bookings_list\">My Bookings</a>";
-                            swal({
-                                title: "" + "Great, you have made a booking!" + "",
-                                content: span,
-                                icon: "success",
-                                buttons: false,
-                                timer: 4000,
-                            });
+                            successModal()
                             ajaxForm()
                         }
                     }
@@ -243,15 +235,8 @@
                         list_of_bookings.push(booking)
                         list_of_bookings.sort(function(a, b){return a[0] - b[0]});
                     }
-                    //TODO: check if overlapping booking exists in API:
-                    var booking = data[i]
 
-                    var s_time = document.getElementById("startTime").value
-                    var e_time = document.getElementById("endTime").value
-                    if (booking.start <= tempDay.end && booking.end >= tempDay.start){
-
-                    }
-                })
+                });
                 if(list_of_bookings.length != 0){
                     for (var I = 0; I < list_of_bookings.length; I++) {
                         var queueNo = list_of_bookings[I][5];
