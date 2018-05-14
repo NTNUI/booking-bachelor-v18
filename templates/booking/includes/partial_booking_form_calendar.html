@@ -79,15 +79,14 @@
         function ajaxForm() {
             var myForm = $("#createform");
             event.preventDefault();
-            var startTime = document.getElementById("startInput").value;
-            var endTime = document.getElementById("endInput").value;
-            var globalList;
-            var formData = $(myForm).serialize()+"&start="+tempDay.id.toString() + " " + startTime +
-                "&end="+tempDay.id.toString() + " " + endTime + "&location=" + " " + chosenLocation;
+            var start_time = document.getElementById("startInput").value;
+            var end_time = document.getElementById("endInput").value;
+            var $form_data = $(myForm).serialize()+"&start="+tempDay.id.toString() + " " + start_time +
+                "&end="+tempDay.id.toString() + " " + end_time + "&location=" + " " + chosenLocation;
             $.ajax({
                 method: "POST",
                 url: "/booking/bookings_list/create_calendar/",
-                data: formData,
+                data: $form_data,
                 complete: function(data) {
                     var modal = document.getElementById("booking-modal");
                     modal.style.display = "none";
@@ -99,54 +98,56 @@
                             populate();
                         })
                     })
-                }
+                },
             })
         }
 
         function successModal() {
             var span = document.createElement("span");
-            span.innerHTML = "You can find your booking at " + "</br>" + " <a href=\"/booking/bookings_list\">My Bookings</a>";
+            span.innerHTML = "You can find your booking at " + "</br>" +
+                " <a href=\"/booking/bookings_list\">My Bookings</a>";
             swal({
                 title: "" + "Great, you have made a booking!" + "",
                 content: span,
                 icon: "success",
                 buttons: false,
-                timer: 4000
+                timer: 4000,
             });
         }
 
         function queueModal() {
             var span = document.createElement("span");
-            span.innerHTML = "You can find your queued booking at " + "</br>" + " <a href=\"/booking/bookings_list\">My Bookings</a>";
+            span.innerHTML = "You can find your queued booking at " + "</br>" +
+                " <a href=\"/booking/bookings_list\">My Bookings</a>";
             swal({
                 title: "" + "Great, you have queued a booking!" + "",
                 content: span,
                 icon: "success",
                 buttons: false,
-                timer: 4000
+                timer: 4000,
             });
         }
 
-        var bookingList = [];
+        var list_of_bookings = [];
         var chosenLocation = this.currentLocation;
-        var bookingData; // Global variable for booking data
+        var booking_data; //global variable for booking data
         $(document).ready(function(){
-            if ($("#id_day").length){
+            if ($('#id_day').length){
                 document.getElementById("id_day").value= new Date(tempDay.id.substring(0,4), +
-                        tempDay.id.substring(5,7)-1, tempDay.id.substring(8,10)).toString().slice(0,3);
-            }
+                    tempDay.id.substring(5,7)-1, tempDay.id.substring(8,10)).toString().slice(0,3);
+            };
             var btn = document.getElementById("submission");
             $(btn).click(function () {
                 if(validateForm()) {
                     var count = 0;
-                    $( bookingList ).each(function( index ) {
-                        if (bookingList[index][5] == 0) {
-                            var startTime = document.getElementById("startInput").value;
-                            var endTime = document.getElementById("endInput").value;
-                            var s = bookingList[index][1].replace(":", "");
-                            var e = bookingList[index][2].slice(11, 16).replace(":", "");
-                            var s0 = startTime.slice(0, 5).replace(":", "");
-                            var e0 = endTime.slice(0, 5).replace(":", "");
+                    $( list_of_bookings ).each(function( index ) {
+                        if (list_of_bookings[index][5] == 0) {
+                            var start_time = document.getElementById("startInput").value;
+                            var end_time = document.getElementById("endInput").value;
+                            var s = list_of_bookings[index][1].replace(":", "");
+                            var e = list_of_bookings[index][2].slice(11, 16).replace(":", "");
+                            var s0 = start_time.slice(0, 5).replace(":", "");
+                            var e0 = end_time.slice(0, 5).replace(":", "");
                             if ((s <= s0 && e > s0) || (s > s0 && s < e0) || (s < s0 && e > e0)) {
                                 count += 1;
                             }
@@ -162,7 +163,6 @@
                             if (willQueue) {
                                 var recurringRequest = document.getElementById("id_repeat");
                                 if (recurringRequest.value != "noRepeat") {
-                                    console.log("recurring")
                                     swal({
                                         title: "Do you want to request a recurring booking?",
                                         text: "This request will be reviewed by NTNUi staff",
@@ -187,13 +187,13 @@
                                 title: "Do you want to request a recurring booking?",
                                 text: "This request will be reviewed by NTNUi staff?",
                                 buttons: ["No", "Yes"],
-                                successMode: true
+                                successMode: true,
                             }).then((Request) => {
                                 if(Request) {
                                     successModal();
                                     ajaxForm();
                                 }
-                            });
+                            })
                         } else {
                             successModal();
                             ajaxForm();
@@ -222,62 +222,59 @@
                         globalList = [];
                         globalList.push(promised.responseJSON);
                         $.each(data, function(i, item) {
-                            bookingData = data;
+                            booking_data = data;
                             var date = data[i].start;
-                            var dateFormat = date.slice(0, 10);
+                            var date_format = date.slice(0, 10);
                             var start = date.slice(11, 16);
                             var newDate = start.replace(":", "");
-                            var locId = globalList[0][i].location__name;
-                            var loc = document.getElementById(locId);
+                            var loc = globalList[0][i].location__name;
+                            loc = document.getElementById(loc);
                             var queueNo = globalList[0][i].queueNo;
                             var group = globalList[0][i].group;
                             var personId = globalList[0][i].person__id;
-                            if ($("#id_day").length){
+                            if ($('#id_day').length){
                                 var dayName = document.getElementById("id_day");
                                 dayName.value = tempDay.children[1].innerHTML.trim();
-                            }
+                            };
                             var mail = globalList[0][i].person__email;
                             var fName = globalList[0][i].person__first_name;
                             var lName = globalList[0][i].person__last_name;
-                            if(tempDay.id === dateFormat && data[i].location__name === loc.value
-                                    && loc.checked === true) {
-                                var booking = [];
-                                booking.push(newDate, start, data[i].end, data[i].title, fName,
-                                             queueNo, group, personId, lName, mail);
-                                bookingList.push(booking);
-                                bookingList.sort(function(a, b){return a[0] - b[0]});
+                            if(tempDay.id === date_format && data[i].location__name === loc.value && loc.checked === true) {
+                                booking = [];
+                                booking.push(newDate, start, data[i].end, data[i].title, fName, queueNo, group, personId, lName, mail);
+                                list_of_bookings.push(booking)
+                                list_of_bookings.sort(function(a, b){return a[0] - b[0]});
                             }
-
                         });
-                        if(bookingList.length != 0){
-                            for (var I = 0; I < bookingList.length; I++) {
-                                var queueNo = bookingList[I][5];
+                        if(list_of_bookings.length != 0){
+                            for (var I = 0; I < list_of_bookings.length; I++) {
+                                var queueNo = list_of_bookings[I][5];
                                 if (queueNo == 0) {
                                     var div = document.createElement("div");
                                     div.className = "col-sm-10";
                                     var div2 = document.createElement("div");
                                     div2.className = "card";
                                     var div3 = document.createElement("div");
-                                    div3.className = "card-body" + " " + bookingList[I][7];
+                                    div3.className = "card-body" + " " + list_of_bookings[I][7];
                                     var date = document.createElement("h5");
                                     date.className = "card-title";
-                                    var startTime = bookingList[I][1];
-                                    var endTime = bookingList[I][2].slice(11, 16);
-                                    date.innerHTML = startTime + "-" + endTime;
+                                    var start_time = list_of_bookings[I][1];
+                                    var end_time = list_of_bookings[I][2].slice(11, 16);
+                                    date.innerHTML = start_time + "-" + end_time;
                                     var title = document.createElement("p");
                                     title.className = "card-text";
-                                    title.innerHTML = bookingList[I][3];
+                                    title.innerHTML = list_of_bookings[I][3];
                                     var group = document.createElement("h8");
                                     group.className = "card-subtitle";
-                                    group.innerHTML = bookingList[I][6];
+                                    group.innerHTML = list_of_bookings[I][6];
                                     var name = document.createElement("h6");
                                     name.className = "card-subtitle text-muted mb-2";
-                                    var fName = bookingList[I][4];
-                                    var lName = bookingList[I][8];
-                                    name.innerHTML = fName + " " + lName;
+                                    var f_name = list_of_bookings[I][4];
+                                    var l_name = list_of_bookings[I][8];
+                                    name.innerHTML = f_name + " " + l_name;
                                     var mail = document.createElement("h6");
                                     mail.className = "card-subtitle";
-                                    mail.innerHTML = bookingList[I][9];
+                                    mail.innerHTML = list_of_bookings[I][9];
                                     div3.appendChild(date);
                                     div3.appendChild(title);
                                     div3.appendChild(group);
@@ -289,11 +286,11 @@
                                 }
                                 // Making the users cards marked and clickable
                                 var userId = {{ user.id }};
-                                if(userId == bookingList[I][7] && bookingList[I][5] == 0){
+                                if(userId == list_of_bookings[I][7] && list_of_bookings[I][5] == 0){
                                     div3.style.borderBottom = "2px solid darkslategrey";
                                     div3.style.cursor = "pointer";
                                     div3.title = "Click to see your booking";
-                                    var myCards = document.getElementsByClassName(bookingList[I][7]);
+                                    var myCards = document.getElementsByClassName(list_of_bookings[I][7]);
                                     for(var i=0; i < myCards.length; i++){
                                         myCards[i].onclick = function(){
                                             window.location = "/booking/bookings_list";
@@ -301,7 +298,7 @@
                                     }
                                 }
                             }
-                        }else{
+                        }else {
                             var empty = document.createElement("h5");
                             empty.innerHTML = "No bookings today!";
                             empty.className = "empty";
