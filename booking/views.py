@@ -21,6 +21,7 @@ def error_404(request):
     return render(request, 'booking/error_404.html', data)
 
 
+# Render calendar page and returns lists of locations and types
 @login_required
 def index(request):
     model = Location
@@ -30,7 +31,7 @@ def index(request):
         'locations': locations,
         'types': type_list})
 
-
+# API that allows client-side code to get data from database.
 def api(request):
     model = Booking
     bookings = model.objects.all().values('title', 'description', 'start', 'end', 'location__name',
@@ -38,12 +39,6 @@ def api(request):
                                           'person__email', 'person__last_name')
     booking_list = list(bookings)
     return JsonResponse(booking_list, safe=False)
-
-
-def api2(request):
-    # DEPRECATED
-    pass
-
   
 def location_api(request):
     model = Location
@@ -67,6 +62,7 @@ class BookingList(ListView):
             'bookings': bookings, })
 
 
+# Renders 'Manage bookings' page and passes QuerySets relevant to that page.
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
 def booking_manage(request):
@@ -84,7 +80,7 @@ def booking_manage(request):
         'requested': requested,
     })
 
-
+# Get groups of logged-in user
 def get_my_groups(request):
     user = request.user
     groups = Membership.objects.filter(person=user).values_list('group', flat=True)
@@ -95,6 +91,7 @@ def get_my_groups(request):
     return my_groups
 
 
+# Render 'My bookings' page and passes QuerySets relevant to that page.
 def booking_list(request):
     user = request.user
     now = timezone.now()
@@ -118,6 +115,7 @@ def booking_list(request):
     })
 
 
+# Returns a list of bookings made by the logged-in user.
 def get_my_bookings(request):
     user = request.user
     now = timezone.now()
@@ -125,6 +123,7 @@ def get_my_bookings(request):
     return my_bookings_list
 
 
+# Function used to create recurring bookings.
 def repeat_booking(data):
     location = data['location']
     start = data['start']
@@ -183,6 +182,7 @@ def repeat_booking(data):
     data['request'].delete()
 
 
+# Function used when creating, updating or deleting bookings.
 def save_booking_form(request, form, template_name):
     data = dict()
     if request.method == 'POST':
@@ -227,7 +227,8 @@ def save_booking_form(request, form, template_name):
     return JsonResponse(data)
 
 
-def booking_confirm(request, pk):
+# Function used to accept recurring booking requests
+def accept_request(request, pk):
     if request.method == 'POST':
         req = get_object_or_404(Request, pk=pk)
         data = {
@@ -258,7 +259,8 @@ def booking_confirm(request, pk):
         return HttpResponseRedirect('/booking/bookings_manage')
 
 
-def delete_request(request, pk):
+# Function used to accept recurring booking requests
+def decline_request(request, pk):
     if request.method == 'POST':
         req = get_object_or_404(Request, pk=pk)
         req.delete()
@@ -278,6 +280,7 @@ def delete_request(request, pk):
         return HttpResponseRedirect('/booking/bookings_manage')
 
 
+# Function used to create new bookings
 def booking_create(request):
     if request.method == 'POST':
         user = request.user
@@ -289,6 +292,7 @@ def booking_create(request):
     return save_booking_form(request, form, 'booking/includes/partial_booking_create.html')
 
 
+# Function used to create new booking from the calendar interface
 def booking_create_from_calendar(request):
     if request.method == 'POST':
         user = request.user
@@ -299,6 +303,7 @@ def booking_create_from_calendar(request):
     return save_booking_form(request, form, 'booking/includes/partial_booking_create_calendar.html')
 
 
+# Function used to edit/update bookings
 def booking_update(request, pk):
     book = get_object_or_404(Booking, pk=pk)
     if request.method == 'POST':
@@ -322,6 +327,7 @@ def booking_update(request, pk):
     return save_booking_form(request, form, 'booking/includes/partial_booking_update.html')
 
 
+# Function used to delete bookings
 def booking_delete(request, pk):
     book = get_object_or_404(Booking, pk=pk)
     data = dict()
@@ -350,11 +356,8 @@ def booking_delete(request, pk):
         data['html_form'] = render_to_string('booking/includes/partial_booking_delete.html', context, request=request, )
     return JsonResponse(data)
 
-  
-def show_form(request):
-    return render(request, "booking/booking_form.html")
 
-
+# Function used when sending emails through Mailgun
 def send_mailgun_message(API_BASE_URL, API_KEY, user, text):
     return requests.post(
         API_BASE_URL,
