@@ -11,24 +11,6 @@
     color: green;
     font-size: 120%;
 }
-#my-search-box {
-    background-position: 10px 10px;
-    background-repeat: no-repeat;
-    width: 70%;
-    height: 50px;
-    font-size: 16px;
-    padding: 12px 20px 12px 40px;
-    border: 2px solid #ddd;
-    margin: 0 auto;
-    text-align: center;
-}
-
-#my-search{
-    width: 50%;
-    margin: 0 auto;
-    text-align: center;
-}
-
 
 hr{
     border-top: 2px solid #c5c3c3;
@@ -138,7 +120,7 @@ hr{
 
 
 /* Search/Filters */
-#filter-form {
+.filter-form {
     width: 80%;
     margin: 10px auto;
 }
@@ -146,10 +128,19 @@ hr{
 .filter-table td {
     padding-top: 0px;
     padding-bottom: 0px;
+    text-align: center;
 }
 
-#filter-button {
-    width: 40%;
+input {
+    padding: 3px;
+}
+
+select {
+    padding: 4px;
+}
+
+.search-button {
+    width: 50%;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -243,15 +234,6 @@ button.btn.col.js-update-booking:hover {
 button.btn.col.js-update-booking {
     border: 1px solid #8080803b;
     background: #d3d3d32b;
-}
-
-button#filter-button {
-    border: 1px solid #8080803b;
-    background: #d3d3d32b;
-}
-
-button#filter-button:hover {
-    background: #b4afaf54;
 }
 
 button#close {

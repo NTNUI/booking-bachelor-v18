@@ -1,4 +1,5 @@
 from django.db import models
+from django import forms
 from django_filters import CharFilter, FilterSet, ModelChoiceFilter
 from accounts.models import User
 from booking.models import Booking
@@ -10,6 +11,7 @@ class AdminFilter(FilterSet):
     class Meta:
         model = Booking
         fields = ['location', 'person', 'title', 'start', 'group']
+
         filter_overrides = {
             models.CharField: {
                 'filter_class': CharFilter,

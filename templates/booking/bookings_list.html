@@ -25,9 +25,19 @@
         </h1>
 
         <div class="my-booking-box">
-            <form id="my-search">
-                <input type="text" id="my-search-box" name="q" placeholder="Search for bookings" value="{{ request.GET.q }}"/>
-                <input type="submit" class="btn btn-primary" value="Search"/>
+            {# <form id="my-search"> #}
+            {# Search booking form #}
+            <form id="my-search" class="filter-form my-search" method='get'>
+                <table class='table borderless filter-table'>
+                    <tr>
+                        <td>
+                            Search for group or title:<br>
+                            <input type="text" id="my-search-box" name="q"
+                               placeholder="Group/Title" value="{{ request.GET.q }}"/>
+                        </td>
+                    </tr>
+                </table>
+                <button class="btn col js-update-booking search-button" type='submit'>Search</button>
             </form>
             <div class="flex-container">
                 {# My bookings #}
