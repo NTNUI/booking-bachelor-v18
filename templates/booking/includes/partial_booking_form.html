@@ -76,7 +76,7 @@
 {% block script %}
 <script>
     $(document).ready(function(){
-        var $myForm = $('#createform');
+        var $myForm = $("#createform");
         document.getElementById("id_day").value = "MON"; // Placeholder
         $myForm.submit(function(event){
             event.preventDefault();
@@ -92,25 +92,25 @@
             var dates = document.getElementById("date").value.toString();
             var $form_data = $("#createform").serializeArray();
             $form_data.forEach(function (item){
-                if (item.name === 'start') {
+                if (item.name === "start") {
                     item.value = dates + " " + startTime;
                 }
-                if (item.name === 'end'){
+                if (item.name === "end"){
                     item.value = dates + " " + endTime;
                 }
             });
 
             $.ajax({
                 method: "POST",
-                url: '/booking/bookings_list/create/',
+                url: "/booking/bookings_list/create/",
                 data: $form_data,
                 // close popup on success
                 success: function(data) {
-                    var modal = document.getElementById('booking-modal');
+                    var modal = document.getElementById("booking-modal");
                     modal.style.display = "none";
                     $("#person-booking-table").html(data.html_booking_list);
                     Swal();
-                    bookedTab()
+                    bookedTab();
                     document.getElementById("queued-tab").className = "tablinks";
                     document.getElementById("booked-tab").className = "tablinks active";
                 }
