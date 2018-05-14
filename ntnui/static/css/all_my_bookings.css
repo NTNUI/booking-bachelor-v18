@@ -11,6 +11,24 @@
     color: green;
     font-size: 120%;
 }
+#my-search-box {
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    width: 70%;
+    height: 50px;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 2px solid #ddd;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#my-search{
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+}
+
 
 hr{
     border-top: 2px solid #c5c3c3;
