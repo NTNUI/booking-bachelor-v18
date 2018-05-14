@@ -20,9 +20,11 @@
         <tr>
             <td><b>Time:</b> {{ request.booking.get_date.2 }} - {{ request.booking.get_date.3 }}</td>
         </tr>
-        <tr>
-            <td><b>Group:</b> {{ request.booking.group }}</td>
-        </tr>
+        {% if request.booking.group %}
+            <tr>
+                <td><b>Group:</b> {{ request.booking.group }}</td>
+            </tr>
+        {% endif %}
         <tr>
             <td><b>Requested by:</b> {{ request.booking.person }}</td>
         </tr>
