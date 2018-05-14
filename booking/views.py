@@ -16,6 +16,7 @@ from django.shortcuts import render
 import requests
 import inspect
 
+# Error page
 def error_404(request):
     data = {}
     return render(request, 'booking/error_404.html', data)
@@ -30,65 +31,6 @@ def index(request):
     return render(request, 'booking/booking.html', {
         'locations': locations,
         'types': type_list})
-
-# API that allows client-side code to get data from database.
-def api(request):
-    model = Booking
-    bookings = model.objects.all().values('title', 'description', 'start', 'end', 'location__name',
-                                          'person__first_name', 'queueNo', 'group', 'person__id',
-                                          'person__email', 'person__last_name')
-    booking_list = list(bookings)
-    return JsonResponse(booking_list, safe=False)
-  
-def location_api(request):
-    model = Location
-    locations = model.objects.all().values('name', 'address', 'description', 'type')
-    location_list = list(locations)
-    return JsonResponse(location_list, safe=False)
-
-
-class BookingList(ListView):
-    model = Booking
-
-    def all(self, request):
-        locations = []
-        bookings = []
-        for location in list(Location.objects.filter()):
-            locations.append(location.name)
-        for booking in list(Booking.objects.filter()):
-            bookings.append(booking)
-        return render(request, 'booking/booking_list.html', {
-            'locations': locations,
-            'bookings': bookings, })
-
-
-# Renders 'Manage bookings' page and passes QuerySets relevant to that page.
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
-def booking_manage(request):
-    book = []
-    now = timezone.now()
-    for booking in list(Booking.objects.filter()):
-        book.append(booking)
-
-    bookings = Booking.objects.all().filter(start__gte=now).order_by('start')
-    booking_filter = AdminFilter(request.GET, queryset=bookings)
-    requested = Request.objects.filter(booking__id__in=booking_filter.qs)
-    return render(request, 'booking/bookings_manage.html', {
-        'filter': booking_filter,
-        'bookings': book,
-        'requested': requested,
-    })
-
-# Get groups of logged-in user
-def get_my_groups(request):
-    user = request.user
-    groups = Membership.objects.filter(person=user).values_list('group', flat=True)
-    my_groups = []
-    for g in groups:
-        group = SportsGroup.objects.get(id=g).name
-        my_groups.append(group)
-    return my_groups
 
 
 # Render 'My bookings' page and passes QuerySets relevant to that page.
@@ -115,71 +57,33 @@ def booking_list(request):
     })
 
 
-# Returns a list of bookings made by the logged-in user.
-def get_my_bookings(request):
-    user = request.user
+# Renders 'Manage bookings' page and passes QuerySets relevant to that page.
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def booking_manage(request):
+    book = []
     now = timezone.now()
-    my_bookings_list = Booking.objects.filter(person=user).filter(start__gte=now).order_by('start')
-    return my_bookings_list
+    for booking in list(Booking.objects.filter()):
+        book.append(booking)
+
+    bookings = Booking.objects.all().filter(start__gte=now).order_by('start')
+    booking_filter = AdminFilter(request.GET, queryset=bookings)
+    requested = Request.objects.filter(booking__id__in=booking_filter.qs)
+    return render(request, 'booking/bookings_manage.html', {
+        'filter': booking_filter,
+        'bookings': book,
+        'requested': requested,
+    })
 
 
-# Function used to create recurring bookings.
-def repeat_booking(data):
-    location = data['location']
-    start = data['start']
-    end = data['end']
-    if data['repeat'] == "noRepeat":
-        repeat = False
-    elif data['repeat'] == "weekly":
-        repeat = True
-    else:
-        repeat = False
-    
-    day_map = {"MON" : 0, "TUE":1, "WED":2, "THU" : 3, 
-        "FRI":4, "SAT":5, "SUN":6
-    }
-    dayofweek = day_map[data['day'].upper()]
-    year = int(start.year)
-    month = int(start.month)
-    day = int(start.day)
-    loc = location
-    s_time = str(start)[11:] #get time substring
-    e_time = str(end)[11:] #YYYY-MM-DDTHH:MMZ
-    title = data['title']
-    descr = data['description']
-    person = data['person']
-    group = data['group']
-    cal = Calendar()
-    ydcal = cal.yeardays2calendar(year, width=6)
-    if month > 5:
-        w = ydcal[1]
-    else:
-        w = ydcal[0]
-    for m in range(len(w)):
-        if m+1 < month:
-            continue  # skip past months
-        for k in range(len(w[m])):
-            for d in range(len(w[m][k])):
-                cal_day = w[m][k][d]
-                if (cal_day[0] <= day and m+1 == month) or cal_day[0]==0:
-                    continue
-                if cal_day[1] == dayofweek:
-                    if m < 9:  # format month
-                        cal_m = "0" + str(m+1)
-                    else:
-                        cal_m = str(m+1)
-                    if cal_day[0] < 9:  # format day
-                        cal_d = "0" + str(cal_day[0])
-                    else:
-                        cal_d = str(cal_day[0])
-                        
-                    date_format = str(year) + "-" + cal_m + "-" + cal_d
-                    start_rec = date_format + " " + s_time
-                    end_rec = date_format + " " + e_time
-                    booking = Booking(location=location, start=start_rec, group=group, end=end_rec, title=title,
-                                      description=descr, person=person)
-                    booking.save(repeatable=True)
-    data['request'].delete()
+# API that allows client-side code to get data from database.
+def api(request):
+    model = Booking
+    bookings = model.objects.all().values('title', 'description', 'start', 'end', 'location__name',
+                                          'person__first_name', 'queueNo', 'group', 'person__id',
+                                          'person__email', 'person__last_name')
+    booking_list = list(bookings)
+    return JsonResponse(booking_list, safe=False)
 
 
 # Function used when creating, updating or deleting bookings.
@@ -225,59 +129,6 @@ def save_booking_form(request, form, template_name):
     context = {'form': form}
     data['html_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)
-
-
-# Function used to accept recurring booking requests
-def accept_request(request, pk):
-    if request.method == 'POST':
-        req = get_object_or_404(Request, pk=pk)
-        data = {
-            'location': req.booking.location,
-            'person': req.booking.person,
-            'start': req.booking.start,
-            'end': req.booking.end,
-            'group': req.booking.group,
-            'title': req.booking.title,
-            'description': req.booking.description,
-            'day': req.weekday,
-            'repeat': "weekly",
-            'request': req,
-        }
-        # Sending accepted mails
-        accept = 'Hey ' + str(request.user) + ', you have accepted a recurring booking!'
-        send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
-                             'key-f90e4c24dcfdb08ea58481344645d540',
-                             str(request.user.email),
-                             accept)
-        req_accept = 'Hey ' + str(req.booking.person) + ', your recurring booking has been accepted!'
-        send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
-                             'key-f90e4c24dcfdb08ea58481344645d540',
-                             str(req.booking.person.email),
-                             req_accept)
-
-        repeat_booking(data)
-        return HttpResponseRedirect('/booking/bookings_manage')
-
-
-# Function used to accept recurring booking requests
-def decline_request(request, pk):
-    if request.method == 'POST':
-        req = get_object_or_404(Request, pk=pk)
-        req.delete()
-        # Sending declined mails
-        print(request.user.email)
-        print(req.booking.person.email)
-        decline = 'Hey ' + str(request.user) + ', you have declined a recurring booking!'
-        send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
-                             'key-f90e4c24dcfdb08ea58481344645d540',
-                             str(request.user.email),
-                             decline)
-        req_decline = 'Hey ' + str(req.booking.person) + ', your recurring booking has been declined!'
-        send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
-                             'key-f90e4c24dcfdb08ea58481344645d540',
-                             str(req.booking.person.email),
-                             req_decline)
-        return HttpResponseRedirect('/booking/bookings_manage')
 
 
 # Function used to create new bookings
@@ -355,6 +206,137 @@ def booking_delete(request, pk):
         context = {'book': book}
         data['html_form'] = render_to_string('booking/includes/partial_booking_delete.html', context, request=request, )
     return JsonResponse(data)
+
+
+# Function used to create recurring bookings.
+def repeat_booking(data):
+    location = data['location']
+    start = data['start']
+    end = data['end']
+    if data['repeat'] == "noRepeat":
+        repeat = False
+    elif data['repeat'] == "weekly":
+        repeat = True
+    else:
+        repeat = False
+    
+    day_map = {"MON" : 0, "TUE":1, "WED":2, "THU" : 3, 
+        "FRI":4, "SAT":5, "SUN":6
+    }
+    dayofweek = day_map[data['day'].upper()]
+    year = int(start.year)
+    month = int(start.month)
+    day = int(start.day)
+    loc = location
+    s_time = str(start)[11:] #get time substring
+    e_time = str(end)[11:] #YYYY-MM-DDTHH:MMZ
+    title = data['title']
+    descr = data['description']
+    person = data['person']
+    group = data['group']
+    cal = Calendar()
+    ydcal = cal.yeardays2calendar(year, width=6)
+    if month > 5:
+        w = ydcal[1]
+    else:
+        w = ydcal[0]
+    for m in range(len(w)):
+        if m+1 < month:
+            continue  # skip past months
+        for k in range(len(w[m])):
+            for d in range(len(w[m][k])):
+                cal_day = w[m][k][d]
+                if (cal_day[0] <= day and m+1 == month) or cal_day[0]==0:
+                    continue
+                if cal_day[1] == dayofweek:
+                    if m < 9:  # format month
+                        cal_m = "0" + str(m+1)
+                    else:
+                        cal_m = str(m+1)
+                    if cal_day[0] < 9:  # format day
+                        cal_d = "0" + str(cal_day[0])
+                    else:
+                        cal_d = str(cal_day[0])
+                        
+                    date_format = str(year) + "-" + cal_m + "-" + cal_d
+                    start_rec = date_format + " " + s_time
+                    end_rec = date_format + " " + e_time
+                    booking = Booking(location=location, start=start_rec, group=group, end=end_rec, title=title,
+                                      description=descr, person=person)
+                    booking.save(repeatable=True)
+    data['request'].delete()
+
+
+# Function used to accept recurring booking requests
+def accept_request(request, pk):
+    if request.method == 'POST':
+        req = get_object_or_404(Request, pk=pk)
+        data = {
+            'location': req.booking.location,
+            'person': req.booking.person,
+            'start': req.booking.start,
+            'end': req.booking.end,
+            'group': req.booking.group,
+            'title': req.booking.title,
+            'description': req.booking.description,
+            'day': req.weekday,
+            'repeat': "weekly",
+            'request': req,
+        }
+        # Sending accepted mails
+        accept = 'Hey ' + str(request.user) + ', you have accepted a recurring booking!'
+        send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
+                             'key-f90e4c24dcfdb08ea58481344645d540',
+                             str(request.user.email),
+                             accept)
+        req_accept = 'Hey ' + str(req.booking.person) + ', your recurring booking has been accepted!'
+        send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
+                             'key-f90e4c24dcfdb08ea58481344645d540',
+                             str(req.booking.person.email),
+                             req_accept)
+
+        repeat_booking(data)
+        return HttpResponseRedirect('/booking/bookings_manage')
+
+
+# Function used to accept recurring booking requests
+def decline_request(request, pk):
+    if request.method == 'POST':
+        req = get_object_or_404(Request, pk=pk)
+        req.delete()
+        # Sending declined mails
+        print(request.user.email)
+        print(req.booking.person.email)
+        decline = 'Hey ' + str(request.user) + ', you have declined a recurring booking!'
+        send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
+                             'key-f90e4c24dcfdb08ea58481344645d540',
+                             str(request.user.email),
+                             decline)
+        req_decline = 'Hey ' + str(req.booking.person) + ', your recurring booking has been declined!'
+        send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
+                             'key-f90e4c24dcfdb08ea58481344645d540',
+                             str(req.booking.person.email),
+                             req_decline)
+        return HttpResponseRedirect('/booking/bookings_manage')
+
+
+# Get groups of logged-in user
+def get_my_groups(request):
+    user = request.user
+    groups = Membership.objects.filter(person=user).values_list('group', flat=True)
+    my_groups = []
+    for g in groups:
+        group = SportsGroup.objects.get(id=g).name
+        my_groups.append(group)
+    return my_groups
+
+
+# Returns a list of bookings made by the logged-in user.
+def get_my_bookings(request):
+    user = request.user
+    now = timezone.now()
+    my_bookings_list = Booking.objects.filter(person=user).filter(start__gte=now).order_by('start')
+    return my_bookings_list
 
 
 # Function used when sending emails through Mailgun
