@@ -5,6 +5,8 @@ from groups.models import SportsGroup
 from groups.models import Membership
 from django.db.utils import OperationalError
 
+
+# Location types.
 LOCATION_TYPES = (
     ('gym ', 'GYM'),
     ('football field', 'FOOTBALL FIELD'),
@@ -12,7 +14,7 @@ LOCATION_TYPES = (
 )
 
 
-# Location model
+# Location model.
 class Location(models.Model):
     name = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
@@ -23,7 +25,7 @@ class Location(models.Model):
         return self.name
 
 
-# Booking model
+# Booking model.
 class Booking(models.Model):
     person = models.ForeignKey('accounts.User', on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=400, default='')
@@ -111,7 +113,7 @@ class Booking(models.Model):
         return dates
 
 
-# Location model
+# Location model.
 class Request(models.Model):
     booking = models.ForeignKey(Booking)
     weekday = models.CharField(max_length=3)

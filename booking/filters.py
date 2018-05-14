@@ -1,5 +1,4 @@
 from django.db import models
-from django import forms
 from django_filters import CharFilter, FilterSet, ModelChoiceFilter
 from accounts.models import User
 from booking.models import Booking
