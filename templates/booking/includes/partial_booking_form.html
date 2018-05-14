@@ -53,21 +53,23 @@
             </span>
         </div>
     </div>
-    {% if request.user.is_superuser %}
-        <div class="form-margin">
-            <h5>Request Recurring</h5>
-            {{form.repeat}}
-       </div>
-    {% endif %}
-    {% if user.is_authenticated and not request.user.is_superuser %}
-        {% user_in_hs user as user_in_hs %}
-        {% if user_in_hs %}
+    <div class="request-repeat">
+        {% if request.user.is_superuser %}
             <div class="form-margin">
                 <h5>Request Recurring</h5>
                 {{form.repeat}}
-            </div>
+           </div>
         {% endif %}
-    {% endif %}
+        {% if user.is_authenticated and not request.user.is_superuser %}
+            {% user_in_hs user as user_in_hs %}
+            {% if user_in_hs %}
+                <div class="form-margin">
+                    <h5>Request Recurring</h5>
+                    {{form.repeat}}
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
 
 {% endblock %}
 
