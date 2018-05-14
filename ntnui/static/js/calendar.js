@@ -106,6 +106,8 @@ function populate() {
                 }else if(12-parseInt(getTime(dateMap.get(startDate))[0]) < 1){
                     $("#" + dateFormat + " h1").css("color", "red");
                 }
+            }else if(dateMap.has(startDate) === false) {
+                $("#" + dateFormat + " h1").text("12" + "\n" + "hours free").css("color", "green");
             }
         }
     }
