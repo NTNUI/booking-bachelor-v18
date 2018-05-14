@@ -89,6 +89,7 @@
 .calendar-day h1{
     font-size: 100%;
     padding: 5% 20% 15% 20%;
+    white-space: pre-wrap;
 }
 
 .calendar-day:hover {
