@@ -1,21 +1,20 @@
 // Globally head date object for the month shown.
 var date = new Date();
-console.log(date)
-date.setDate(1);
+var currentMonth;
 
 // Global list to store bookings. This list will be used to populate the calendar with data.
-var global_list = [];
+var globalList = [];
+
 // Ajax setting to set caching to false.
 $.ajaxSetup ({
-        cache: false
+    cache: false
 });
-// Global variabel which is used to store the date for each popup.
-var tempDay;
 
-// Load promise object when site is loaded.
+// Load promise object when site is loaded and triggers filter alert
 window.onload = function() {
     promise();
-}
+    triggerFilterAlert();
+};
 
 // Allows us to navigate through months with the arrow keys
 document.onkeydown = function(evt) {
@@ -28,7 +27,7 @@ document.onkeydown = function(evt) {
             nextMonth();
             break;
     }
-}
+};
 
 // Promise object used to fetch data from our API.
 function promiseTest() {
@@ -37,61 +36,101 @@ function promiseTest() {
         dataType: "json",
         type: "GET",
         cache: false,
-        success: function() {
-            console.log("refresh")
-        }
     })
 }
 
-// Function used to resolve promise object. When object is resolved, call createMonth and push data to global_list.
+// Function used to resolve promise object. When object is resolved, call createMonth and push data to globalList.
 var promised = promiseTest();
-function promise() {
-promised.done(function() {
-    promised.then( function() {
+var promise = function () {
+    promised.done(function() {
+        promised.then( function() {
             createMonth();
-            global_list.push(promised.responseJSON)
+            globalList.push(promised.responseJSON);
+            currentMonth = document.getElementById("current-month");
             }
         )
     })
-}
+};
 
-// Function used to populate the calendar with bookings from the database.
+// Convert "HH:MM" to [H, M]
+var getTime = function(time){
+    var timeArray = time.split(":");
+    var hours = parseInt(timeArray[0]);
+    var minutes = parseInt(timeArray[1]);
+    return new Array(hours, minutes)
+};
+
+// Function used to populate the calendar with bookings from the database and show available hours.
 function populate() {
-    //promiseTest();
-    for (i = 0; i < global_list[0].length; i++) {
-        var day = global_list[0][i].start;
-        var date_format = day.slice(0, 10);
-        $("#" + date_format + " h1").text("2/12");
+    var dateMap = new Map(); // Store sum of hours and minutes for a date
+    for (var i = 0; i < globalList[0].length; i++) {
+        var qNo = globalList[0][i].queueNo;
+        var locationId = globalList[0][i].location__name;
+        var location = document.getElementById(locationId);
+        var day = globalList[0][i].start;
+        var dateFormat = day.slice(0, 10);
+        var startDatetime = day.split("T");
+        var startDate = startDatetime[0];
+        if (qNo == 0){
+            if(location.checked === true){
+                var startTime = startDatetime[1].replace("Z", "");
+                var endDatetime = globalList[0][i].end.split("T");
+                var endTime = endDatetime[1].replace("Z", "");
+                // Find difference between end and start
+                var startArray = getTime(startTime);
+                var endArray = getTime(endTime);
+                var diffHour = endArray[0]-startArray[0];
+                var diffMin = endArray[1]-startArray[1];
+                if (dateMap.has(startDate) && location.value === locationId && location.checked === true){
+                    // Add current hours to prior hours
+                    var sumArray = getTime(dateMap.get(startDate));
+                    var hours = diffHour + sumArray[0];
+                    var min = diffMin + sumArray[1];
+                    dateMap.set(startDate, "" + hours + ":" + min);
+                }
+                else if(location.value === locationId && location.checked === true) {
+                    dateMap.set(startDate, "" + diffHour + ":" + diffMin);
+                }
+                if(12-parseInt(getTime(dateMap.get(startDate))[0]) >= 1) {
+                    $("#" + dateFormat + " h1").text(
+                        "" + (12 - parseInt(getTime(dateMap.get(startDate))[0]))
+                        + " hours free").css("color", "#fc8307");
+                }
+                else if(12-parseInt(getTime(dateMap.get(startDate))[0]) < 1){
+                    $("#" + dateFormat + " h1").text(
+                        "" + (12 - parseInt(getTime(dateMap.get(startDate))[0]))
+                        + " hours free").css("color", "red");
+                }
+            }
+            else if(dateMap.has(startDate) && location.checked === false){
+                $("#" + dateFormat + " h1").text(
+                    "" + (12 - parseInt(getTime(dateMap.get(startDate))[0]))
+                    + "\n" + " hours free").css("color", "#fc8307");
+            }
+            // Change the html in the calendar boxes with number of booked hours.
+            else if(dateMap.has(startDate) === false) {
+                $("#" + dateFormat + " h1").text("12 hours free").css("color", "green");
+            }
+
+        }
     }
 }
+
+//Mutation Observer
+var targetNode = document.getElementById("calendar");
+
+var config = {attributes: false, subtree: true, characterData:true};
+
+// Callback function to execute when mutations are observed
+var callback = function(mutationsList){};
+
+var window = document.defaultView;
+var observer = new MutationObserver(callback);
+observer.observe(targetNode, config);
 
 // Event listener. Fires whenever the calendar changes.
 function HandleDOM_Change () {
     populate();
-}
-
-// Event listener logic.
-// TODO: Replace with mutation observer.
-fireOnDomChange ('#calendar', HandleDOM_Change, 500);
-
-
-function fireOnDomChange (selector, actionFunction, delay) {
-    $(selector).bind ('DOMSubtreeModified', fireOnDelay);
-
-    function fireOnDelay () {
-        if (typeof this.Timer == "number") {
-            clearTimeout (this.Timer);
-        }
-        this.Timer  = setTimeout (  function() { fireActionFunction (); },
-                                    delay ? delay : 333
-                                 );
-    }
-
-    function fireActionFunction () {
-        $(selector).unbind ('DOMSubtreeModified', fireOnDelay);
-        actionFunction ();
-        $(selector).bind ('DOMSubtreeModified', fireOnDelay);
-    }
 }
 
 // Converts day ids to the relevant string
@@ -106,27 +145,12 @@ function monthsAsString(monthIndex) {
 
 // Month names varibles
 var monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
+    "July", "August", "September", "October", "November", "December"
 ];
 
 // Add 0 to single digit numbers.
 function minTwoDigits(n) {
     return (n < 10 ? '0' : '') + n;
-}
-
-// Legacy popup.
-function createPopup() {
-    var popupTag = document.createElement("div");
-    var popupContent = document.createElement("div");
-    var popupSpan = document.createElement("span");
-    popupTag.className = "modal-large";
-    popupContent.className = "modal-content";
-    popupContent.appendChild(popupSpan);
-    popupTag.appendChild(popupContent);
-    var modal = document.getElementsByClassName(popupTag.className);
-    var span = document.getElementById(popupSpan.id);
-    modal.style.display = "block";
-    $('.modal-content').load('new',function(){}).hide().fadeIn();
 }
 
 // Creates a day element
@@ -139,32 +163,45 @@ function createCalendarDay(num, day, mon, year, available) {
 
     // Fills out empty days
     available = true;
-    date.innerHTML = num;
-    dayElement.innerHTML = ' ' + day;
-    if(available == true){
-        availability.innerHTML = "0/12";
+    date.innerHTML = num + ".";
+    dayElement.innerHTML = " " + day;
+    if (available == true) {
+        availability.innerHTML = "12 hours free";
         availability.style.color = "green";
     }
     newDay.className = "calendar-day";
+    newDay.title = "Click to book";
 
     // Set ID of element as date formatted "8-January" etc
     num = minTwoDigits(num);
     newDay.id = year + "-" + mon + "-" + num;
-    currentCalendar.style.width = "100%;"
-    newDay.appendChild(date)
+    currentCalendar.style.width = "100%;";
+    newDay.appendChild(date);
     newDay.appendChild(dayElement);
     newDay.appendChild(availability);
     currentCalendar.appendChild(newDay);
-    var btn = document.getElementById(newDay.id);
-    // call popup function and pass event.target.
-    btn.onclick = function(e) {
-        popup(this, e);
-    }
+    var dayBtn = document.getElementById(newDay.id);
 
-    // Restricts days that cant be booked
-    if (newDay.id < getCurrentDay()){
+    // call popup function and pass event.target and modalTitle to fill inn title.
+    dayBtn.onclick = function (e) {
+        popup(this, e);
+    };
+
+    var maxMonth;
+    var maxDay;
+    var currentDate = new Date;
+    // Restricts days that cant be booked. Stops at 10. june in spring and 21. desember in autumn
+    if(currentDate.getMonth()+1 <= 6){
+        maxMonth = '0' + 6;
+    }
+    if(currentDate.getMonth()+1 >= 8){
+        maxMonth = 12;
+        maxDay = 20;
+    }
+    if (newDay.id < getCurrentDay() || newDay.id > currentDate.getFullYear()+'-'+maxMonth+'-'+maxDay) {
         newDay.className = "calendar-day restricted";
     }
+    return newDay;
 }
 
 
@@ -180,6 +217,7 @@ function nextMonth() {
     clearCalendar();
     date.setMonth(date.getMonth() + 1);
     createMonth(date.getMonth());
+    populate();
 }
 
 // Clears the calendar and shows the previous month
@@ -188,115 +226,156 @@ function previousMonth() {
     date.setMonth(date.getMonth() - 1);
     var val = date.getMonth();
     createMonth(date.getMonth());
+    populate();
+    return val;
+}
+
+function daysInMonth(month, year) {
+    return new Date(year, month, 0).getDate();
 }
 
 // Creates and populates all of the days to make up the month
 function createMonth() {
+    date.setDate(1);
     var dateObject = new Date();
     dateObject.setDate(date.getDate());
     dateObject.setMonth(date.getMonth());
     dateObject.setYear(date.getFullYear());
-
-    createCalendarDay(dateObject.getDate(),
+    var days;
+    var count = 0;
+    var length = daysInMonth(date.getMonth() + 1, date.getFullYear());
+    for (days = 0; days < length; days++) {
+        while (count < 6) {
+            if (date.getDay() == 0) {
+                createCalendarDay("dummy", dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear()).style.visibility = "hidden";
+            }
+            if (date.getDay() == 2) {
+                count += 5;
+                createCalendarDay("dummy", dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear()).style.visibility = "hidden";
+            }
+            if (date.getDay() == 3) {
+                count += 4;
+                createCalendarDay("dummy", dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear()).style.visibility = "hidden";
+            }
+            if (date.getDay() == 4) {
+                count += 1.2;
+                createCalendarDay("dummy", dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear()).style.visibility = "hidden";
+            }
+            if (date.getDay() == 5) {
+                count += 0.5;
+                createCalendarDay("dummy", dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear()).style.visibility = "hidden";
+            }
+            if (date.getDay() == 6) {
+                count += 0.2;
+                createCalendarDay("dummy", dateObject.getDate(),
+                dayOfWeekAsString(dateObject.getDay()),
+                monthsAsString(dateObject.getMonth()),
+                dateObject.getFullYear()).style.visibility = "hidden";
+            }
+            count += 1;
+        }
+        createCalendarDay(dateObject.getDate(),
         dayOfWeekAsString(dateObject.getDay()),
         monthsAsString(dateObject.getMonth()),
         dateObject.getFullYear());
-
-    dateObject.setDate(dateObject.getDate() + 1);
-
-    while (dateObject.getDate() != 1) {
-        createCalendarDay(dateObject.getDate(),
-            dayOfWeekAsString(dateObject.getDay()),
-            monthsAsString(dateObject.getMonth()),
-            dateObject.getFullYear());
         dateObject.setDate(dateObject.getDate() + 1);
+        count += 1;
     }
 
     // Set the text to the correct month
     var currentMonthText = document.getElementById("current-month");
     currentMonthText.innerHTML = monthNames[date.getMonth()] + " " + date.getFullYear();
 
-    // Gives the current date a highligth
-    var current_day = getCurrentDay();
-    document.getElementById(current_day).className = "calendar-day today";
+    // Gives the current date a highlight
+    var todaysDate = new Date();
+    if(dateObject.getMonth() == todaysDate.getMonth()+1 && dateObject.getYear() == todaysDate.getYear()){
+        var currentDay = getCurrentDay();
+        document.getElementById(currentDay).className = "calendar-day today";
+    }
 }
 
-
+// Get the current day
 function getCurrentDay() {
     var todaysDate = new Date();
     var today = todaysDate.getDate();
     // add 0 to single digit days
-    var today_formatted = minTwoDigits(today);
+    var todayFormatted = minTwoDigits(today);
     var currentMonth = todaysDate.getMonth();
     var currentYear = todaysDate.getFullYear();
     var currentMonthString = monthsAsString(currentMonth);
-    var current_day = (currentYear + "-" + currentMonthString + "-" + today_formatted).toString();
-    return current_day
+    var currentDay = (currentYear + "-" + currentMonthString + "-" + todayFormatted);
+    return currentDay;
 }
 
+// Global variabel which is used to store the date for each popup.
+var tempDay;
 
+// Opens the modal with content
 function popup(e) {
-    $('.booking-modal-contents').load('new');
-    // $.ajax({
-    //   url: '/booking/bookings_list/create/',
-    //   type: 'get',
-    //   dataType: 'json',
-    //   beforeSend: function () {
-    //     $("#booking-modal .booking-modal-contents").html("");
-    //     $('#booking-modal').fadeTo(100, 0.5, function() {
-    //       $(this).css("display", "inline-block");
-    //     }).fadeTo(300, 1);
-    //   },
-    //   success: function (data) {
-    //     $("#booking-modal .booking-modal-contents").html(data.html_form);
-    //   }
-    // });
+    $.ajax({
+        url: '/booking/bookings_list/create_calendar/',
+        type: 'get',
+        dataType: 'json',
+        beforeSend: function () {
+            $("#booking-modal .booking-modal-contents").html("");
+            $('#booking-modal').fadeTo(100, function () {
+                $(this).css("display", "inline-block");
+            }).fadeTo(300, 1);
+        },
+        success: function (data) {
+            $("#booking-modal .booking-modal-contents").html(data.html_form);
+        }
 
-    //Set global tempDay variable to event that triggers the popup, ie the date.
+    });
+    // Set global tempDay variable to event that triggers the popup, ie the date.
     this.tempDay = e;
     var modal = document.getElementById('booking-modal');
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
     modal.style.display = "block";
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal || event.target == close) {
-            modal.style.display = "none";
-        }
-    }
 }
 
-// Functions used to create secure POST requests.
+// Gets date and week for calendar form
+var currentLocation;
+var locationString;
 
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
+// populate calendar and get location of filter type.
+function getLocation(event){
+    populate();
+    var locationId = event.target.getAttribute('data-id');
+    var locationName = event.target.innerHTML;
+    var locationTitle = event.target.title;
+    var locationAdr = document.getElementById("adr").innerText;
+    this.currentLocation = locationId;
+    this.locationString = locationName;
+    // Creating tooltip element
+    var tooltip = document.createElement("div");
+    tooltip.innerHTML = "&#9432;";
+    tooltip.className = "tooltip-info";
+    var tooltipText = document.createElement("span");
+    tooltip.appendChild(tooltipText);
+    tooltipText.className = "tooltip-text";
+    tooltipText.innerHTML = locationTitle + "<br>" + "ADDR: " + locationAdr;
+    // Adding locationName and tooltip to calendar header
+    document.getElementById("current-location").innerHTML = locationName;
+    document.getElementById("current-location").appendChild(tooltip);
 }
 
-var csrftoken = getCookie('csrftoken');
 
-function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
-});
+
 
 
 

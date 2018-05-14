@@ -1,173 +1,87 @@
+{# Booking container #}
 {% extends 'base.html' %}
 
 {% load static %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'css/booking.css' %}">
+    <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
     <link rel="stylesheet" href="{% static 'css/booking_filters.css' %}">
+    <link rel="stylesheet" href="{% static 'css/booking_modal.css' %}">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+    <link rel="stylesheet" href="{% static 'css/clockpicker.css' %}">
 {% endblock %}
 
 {% block content %}
-
-
-
-    <div class="container" id="bookingContainer">
-
-        <!-- The modal -->
+    <div id="booking-container">
+        {# Modal container #}
         <div id="booking-modal" class="modal-big">
-
-            <!-- Modal content -->
-            <div class="booking-modal-contents">
-
+            <div id="modal-booking">
+                <div class="booking-modal-contents">
+                </div>
             </div>
         </div>
         
-        <!-- Main container -->
+        {# Main container #}
         <div class="row">
-            
-            <!-- Filter content -->
-            <div class="col" id="filtering" >
-                <div class="container">
-                    <div class="filterHeader">Locations</div>
+            {# Filter on locations content #}
+            <div class="col-lg-3" id="filter-box">
+                <div id="filtering-container" >
+                    <div class="filter-header">Locations</div>
                     <div class="tb aBlock">
-                        <input type="checkbox" class="largeCheckbox" id="check1"/>
-                        <label for="check1">Gløshaugen</label>
-                        <table class="collapsible" id="collapsible1">
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check5"/>
-                                    <label for="check5">Gløshaugen hall 1</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check6"/>
-                                    <label for="check6">Gløshaugen hall 2</label>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="tb aBlock">
-                        <input type="checkbox" class="largeCheckbox" id="check2"/>
-                        <label for="check2">Dragvoll</label>
-                        <table class="collapsible" id="collapsible1">
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check7"/>
-                                    <label for="check7">Dragvoll hall 1</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check8"/>
-                                    <label for="check8">Dragvoll hall 2</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check18"/>
-                                    <label for="check18">Dragvoll hall 3</label>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="tb aBlock">
-                        <input type="checkbox" class="largeCheckbox" id="check3"/>
-                        <label for="check3">Solsiden</label>
-                        <table class="collapsible" id="collapsible1">
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check9"/>
-                                    <label for="check9">Solsiden hall 1</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check10"/>
-                                    <label for="check10">Solsiden hall 2</label>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="tb aBlock">
-                        <input type="checkbox" class="largeCheckbox" id="check4"/>
-                        <label for="check4">Sted</label>
-                        <table class="collapsible" id="collapsible1">
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check11"/>
-                                    <label for="check11">Sted hall 4</label>
-                                    <table class="collapsible" id="collapsible1">
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" id="check31"/>
-                                                <label for="check31">Sted hall 5</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" id="check32"/>
-                                                <label for="check32">Sted kjempelangt</label>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check12"/>
-                                    <label for="check12">Gløshaugen</label>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-
-                    <hr>
-
-                    <div class="filterHeader">Type</div>
-                    <div class="form-check">
-                        <input type="checkbox" class="largeCheckbox" id="check13">
-                        <label for="check13">Gymsal</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="largeCheckbox" id="check14">
-                        <label for="check14">Fotballbane</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="largeCheckbox" id="check15">
-                        <label for="check15">Volleyballbane</label>
-                    </div>
-
-                    <hr>
-                    <div class="filterHeader">Time durations</div>
-                    <div id="timeSelect">
-                        <select class="custom-select mb-3">
-                            <option selected>30 min</option>
-                            <option value="1">60 min</option>
-                            <option value="2">90 min</option>
-                            <option value="3">120 min</option>
-                            <option value="3">180 min</option>
-                        </select>
-                    </div>
-
-                    <hr>
-                    <div id="searchButton">
-                        <button class="btn btn-success col">Search</button>
+                        {% for type in types %}
+                       <div>
+                            <p onclick="dropdownFilters(event)" class="type-header">{{ type.0 }}</p>
+                            <div id="{{ type.0 }}"
+                                 class="filter-arrow right"
+                                 title="Click to see locations"
+                                 onclick="dropdownFilters(event)">
+                            </div>
+                            <div id="{{ forloop.counter }}" class="filter-type">
+                                {% for location in locations %}
+                                    {% if location.type == type.0 %}
+                                        <div class="radio" style="display:block">
+                                            <input type="radio" onclick="populate()"
+                                                   class="radio-inline" name="opradio"
+                                                   id="{{ location }}" value="{{ location }}">
+                                            <label class="filter-cursors"
+                                                   data-id="{{ forloop.counter }}"
+                                                   title="{{ location.description }}"
+                                                   onchange="populate()"
+                                                   for="{{ location }}">
+                                                {{ location }}
+                                            </label>
+                                            <div id="adr">{{ location.address }}</div>
+                                            <p></p>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
                     </div>
                 </div>
             </div>
-            
-            <!-- Calendar content -->
-            <div class="col-9" class="container">
-                <div class="controls">
-                    <p class="next label" onclick="nextMonth()"><i class="fa fa-arrow-right"></i></p>
-                    <p class="previous label" onclick="previousMonth()"><i class="fa fa-arrow-left"></i></p>
-                    <p id="current-month" class="label bold"></p>
-                </div>
 
-                <div id="calendar">
-
+            {# Calendar content #}
+            <div class="col-lg-9">
+                <div id="calendar-container">
+                    <div id="control-box">
+                        <p id="previous" class="label" title="Previous month" onclick="previousMonth()">
+                            <i class="fa fa-chevron-left"></i>
+                        </p>
+                        <div id="label-titles">
+                            <div id="current-month" class="label"></div>
+                            <div id="current-location" class="label"></div>
+                        </div>
+                        <p id="next" class="label" title="Next month" onclick="nextMonth()">
+                            <i class="fa fa-chevron-right"></i>
+                        </p>
+                    </div>
+                    <div id="calendar-box">
+                        <div id="calendar"></div>
+                    </div>
                 </div>
             </div>
 
@@ -176,12 +90,22 @@
 {% endblock content %}
 
 {% block script %}
-  <script src="http://malsup.github.com/jquery.form.js"></script>
-  <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/bookings.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/expand_group_card.js' %}"></script>
-  <script
-  src="http://code.jquery.com/jquery-3.3.1.js"
-  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-  crossorigin="anonymous"></script>
+    <script>
+        $(".type-header").click( function(event) {
+            $( this ).next(event).trigger('click');
+        })
+    </script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+    <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/calendar_filters.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bookings.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/expand_group_card.js' %}"></script>
+    <script
+        src="http://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/sweetalert.min.js' %}"></script>
 {% endblock script %}

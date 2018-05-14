@@ -1,15 +1,20 @@
-from django.contrib.auth.models import User
-import django_filters
+from django.db import models
+from django_filters import CharFilter, FilterSet, ModelChoiceFilter
+from accounts.models import User
+from booking.models import Booking
 
-from booking.models import Location, Booking
 
+class AdminFilter(FilterSet):
+    person = ModelChoiceFilter(queryset=User.objects.all())
 
-class LocationFilter(django_filters.FilterSet):
     class Meta:
         model = Booking
-        fields = ['location']
-
-class UserFilter(django_filters.FilterSet):
-    class Meta:
-        model = User
-        fields = {'first_name'}
+        fields = ['location', 'person', 'title', 'start', 'group']
+        filter_overrides = {
+            models.CharField: {
+                'filter_class': CharFilter,
+                'extra': lambda f: {
+                    'lookup_expr': 'icontains',
+                },
+            }
+        }

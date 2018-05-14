@@ -16,7 +16,7 @@
   {% block body %}
 
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-white">
+  <nav id="top-navbar" class="navbar navbar-expand-lg navbar-light bg-white">
     <div class="container">
       <a class="navbar-brand" href="{% url 'home' %}">
         <img class="navbar-logo" src="{% static 'img/ntnui2.svg' %}" alt="NTNUI" />
@@ -42,12 +42,23 @@
           </li>
           {% user_in_hs user as user_in_hs %}
           {% if user_in_hs %}
-            <li>
-              <a class="link-with-icon" href="/hs">
+              <li class="nav-item dropdown">
+            <a
+              class="link-with-icon"
+              href="/hs"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false">
                 <img src="{% static 'img/crown-icon.png' %}" alt="hs-icon" />
-                <p>Main Board</p>
-              </a>
-            </li>
+              <p>Main Board</p>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="/hs">Main Board</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'booking_manage_list' %}">Manage bookings</a>
+
+            </div>
+          </li>
           {% endif %}
           <li>
             <a class="link-with-icon" href="/groups">

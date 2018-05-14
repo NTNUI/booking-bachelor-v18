@@ -1,19 +1,125 @@
-{#form that is called when creating a new booking#}
-
+{# Form that is called when creating a new booking #}
+{% load static %}
 {% load widget_tweaks %}
+{% load tags %}
 
-{% for field in form %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/clockpicker.css' %}">
+{% endblock %}
 
-    <div class="form-group{% if field.errors %} has-error{% endif %}">
-        {% if field.label != "Person" %}
-            <label for="{{ field.id_for_label }}">
-                {{ field.label }}
-            </label>
-        {% endif %}
-        {% render_field field class="form-control" %}
-        {% for error in field.errors %}
-            <p class="help-block">{{ error }}</p>
-        {% endfor %}
+{% block content %}
+    
+    {{form.person.as_hidden}}
+    {{form.queueNo.as_hidden}}
+    {{form.day.as_hidden}}
+    <div>
+        <h5>Title</h5>
+        {{form.title}}
     </div>
+    <div class="form-margin">
+        <h5>Location </h5>
+        {{form.location}}
+    </div>
+    <div class="form-margin">
+        <h5>Description</h5>
+        {{form.description}}
+    </div>
+    <div class="form-margin">
+        <h5>Group</h5>
+        {{form.group}}
+    </div>
+    <div class="form-margin">
+        <label>Date</label>
+        <input type="date" id="date" class="form-control" onclick="minMaxDate()" value="{{ form.start.value|date:"Y-m-d" }}">
+        {{ form.start.as_hidden }}
+        {{ form.end.as_hidden }}
+    </div>
+    <div class="form-margin">
+        <label>Starttime</label>
+        <div class="input-group clockpicker" data-placement="top" data-align="bottom" data-autoclose="true" id="startTime">
+            {{  form.start.date|date:"H:i:s"  }}
+            <input type="text" class="form-control" value="{{ form.start.value|date:"H:i:s" }}" id="startInput" onclick="resetClock()" required>
+            <span class="input-group-addon" onclick="resetClock()">
+            <span class="glyphicon glyphicon-time"></span>
+            </span>
+        </div>
+    </div>
+    <div class="form-margin">
+        <label>Endtime</label>
+        <div class="input-group clockpicker" data-placement="top" data-align="bottom" data-autoclose="true" id="endTime" >
+            <input type="text" class="form-control" value="{{ form.end.value|date:"H:i:s" }}" id="endInput" onclick="editClock()" required>
+            <span class="input-group-addon" id="endTimeSpan">
+            <span class="glyphicon glyphicon-time"></span>
+            </span>
+        </div>
+    </div>
+    {% if request.user.is_superuser %}
+        <div class="form-margin">
+            <h5>Request Recurring</h5>
+            {{form.repeat}}
+       </div>
+    {% endif %}
+    {% if user.is_authenticated and not request.user.is_superuser %}
+        {% user_in_hs user as user_in_hs %}
+        {% if user_in_hs %}
+            <div class="form-margin">
+                <h5>Request Recurring</h5>
+                {{form.repeat}}
+            </div>
+        {% endif %}
+    {% endif %}
 
-{% endfor %}
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function(){
+        var $myForm = $('#createform');
+        document.getElementById("id_day").value = "MON"; // Placeholder
+        $myForm.submit(function(event){
+            event.preventDefault();
+            // Change day from placeholder to actual value
+            var weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            var input = document.getElementById("date");
+            var date = new Date(input.value);
+            var weekday = date.getDay();
+            document.getElementById("id_day").value = weekdays[weekday];
+            // Append start date to post request
+            var startTime = document.getElementById("startInput").value.toString();
+            var endTime = document.getElementById("endInput").value.toString();
+            var dates = document.getElementById("date").value.toString();
+            var $form_data = $("#createform").serializeArray();
+            $form_data.forEach(function (item){
+                if (item.name === 'start') {
+                    item.value = dates + " " + startTime;
+                }
+                if (item.name === 'end'){
+                    item.value = dates + " " + endTime;
+                }
+            });
+
+            $.ajax({
+                method: "POST",
+                url: '/booking/bookings_list/create/',
+                data: $form_data,
+                // close popup on success
+                success: function(data) {
+                    var modal = document.getElementById('booking-modal');
+                    modal.style.display = "none";
+                    $("#person-booking-table").html(data.html_booking_list);
+                    Swal();
+                    bookedTab()
+                    document.getElementById("queued-tab").className = "tablinks";
+                    document.getElementById("booked-tab").className = "tablinks active";
+                }
+            })
+        })
+    })
+</script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="{% static 'js/popup.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/clockpicker.js' %}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+{% endblock script %}
+
