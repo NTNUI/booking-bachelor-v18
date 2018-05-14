@@ -49,6 +49,10 @@
                 {# All bookings #}
                 <div class="all-bookings">
                     <p class="my-bookings-header-2">All bookings</p>
+                    <div class="tab">
+                            <button class="tablinks active" id="booked-tab" onclick="openCity(event, 'Booked')">Booked</button>
+                            <button class="tablinks" id="queued-tab" onclick="openCity(event, 'Queued')">Queued</button>
+                    </div>
                     <div class='replace'>
                         {% include 'booking/includes/partial_booking_all.html' %}
                     </div>
