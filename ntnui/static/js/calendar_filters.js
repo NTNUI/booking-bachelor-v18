@@ -45,27 +45,27 @@ $('input[type="radio"]').keydown(function(e){
 });
 
 // Removes the calendar blur when filter is used
-$('#search-button').click(function (){
-    $('#calendar-container').css({
-        'pointer-events': 'all',
-        '-webkit-filter': 'blur(0px)',
-        '-ms-filter': 'blur(0px)',
-        'filter': 'blur(0px)'
+$("#search-button").click(function (){
+    $("#calendar-container").css({
+        "pointer-events": "all",
+        "-webkit-filter": "blur(0px)",
+        "-ms-filter": "blur(0px)",
+        "filter": "blur(0px)"
     })
 });
 
 // Removes the calendar blur when filter is used
-$('.filter-cursors').click(function (event){
+$(".filter-cursors").click(function (event){
     getLocation(event);
-    $('#calendar-container').css({
-        'pointer-events': 'all',
-        '-webkit-filter': 'blur(0px)',
-        '-ms-filter': 'blur(0px)',
-        'filter': 'blur(0px)'
+    $("#calendar-container").css({
+        "pointer-events": "all",
+        "-webkit-filter": "blur(0px)",
+        "-ms-filter": "blur(0px)",
+        "filter": "blur(0px)"
     });
 });
 
 // Removes the calendar blur when filter is used
-$('.type-header').click(function (e){
+$(".type-header").click(function (e){
     dropdownFilters(e);
 });
