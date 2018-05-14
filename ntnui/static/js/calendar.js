@@ -1,10 +1,21 @@
 // Globally head date object for the month shown.
 var date = new Date();
+
+// Variable used for setting calendar month name
 var currentMonth;
+
+// Global variable for storing current calendar month
 var currentCalendarMonth;
 
 // Global list to store bookings. This list will be used to populate the calendar with data.
 var globalList = [];
+
+// Global variabel which is used to store the date for each popup.
+var tempDay;
+
+// Globla variable for storing current location ID and string name
+var currentLocation;
+var locationString;
 
 // Ajax setting to set caching to false.
 $.ajaxSetup ({
@@ -123,11 +134,6 @@ var window = document.defaultView;
 var observer = new MutationObserver(callback);
 observer.observe(targetNode, config);
 
-// Event listener. Fires whenever the calendar changes.
-function HandleDOM_Change () {
-    populate();
-}
-
 // Converts day ids to the relevant string
 function dayOfWeekAsString(dayIndex) {
     return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][dayIndex];
@@ -145,7 +151,7 @@ var monthNames = ["January", "February", "March", "April", "May", "June",
 
 // Add 0 to single digit numbers.
 function minTwoDigits(n) {
-    return (n < 10 ? '0' : '') + n;
+    return (n < 10 ? "0" : "") + n;
 }
 
 // Creates a day element
@@ -187,13 +193,13 @@ function createCalendarDay(num, day, mon, year, available) {
     var currentDate = new Date;
     // Restricts days that cant be booked. Stops at 10. june in spring and 21. desember in autumn
     if(currentDate.getMonth()+1 <= 6){
-        maxMonth = '0' + 6;
+        maxMonth = "0" + 6;
     }
     if(currentDate.getMonth()+1 >= 8){
         maxMonth = 12;
         maxDay = 20;
     }
-    if (newDay.id < getCurrentDay() || newDay.id > currentDate.getFullYear()+'-'+maxMonth+'-'+maxDay) {
+    if (newDay.id < getCurrentDay() || newDay.id > currentDate.getFullYear()+"-"+maxMonth+"-"+maxDay) {
         newDay.className = "calendar-day restricted";
     }
     return newDay;
@@ -318,15 +324,12 @@ function getCurrentDay() {
     return currentDay;
 }
 
-// Global variabel which is used to store the date for each popup.
-var tempDay;
-
 // Opens the modal with content
 function popup(e) {
     $.ajax({
-        url: '/booking/bookings_list/create_calendar/',
-        type: 'get',
-        dataType: 'json',
+        url: "/booking/bookings_list/create_calendar/",
+        type: "get",
+        dataType: "json",
         beforeSend: function () {
             $("#booking-modal .booking-modal-contents").html("");
             $('#booking-modal').fadeTo(100, function () {
@@ -344,14 +347,10 @@ function popup(e) {
     modal.style.display = "block";
 }
 
-// Gets date and week for calendar form
-var currentLocation;
-var locationString;
-
 // populate calendar and get location of filter type.
 function getLocation(event){
     populate();
-    var locationId = event.target.getAttribute('data-id');
+    var locationId = event.target.getAttribute("data-id");
     var locationName = event.target.innerHTML;
     var locationTitle = event.target.title;
     var locationAdr = document.getElementById("adr").innerText;
