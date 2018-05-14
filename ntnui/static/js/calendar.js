@@ -1,6 +1,7 @@
 // Globally head date object for the month shown.
 var date = new Date();
 var currentMonth;
+var currentCalendarMonth;
 
 // Global list to store bookings. This list will be used to populate the calendar with data.
 var globalList = [];
@@ -209,17 +210,17 @@ function clearCalendar() {
 // Clears the calendar and shows the next month
 function nextMonth() {
     clearCalendar();
-    date.setMonth(date.getMonth() + 1);
-    createMonth(date.getMonth());
+    date.setMonth(this.currentCalendarMonth.getMonth() + 1);
+    createMonth(this.currentCalendarMonth.getMonth());
     populate();
 }
 
 // Clears the calendar and shows the previous month
 function previousMonth() {
     clearCalendar();
-    date.setMonth(date.getMonth() - 1);
+    date.setMonth(this.currentCalendarMonth.getMonth() - 1);
     var val = date.getMonth();
-    createMonth(date.getMonth());
+    createMonth(this.currentCalendarMonth.getMonth());
     populate();
     return val;
 }
@@ -301,6 +302,7 @@ function createMonth() {
         var currentDay = getCurrentDay();
         document.getElementById(currentDay).className = "calendar-day today";
     }
+    this.currentCalendarMonth = date;
 }
 
 // Get the current day
