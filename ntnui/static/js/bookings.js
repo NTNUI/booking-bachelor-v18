@@ -4,11 +4,11 @@ $(function () {
         var btn = $(this);
         $.ajax({
             url: btn.attr("data-url"),
-            type: 'get',
-            dataType: 'json',
+            type: "get",
+            dataType: "json",
             beforeSend: function (data) {
                 $("#booking-modal .booking-modal-contents").html("");
-                $('#booking-modal').fadeTo(100, function() {
+                $("#booking-modal").fadeTo(100, function() {
                     $(this).css("display", "inline-block");
                 }).fadeTo(300, 1);
             },
@@ -26,9 +26,9 @@ $(function () {
             var endTime = document.getElementById("endInput").value.toString();
             var dates = document.getElementById("date").value.toString();
             newForm.forEach(function (item) {
-                if (item.name === 'start'){
+                if (item.name === "start"){
                     item.value = dates + " " + startTime;
-                } else if (item.name === 'end'){
+                } else if (item.name === "end"){
                     item.value = dates + " " + endTime;
                 }
             });
@@ -37,7 +37,7 @@ $(function () {
             url: form.attr("action"),
             data: newForm,
             type: form.attr("method"),
-            dataType: 'json',
+            dataType: "json",
             success: function (data) {
                 if (data.form_is_valid) {
                     $("#person-booking-table").html(data.html_booking_list);
@@ -49,7 +49,7 @@ $(function () {
                         }
                     });
                     Swal();
-                    if (event.target.className == 'js-booking-delete-form') {
+                    if (event.target.className == "js-booking-delete-form") {
                         if (form[0].id > 0) {
                             queuedTab();
                             document.getElementById("booked-tab").className = "tablinks";
@@ -100,7 +100,7 @@ $(function () {
 
 function Swal() {
     var span = document.createElement("span");
-    span.innerHTML = " " + '</br>' + "Your changes has been saved";
+    span.innerHTML = "</br>" + "Your changes has been saved";
     swal({
         title: "" + "Good job!" + "",
         content: span,
@@ -111,8 +111,8 @@ function Swal() {
 }
 
 
-var modal = document.getElementById('booking-modal');
-var modal2 = document.getElementById('modal-booking');
+var modal = document.getElementById("booking-modal");
+var modal2 = document.getElementById("modal-booking");
 
 window.onclick = function(event) {
     if (event.target == modal || event.target == modal2 || event.target == close ) {
@@ -123,10 +123,10 @@ window.onclick = function(event) {
 bookedTab();
 
 function bookedTab() {
-    var list = document.getElementsByTagName('thead');
+    var list = document.getElementsByTagName("thead");
     for(var i = 0; i<list.length; i++) {
-        if(list[i].getAttribute('data-no')) {
-            if(list[i].getAttribute('data-no') > 0) {
+        if(list[i].getAttribute("data-no")) {
+            if(list[i].getAttribute("data-no") > 0) {
                 list[i].style.display = "none";
             }
             else {
@@ -134,7 +134,7 @@ function bookedTab() {
             }
         }
     };
-    var list = document.getElementsByTagName('tbody');
+    var list = document.getElementsByTagName("tbody");
     for(var i = 0; i<list.length; i++) {
         if(list[i].className) {
             if(list[i].className > 0) {
@@ -148,10 +148,10 @@ function bookedTab() {
 }
 
 function queuedTab() {
-    var list = document.getElementsByTagName('thead');
+    var list = document.getElementsByTagName("thead");
     for(var i = 0; i<list.length; i++) {
-        if(list[i].getAttribute('data-no')) {
-            if(list[i].getAttribute('data-no') > 0) {
+        if(list[i].getAttribute("data-no")) {
+            if(list[i].getAttribute("data-no") > 0) {
                 list[i].style.display = "contents";
 
             }
@@ -161,7 +161,7 @@ function queuedTab() {
             }
         }
     };
-    var list = document.getElementsByTagName('tbody');
+    var list = document.getElementsByTagName("tbody");
     for(var i = 0; i<list.length; i++) {
         if(list[i].className) {
             if(list[i].className > 0) {
@@ -176,17 +176,16 @@ function queuedTab() {
     };
 }
 
-function openCity(event, type) {
-    if(type=='Queued') {
+function openTab(event, type) {
+    if(type=="Queued") {
         queuedTab();
     }
-    if(type=='Booked'){
+    if(type=="Booked"){
         bookedTab();
     }
     tablinks = document.getElementsByClassName("tablinks");
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
-    //document.getElementById(cityName).style.display = "block";
     event.currentTarget.className += " active";
 }
