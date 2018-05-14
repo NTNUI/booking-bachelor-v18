@@ -153,6 +153,9 @@ select {
     word-break: break-word;
 }
 
+.request-repeat {
+  display: none
+}
 
 /* Tabs */
 /* Style the tab */
