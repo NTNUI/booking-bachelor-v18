@@ -91,10 +91,20 @@ function populate() {
                 else if(location.value === locationId && location.checked === true) {
                     dateMap.set(startDate, "" + diffHour + ":" + diffMin);
                 }
-                if(12-parseInt(getTime(dateMap.get(startDate))[0]) >= 1) {
+                if(12-parseInt(getTime(dateMap.get(startDate))[0]) > 9) {
                     $("#" + dateFormat + " h1").text(
                         "" + (12 - parseInt(getTime(dateMap.get(startDate))[0]))
                         + "\n" + " hours free").css("color", "#fc8307");
+                }
+                else if(12-parseInt(getTime(dateMap.get(startDate))[0]) > 5){
+                    $("#" + dateFormat + " h1").text(
+                        "" + (12 - parseInt(getTime(dateMap.get(startDate))[0]))
+                        + "\n" + " hours free").css("color", "#fc5908");
+                }
+                else if(12-parseInt(getTime(dateMap.get(startDate))[0]) >= 1){
+                    $("#" + dateFormat + " h1").text(
+                        "" + (12 - parseInt(getTime(dateMap.get(startDate))[0]))
+                        + "\n" + " hours free").css("color", "#f73717");
                 }
                 else if(12-parseInt(getTime(dateMap.get(startDate))[0]) < 1){
                     $("#" + dateFormat + " h1").text(
