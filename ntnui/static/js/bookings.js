@@ -1,4 +1,9 @@
-// Script for making bookings
+// Script for creating bookings
+
+// Activate booked tab on page load
+bookedTab();
+
+// Ajax functions to load and save bookings
 $(function () {
     var loadForm = function () {
         var btn = $(this);
@@ -49,6 +54,7 @@ $(function () {
                         }
                     });
                     Swal();
+                    // Check if deleted booking is queued
                     if (event.target.className == "js-booking-delete-form") {
                         if (form[0].id > 0) {
                             queuedTab();
@@ -70,16 +76,14 @@ $(function () {
                             document.getElementById("booked-tab").className = "tablinks active";
                         }
                     }
-                }
-                else {
+                } else {
                     $("#booking-modal .booking-modal-contents").html(data.html_form);
                     Swal();
                     bookedTab();
                     document.getElementById("queued-tab").className = "tablinks";
                     document.getElementById("booked-tab").className = "tablinks active";
                 }
-            },
-            complete: function (data) {}
+            }
         });
         return false;
     };
@@ -98,6 +102,7 @@ $(function () {
     
 });
 
+// Success modal when any changes are saved.
 function Swal() {
     var span = document.createElement("span");
     span.innerHTML = "</br>" + "Your changes has been saved";
@@ -114,14 +119,14 @@ function Swal() {
 var modal = document.getElementById("booking-modal");
 var modal2 = document.getElementById("modal-booking");
 
+// Allow user to close modal by clicking on X or clicking outside modal
 window.onclick = function(event) {
     if (event.target == modal || event.target == modal2 || event.target == close ) {
         $("#booking-modal").css("display", "none");
     }
 };
 
-bookedTab();
-
+// Tab for showing non-queued bookings
 function bookedTab() {
     var list = document.getElementsByTagName("thead");
     for(var i = 0; i<list.length; i++) {
@@ -133,7 +138,7 @@ function bookedTab() {
                 list[i].style.display = "contents";
             }
         }
-    };
+    }
     var list = document.getElementsByTagName("tbody");
     for(var i = 0; i<list.length; i++) {
         if(list[i].className) {
@@ -147,6 +152,7 @@ function bookedTab() {
     };
 }
 
+// Tab for showing queued tabs
 function queuedTab() {
     var list = document.getElementsByTagName("thead");
     for(var i = 0; i<list.length; i++) {
@@ -160,7 +166,7 @@ function queuedTab() {
 
             }
         }
-    };
+    }
     var list = document.getElementsByTagName("tbody");
     for(var i = 0; i<list.length; i++) {
         if(list[i].className) {
@@ -173,9 +179,10 @@ function queuedTab() {
 
             }
         }
-    };
+    }
 }
 
+// Script used for showing either queued or non-queued bookings.
 function openTab(event, type) {
     if(type=="Queued") {
         queuedTab();
