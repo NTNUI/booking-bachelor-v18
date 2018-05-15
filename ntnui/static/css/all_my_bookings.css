@@ -1,6 +1,7 @@
 /* CSS for my bookings and all bookings page */
 .booking-container {
     width: 60%;
+    padding: 0 0 2.5% 0;
 }
 .borderless td {
     border:none;
