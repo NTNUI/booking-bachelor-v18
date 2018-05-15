@@ -75,7 +75,7 @@ hr{
     overflow-y: auto;
 }
 
-group-bookings .replace, .request-bookings .replace {
+.group-bookings .replace, .request-bookings .replace {
     max-height: 635px;
     overflow-y: auto;
 }
