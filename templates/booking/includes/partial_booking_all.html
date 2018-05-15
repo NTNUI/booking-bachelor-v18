@@ -18,8 +18,13 @@
                 </tr>
             {% endif %}
             <tr>
-                <td><b>What:</b> {{ booking.description }}</td>
+                <td><b>Description:</b> {{ booking.description }}</td>
             </tr>
+            {% if booking.group %}
+                <tr>
+                    <td><b>Group:</b> {{ booking.group }}</td>
+                </tr>
+            {% endif %}
             <tr>
                 <td><b>Location:</b> {{ booking.location }}</td>
             </tr>
@@ -29,11 +34,6 @@
             <tr>
                 <td><b>Time:</b> {{ booking.get_date.2 }} - {{ booking.get_date.3 }}</td>
             </tr>
-            {% if booking.group %}
-                <tr>
-                    <td><b>Group:</b> {{ booking.group }}</td>
-                </tr>
-            {% endif %}
             <tr>
                 <td>
                     <button type='button' class='btn col js-update-booking' data-url='{% url "booking_update" booking.id %}'>
