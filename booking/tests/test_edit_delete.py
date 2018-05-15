@@ -57,7 +57,7 @@ class test_enqueue(TestCase):
         self.assertGreater(qNo2[:1].get().queueNo, qNo3[:1].get().queueNo)
 
     def test__post_enq(self):
-        
+        #TODO: update to selenium browser test
         response = self.client.post(self.url, {"location": self.location,
                                                 "Start": self.start,
                                                 "End": self.end,
@@ -125,9 +125,10 @@ class test_enqueue(TestCase):
         b2 = Booking(location=self.location, start=s2, end=e2, description="second")
         b2.save()
         b3 = Booking(location=self.location, start=s3, end=e3)
+        b3.save()
         print(b2.start)
         self.assertGreater(b3.queueNo, b2.queueNo)
-        # self.assertTrue(False)
+        #TODO: edit b2 to 14:00-15:00, check if b3 still after b2
 
     def test_enqueue_func(self):
         loc = "Idrettshallen"
