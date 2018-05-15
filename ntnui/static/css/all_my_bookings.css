@@ -11,6 +11,7 @@
     border: none;
     color: green;
     font-size: 120%;
+
 }
 
 hr{
@@ -58,8 +59,9 @@ hr{
     line-height: 15px;
 }
 
-.my-bookings, .group-bookings, .all-bookings, .request-bookings th {
+.my-bookings th, .group-bookings th, .all-bookings th, .request-bookings th {
     line-height: 24px;
+    text-align: center;
 }
 
 .replace {
