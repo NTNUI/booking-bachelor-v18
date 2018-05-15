@@ -39,6 +39,16 @@
       "type": "gym "
     }
   },
+   {
+    "model": "booking.location",
+    "pk": 4,
+    "fields": {
+      "name": "Dragvoll (hall 3)",
+      "address": "Address 11, Dragvoll",
+      "description": "Dragvoll idrettshall, hall 3",
+      "type": "gym "
+    }
+  },
   {
     "model": "booking.location",
     "pk": 5,
@@ -98,5 +108,16 @@
       "description": "Dødens dal volleyball ground, court 3",
       "type": "volleyball grounds"
     }
+  },
+   {
+    "model": "booking.location",
+    "pk": 11,
+    "fields": {
+      "name": "Armfeldtshall",
+      "address": "Adress 11, Gløs",
+      "description": "Gløshaugen idrettshall",
+      "type": "gym "
+    }
   }
+
 ]
