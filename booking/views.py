@@ -16,6 +16,7 @@ from django.shortcuts import render
 import requests
 import inspect
 
+
 # Error page
 def error_404(request):
     data = {}
@@ -59,7 +60,7 @@ def booking_list(request):
 
 # Renders 'Manage bookings' page and passes QuerySets relevant to that page.
 @login_required
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.is_superuser, login_url='/')
 def booking_manage(request):
     book = []
     now = timezone.now()
@@ -285,8 +286,6 @@ def decline_request(request, pk):
         req = get_object_or_404(Request, pk=pk)
         req.delete()
         # Sending declined mails
-        print(request.user.email)
-        print(req.booking.person.email)
         decline = 'Hey ' + str(request.user) + ', you have declined a recurring booking!'
         send_mailgun_message(str(request.user.email), decline)
         req_decline = 'Hey ' + str(req.booking.person) + ', your recurring booking has been declined!'
