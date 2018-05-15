@@ -45,7 +45,12 @@ $(function () {
             dataType: "json",
             success: function (data) {
                 if (data.form_is_valid) {
-                    $("#person-booking-table").html(data.html_booking_list);
+                    if ($("#person-booking-table").length) {
+                        $("#person-booking-table").html(data.html_booking_list);
+                    }
+                    if ($("#manage-booking-table").length) {
+                        $("#manage-booking-table").html(data.html_all_booking_list);
+                    }
                     $("#booking-modal").css("display", "none");
                     $(document).ready(function() {
                         var $myDiv = $('.js-delete-booking');
@@ -94,10 +99,12 @@ $(function () {
 
     // Update book
     $("#person-booking-table").on("click", ".js-update-booking", loadForm);
+    $("#manage-booking-table").on("click", ".js-update-booking", loadForm);
     $("#booking-modal").on("submit", ".js-booking-update-form", saveForm);
 
       // Delete book
     $("#person-booking-table").on("click", ".js-delete-booking", loadForm);
+    $("#manage-booking-table").on("click", ".js-delete-booking", loadForm);
     $("#booking-modal").on("submit", ".js-booking-delete-form", saveForm);
     
 });
