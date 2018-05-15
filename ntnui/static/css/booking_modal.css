@@ -151,7 +151,7 @@ h8, h6 {
     font-size: 13px;
 }
 
-.empty, .empty-group, .empty-requested {
+.empty {
     text-align: center;
     padding: 10%;
     margin-left: -10%;
