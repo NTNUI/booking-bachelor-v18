@@ -1,0 +1,95 @@
+{# List displaying all requested bookings #}
+{% load static %}
+
+<table class="table borderless" id="booking-table">
+    {% for request in requested %}
+        <thead id="{{ request.id }}" class="table-title">
+            <tr>
+                <th>{{ request.booking.title }}</th>
+            </tr>
+        </thead>
+        <tr>
+            <td><b>Description:</b> {{ request.booking.description }}</td>
+        </tr>
+        {% if request.booking.group %}
+            <tr>
+                <td><b>Group:</b> {{ request.booking.group }}</td>
+            </tr>
+        {% endif %}
+        <tr>
+            <td><b>Location:</b> {{ request.booking.location }}</td>
+        </tr>
+        <tr>
+            <td><b>Date:</b> {{ request.booking.get_date.0 }}, {{ request.booking.get_date.1}}</td>
+        </tr>
+        <tr>
+            <td><b>Time:</b> {{ request.booking.get_date.2 }} - {{ request.booking.get_date.3 }}</td>
+        </tr>
+        <tr>
+            <td><b>Requested by:</b> {{ request.booking.person }}</td>
+        </tr>
+
+        <tr>
+            <td><b>Recurring:</b> Every {{request.weekday}} </td>
+        </tr>
+        <tr>
+            <td>
+                <form id="confirm-booking" action='{% url "booking_confirm" request.id %}' method = "post">
+                    {% csrf_token %}
+                    <input type="button"  class="btn approve btn-success" id="{{ request.id }}" value="Accept" />
+                </form>
+                <form id="reject-booking" action='{% url "delete_request" request.id %}' method = "post">
+                    {% csrf_token %}
+                    <input type="button" class="btn disapprove btn-danger" id="{{ request.id }}" value="Decline" />
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <hr>
+            </td>
+        </tr>
+
+        {% empty %}
+            <h6 class="empty-requested">You have no requested bookings!</h6>
+
+    {% endfor %}
+
+</table>
+  
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    $(document).ready(function(e){
+        var approve = document.getElementsByClassName("btn approve");
+        var disapprove = document.getElementsByClassName("btn disapprove");
+        $(approve).click(function () {
+            var form = $(this).parents("form");
+            swal({
+                title: "This is a recurring request",
+                text: "Do you want to accept this reccuring request?",
+                buttons: ["No", "Yes"],
+                successMode: true
+            }).then((yes) => {
+                if (yes) {
+                    form.submit()
+                }
+            })
+        });
+        $(disapprove).click(function () {
+            var form = $(this).parents("form");
+            swal({
+                title: "This is a recurring request",
+                text: "Do you want to accept this reccuring request?",
+                buttons: ["No", "Yes"],
+                successMode: true
+            }).then((yes) => {
+                if (yes) {
+                    form.submit()
+                }
+            })
+        });
+    })
+</script>
+<script type="text/javascript" src="{% static 'js/sweetalert.min.js' %}"></script>
+

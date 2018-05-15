@@ -35,8 +35,8 @@ SECRET_KEY = 'n0b&@0hxu@r+#z6!w%)(%8q)y7e9i6m19r&htjanialmik6t#3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['tester', 'localhost']
-
+ALLOWED_HOSTS = ['tester', 'localhost', '0.0.0.0', '127.0.0.1']
+ALLOWED_HOST = ["*"]
 
 # Application definition
 
@@ -48,12 +48,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
     'ntnui',
     'widget_tweaks',
     'accounts',
     'django_nose',
     'hs',
     'forms',
+    'booking',
     'rules.apps.AutodiscoverRulesConfig',
 ]
 
@@ -97,6 +99,7 @@ WSGI_APPLICATION = 'ntnui.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 """
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -113,7 +116,6 @@ DATABASES = {
         'NAME': 'mydatabase',
     }
 }
-
 AUTH_USER_MODEL = "accounts.User"
 AUTH_GROUPIMAGE_MODEL = "groups.GroupImage"
 
@@ -177,7 +179,7 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 # Tell nose to measure coverage on the 'foo' and 'bar' apps
 NOSE_ARGS = [
     '--with-coverage',
-    '--cover-package=groups, forms, accounts',
+    '--cover-package=groups, forms, accounts, booking',
 ]
 
 # MEDIA

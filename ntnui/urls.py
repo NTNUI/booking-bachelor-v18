@@ -7,11 +7,12 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-
 from accounts import views as accounts_views
 from groups import views as groups_views
 
+
 urlpatterns = [
+    url(r'^booking/', include('booking.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^ajax/', include('forms.ajax')),
     url(r'^$', groups_views.list_groups, name='home'),
@@ -53,3 +54,7 @@ urlpatterns = [
     url(r'^cron/accounts/lastday$', accounts_views.add_last_week_users_from_exeline,
         name='add_last_week_users_from_exeline'),
 ]
+
+handler404 = 'booking.views.error_404'
+
+

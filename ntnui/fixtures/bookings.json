@@ -1,0 +1,529 @@
+[
+  {
+    "model": "booking.booking",
+    "pk": 1,
+    "fields": {
+      "person": 1,
+      "title": "Volleyball kamp",
+      "description": "Kamp mellom Norge og Sverige",
+      "location": 1,
+      "start": "2018-05-19T18:00:00.858Z",
+      "end":"2018-05-19T20:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+  {
+    "model": "booking.booking",
+    "pk": 2,
+    "fields": {
+      "person": 9,
+      "title": "Sirkeltrening",
+      "description": "Hard trening",
+      "location": 2,
+      "start": "2018-05-17T12:00:00.858Z",
+      "end":"2018-05-17T14:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+  {
+    "model": "booking.booking",
+    "pk": 3,
+    "fields": {
+      "person": 10,
+      "title": "Volleyball-kamp",
+      "description": "Kamp mellom hjemmelagene",
+      "location": 1,
+      "start": "2018-05-18T12:00:00.858Z",
+      "end":"2018-05-18T14:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+  {
+    "model": "booking.booking",
+    "pk": 4,
+    "fields": {
+      "person": 11,
+      "title": "Stafett",
+      "description": "Trening",
+      "location": 2,
+      "start": "2018-05-20T14:00:00.858Z",
+      "end":"2018-05-20T16:00:00.858Z",
+      "queueNo": 0
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 5,
+    "fields": {
+      "person": 12,
+      "title": "Koietrening",
+      "description": "Gåtrening",
+      "location": 4,
+      "start": "2018-05-20T13:00:00.858Z",
+      "end":"2018-05-20T15:10:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Koiene"
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 6,
+    "fields": {
+      "person": 13,
+      "title": "Styrketrening",
+      "description": "Bli like sterk som meg!",
+      "location": 9,
+      "start": "2018-05-22T12:00:00.858Z",
+      "end":"2018-05-22T14:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Calisthenics"
+    }
+  },
+      {
+    "model": "booking.booking",
+    "pk": 7,
+    "fields": {
+      "person": 14,
+      "title": "Løpetrening",
+      "description": "Trening",
+      "location": 4,
+      "start": "2018-05-30T17:00:00.858Z",
+      "end":"2018-05-30T19:30:00.858Z",
+      "queueNo": 0
+    }
+  },
+      {
+    "model": "booking.booking",
+    "pk": 8,
+    "fields": {
+      "person": 15,
+      "title": "Styrketrening",
+      "description": "Her skal det gønnes på.",
+      "location": 7,
+      "start": "2018-06-01T15:00:00.858Z",
+      "end":"2018-06-01T12:16:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+      {
+    "model": "booking.booking",
+    "pk": 9,
+    "fields": {
+      "person": 16,
+      "title": "Volleyball trening",
+      "description": "Rolig trening",
+      "location": 1,
+      "start": "2018-06-02T19:00:00.858Z",
+      "end":"2018-06-02T20:30:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 10,
+    "fields": {
+      "person": 16,
+      "title": "Volleyball trening",
+      "description": "Volleyball",
+      "location": 1,
+      "start": "2018-05-22T18:00:00.858Z",
+      "end":"2018-05-22T19:30:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 11,
+    "fields": {
+      "person": 13,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 1,
+      "start": "2018-05-23T12:00:00.858Z",
+      "end":"2018-05-23T13:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 12,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 1,
+      "start": "2018-05-26T20:00:00.858Z",
+      "end":"2018-05-26T21:30:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 13,
+    "fields": {
+      "person": 16,
+      "title": "Trening",
+      "description": "Ta med egen ball",
+      "location": 1,
+      "start": "2018-05-02T20:00:00.858Z",
+      "end":"2018-05-02T21:30:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Calisthenics"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 14,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 1,
+      "start": "2018-05-31T20:00:00.858Z",
+      "end":"2018-05-31T21:30:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 15,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 1,
+      "start": "2018-05-17T10:00:00.858Z",
+      "end":"2018-05-17T12:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 16,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 1,
+      "start": "2018-05-17T12:00:00.858Z",
+      "end":"2018-05-17T14:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 17,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 1,
+      "start": "2018-05-17T14:00:00.858Z",
+      "end":"2018-05-17T16:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 18,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 1,
+      "start": "2018-05-17T16:00:00.858Z",
+      "end":"2018-05-17T18:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 19,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 1,
+      "start": "2018-05-17T18:00:00.858Z",
+      "end":"2018-05-17T20:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 20,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 1,
+      "start": "2018-05-17T20:00:00.858Z",
+      "end":"2018-05-17T22:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 21,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 3,
+      "start": "2018-05-16T10:00:00.858Z",
+      "end":"2018-05-16T12:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 22,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 3,
+      "start": "2018-05-16T12:00:00.858Z",
+      "end":"2018-05-16T14:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 23,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 3,
+      "start": "2018-05-16T14:00:00.858Z",
+      "end":"2018-05-16T16:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 24,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 3,
+      "start": "2018-05-16T16:00:00.858Z",
+      "end":"2018-05-16T18:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 25,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 3,
+      "start": "2018-05-16T18:00:00.858Z",
+      "end":"2018-05-16T20:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 26,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 3,
+      "start": "2018-05-16T20:00:00.858Z",
+      "end":"2018-05-16T22:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 27,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballkamp",
+      "description": "Rolig trening",
+      "location": 3,
+      "start": "2018-05-19T20:00:00.858Z",
+      "end":"2018-05-19T22:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 28,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 3,
+      "start": "2018-05-30T20:00:00.858Z",
+      "end":"2018-05-30T22:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 29,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 3,
+      "start": "2018-05-08T19:00:00.858Z",
+      "end":"2018-05-08T20:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 30,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 3,
+      "start": "2018-05-29T19:00:00.858Z",
+      "end":"2018-05-29T20:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+
+      {
+    "model": "booking.booking",
+    "pk": 31,
+    "fields": {
+      "person": 16,
+      "title": "Volleyballtrening",
+      "description": "Rolig trening",
+      "location": 3,
+      "start": "2018-05-05T19:00:00.858Z",
+      "end":"2018-05-05T20:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Volleyball"
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 32,
+    "fields": {
+      "person": 12,
+      "title": "Koietrening",
+      "description": "Gåtrening",
+      "location": 4,
+      "start": "2018-05-05T19:00:00.858Z",
+      "end":"2018-05-05T20:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Koiene"
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 33,
+    "fields": {
+      "person": 13,
+      "title": "Styrketrening",
+      "description": "Bli like sterk som meg!",
+      "location": 9,
+      "start": "2018-05-19T12:00:00.858Z",
+      "end":"2018-05-19T14:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Calisthenics"
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 34,
+    "fields": {
+      "person": 13,
+      "title": "Koietrening",
+      "description": "Gåtrening",
+      "location": 9,
+      "start": "2018-05-19T12:00:00.858Z",
+      "end":"2018-05-19T14:00:00.858Z",
+      "queueNo": 1,
+      "group": "NTNUI Koiene"
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 35,
+    "fields": {
+      "person": 12,
+      "title": "Koietrening",
+      "description": "Gåtrening",
+      "location": 4,
+      "start": "2018-06-20T13:00:00.858Z",
+      "end":"2018-06-20T15:10:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Koiene"
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 36,
+    "fields": {
+      "person": 13,
+      "title": "Styrketrening",
+      "description": "Bli like sterk som meg!",
+      "location": 9,
+      "start": "2018-06-22T12:00:00.858Z",
+      "end":"2018-06-22T14:00:00.858Z",
+      "queueNo": 0,
+      "group": "NTNUI Calisthenics"
+    }
+  }
+]

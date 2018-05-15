@@ -1,0 +1,356 @@
+/* CSS for my bookings and all bookings page */
+.booking-container {
+    width: 60%;
+    padding: 0 0 2.5% 0;
+}
+.borderless td {
+    border:none;
+}
+
+.table thead th{
+    border: none;
+    color: green;
+    font-size: 120%;
+
+}
+
+hr{
+    border-top: 2px solid #c5c3c3;
+    margin: 0;
+}
+
+
+/* Headers */
+#my-bookings-header {
+    margin-top: 2rem;
+    margin-left: 1rem;
+    text-transform: uppercase;
+    color: green;
+    font-size: 1.5rem;
+    max-width: 50%;
+    display: inline-block;
+}
+
+.my-bookings-header-2 {
+    margin-bottom: 2.2rem;
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 1.6rem;
+    line-height: 25px;
+}
+
+
+/* Overwriting modal css */
+.modal-body {
+    padding: 3% 15% 1% 15% !important;
+}
+
+.booking-modal-contents {
+    width: 50% !important;
+}
+
+
+/* Bookings */
+/* Containers for list of bookings */
+.my-bookings, .group-bookings, .all-bookings, .request-bookings {
+    width: 100%;
+    margin: 0 auto;
+    padding: 1rem 3rem 1rem 3rem;
+    line-height: 18px;
+}
+
+.my-bookings th, .group-bookings th, .all-bookings th, .request-bookings th {
+    line-height: 24px;
+    text-align: center;
+}
+
+.replace {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+.my-bookings .replace, .all-bookings .replace {
+    max-height: 580px;
+    overflow-y: auto;
+}
+
+.group-bookings .replace, .request-bookings .replace {
+    max-height: 635px;
+    overflow-y: auto;
+}
+
+.group-width {
+    width: 60%;
+}
+
+#create-booking {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.my-booking-box {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(50, 50, 93, 0.1);
+    border: solid 1px #dfdfdf;
+    width: 100%;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    margin-right: 0;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-right: 0;
+    width: 100%;
+}
+
+.empty, .empty-group, .empty-requested {
+    text-align: center;
+}
+
+.booking-item {
+    width: 100%;
+    border-bottom: solid 1px #dfdfdf;
+    margin-top: 1rem;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.title-description {
+    font-weight: 500;
+}
+
+.table-title {
+    font-size: 18px;
+}
+
+#id_location, #id_person, #id_title, #id_start, #id_group {
+    width: 100%;
+}
+
+
+/* Search/Filters */
+.filter-form {
+    width: 80%;
+    margin: 10px auto;
+}
+
+.filter-table td {
+    padding-top: 0;
+    padding-bottom: 0;
+    text-align: center;
+}
+
+input {
+    padding: 3px;
+}
+
+select {
+    padding: 4px;
+}
+
+.search-button {
+    width: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.replace{
+    width: 100%;
+    alignment: center;
+    display: inline-block;
+    word-break: break-word;
+}
+
+.request-repeat {
+  display: none
+}
+
+/* Tabs */
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: space-around;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+    width: 100%;
+    border-bottom: 1px solid #c5c3c3;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #fff;
+    border: 1px solid #c5c3c3;
+    border-bottom: 1px solid white;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+
+/* Responsive design */
+* {
+    box-sizing: border-box;
+}
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+
+[class*="col-"] {
+    float: left;
+    padding: 15px;
+}
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+
+/* Buttons */
+button.btn.col.js-update-booking:hover {
+    background: #b4afaf54;
+}
+
+button.btn.col.js-update-booking {
+    border: 1px solid #8080803b;
+    background: #d3d3d32b;
+}
+
+button#close {
+    background: #00800000;
+}
+
+/* Label in form-field */
+label {
+    font-weight: 600;
+    font-size: 17px;
+}
+.form-margin {
+    margin-top: 5% !important;
+}
+
+/* Responsive design */
+/* Makes booking container bigger on smaller devices */
+
+@media only screen and (max-width: 1100px) {
+    .booking-modal-contents {
+        width: 65% !important;
+    }
+}
+@media only screen and (max-width: 700px){
+    .booking-modal-contents {
+        width: 90% !important;
+    }
+    .booking-container {
+        width: 90%
+    }
+    .my-bookings, .group-bookings, .all-bookings, .request-bookings, form {
+        padding: 0.8rem;
+    }
+    .flex-container {
+        flex-direction: column;
+    }
+    td{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 85%;
+    }
+
+    #filter-button{
+        width: 47%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+
+    #table-title{
+        font-size: 90%;
+        word-wrap: break-word;
+
+    }
+    .flex-container, form{
+        align-self: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .my-booking-box{
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 1050px){
+    .booking-container {
+        width: 80%
+    }
+}
+@media only screen and (max-width: 1250px){
+    .my-bookings, .group-bookings, .all-bookings, .request-bookings, form {
+        padding: 1rem;
+    }
+    td, .table-title{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 85%;
+    }
+    #filter-button{
+        width: 47%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+}
+
+
+/* request buttons */
+
+.approve, .disapprove {
+    width: 100%;
+}
+
+form#reject-booking, form#confirm-booking {
+    padding: 0;
+}
+
