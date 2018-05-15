@@ -169,7 +169,7 @@ function createCalendarDay(num, day, mon, year, available) {
     date.innerHTML = num + ".";
     dayElement.innerHTML = " " + day;
     if (available == true) {
-        availability.innerHTML = "12 hours free";
+        availability.innerHTML = "12" + "\n" + "hours free";
         availability.style.color = "green";
     }
     newDay.className = "calendar-day";
