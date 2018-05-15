@@ -64,8 +64,7 @@ class Booking(models.Model):
             booking.queueNo += i
             super(Booking, booking).save()
 
-    # Override save function to add queuing when bookings overlap.
-    def save(self, repeatable=False, *args, **kwargs):
+    def save(self, *args, **kwargs):
         bookings = Booking.objects.filter(location=self.location, start__lt=self.end, end__gt=self.start)
         first = bookings.filter(queueNo=0)
         # Checks in booking already exist. If yes, don't change queue number.
