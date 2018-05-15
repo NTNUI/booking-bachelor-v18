@@ -152,7 +152,7 @@ p.type-header {
         font-size: 16px;
     }
     .calendar-day h1{
-        white-space: pre-line;
+        white-space: pre-line !important;
     }
 }
 @media only screen and (min-width: 990px) {
