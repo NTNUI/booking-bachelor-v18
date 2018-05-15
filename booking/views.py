@@ -96,8 +96,12 @@ def save_booking_form(request, form, template_name):
             form.save()
             data['form_is_valid'] = True
             my_bookings = get_my_bookings(request)
+            all_bookings = get_all_bookings(request)
             data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
                 'my_bookings_list': my_bookings
+            })
+            data['html_all_booking_list'] = render_to_string('booking/includes/partial_booking_list_all.html', {
+                'all_bookings': all_bookings
             })
             if form.cleaned_data['repeat'] == "weekly" and request.user.is_superuser:
                 repeat_booking(form.cleaned_data)
@@ -179,8 +183,12 @@ def booking_delete(request, pk):
         user = request.user
         data['form_is_valid'] = True  # This is just to play along with the existing code
         bookings = get_my_bookings(request)
+        all_bookings = get_all_bookings(request)
         data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
-            'my_bookings_list': bookings
+            'my_bookings_list': bookings,
+        })
+        data['html_all_booking_list'] = render_to_string('booking/includes/partial_booking_list_all.html', {
+            'all_bookings': all_bookings
         })
         # Sending delete mails
         delete = 'Hey ' + str(user) + ', a booking has been deleted!'
@@ -304,6 +312,11 @@ def get_my_groups(request):
         my_groups.append(group)
     return my_groups
 
+# Returns a list of bookings made by the logged-in user.
+def get_all_bookings(request):
+    now = timezone.now()
+    my_bookings_list = Booking.objects.filter(start__gte=now).order_by('start')
+    return my_bookings_list
 
 # Returns a list of bookings made by the logged-in user.
 def get_my_bookings(request):

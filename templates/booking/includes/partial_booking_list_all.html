@@ -1,25 +1,26 @@
-{# List displaying all bookings #}
+{# List displaying bookings for user #}
 {% load static %}
-<table class='table borderless' id='manage-booking-table'>
-    {% for booking in filter.qs %}
-        {# Titles of bookings #}
-        {% if bookings %}
-            <thead class='table-title' data-no="{{ booking.queueNo }}">
-                <tr>
-                    <th>{{ booking.title }}</th>
-                </tr>
-            </thead>
-        {% endif %}
+<table class="table borderless" id="person-booking-table">
+    {% for booking in all_bookings %}
+        <thead class='table-title' data-no="{{ booking.queueNo }}">
+            <tr class="title">
+                <th>{{ booking.title }}</th>
+            </tr>
+        </thead>
         <tbody class="{{ booking.queueNo }}">
-            {# Booking content #}
             {% if booking.queueNo > 0 %}
                 <tr>
                     <td><b>Queue:</b> {{ booking.queueNo}}</td>
                 </tr>
             {% endif %}
             <tr>
-                <td><b>What:</b> {{ booking.description }}</td>
+                <td><b>Description:</b> {{ booking.description }}</td>
             </tr>
+            {% if booking.group %}
+                <tr>
+                    <td><b>Group:</b> {{ booking.group }}</td>
+                </tr>
+            {% endif %}
             <tr>
                 <td><b>Location:</b> {{ booking.location }}</td>
             </tr>
@@ -29,11 +30,6 @@
             <tr>
                 <td><b>Time:</b> {{ booking.get_date.2 }} - {{ booking.get_date.3 }}</td>
             </tr>
-            {% if booking.group %}
-                <tr>
-                    <td><b>Group:</b> {{ booking.group }}</td>
-                </tr>
-            {% endif %}
             <tr>
                 <td>
                     <button type='button' class='btn col js-update-booking' data-url='{% url "booking_update" booking.id %}'>
@@ -49,9 +45,12 @@
                     <hr>
                 </td>
             </tr>
-         </tbody>
+        </tbody>
+
         {% empty %}
-            <h6 class="empty">There are no bookings!</h6>
+            <h6 class="empty">You have no bookings!</h6>
+
     {% endfor %}
 </table>
+
 <script type="text/javascript" src="{% static 'js/sweetalert.min.js' %}"></script>

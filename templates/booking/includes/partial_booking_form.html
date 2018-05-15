@@ -108,7 +108,12 @@
                 success: function(data) {
                     var modal = document.getElementById("booking-modal");
                     modal.style.display = "none";
-                    $("#person-booking-table").html(data.html_booking_list);
+                    if ($("#person-booking-table").length) {
+                        $("#person-booking-table").html(data.html_booking_list);
+                    }
+                    if ($("#manage-booking-table").length) {
+                        $("#manage-booking-table").html(data.html_all_booking_list);
+                    }
                     Swal();
                     bookedTab();
                     document.getElementById("queued-tab").className = "tablinks";
