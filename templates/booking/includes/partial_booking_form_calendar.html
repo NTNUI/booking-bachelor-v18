@@ -51,7 +51,7 @@
                         </div>
                         {% if request.user.is_superuser %}
                             <div class="form-margin">
-                                <h5>Recurring</h5>
+                                <h5 id="rec">Recurring</h5>
                                 {{form.repeat}}
                             </div>
                         {% endif %}
@@ -59,7 +59,7 @@
                             {% user_in_hs user as user_in_hs %}
                             {% if user_in_hs %}
                                 <div class="form-margin">
-                                    <h5>Request Recurring</h5>
+                                    <h5 id="rec">Request Recurring</h5>
                                     {{form.repeat}}
                                 </div>
                             {% endif %}
@@ -162,37 +162,70 @@
                             if (willQueue) {
                                 var recurringRequest = document.getElementById("id_repeat");
                                 if (recurringRequest.value != "noRepeat") {
-                                    swal({
+                                    var h5 = document.getElementById("rec")
+                                    if(h5.innerText === "Recurring") {
+                                        swal({
+                                        title: "Do you want to create a recurring booking?",
+                                        text: "This booking will be repeated weekly for the rest of the semester",
+                                        buttons: ["No", "Yes"],
+                                        successMode: true,
+                                        }).then((Request) => {
+                                            if(Request) {
+                                                successModal();
+                                                ajaxForm();
+                                            }
+                                        })
+                                    }
+                                    if(h5.innerText === "Request Recurring") {
+                                        swal({
                                         title: "Do you want to request a recurring booking?",
                                         text: "This request will be reviewed by NTNUi staff",
                                         buttons: ["No", "Yes"],
                                         successMode: true,
-                                    }).then((Request) => {
-                                        if(Request) {
-                                            queueModal();
-                                            ajaxForm();
-                                        }
-                                    })
+                                        }).then((Request) => {
+                                            if(Request) {
+                                                successModal();
+                                                ajaxForm();
+                                            }
+                                        })
+                                    }
                                 } else {
-                                    queueModal();
+                                    successModal();
                                     ajaxForm();
                                 }
                             }
                         });
                     } else {
                         var recurringRequest = document.getElementById("id_repeat");
+                        console.log(recurringRequest.parentElement.innerText)
                         if (recurringRequest.value != "noRepeat") {
-                            swal({
+                            var h5 = document.getElementById("rec")
+                            if(h5.innerText === "Recurring") {
+                                swal({
+                                title: "Do you want to create a recurring booking?",
+                                text: "This booking will be repeated weekly for the rest of the semester",
+                                buttons: ["No", "Yes"],
+                                successMode: true,
+                                }).then((Request) => {
+                                    if(Request) {
+                                        successModal();
+                                        ajaxForm();
+                                    }
+                                })
+                            }
+                            if(h5.innerText === "Request Recurring") {
+                                swal({
                                 title: "Do you want to request a recurring booking?",
                                 text: "This request will be reviewed by NTNUi staff",
                                 buttons: ["No", "Yes"],
                                 successMode: true,
-                            }).then((Request) => {
-                                if(Request) {
-                                    successModal();
-                                    ajaxForm();
-                                }
-                            })
+                                }).then((Request) => {
+                                    if(Request) {
+                                        successModal();
+                                        ajaxForm();
+                                    }
+                                })
+                            }
                         } else {
                             successModal();
                             ajaxForm();
