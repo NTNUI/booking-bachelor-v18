@@ -1,6 +1,7 @@
 /* CSS for my bookings and all bookings page */
 .booking-container {
     width: 60%;
+    padding: 0 0 2.5% 0;
 }
 .borderless td {
     border:none;
@@ -10,11 +11,12 @@
     border: none;
     color: green;
     font-size: 120%;
+
 }
 
 hr{
     border-top: 2px solid #c5c3c3;
-    margin: 0rem;
+    margin: 0;
 }
 
 
@@ -34,6 +36,7 @@ hr{
     margin-top: 1rem;
     text-align: center;
     font-size: 1.6rem;
+    line-height: 25px;
 }
 
 
@@ -51,19 +54,29 @@ hr{
 /* Containers for list of bookings */
 .my-bookings, .group-bookings, .all-bookings, .request-bookings {
     width: 100%;
-    margin: 0rem auto;
+    margin: 0 auto;
     padding: 1rem 3rem 1rem 3rem;
     line-height: 15px;
 }
 
 .my-bookings th, .group-bookings th, .all-bookings th, .request-bookings th {
     line-height: 24px;
+    text-align: center;
 }
 
 .replace {
     margin-top: 10px;
     margin-bottom: 10px;
-    max-height: 600px;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+.my-bookings .replace, .all-bookings .replace {
+    max-height: 580px;
+    overflow-y: auto;
+}
+
+group-bookings .replace, .request-bookings .replace {
+    max-height: 635px;
     overflow-y: auto;
 }
 
@@ -73,7 +86,7 @@ hr{
 
 #create-booking {
     width: 100%;
-    margin: 0px auto;
+    margin: 0 auto;
 }
 
 .my-booking-box {
@@ -84,7 +97,7 @@ hr{
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
-    margin-right: 0px auto;
+    margin-right: 0;
 }
 
 .flex-container {
@@ -92,8 +105,12 @@ hr{
     flex-direction: row;
     justify-content: space-around;
     align-items: flex-start;
-    margin-right: 0px auto;
+    margin-right: 0;
     width: 100%;
+}
+
+.empty, .empty-group, .empty-requested {
+    text-align: center;
 }
 
 .booking-item {
@@ -120,18 +137,27 @@ hr{
 
 
 /* Search/Filters */
-#filter-form {
+.filter-form {
     width: 80%;
     margin: 10px auto;
 }
 
 .filter-table td {
-    padding-top: 0px;
-    padding-bottom: 0px;
+    padding-top: 0;
+    padding-bottom: 0;
+    text-align: center;
 }
 
-#filter-button {
-    width: 40%;
+input {
+    padding: 3px;
+}
+
+select {
+    padding: 4px;
+}
+
+.search-button {
+    width: 50%;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -144,6 +170,9 @@ hr{
     word-break: break-word;
 }
 
+.request-repeat {
+  display: none
+}
 
 /* Tabs */
 /* Style the tab */
@@ -227,15 +256,6 @@ button.btn.col.js-update-booking {
     background: #d3d3d32b;
 }
 
-button#filter-button {
-    border: 1px solid #8080803b;
-    background: #d3d3d32b;
-}
-
-button#filter-button:hover {
-    background: #b4afaf54;
-}
-
 button#close {
     background: #00800000;
 }
@@ -257,7 +277,7 @@ label {
         width: 65% !important;
     }
 }
-@media only screen and (max-width: 650px){
+@media only screen and (max-width: 700px){
     .booking-modal-contents {
         width: 90% !important;
     }

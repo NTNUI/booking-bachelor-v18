@@ -53,9 +53,7 @@ function validateForm() {
             end.style.border = "1px solid rgba(0,0,0,.15)";
         });
     }
-    if((hourEnd == hourStart && (minEnd - minStart) < 45) ||
-            (hourEnd == +hourStart+1 && (minStart == 30 && minEnd == 0) ||
-            (minStart == 45 && minEnd <= 15))){
+    if(((hourEnd+minEnd) - (hourStart+minStart) < 85)){
         start.style.border = "1px solid red";
         end.style.border = "1px solid red";
         error += "tooShort ";
@@ -67,7 +65,7 @@ function validateForm() {
             end.style.border = "1px solid rgba(0,0,0,.15)";
         });
     }
-    if((hourEnd - hourStart) > 3){
+    if(((hourEnd+minEnd) - (hourStart+minStart)) > 300){
         start.style.border = "1px solid red";
         end.style.border = "1px solid red";
         error += "tooLong ";

@@ -20,9 +20,11 @@
         <tr>
             <td><b>Time:</b> {{ request.booking.get_date.2 }} - {{ request.booking.get_date.3 }}</td>
         </tr>
-        <tr>
-            <td><b>Group:</b> {{ request.booking.group }}</td>
-        </tr>
+        {% if request.booking.group %}
+            <tr>
+                <td><b>Group:</b> {{ request.booking.group }}</td>
+            </tr>
+        {% endif %}
         <tr>
             <td><b>Requested by:</b> {{ request.booking.person }}</td>
         </tr>
@@ -62,31 +64,31 @@
         var approve = document.getElementsByClassName("btn approve");
         var disapprove = document.getElementsByClassName("btn disapprove");
         $(approve).click(function () {
-            var form = $(this).parents('form');
+            var form = $(this).parents("form");
             swal({
                 title: "This is a recurring request",
                 text: "Do you want to accept this reccuring request?",
                 buttons: ["No", "Yes"],
-                successMode: true,
+                successMode: true
             }).then((yes) => {
                 if (yes) {
                     form.submit()
                 }
             })
-        })
+        });
         $(disapprove).click(function () {
-            var form = $(this).parents('form');
+            var form = $(this).parents("form");
             swal({
                 title: "This is a recurring request",
                 text: "Do you want to accept this reccuring request?",
                 buttons: ["No", "Yes"],
-                successMode: true,
+                successMode: true
             }).then((yes) => {
                 if (yes) {
                     form.submit()
                 }
             })
-        })
+        });
     })
 </script>
 <script type="text/javascript" src="{% static 'js/sweetalert.min.js' %}"></script>

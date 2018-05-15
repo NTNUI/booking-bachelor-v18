@@ -54,9 +54,10 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="/hs">Main Board</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'booking_manage_list' %}">Manage bookings</a>
-
+                {% if request.user.is_superuser %}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'booking_manage_list' %}">Manage bookings</a>
+                {% endif %}
             </div>
           </li>
           {% endif %}
@@ -81,7 +82,11 @@
               <!--<a class="dropdown-item" href="#">My account</a>-->
               <a class="dropdown-item" href="{% url 'forms_list_submitted' %}">My forms</a>
               <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'booking_list' %}">My bookings</a>
+                {% if user_in_hs or request.user.is_superuser %}
+                  <a class="dropdown-item" href="{% url 'booking_list' %}">My bookings</a>
+                {% else %}
+                  <a class="dropdown-item" href="{% url 'booking_list' %}">Group bookings</a>
+                {% endif %}
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
               <div class="dropdown-divider"></div>

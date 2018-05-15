@@ -10,6 +10,7 @@ class AdminFilter(FilterSet):
     class Meta:
         model = Booking
         fields = ['location', 'person', 'title', 'start', 'group']
+
         filter_overrides = {
             models.CharField: {
                 'filter_class': CharFilter,

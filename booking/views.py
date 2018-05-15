@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
@@ -15,11 +16,14 @@ from django.shortcuts import render
 import requests
 import inspect
 
+
+# Error page
 def error_404(request):
     data = {}
     return render(request, 'booking/error_404.html', data)
 
 
+# Render calendar page and returns lists of locations and types
 @login_required
 def index(request):
     model = Location
@@ -30,44 +34,34 @@ def index(request):
         'types': type_list})
 
 
-def api(request):
-    model = Booking
-    bookings = model.objects.all().values('title', 'description', 'start', 'end', 'location__name',
-                                          'person__first_name', 'queueNo', 'group', 'person__id',
-                                          'person__email', 'person__last_name')
-    booking_list = list(bookings)
-    return JsonResponse(booking_list, safe=False)
-
-
-def api2(request):
-    # DEPRECATED
-    pass
-
-  
-def location_api(request):
-    model = Location
-    locations = model.objects.all().values('name', 'address', 'description', 'type')
-    location_list = list(locations)
-    return JsonResponse(location_list, safe=False)
-
-
-class BookingList(ListView):
-    model = Booking
-
-    def all(self, request):
-        locations = []
-        bookings = []
-        for location in list(Location.objects.filter()):
-            locations.append(location.name)
-        for booking in list(Booking.objects.filter()):
-            bookings.append(booking)
-        return render(request, 'booking/booking_list.html', {
-            'locations': locations,
-            'bookings': bookings, })
-
-
+# Render 'My bookings' page and passes QuerySets relevant to that page.
 @login_required
-@user_passes_test(lambda u: u.is_superuser)
+def booking_list(request):
+    user = request.user
+    now = timezone.now()
+    my_bookings_list = get_my_bookings(request)
+    my_groups = get_my_groups(request)
+    my_group_bookings_list = []
+    group_list = Booking.objects.none()
+    for group in my_groups:
+        booking = Booking.objects.filter(group=group).exclude(person=user).filter(start__gte=now).order_by('start')
+        group_list = booking | group_list
+        my_group_bookings_list.append(booking)
+    query = request.GET.get('q')
+    if query:
+        my_bookings_list = my_bookings_list.filter(
+            Q(group__icontains=query) |
+            Q(title__icontains=query)
+        )
+    return render(request, 'booking/bookings_list.html', {
+        'my_bookings_list': my_bookings_list,
+        'my_group_bookings_list': group_list,
+    })
+
+
+# Renders 'Manage bookings' page and passes QuerySets relevant to that page.
+@login_required
+@user_passes_test(lambda u: u.is_superuser, login_url='/')
 def booking_manage(request):
     book = []
     now = timezone.now()
@@ -84,40 +78,123 @@ def booking_manage(request):
     })
 
 
-def get_my_groups(request):
-    user = request.user
-    groups = Membership.objects.filter(person=user).values_list('group', flat=True)
-    my_groups = []
-    for g in groups:
-        group = SportsGroup.objects.get(id=g).name
-        my_groups.append(group)
-    return my_groups
+# API that allows client-side code to get data from database.
+def api(request):
+    model = Booking
+    bookings = model.objects.all().values('title', 'description', 'start', 'end', 'location__name',
+                                          'person__first_name', 'queueNo', 'group', 'person__id',
+                                          'person__email', 'person__last_name')
+    booking_list = list(bookings)
+    return JsonResponse(booking_list, safe=False)
 
 
-def booking_list(request):
-    user = request.user
-    now = timezone.now()
-    my_bookings_list = get_my_bookings(request)
-    my_groups = get_my_groups(request)
-    my_group_bookings_list = []
-    group_list = Booking.objects.none()
-    for group in my_groups:
-        booking = Booking.objects.filter(group=group).exclude(person=user).filter(start__gte=now).order_by('start')
-        group_list = booking | group_list
-        my_group_bookings_list.append(booking)
-    return render(request, 'booking/bookings_list.html', {
-        'my_bookings_list': my_bookings_list,
-        'my_group_bookings_list': group_list,
-    })
+# Function used when creating, updating or deleting bookings.
+def save_booking_form(request, form, template_name):
+    data = dict()
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            data['form_is_valid'] = True
+            my_bookings = get_my_bookings(request)
+            data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
+                'my_bookings_list': my_bookings
+            })
+            if form.cleaned_data['repeat'] == "weekly" and request.user.is_superuser:
+                repeat_booking(form.cleaned_data)
+            elif form.cleaned_data['repeat'] == "weekly":
+                Request.objects.create(booking=form.instance, weekday=form.cleaned_data['day'].upper())
+            # Sending create and queue mails
+            if request.POST['repeat'] == 'weekly':
+                name = request.user
+                if request.user.is_superuser:
+                    name = request.user
+                    req_recurring = 'Hey ' + str(name) + ', you have created a recurring booking!'
+                    send_mailgun_message(str(name.email), req_recurring)
+                else:
+                    req_recurring = 'Hey ' + str(name) + ', you have requested a recurring booking!'
+                    send_mailgun_message(str(name.email), req_recurring)
+            elif inspect.stack()[1][3] != 'booking_update':
+                booking = Booking.objects.all().last()
+                name = request.user
+                if booking.queueNo == 0:
+                    created = 'Hey ' + str(name) + ', you have created a new booking!'
+                    send_mailgun_message(str(name.email), created)
+                else:
+                    queued = 'Hey ' + str(name) + ', you have queued for a booking!'
+                    send_mailgun_message(str(name.email), queued)
+        else:
+            data['form_is_valid'] = False
+    context = {'form': form}
+    data['html_form'] = render_to_string(template_name, context, request=request)
+    return JsonResponse(data)
 
 
-def get_my_bookings(request):
-    user = request.user
-    now = timezone.now()
-    my_bookings_list = Booking.objects.filter(person=user).filter(start__gte=now).order_by('start')
-    return my_bookings_list
+# Function used to create new bookings
+def booking_create(request):
+    if request.method == 'POST':
+        user = request.user
+        form = BookingForm(user, request.POST)
+
+    else:
+        user = request.user
+        form = BookingForm(user, initial={'person': request.user})
+    return save_booking_form(request, form, 'booking/includes/partial_booking_create.html')
 
 
+# Function used to create new booking from the calendar interface
+def booking_create_from_calendar(request):
+    if request.method == 'POST':
+        user = request.user
+        form = BookingForm(user, request.POST)
+    else:
+        user = request.user
+        form = BookingForm(user, initial={'person': request.user})
+    return save_booking_form(request, form, 'booking/includes/partial_booking_create_calendar.html')
+
+
+# Function used to edit/update bookings
+def booking_update(request, pk):
+    book = get_object_or_404(Booking, pk=pk)
+    if request.method == 'POST':
+        user = request.user
+        form = BookingForm(user, request.POST, instance=book)
+        # Sending update mails
+        update = 'Hey ' + str(user) + ', you have updated a booking!'
+        send_mailgun_message(str(user.email), update)
+        if str(user) != str(book.person):
+            overwritten = 'Hey ' + str(book.person) + ', your booking has been overwritten!'
+            send_mailgun_message(str(book.person.email), overwritten)
+    else:
+        user = request.user
+        form = BookingForm(user, instance=book)
+    return save_booking_form(request, form, 'booking/includes/partial_booking_update.html')
+
+
+# Function used to delete bookings
+def booking_delete(request, pk):
+    book = get_object_or_404(Booking, pk=pk)
+    data = dict()
+    if request.method == 'POST':
+        book.delete()
+        user = request.user
+        data['form_is_valid'] = True  # This is just to play along with the existing code
+        bookings = get_my_bookings(request)
+        data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
+            'my_bookings_list': bookings
+        })
+        # Sending delete mails
+        delete = 'Hey ' + str(user) + ', a booking has been deleted!'
+        send_mailgun_message(str(user.email), delete)
+        if str(user) != str(book.person):
+            overwritten = 'Hey ' + str(book.person) + ', your booking has been overwritten!'
+            send_mailgun_message(str(book.person.email), overwritten)
+    else:
+        context = {'book': book}
+        data['html_form'] = render_to_string('booking/includes/partial_booking_delete.html', context, request=request, )
+    return JsonResponse(data)
+
+
+# Function used to create recurring bookings.
 def repeat_booking(data):
     location = data['location']
     start = data['start']
@@ -173,54 +250,13 @@ def repeat_booking(data):
                     booking = Booking(location=location, start=start_rec, group=group, end=end_rec, title=title,
                                       description=descr, person=person)
                     booking.save(repeatable=True)
-    data['request'].delete()
+    for data_elements in data:
+        if data_elements == "request":
+            data["request"].delete()
 
 
-def save_booking_form(request, form, template_name):
-    data = dict()
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
-            data['form_is_valid'] = True
-            my_bookings = get_my_bookings(request)
-            data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
-                'my_bookings_list': my_bookings
-            })
-            if form.cleaned_data['repeat'] == "weekly" and request.user.is_superuser:
-                repeat_booking(form.cleaned_data)
-            elif form.cleaned_data['repeat'] == "weekly":
-                Request.objects.create(booking=form.instance, weekday=form.cleaned_data['day'].upper())
-            # Sending create and queue mails
-            if request.POST['repeat'] == 'weekly':
-                name = request.user
-                req_recurring = 'Hey ' + str(name) + ', you have requested a recurring booking!'
-                send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
-                                     'key-f90e4c24dcfdb08ea58481344645d540',
-                                     str(name.email),
-                                     req_recurring)
-            elif inspect.stack()[1][3] != 'booking_update':
-                booking = Booking.objects.all().last()
-                name = request.user
-                if booking.queueNo == 0:
-                    created = 'Hey ' + str(name) + ', you have created a new booking!'
-                    send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
-                                         'key-f90e4c24dcfdb08ea58481344645d540',
-                                         str(name.email),
-                                         created)
-                else:
-                    queued = 'Hey ' + str(name) + ', you have queued for a booking!'
-                    send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
-                                         'key-f90e4c24dcfdb08ea58481344645d540',
-                                         str(name.email),
-                                         queued)
-        else:
-            data['form_is_valid'] = False
-    context = {'form': form}
-    data['html_form'] = render_to_string(template_name, context, request=request)
-    return JsonResponse(data)
-
-
-def booking_confirm(request, pk):
+# Function used to accept recurring booking requests
+def accept_request(request, pk):
     if request.method == 'POST':
         req = get_object_or_404(Request, pk=pk)
         data = {
@@ -237,121 +273,51 @@ def booking_confirm(request, pk):
         }
         # Sending accepted mails
         accept = 'Hey ' + str(request.user) + ', you have accepted a recurring booking!'
-        send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
-                             'key-f90e4c24dcfdb08ea58481344645d540',
-                             str(request.user.email),
-                             accept)
+        send_mailgun_message(str(request.user.email), accept)
         req_accept = 'Hey ' + str(req.booking.person) + ', your recurring booking has been accepted!'
-        send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
-                             'key-f90e4c24dcfdb08ea58481344645d540',
-                             str(req.booking.person.email),
-                             req_accept)
+        send_mailgun_message(str(req.booking.person.email), req_accept)
 
         repeat_booking(data)
         return HttpResponseRedirect('/booking/bookings_manage')
 
 
-def delete_request(request, pk):
+# Function used to accept recurring booking requests
+def decline_request(request, pk):
     if request.method == 'POST':
         req = get_object_or_404(Request, pk=pk)
         req.delete()
         # Sending declined mails
-        print(request.user.email)
-        print(req.booking.person.email)
         decline = 'Hey ' + str(request.user) + ', you have declined a recurring booking!'
-        send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
-                             'key-f90e4c24dcfdb08ea58481344645d540',
-                             str(request.user.email),
-                             decline)
+        send_mailgun_message(str(request.user.email), decline)
         req_decline = 'Hey ' + str(req.booking.person) + ', your recurring booking has been declined!'
-        send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
-                             'key-f90e4c24dcfdb08ea58481344645d540',
-                             str(req.booking.person.email),
-                             req_decline)
+        send_mailgun_message(str(req.booking.person.email), req_decline)
         return HttpResponseRedirect('/booking/bookings_manage')
 
 
-def booking_create(request):
-    if request.method == 'POST':
-        user = request.user
-        form = BookingForm(user, request.POST)
-
-    else:
-        user = request.user
-        form = BookingForm(user, initial={'person': request.user})
-    return save_booking_form(request, form, 'booking/includes/partial_booking_create.html')
-
-
-def booking_create_from_calendar(request):
-    if request.method == 'POST':
-        user = request.user
-        form = BookingForm(user, request.POST)
-    else:
-        user = request.user
-        form = BookingForm(user, initial={'person': request.user})
-    return save_booking_form(request, form, 'booking/includes/partial_booking_create_calendar.html')
+# Get groups of logged-in user
+def get_my_groups(request):
+    user = request.user
+    groups = Membership.objects.filter(person=user).values_list('group', flat=True)
+    my_groups = []
+    for g in groups:
+        group = SportsGroup.objects.get(id=g).name
+        my_groups.append(group)
+    return my_groups
 
 
-def booking_update(request, pk):
-    book = get_object_or_404(Booking, pk=pk)
-    if request.method == 'POST':
-        user = request.user
-        form = BookingForm(user, request.POST, instance=book)
-        # Sending update mails
-        update = 'Hey ' + str(user) + ', you have updated a booking!'
-        send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
-                             'key-f90e4c24dcfdb08ea58481344645d540',
-                             str(user.email),
-                             update)
-        if str(user) != str(book.person):
-            overwritten = 'Hey ' + str(book.person) + ', your booking has been overwritten!'
-            send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
-                                 'key-f90e4c24dcfdb08ea58481344645d540',
-                                 str(book.person.email),
-                                 overwritten)
-    else:
-        user = request.user
-        form = BookingForm(user, instance=book)
-    return save_booking_form(request, form, 'booking/includes/partial_booking_update.html')
+# Returns a list of bookings made by the logged-in user.
+def get_my_bookings(request):
+    user = request.user
+    now = timezone.now()
+    my_bookings_list = Booking.objects.filter(person=user).filter(start__gte=now).order_by('start')
+    return my_bookings_list
 
 
-def booking_delete(request, pk):
-    book = get_object_or_404(Booking, pk=pk)
-    data = dict()
-    if request.method == 'POST':
-        book.delete()
-        user = request.user
-        data['form_is_valid'] = True  # This is just to play along with the existing code
-        bookings = get_my_bookings(request)
-        data['html_booking_list'] = render_to_string('booking/includes/partial_booking_list.html', {
-            'my_bookings_list': bookings
-        })
-        # Sending delete mails
-        delete = 'Hey ' + str(user) + ', a booking has been deleted!'
-        send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
-                             'key-f90e4c24dcfdb08ea58481344645d540',
-                             str(user.email),
-                             delete)
-        if str(user) != str(book.person):
-            overwritten = 'Hey ' + str(book.person) + ', your booking has been overwritten!'
-            send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
-                                 'key-f90e4c24dcfdb08ea58481344645d540',
-                                 str(book.person.email),
-                                 overwritten)
-    else:
-        context = {'book': book}
-        data['html_form'] = render_to_string('booking/includes/partial_booking_delete.html', context, request=request, )
-    return JsonResponse(data)
-
-  
-def show_form(request):
-    return render(request, "booking/booking_form.html")
-
-
-def send_mailgun_message(API_BASE_URL, API_KEY, user, text):
+# Function used when sending emails through Mailgun
+def send_mailgun_message(user, text):
     return requests.post(
-        API_BASE_URL,
-        auth=("api", API_KEY),
+        'https://api.mailgun.net/v3/mg.ntnui.no/messages',
+        auth=("api", 'key-f90e4c24dcfdb08ea58481344645d540'),
         data={"from": "support@ntnui.no",
               "to": [user],
               "subject": 'NTNUI - Booking update',

@@ -4,7 +4,7 @@
 #booking-container {
     height: auto;
     width: 70%;
-    padding: 1.5% 0% 2.5% 0%;
+    padding: 1.5% 0 2.5% 0;
 }
 
 #calendar-container {
@@ -47,7 +47,7 @@
 }
 #current-month {
     cursor: default;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     padding: 16px;
 }
 #current-location {
@@ -89,6 +89,7 @@
 .calendar-day h1{
     font-size: 100%;
     padding: 5% 20% 15% 20%;
+    white-space: pre-wrap;
 }
 
 .calendar-day:hover {
@@ -121,14 +122,6 @@ p.type-header {
     #booking-container {
         width: 75% !important;
     }
-    .alert-warning {
-        padding: 2%;
-        font-size: 23px;
-    }
-    .alert-success {
-        padding: 2%;
-        font-size: 22px;
-    }
     #filtering-container {
         font-size: 22px;
     }
@@ -137,14 +130,6 @@ p.type-header {
     #booking-container {
         width: 75% !important;
     }
-    .alert-warning {
-        padding: 3%;
-        font-size: 20px;
-    }
-    .alert-success {
-        padding: 3%;
-        font-size: 20px;
-    }
     #filtering-container {
         font-size: 20px;
     }
@@ -152,7 +137,8 @@ p.type-header {
         font-size: 18px !important;
     }
 }
-@media only screen and (min-width: 1000px) {
+
+@media only screen and (min-width: 1070px) {
     #booking-container {
         width: 70%;
     }
@@ -164,6 +150,9 @@ p.type-header {
     }
     #filtering-container {
         font-size: 16px;
+    }
+    .calendar-day h1{
+        white-space: pre-line !important;
     }
 }
 @media only screen and (min-width: 990px) {
@@ -181,18 +170,12 @@ p.type-header {
     }
     .calendar-day h1{
         font-size: 90%;
+        white-space: normal;
     }
 }
 @media only screen and (max-width: 990px) {
     #booking-container {
         width: 90%;
-    }
-    .booking-alert {
-        width: 60%;
-    }
-    .alert-success {
-        bottom: 0px !important;
-        padding: 2%;
     }
     .calendar-day p{
         font-size: 100%;
@@ -200,14 +183,13 @@ p.type-header {
     .calendar-day h1{
         font-size: 98%;
     }
-    .alert-warning {
-        top: 70% !important;
-        padding: 4%;
+    .calendar-day h1 {
+        white-space: pre-line;
     }
 }
 @media only screen and (max-width: 800px) {
     .calendar-day {
-        padding: 10px 10px 0px 10px;
+        padding: 10px 10px 0 10px;
     }
     .calendar-day p {
         line-height: 30%;
@@ -226,7 +208,7 @@ p.type-header {
 @media only screen and (max-width: 550px) {
     .calendar-day {
         height: 15%;
-        padding:  6px 0px 0px 0px;
+        padding:  6px 0 0 0;
         margin-bottom: 2px;
     }
     .calendar-day p {
@@ -244,18 +226,6 @@ p.type-header {
     #control-box {
         display: flex;
         align-items: center;
-    }
-    .booking-alert {
-        width: 80%;
-    }
-    .alert-success {
-        bottom: 0px !important;
-        margin-bottom: 5%;
-        padding: 2%;
-    }
-    .alert-warning {
-        top: 78% !important;
-        padding: 2%;
     }
 }
 

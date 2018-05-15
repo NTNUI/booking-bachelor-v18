@@ -34,30 +34,28 @@
 
         <div class="my-booking-box">
             {# Search booking form #}
-            <form id="filter-form" method='get'>
+            <form id="filter-form" class="filter-form my-search" method='get'>
                 <table class='table borderless filter-table'>
                     <tr>
-                        <td><h5>Group: </h5>{{ filter.form.group }}</td>
-                        <td><h5>Location: </h5>{{ filter.form.location }}</td>
-                        <td><h5>Person: </h5>{{ filter.form.person }}</td>
-                        <td><h5>Title: </h5>{{ filter.form.title }}</td>
+                        <td>Group:{{ filter.form.group }}</td>
+                        <td>Location: {{ filter.form.location }}</td>
+                        <td>Person: {{ filter.form.person }}</td>
+                        <td>Title:{{ filter.form.title }}</td>
                     </tr>
                 </table>
-                <button class="btn" id='filter-button' type='submit'>Search</button>
+                <button class="btn col js-update-booking search-button" type='submit'>Search</button>
             </form>
             <div class="flex-container">
                 {# All bookings #}
                 <div class="all-bookings">
                     <p class="my-bookings-header-2">All bookings</p>
+                    <div class="tab">
+                            <button class="tablinks active" id="booked-tab" onclick="openTab(event, 'Booked')">Booked</button>
+                            <button class="tablinks" id="queued-tab" onclick="openTab(event, 'Queued')">Queued</button>
+                    </div>
                     <div class='replace'>
                         {% include 'booking/includes/partial_booking_all.html' %}
                     </div>
-                    <p>
-                        <button type='button' id="create-booking"class='btn btn-success col js-create-booking' data-url='{% url 'booking_create' %}'>
-                            <span class='glyphicon glyphicon-plus'></span>
-                            Create a new booking
-                        </button>
-                    </p>
                 </div>
                 {# Requested bookings #}
                 <div class="request-bookings">
@@ -75,4 +73,5 @@
 {% block script %}
     <script type='text/javascript' src='{% static "js/expand_group_card.js" %}'></script>
     <script type='text/javascript' src='{% static "js/bookings.js" %}'></script>
+    <script type='text/javascript' src='{% static "js/booking_search.js" %}'></script>
 {% endblock script %}

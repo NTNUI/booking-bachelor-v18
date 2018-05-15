@@ -25,6 +25,20 @@
         </h1>
 
         <div class="my-booking-box">
+            {# <form id="my-search"> #}
+            {# Search booking form #}
+            <form id="my-search" class="filter-form my-search" method='get'>
+                <table class='table borderless filter-table'>
+                    <tr>
+                        <td>
+                            Search for group or title:<br>
+                            <input type="text" id="my-search-box" name="q"
+                               placeholder="Group/Title" value="{{ request.GET.q }}"/>
+                        </td>
+                    </tr>
+                </table>
+                <button class="btn col js-update-booking search-button" type='submit'>Search</button>
+            </form>
             <div class="flex-container">
                 {# My bookings #}
                 {% if user.is_authenticated %}
@@ -33,8 +47,8 @@
                     <div class="my-bookings">
                         <p class="my-bookings-header-2">My bookings</p>
                         <div class="tab">
-                            <button class="tablinks active" id="booked-tab" onclick="openCity(event, 'Booked')">Booked</button>
-                            <button class="tablinks" id="queued-tab" onclick="openCity(event, 'Queued')">Queued</button>
+                            <button class="tablinks active" id="booked-tab" onclick="openTab(event, 'Booked')">Booked</button>
+                            <button class="tablinks" id="queued-tab" onclick="openTab(event, 'Queued')">Queued</button>
                         </div>
                         <div class="scroll-content">
                             <div class="replace" id="books">

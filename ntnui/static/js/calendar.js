@@ -1,9 +1,21 @@
 // Globally head date object for the month shown.
 var date = new Date();
+
+// Variable used for setting calendar month name
 var currentMonth;
+
+// Global variable for storing current calendar month
+var currentCalendarMonth;
 
 // Global list to store bookings. This list will be used to populate the calendar with data.
 var globalList = [];
+
+// Global variabel which is used to store the date for each popup.
+var tempDay;
+
+// Globla variable for storing current location ID and string name
+var currentLocation;
+var locationString;
 
 // Ajax setting to set caching to false.
 $.ajaxSetup ({
@@ -87,31 +99,27 @@ function populate() {
                     var hours = diffHour + sumArray[0];
                     var min = diffMin + sumArray[1];
                     dateMap.set(startDate, "" + hours + ":" + min);
-                }
-                else if(location.value === locationId && location.checked === true) {
+                }else if(location.value === locationId && location.checked === true) {
                     dateMap.set(startDate, "" + diffHour + ":" + diffMin);
                 }
-                if(12-parseInt(getTime(dateMap.get(startDate))[0]) >= 1) {
+                // Change the html in the calendar boxes with number of booked hours.
+                if(12-parseInt(getTime(dateMap.get(startDate))[0]) >= 0){
                     $("#" + dateFormat + " h1").text(
                         "" + (12 - parseInt(getTime(dateMap.get(startDate))[0]))
-                        + " hours free").css("color", "#fc8307");
+                        + "\n" + " hours free")
                 }
-                else if(12-parseInt(getTime(dateMap.get(startDate))[0]) < 1){
-                    $("#" + dateFormat + " h1").text(
-                        "" + (12 - parseInt(getTime(dateMap.get(startDate))[0]))
-                        + " hours free").css("color", "red");
+                if(12-parseInt(getTime(dateMap.get(startDate))[0]) > 9) {
+                    $("#" + dateFormat + " h1").css("color", "#fc8307");
+                }else if(12-parseInt(getTime(dateMap.get(startDate))[0]) > 5){
+                    $("#" + dateFormat + " h1").css("color", "#fc5908");
+                }else if(12-parseInt(getTime(dateMap.get(startDate))[0]) >= 1){
+                    $("#" + dateFormat + " h1").css("color", "#f73717");
+                }else if(12-parseInt(getTime(dateMap.get(startDate))[0]) < 1){
+                    $("#" + dateFormat + " h1").css("color", "red");
                 }
+            }else if(dateMap.has(startDate) === false) {
+                $("#" + dateFormat + " h1").text("12" + "\n" + "hours free").css("color", "green");
             }
-            else if(dateMap.has(startDate) && location.checked === false){
-                $("#" + dateFormat + " h1").text(
-                    "" + (12 - parseInt(getTime(dateMap.get(startDate))[0]))
-                    + "\n" + " hours free").css("color", "#fc8307");
-            }
-            // Change the html in the calendar boxes with number of booked hours.
-            else if(dateMap.has(startDate) === false) {
-                $("#" + dateFormat + " h1").text("12 hours free").css("color", "green");
-            }
-
         }
     }
 }
@@ -127,11 +135,6 @@ var callback = function(mutationsList){};
 var window = document.defaultView;
 var observer = new MutationObserver(callback);
 observer.observe(targetNode, config);
-
-// Event listener. Fires whenever the calendar changes.
-function HandleDOM_Change () {
-    populate();
-}
 
 // Converts day ids to the relevant string
 function dayOfWeekAsString(dayIndex) {
@@ -150,7 +153,7 @@ var monthNames = ["January", "February", "March", "April", "May", "June",
 
 // Add 0 to single digit numbers.
 function minTwoDigits(n) {
-    return (n < 10 ? '0' : '') + n;
+    return (n < 10 ? "0" : "") + n;
 }
 
 // Creates a day element
@@ -166,7 +169,7 @@ function createCalendarDay(num, day, mon, year, available) {
     date.innerHTML = num + ".";
     dayElement.innerHTML = " " + day;
     if (available == true) {
-        availability.innerHTML = "12 hours free";
+        availability.innerHTML = "12" + "\n" + "hours free";
         availability.style.color = "green";
     }
     newDay.className = "calendar-day";
@@ -192,13 +195,13 @@ function createCalendarDay(num, day, mon, year, available) {
     var currentDate = new Date;
     // Restricts days that cant be booked. Stops at 10. june in spring and 21. desember in autumn
     if(currentDate.getMonth()+1 <= 6){
-        maxMonth = '0' + 6;
+        maxMonth = "0" + 6;
     }
     if(currentDate.getMonth()+1 >= 8){
         maxMonth = 12;
         maxDay = 20;
     }
-    if (newDay.id < getCurrentDay() || newDay.id > currentDate.getFullYear()+'-'+maxMonth+'-'+maxDay) {
+    if (newDay.id < getCurrentDay() || newDay.id > currentDate.getFullYear()+"-"+maxMonth+"-"+maxDay) {
         newDay.className = "calendar-day restricted";
     }
     return newDay;
@@ -215,17 +218,17 @@ function clearCalendar() {
 // Clears the calendar and shows the next month
 function nextMonth() {
     clearCalendar();
-    date.setMonth(date.getMonth() + 1);
-    createMonth(date.getMonth());
+    date.setMonth(this.currentCalendarMonth.getMonth() + 1);
+    createMonth(this.currentCalendarMonth.getMonth());
     populate();
 }
 
 // Clears the calendar and shows the previous month
 function previousMonth() {
     clearCalendar();
-    date.setMonth(date.getMonth() - 1);
+    date.setMonth(this.currentCalendarMonth.getMonth() - 1);
     var val = date.getMonth();
-    createMonth(date.getMonth());
+    createMonth(this.currentCalendarMonth.getMonth());
     populate();
     return val;
 }
@@ -307,6 +310,7 @@ function createMonth() {
         var currentDay = getCurrentDay();
         document.getElementById(currentDay).className = "calendar-day today";
     }
+    this.currentCalendarMonth = date;
 }
 
 // Get the current day
@@ -322,15 +326,12 @@ function getCurrentDay() {
     return currentDay;
 }
 
-// Global variabel which is used to store the date for each popup.
-var tempDay;
-
 // Opens the modal with content
 function popup(e) {
     $.ajax({
-        url: '/booking/bookings_list/create_calendar/',
-        type: 'get',
-        dataType: 'json',
+        url: "/booking/bookings_list/create_calendar/",
+        type: "get",
+        dataType: "json",
         beforeSend: function () {
             $("#booking-modal .booking-modal-contents").html("");
             $('#booking-modal').fadeTo(100, function () {
@@ -348,14 +349,10 @@ function popup(e) {
     modal.style.display = "block";
 }
 
-// Gets date and week for calendar form
-var currentLocation;
-var locationString;
-
 // populate calendar and get location of filter type.
 function getLocation(event){
     populate();
-    var locationId = event.target.getAttribute('data-id');
+    var locationId = event.target.getAttribute("data-id");
     var locationName = event.target.innerHTML;
     var locationTitle = event.target.title;
     var locationAdr = document.getElementById("adr").innerText;
