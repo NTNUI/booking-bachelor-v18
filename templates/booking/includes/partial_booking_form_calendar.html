@@ -74,7 +74,6 @@
 {% endblock content %}
 
 {% block script %}
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         function ajaxForm() {
             var myForm = $("#createform");
@@ -197,7 +196,6 @@
                         });
                     } else {
                         var recurringRequest = document.getElementById("id_repeat");
-                        console.log(recurringRequest.parentElement.innerText)
                         if (recurringRequest.value != "noRepeat") {
                             var h5 = document.getElementById("rec")
                             if(h5.innerText === "Recurring") {
@@ -347,5 +345,5 @@
     <script type="text/javascript" src="{% static 'js/clockpicker.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/form_validator.js' %}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/sweetalert.min.js' %}"></script>
 {% endblock script %}
