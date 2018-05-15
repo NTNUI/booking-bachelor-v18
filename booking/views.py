@@ -35,6 +35,7 @@ def index(request):
 
 
 # Render 'My bookings' page and passes QuerySets relevant to that page.
+@login_required
 def booking_list(request):
     user = request.user
     now = timezone.now()
