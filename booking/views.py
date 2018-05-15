@@ -104,11 +104,19 @@ def save_booking_form(request, form, template_name):
             # Sending create and queue mails
             if request.POST['repeat'] == 'weekly':
                 name = request.user
-                req_recurring = 'Hey ' + str(name) + ', you have requested a recurring booking!'
-                send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
-                                     'key-f90e4c24dcfdb08ea58481344645d540',
-                                     str(name.email),
-                                     req_recurring)
+                if request.user.is_superuser:
+                    name = request.user
+                    req_recurring = 'Hey ' + str(name) + ', you have created a recurring booking!'
+                    send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
+                                         'key-f90e4c24dcfdb08ea58481344645d540',
+                                         str(name.email),
+                                         req_recurring)
+                else:
+                    req_recurring = 'Hey ' + str(name) + ', you have requested a recurring booking!'
+                    send_mailgun_message('https://api.mailgun.net/v3/mg.ntnui.no/messages',
+                                         'key-f90e4c24dcfdb08ea58481344645d540',
+                                         str(name.email),
+                                         req_recurring)
             elif inspect.stack()[1][3] != 'booking_update':
                 booking = Booking.objects.all().last()
                 name = request.user
