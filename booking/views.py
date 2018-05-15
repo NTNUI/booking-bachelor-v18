@@ -264,7 +264,9 @@ def repeat_booking(data):
                     booking = Booking(location=location, start=start_rec, group=group, end=end_rec, title=title,
                                       description=descr, person=person)
                     booking.save(repeatable=True)
-    data['request'].delete()
+    for data_elements in data:
+        if data_elements == "request":
+            data["request"].delete()
 
 
 # Function used to accept recurring booking requests
