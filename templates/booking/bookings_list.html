@@ -50,10 +50,8 @@
                             <button class="tablinks active" id="booked-tab" onclick="openTab(event, 'Booked')">Booked</button>
                             <button class="tablinks" id="queued-tab" onclick="openTab(event, 'Queued')">Queued</button>
                         </div>
-                        <div class="scroll-content">
-                            <div class="replace" id="books">
-                                {% include 'booking/includes/partial_booking_list.html' %}
-                            </div>
+                        <div class="replace" id="books">
+                            {% include 'booking/includes/partial_booking_list.html' %}
                         </div>
                     </div>
                     {% endif %}
