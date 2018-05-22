@@ -1,0 +1,111 @@
+{# Booking container #}
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/booking_filters.css' %}">
+    <link rel="stylesheet" href="{% static 'css/booking_modal.css' %}">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+    <link rel="stylesheet" href="{% static 'css/clockpicker.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div id="booking-container">
+        {# Modal container #}
+        <div id="booking-modal" class="modal-big">
+            <div id="modal-booking">
+                <div class="booking-modal-contents">
+                </div>
+            </div>
+        </div>
+        
+        {# Main container #}
+        <div class="row">
+            {# Filter on locations content #}
+            <div class="col-lg-3" id="filter-box">
+                <div id="filtering-container" >
+                    <div class="filter-header">Locations</div>
+                    <div class="tb aBlock">
+                        {% for type in types %}
+                       <div>
+                            <p onclick="dropdownFilters(event)" class="type-header">{{ type.0 }}</p>
+                            <div id="{{ type.0 }}"
+                                 class="filter-arrow right"
+                                 title="Click to see locations"
+                                 onclick="dropdownFilters(event)">
+                            </div>
+                            <div id="{{ forloop.counter }}" class="filter-type">
+                                {% for location in locations %}
+                                    {% if location.type == type.0 %}
+                                        <div class="radio" style="display:block">
+                                            <input type="radio" onclick="populate()"
+                                                   class="radio-inline" name="opradio"
+                                                   id="{{ location }}" value="{{ location }}">
+                                            <label class="filter-cursors"
+                                                   data-id="{{ forloop.counter }}"
+                                                   title="{{ location.description }}"
+                                                   onchange="populate()"
+                                                   for="{{ location }}">
+                                                {{ location }}
+                                            </label>
+                                            <div id="adr">{{ location.address }}</div>
+                                            <p></p>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            {# Calendar content #}
+            <div class="col-lg-9">
+                <div id="calendar-container">
+                    <div id="control-box">
+                        <p id="previous" class="label" title="Previous month" onclick="previousMonth()">
+                            <i class="fa fa-chevron-left"></i>
+                        </p>
+                        <div id="label-titles">
+                            <div id="current-month" class="label"></div>
+                            <div id="current-location" class="label"></div>
+                        </div>
+                        <p id="next" class="label" title="Next month" onclick="nextMonth()">
+                            <i class="fa fa-chevron-right"></i>
+                        </p>
+                    </div>
+                    <div id="calendar-box">
+                        <div id="calendar"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock content %}
+
+{% block script %}
+    <script>
+        $(".type-header").click( function(event) {
+            $( this ).next(event).trigger("click");
+        })
+    </script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+    <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/calendar_filters.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bookings.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/expand_group_card.js' %}"></script>
+    <script
+        src="http://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/sweetalert.min.js' %}"></script>
+{% endblock script %}

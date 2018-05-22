@@ -1,0 +1,75 @@
+{# My bookings container #}
+{% extends 'base.html' %}
+{% load static %}
+{% load tags %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all_my_bookings.css' %}">
+    <link rel="stylesheet" href="{% static 'css/booking_modal.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="booking-container">
+        {# Modal container #}
+        <div id="booking-modal" class="modal-big">
+            <div id="modal-booking">
+                <div class="booking-modal-contents">
+                </div>
+            </div>
+        </div>
+
+        {# My bookings and group bookings #}
+        <h1 id="my-bookings-header">
+            My bookings
+        </h1>
+
+        <div class="my-booking-box">
+            {# <form id="my-search"> #}
+            {# Search booking form #}
+            <form id="my-search" class="filter-form my-search" method='get'>
+                <table class='table borderless filter-table'>
+                    <tr>
+                        <td>
+                            Search for group or title:<br>
+                            <input type="text" id="my-search-box" name="q"
+                               placeholder="Group/Title" value=""/>
+                        </td>
+                    </tr>
+                </table>
+                <button class="btn col js-update-booking search-button" type='submit'>Search</button>
+            </form>
+            <div class="flex-container">
+                {# My bookings #}
+                {% if user.is_authenticated %}
+                    {% user_in_hs user as user_in_hs %}
+                    {% if user_in_hs or request.user.is_superuser %}
+                    <div class="my-bookings">
+                        <p class="my-bookings-header-2">My bookings</p>
+                        <div class="tab">
+                            <button class="tablinks active" id="booked-tab" onclick="openTab(event, 'Booked')">Booked</button>
+                            <button class="tablinks" id="queued-tab" onclick="openTab(event, 'Queued')">Queued</button>
+                        </div>
+                        <div class="replace" id="books">
+                            {% include 'booking/includes/partial_booking_list.html' %}
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endif %}
+
+                {# Group bookings #}
+                <div class="group-bookings {% if user.is_authenticated and not user_in_hs and not request.user.is_superuser %} group-width {% endif %}">
+                    <p class="my-bookings-header-2">Group bookings</p>
+                    <div class="replace">
+                        {% include 'booking/includes/partial_groupbooking_list.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'js/bookings.js' %}"></script>
+{% endblock script %}
