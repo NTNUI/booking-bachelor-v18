@@ -9,13 +9,17 @@ from selenium import webdriver
 class ChromeTestCase(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(self):
-        if os.environ.get('BROWSER') == 'local':
+        # print('dis',os.environ)
+        #Problem: environ has no key BROWSER
+        if True:# os.environ.get('BROWSER') == 'local':
             super().setUpClass()
             self.chrome = webdriver.Chrome()
             self.server_url = self.live_server_url
         else:
             self.host = socket.gethostbyname(socket.gethostname())
+            print(self.host)
             super(ChromeTestCase, self).setUpClass()
+            print(webdriver.Remote)
             self.chrome = webdriver.Remote(
                 command_executor='http://selenium:4444/wd/hub',
                 desired_capabilities=DesiredCapabilities.CHROME)
