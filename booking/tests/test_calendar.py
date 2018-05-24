@@ -78,6 +78,8 @@ def create_booking(cls, browser):
     desc = browser.find_element_by_id('id_description')
     desc.send_keys('description for new booking')
     desc.send_keys(Keys.RETURN)
+    booking = Booking.objects.filter(title='new booking')[0]
+    cls.assertTrue(booking.description=='description for new booking')
 
 
 class CalendarChrome(ChromeTestCase):
@@ -87,10 +89,12 @@ class CalendarChrome(ChromeTestCase):
         self.loc = Location.objects.create(name='GymName', address='123 st', description='best gym')
         self.date = '2018-06-10'
         Booking.objects.create(location=self.loc, title='Jump', description='Jump around', start=self.date+' 12:00', end=self.date+' 13:00')
+        login_user(self, self.chrome)
 
     def test_see_calendar(self):
-        login_user(self, self.chrome)
         see_calendar(self, self.chrome)
+    
+    def test_create_booking(self):
         see_booked(self, self.chrome)
 
 
@@ -101,10 +105,12 @@ class CalendarFirefox(FirefoxTestCase):
         self.loc = Location.objects.create(name='GymName', address='123 st', description='best gym')
         self.date = '2018-06-10'
         Booking.objects.create(location=self.loc, title='Jump', description='Jump around', start=self.date+' 12:00', end=self.date+' 13:00')
+        login_user(self, self.firefox)
 
     def test_see_calendar(self):
-        login_user(self, self.firefox)
         see_calendar(self, self.firefox)
+        
+    def test_create_booking(self):
         see_booked(self, self.firefox)
 
 
