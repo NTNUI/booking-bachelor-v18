@@ -42,10 +42,3 @@ class BookingForm(forms.ModelForm):
         widgets = {'person': forms.HiddenInput(), 'repeat': 'noRepeat'}
         
 
-    def clean(self):
-
-        cleaned_data = super().clean()
-        s_date = cleaned_data.get('start')
-        loc = cleaned_data.get('location')
-        e_date = cleaned_data.get('end')
-
