@@ -53,7 +53,6 @@ class test_recurring(TestCase):
                         if (cal_day[0] < day and m+1 == month) or cal_day[0]==0:
                             continue
                         if cal_day[1]==dayofweek:
-                            # print("here")
                             if m <9: #format month
                                 cal_m = "0"+str(m+1)
                             else:

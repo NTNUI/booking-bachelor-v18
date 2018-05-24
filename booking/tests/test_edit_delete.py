@@ -30,13 +30,8 @@ class test_enqueue(TestCase):
         Booking.objects.create(location=self.location, start=self.start, end=self.end, description=self.d1)
         Booking.objects.create(location=self.location, start=self.start, end=self.end, description=self.d2)
         qNo1 = Booking.objects.filter(location=self.location, start=self.start, end=self.end, description=self.d1)
-        qNo2 = Booking.objects.filter(location=self.location, start=self.start, end=self.end, description=self.d2)
-        print(qNo1[:1].get().queueNo)
-        print(qNo2[:1].get().queueNo)
-        for i in range(len(qNo1)):
-            print(qNo1[i])
+        qNo2 = Booking.objects.filter(location=self.location, start=self.start, end=self.end, description=self.d2)        
         self.assertGreater(qNo2[0].queueNo, qNo1[0].queueNo)
-        # self.assertTrue(False)
     
     def test_multi_enq(self):   
         #create bookings in database                                  
@@ -47,25 +42,12 @@ class test_enqueue(TestCase):
         qNo1 = Booking.objects.filter(location=self.location, start=self.start, end=self.end, description=self.d1)
         qNo2 = Booking.objects.filter(location=self.location, start=self.s2, end=self.e2, description=self.d2)
         qNo3 = Booking.objects.filter(location=self.location, start=self.s3, end=self.e3, description=self.d3)
-        # qNo3 = Booking.objects.filter(location=location, )
-        print(qNo1[:1].get().queueNo)
-        print(qNo2[:1].get().queueNo)
-        print(qNo3[:1].get().queueNo)
         #Test if booking 1 is before booking 2 in queue
         self.assertGreater(qNo2[:1].get().queueNo, qNo1[:1].get().queueNo)
         #test if booking 3 is before booking 2 in queue
         self.assertGreater(qNo2[:1].get().queueNo, qNo3[:1].get().queueNo)
 
-    def test__post_enq(self):
-        #TODO: update to selenium browser test
-        response = self.client.post(self.url, {"location": self.location,
-                                                "Start": self.start,
-                                                "End": self.end,
-                                                "Description": self.d1})
-        qNo1 = Booking.objects.filter(location=self.location, start=self.start, end=self.end, description=self.d1)                                                
-        print(Booking.objects.all())
-        print(response)
-        self.assertTrue(False)
+    
     
     def test_delete(self):
         date = "2018-04-15 "
@@ -79,23 +61,16 @@ class test_enqueue(TestCase):
         Booking.objects.create(location=self.location, start=s2, end=s3, description=self.d2)
         Booking.objects.create(location=self.location, start=s3, end=e3, description=self.d3)
         #before
-        print("before")
         b2 = Booking.objects.filter(location=self.location, start=s2, end=s3, description=self.d2)[0]
         b3 = Booking.objects.filter(location=self.location, start=s3, end=e3, description=self.d3)[0]
-        print(b2.queueNo)
-        print(b3.queueNo)
         #delete first booking
         b1 = Booking.objects.filter(location=self.location, start=s1, end=e1, description=self.d1)[0]
         b1.delete()
         #check if later bookings ahve updated queueNo
-        print("after")
         b2 = Booking.objects.filter(location=self.location, start=s2, end=s3, description=self.d2)[0]
         b3 = Booking.objects.filter(location=self.location, start=s3, end=e3, description=self.d3)[0]
-        # print(Booking.objects.all())
-        print(b2.queueNo)
-        print(b3.queueNo)
         self.assertEqual(b2.queueNo, b3.queueNo)
-        # self.assertTrue(False)
+        
 
     def test_edit(self):
         b1 = Booking(location=self.location, start=self.s1, end=self.e1, description=self.d1)
@@ -108,8 +83,6 @@ class test_enqueue(TestCase):
         b2.start = self.e3
         b2.save()
         qNo2 = b2.queueNo
-        print("before ", qNo1)
-        print("after", qNo2)
         self.assertGreater(qNo1, qNo2)
         # self.assertTrue(False)
     
@@ -126,7 +99,6 @@ class test_enqueue(TestCase):
         b2.save()
         b3 = Booking(location=self.location, start=s3, end=e3)
         b3.save()
-        print(b2.start)
         self.assertGreater(b3.queueNo, b2.queueNo)
         #TODO: edit b2 to 14:00-15:00, check if b3 still after b2
 
